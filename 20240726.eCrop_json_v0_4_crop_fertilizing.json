@@ -1,0 +1,192 @@
+{
+	"dataCropInputs": {
+		"crops": {
+			"id": "FLD_123",
+			"name": "Achter de schuur, links",
+			"startDate": "2024-04-17",
+			"type": {
+				"codeListId": "nl.cl263",
+				"code": "1010101"
+			},
+			"variety": {
+				"codeListId": "nl.cl232",
+				"code": "11113"
+			},
+			"netArea": {
+				"unitCode": "HAR",
+				"value": 10.34
+			},
+			"year": 2024,
+			"growEnvironment": {
+				"codeListId": " nl.cl299",
+				"code": "1"
+			},
+			"growMedium": {
+				"codeListId": "nl.cl300",
+				"code": "1"
+			},
+			"productionPurpose": {
+				"codeListId": "NL_251",
+				"code": "150"
+			},
+			"tasks": [
+				{
+					"id": "TSK_202405",
+					"name": "Eerste bemesting",
+					"startDateTime": "2024-05-09T09:30:47Z",
+					"endDateTime": "2024-05-11T09:30:47Z",
+					"operations": [
+						{
+							"id": "OPR_24",
+							"name": "Eerste bemesting",
+							"area": {
+								"unitCode": "HAR",
+								"value": 4.2
+							},
+							"startDateTime": "2024-05-09T09:30:47Z",
+							"endDateTime": "2024-05-11T09:30:47Z",
+							"culturalPractice": {
+								"codeListId": "nl.cl127",
+								"code": "70400"
+							},
+							"inputAllocations": [
+								{
+									"id": "123456",
+									"type": {
+										"codeListId": "NL.CL271",
+										"code": "FERTIL"
+									},
+									"resourceId": {
+										"codeListId": "nl.cl022",
+										"code": "2123"
+									},
+									"quantityAbsolute": {
+										"unitCode": "KGM",
+										"value": 250
+									},
+									"compositions": [
+										{
+											"ingredientId": {
+												"codeListId": "nl.cl363",
+												"code": "1"
+											},
+											"ingredientName": "N-totaal",
+											"quantity": {
+												"unitCode": "P1",
+												"value": 15
+											}
+										},
+										{
+											"ingredientId": {
+												"codeListId": "nl.cl363",
+												"code": "15"
+											},
+											"ingredientName": "P2O5-totaal",
+											"quantity": {
+												"unitCode": "P1",
+												"value": 20
+											}
+										}
+									],
+									"treatmentZones": {
+										"id": "123456",
+										"area": {
+											"unitCode": "HAR",
+											"value": 2.56
+										},
+										"border": {
+											"exterior": {
+												"linearRing": {
+													"srsNam": "EPSG:4326",
+													"posList": "6.77126681689 52.6682706169 6.77132869245 52.669350287 6.77139732307 52.6708790051 6.77171114567 52.6708718827 6.77189837462 52.6708676254 6.77197387991 52.6708960927 6.77208724805 52.6710121486 6.77218265098 52.6711150834 6.77234654634 52.6713025804 6.7731391358 52.6713099831 6.77356023203 52.6713019278 6.77354962715 52.6710374957 6.77353184442 52.6706524545 6.77352445778 52.6700616609 6.77349733077 52.669469372 6.77345767599 52.6682953205 6.77345509954 52.6682235175 6.77141271777 52.6682590864 6.77127192532 52.6682615337 6.77126681689 52.6682706169"
+												}
+											}
+										}
+									}
+								}
+							]
+						}
+					]
+				},
+				{
+					"id": "TSK_202402",
+					"name": "Tweede bemesting",
+					"startDateTime": "2024-05-15T09:30:47Z",
+					"endDateTime": "2024-05-15T09:30:47Z",
+					"operations": [
+						{
+							"id": "OPR_12",
+							"name": "Tweede bemesting",
+							"area": {
+								"unitCode": "HAR",
+								"value": 4.2
+							},
+							"startDateTime": "2024-05-15T09:30:47Z",
+							"endDateTime": "2024-05-15T09:30:47Z",
+							"culturalPractice": {
+								"codeListId": "nl.cl127",
+								"code": "70400"
+							},
+							"inputAllocations": [
+								{
+									"id": "123456",
+									"type": {
+										"codeListId": "NL.CL271",
+										"code": "FERTIL"
+									},
+									"resourceId": {
+										"codeListId": "nl.cl022",
+										"code": "2123"
+									},
+									"quantityAbsolute": {
+										"unitCode": "KGM",
+										"value": 250
+									},
+									"compositions": [
+										{
+											"ingredientId": {
+												"codeListId": "nl.cl363",
+												"code": "1"
+											},
+											"ingredientName": "N-totaal",
+											"quantity": {
+												"unitCode": "P1",
+												"value": 15
+											}
+										},
+										{
+											"ingredientId": {
+												"codeListId": "nl.cl363",
+												"code": "15"
+											},
+											"ingredientName": "P2O5-totaal",
+											"quantity": {
+												"unitCode": "P1",
+												"value": 20
+											}
+										}
+									],
+									"treatmentZones": {
+										"id": "123456",
+										"area": {
+											"unitCode": "HAR",
+											"value": 2.56
+										},
+										"border": {
+											"exterior": {
+												"linearRing": {
+													"srsNam": "EPSG:4326",
+													"posList": "6.77126681689 52.6682706169 6.77132869245 52.669350287 6.77139732307 52.6708790051 6.77171114567 52.6708718827 6.77189837462 52.6708676254 6.77197387991 52.6708960927 6.77208724805 52.6710121486 6.77218265098 52.6711150834 6.77234654634 52.6713025804 6.7731391358 52.6713099831 6.77356023203 52.6713019278 6.77354962715 52.6710374957 6.77353184442 52.6706524545 6.77352445778 52.6700616609 6.77349733077 52.669469372 6.77345767599 52.6682953205 6.77345509954 52.6682235175 6.77141271777 52.6682590864 6.77127192532 52.6682615337 6.77126681689 52.6682706169"
+												}
+											}
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	}
+}
