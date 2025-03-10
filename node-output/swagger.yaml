@@ -1,0 +1,967 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "AgroConnect eCrop API",
+    "description" : " ### Crop API based on **AgroConnect eCrop standard version 0.4** \r\n\r\nThis API concerns registration of crop related activities like application of crop protection products and fertilizers and energy and water consumption.\r\n\r\nThis API is based on the [Agroconnect eCrop class model version 0.4](https://www.agroconnect.nl/Portals/10/EnterpriseArchitect/eCrop_json/eCrop_v0_4/index.html).\r\n\r\nApplied standards:\r\n- [API Design Rules version 2.0.2](https://gitdocumentatie.logius.nl/publicatie/api/adr/) of the NL API Strategie (Dutch API Strategy)\r\n- RFC 9457: Problem Details for HTTP APIs (Internet Engineering Task Force (IETF))\r\n- Sematic versioning using Semver\r\n\r\nDesign decisions\r\n- super/subtypes\r\n\r\nCopyright (c)  AgroConnect 2025",
+    "termsOfService" : "",
+    "contact" : {
+      "name" : "Bernard van Raaij",
+      "url" : "",
+      "email" : "bernard@vanraaijadvies.nl"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version" : "0.1.0"
+  },
+  "servers" : [ {
+    "url" : "/"
+  } ],
+  "tags" : [ {
+    "name" : "general",
+    "description" : "General Operations"
+  }, {
+    "name" : "parties",
+    "description" : "Operations on party-level"
+  }, {
+    "name" : "delivery",
+    "description" : "delivery Operations"
+  }, {
+    "name" : "registration",
+    "description" : "Registration Operations"
+  } ],
+  "paths" : {
+    "/growers" : {
+      "get" : {
+        "tags" : [ "parties" ],
+        "summary" : "get all growers",
+        "description" : "Returns all growers for which caller is autorised\n",
+        "operationId" : "get-growers",
+        "parameters" : [ {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "number of records to skip for pagination",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "minimum" : 0,
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "maximum number of records to return",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "maximum" : 50,
+            "minimum" : 0,
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Shared Response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/grower"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "5XX" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "Default",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/growers/{growerId}" : {
+      "get" : {
+        "tags" : [ "parties" ],
+        "summary" : "get specific grower",
+        "description" : "Returns a specific grower\n",
+        "operationId" : "get-growers-by-growerId",
+        "parameters" : [ {
+          "name" : "growerId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Shared Response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/grower"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "5XX" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "Default",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/suppliers" : {
+      "get" : {
+        "tags" : [ "parties" ],
+        "summary" : "get all suppliers",
+        "description" : "Returns all suppliers for which caller is autorised",
+        "operationId" : "get-suppliers",
+        "responses" : {
+          "200" : {
+            "description" : "List of suppliers",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/supplier"
+                  }
+                },
+                "examples" : { }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "5XX" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "Default",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/suppliers/{supplierId}" : {
+      "get" : {
+        "tags" : [ "parties" ],
+        "summary" : "get specific supplier",
+        "description" : "Returns specific grower\n",
+        "operationId" : "get-suppliers-by-growerId",
+        "parameters" : [ {
+          "name" : "supplierId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Specific supplier",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/supplier"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "5XX" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "Default",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/suppliers/{supplierId}/growers" : {
+      "get" : {
+        "tags" : [ "delivery" ],
+        "summary" : "get growers per supplier",
+        "description" : "Returns all growers for which a supplier is autorised",
+        "operationId" : "get-suppliers-supplierId-growers",
+        "parameters" : [ {
+          "name" : "supplierId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Shared Response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/grower"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "5XX" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "Default",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/suppliers/{supplierId}/growers/{growerId}" : {
+      "get" : {
+        "tags" : [ "delivery" ],
+        "summary" : "get specific grower for a supplier",
+        "description" : "Returns a specific grower if the supplier is autorised",
+        "operationId" : "get-suppliers-supplierId-growers-growerId",
+        "parameters" : [ {
+          "name" : "supplierId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "growerId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Shared Response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/grower"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "5XX" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "Default",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/growers/{growerId}/crops/{cropId}/tasks" : {
+      "post" : {
+        "tags" : [ "registration" ],
+        "summary" : "Register a task with operations",
+        "operationId" : "post-growers-growerId-tasks",
+        "parameters" : [ {
+          "name" : "growerId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "cropId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/req_task"
+        },
+        "responses" : {
+          "202" : {
+            "description" : "Default response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/grower"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/growers/{growerId}/crops" : {
+      "get" : {
+        "tags" : [ "registration" ],
+        "summary" : "List crops per grower",
+        "operationId" : "get-growers-growerId-crops",
+        "parameters" : [ {
+          "name" : "growerId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/crop"
+                  }
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "registration" ],
+        "summary" : "Register a crop by a grower",
+        "operationId" : "post-growers-growerId-crops",
+        "parameters" : [ {
+          "name" : "growerId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/req_crop"
+        },
+        "responses" : {
+          "202" : {
+            "description" : "Accepted"
+          },
+          "default" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metadata" : {
+      "get" : {
+        "tags" : [ "general" ],
+        "summary" : "return metadata",
+        "operationId" : "get-metadata",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/version"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "version" : {
+        "required" : [ "major", "minor", "patch" ],
+        "type" : "object",
+        "properties" : {
+          "major" : {
+            "type" : "integer",
+            "description" : "Major.",
+            "format" : "int32"
+          },
+          "minor" : {
+            "type" : "integer",
+            "description" : "Minor.",
+            "format" : "int32"
+          },
+          "patch" : {
+            "type" : "integer",
+            "description" : "Patch.",
+            "format" : "int32"
+          }
+        },
+        "additionalProperties" : false,
+        "description" : "Version of the API based on semver notation"
+      },
+      "error" : {
+        "required" : [ "status", "title", "type" ],
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "type" : "string"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "status" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "detail" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "instance" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        },
+        "description" : ""
+      },
+      "identifier" : {
+        "required" : [ "id", "schemaIdType" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Identifier value.",
+            "default" : "12345"
+          },
+          "schemaIdType" : {
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Schema type.",
+            "default" : "MPS"
+          }
+        },
+        "additionalProperties" : false,
+        "description" : "Representation of an identifier."
+      },
+      "party" : {
+        "title" : "Party",
+        "required" : [ "id", "name", "personName" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid",
+            "example" : "d290f1ee-6c54-4b01-90e6-d701748f0851"
+          },
+          "partyId" : {
+            "$ref" : "#/components/schemas/identifier"
+          },
+          "name" : {
+            "type" : "string",
+            "example" : "VOF De Lier"
+          },
+          "personName" : {
+            "type" : "string",
+            "example" : "J. de Lier"
+          }
+        }
+      },
+      "grower" : {
+        "$ref" : "#/components/schemas/party"
+      },
+      "supplier" : {
+        "$ref" : "#/components/schemas/party"
+      },
+      "asset" : {
+        "title" : "asset",
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          }
+        },
+        "description" : "Entity of a tangible object on which operations can be performed.\nE.g.: a crop, a building, a machine, a ditch, a greenhouse, a climate control system, a feeding system, etc."
+      },
+      "crop" : {
+        "title" : "crop",
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "asset" : {
+            "$ref" : "#/components/schemas/asset"
+          }
+        },
+        "description" : "The cultivation of a specific crop type (e.g. potato, wheat, rice,. etc.) on one or more plots during a specific period of time, specified by startDateTime and endDateTime."
+      },
+      "task" : {
+        "title" : "task",
+        "type" : "object",
+        "properties" : {
+          "tid" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "dateTimeOfTask" : {
+            "type" : "string",
+            "format" : "date-time",
+            "x-stoplight" : {
+              "id" : "yjlpqgz1infpe"
+            }
+          }
+        },
+        "description" : "A Task is the execution of one or more Operation's by a ma-machine-system.\nA 'task' consists of one ore more 'operations' that are closely related but involve different assents and resources. All combined operations need to be carried out well coordinated, to execute the task.\nFor instance, the task potato harvesting involves: one tractor pulling the potato harvester, 2 units to take care of the transport of the harvested potatoes to the barn, equipment at the barn to unload the transport units and to bring the produce in the storing place."
+      },
+      "operation" : {
+        "title" : "operation",
+        "type" : "object",
+        "properties" : {
+          "oid" : {
+            "type" : "string"
+          },
+          "opDate" : {
+            "type" : "string",
+            "format" : "date",
+            "x-stoplight" : {
+              "id" : "hx2wmilakzees"
+            }
+          }
+        },
+        "description" : "Activity carried out by man and/or machine as part op the execution of a task.\nAn operation performs a particular OperationTechnique on a particular asset (a crop,a field, a production unit, a batch, etc.) to realize a certain Cultural Practice or Husbandry Practice.\nExamples for CropProduction:\nThe CulturalPractise \"weed control\"can be realized by one of various OperationTechnique's like spraying, row cultivation, manual hoeing, etc."
+      },
+      "inputAllocation" : {
+        "title" : "inputAllocation",
+        "type" : "object",
+        "properties" : {
+          "iid" : {
+            "type" : "string"
+          },
+          "typeOfAllocation" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "pekk7al9b9107"
+            }
+          }
+        },
+        "description" : "One or more inputs used to execute this operation.\nExamples of types of input are: crop protection products, fertilizer, water, energy, labor, etc."
+      },
+      "allocation" : {
+        "title" : "allocation",
+        "type" : "object",
+        "properties" : {
+          "aid" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "aplxd6h2dz30a"
+            }
+          }
+        },
+        "description" : "The generic class (the parent) for input and output allocation."
+      }
+    },
+    "responses" : {
+      "default" : {
+        "description" : "Default response",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/grower"
+              }
+            }
+          }
+        }
+      },
+      "default_error" : {
+        "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/error"
+            }
+          }
+        }
+      }
+    },
+    "parameters" : {
+      "Major-Version" : {
+        "name" : "Major-Version",
+        "in" : "header",
+        "description" : "Major version of the API",
+        "required" : true,
+        "style" : "simple",
+        "explode" : false,
+        "schema" : {
+          "type" : "string"
+        }
+      },
+      "User-Agent" : {
+        "name" : "User-Agent",
+        "in" : "header",
+        "description" : "Make, brand and version of the calling client software",
+        "required" : false,
+        "style" : "simple",
+        "explode" : false,
+        "schema" : {
+          "type" : "string"
+        }
+      }
+    },
+    "requestBodies" : {
+      "req_task" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "allOf" : [ {
+                "$ref" : "#/components/schemas/task"
+              }, {
+                "$ref" : "#/components/schemas/operation"
+              }, {
+                "$ref" : "#/components/schemas/inputAllocation"
+              }, {
+                "$ref" : "#/components/schemas/allocation"
+              } ]
+            }
+          }
+        }
+      },
+      "req_crop" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/crop"
+            }
+          }
+        }
+      }
+    }
+  }
+}
