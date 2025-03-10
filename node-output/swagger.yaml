@@ -139,11 +139,11 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "Shared Response",
+            "description" : "Specific supplier",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/grower"
+                  "$ref" : "#/components/schemas/supplier"
                 }
               }
             }
