@@ -2,7 +2,7 @@
   "openapi" : "3.0.0",
   "info" : {
     "title" : "AgroConnect eCrop API",
-    "description" : " ### Crop API based on **AgroConnect eCrop standard version 0.4** \r\n\r\nThis API concerns registration of crop related activities like application of crop protection products and fertilizers and energy and water consumption.\r\n\r\nThis API is based on the [Agroconnect eCrop class model version 0.4](https://www.agroconnect.nl/Portals/10/EnterpriseArchitect/eCrop_json/eCrop_v0_4/index.html).\r\n\r\nApplied standards:\r\n- [API Design Rules version 2.0.2](https://gitdocumentatie.logius.nl/publicatie/api/adr/) of the NL API Strategie (Dutch API Strategy)\r\n- RFC 9457: Problem Details for HTTP APIs (Internet Engineering Task Force (IETF))\r\n- Sematic versioning using Semver\r\n\r\nDesign decisions\r\n- super/subtypes\r\n\r\nCopyright (c)  AgroConnect 2025",
+    "description" : " ### eCrop API based on **AgroConnect eCrop standard version 0.4** \r\n\r\nThis API concerns registration of crop related activities like application of crop protection products and fertilizers and energy and water consumption.\r\n\r\nThis API is based on the [Agroconnect eCrop class model version 0.4](https://www.agroconnect.nl/Portals/10/EnterpriseArchitect/eCrop_json/eCrop_v0_4/index.html).\r\n\r\nApplied standards:\r\n- [API Design Rules version 2.0.2](https://gitdocumentatie.logius.nl/publicatie/api/adr/) of the NL API Strategie (Dutch API Strategy)\r\n- RFC 9457: Problem Details for HTTP APIs (Internet Engineering Task Force (IETF))\r\n- Sematic versioning using Semver\r\n\r\nDesign decisions\r\n- super/subtypes\r\n\r\nCopyright (c)  AgroConnect 2025",
     "termsOfService" : "",
     "contact" : {
       "name" : "Bernard van Raaij",
@@ -26,9 +26,9 @@
     "description" : "Operations on party-level"
   }, {
     "name" : "delivery",
-    "description" : "delivery Operations"
+    "description" : "Delivery Operations"
   }, {
-    "name" : "registration",
+    "name" : "crop registration",
     "description" : "Registration Operations"
   } ],
   "paths" : {
@@ -507,9 +507,84 @@
         }
       }
     },
+    "/growers/{growerId}/crops" : {
+      "get" : {
+        "tags" : [ "crop registration" ],
+        "summary" : "List crops per grower",
+        "operationId" : "get-growers-growerId-crops",
+        "parameters" : [ {
+          "name" : "growerId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/crop"
+                  }
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "crop registration" ],
+        "summary" : "Register a crop by a grower",
+        "operationId" : "post-growers-growerId-crops",
+        "parameters" : [ {
+          "name" : "growerId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/req_crop"
+        },
+        "responses" : {
+          "202" : {
+            "description" : "Accepted"
+          },
+          "default" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/growers/{growerId}/crops/{cropId}/tasks" : {
       "post" : {
-        "tags" : [ "registration" ],
+        "tags" : [ "crop registration" ],
         "summary" : "Register a task with operations",
         "operationId" : "post-growers-growerId-tasks",
         "parameters" : [ {
@@ -577,81 +652,6 @@
                 }
               }
             }
-          },
-          "default" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/error"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/growers/{growerId}/crops" : {
-      "get" : {
-        "tags" : [ "registration" ],
-        "summary" : "List crops per grower",
-        "operationId" : "get-growers-growerId-crops",
-        "parameters" : [ {
-          "name" : "growerId",
-          "in" : "path",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/crop"
-                  }
-                }
-              }
-            }
-          },
-          "default" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/error"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post" : {
-        "tags" : [ "registration" ],
-        "summary" : "Register a crop by a grower",
-        "operationId" : "post-growers-growerId-crops",
-        "parameters" : [ {
-          "name" : "growerId",
-          "in" : "path",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "requestBody" : {
-          "$ref" : "#/components/requestBodies/req_crop"
-        },
-        "responses" : {
-          "202" : {
-            "description" : "Accepted"
           },
           "default" : {
             "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
@@ -790,33 +790,156 @@
         }
       },
       "grower" : {
-        "$ref" : "#/components/schemas/party"
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/party"
+        }, {
+          "required" : [ "growerName" ],
+          "type" : "object",
+          "properties" : {
+            "grownerName" : {
+              "type" : "string"
+            }
+          }
+        } ]
       },
       "supplier" : {
-        "$ref" : "#/components/schemas/party"
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/party"
+        }, {
+          "required" : [ "supplierName" ],
+          "type" : "object",
+          "properties" : {
+            "supplierName" : {
+              "type" : "string"
+            }
+          }
+        } ]
       },
       "asset" : {
         "title" : "asset",
+        "required" : [ "id", "name" ],
         "type" : "object",
         "properties" : {
           "id" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Identifier of the asset."
+          },
+          "name" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "rg34jp6i0ornr"
+            }
+          },
+          "startDate" : {
+            "type" : "string",
+            "format" : "date",
+            "x-stoplight" : {
+              "id" : "b0fsf0o9mvd54"
+            }
+          },
+          "endDate" : {
+            "type" : "string",
+            "format" : "date",
+            "x-stoplight" : {
+              "id" : "q8mkecxxqjg37"
+            }
           }
         },
         "description" : "Entity of a tangible object on which operations can be performed.\nE.g.: a crop, a building, a machine, a ditch, a greenhouse, a climate control system, a feeding system, etc."
       },
       "crop" : {
         "title" : "crop",
-        "type" : "object",
-        "properties" : {
-          "id" : {
-            "type" : "string"
-          },
-          "asset" : {
-            "$ref" : "#/components/schemas/asset"
+        "description" : "The cultivation of a specific crop type (e.g. potato, wheat, rice,. etc.) on one or more plots during a specific period of time, specified by startDateTime and endDateTime.",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/asset"
+        }, {
+          "required" : [ "year" ],
+          "type" : "object",
+          "properties" : {
+            "year" : {
+              "type" : "integer",
+              "description" : "Indication of the year in which the cultivation is harvested.",
+              "format" : "int32"
+            },
+            "country" : {
+              "type" : "string",
+              "description" : "Code list: ISO country code: 2 letter ISO 3166.",
+              "x-stoplight" : {
+                "id" : "08swed8u1a95w"
+              }
+            },
+            "region" : {
+              "type" : "string",
+              "description" : "Region of a country the cultivation took place.\\nFor eCrop in The Netherlands for this code list code list NL.CL044 is used.",
+              "x-stoplight" : {
+                "id" : "035xhjjhxcan9"
+              }
+            },
+            "useTitle" : {
+              "type" : "string",
+              "description" : "Code to indicate the type of legal ownership of the field that is used for the cultivation.\\nFor eCrop in The Netherlands code list nl.cl412 is used for this.",
+              "x-stoplight" : {
+                "id" : "j1vyfe82lser2"
+              }
+            },
+            "productinType" : {
+              "type" : "string",
+              "description" : "Indicates the intensity of the cultivation.\\nIn The Netherlands used to report to the MLNV-RVO authority.\\nCode list: nl.cl255",
+              "x-stoplight" : {
+                "id" : "kc7hwstxuzvyx"
+              }
+            },
+            "productionPurpose" : {
+              "type" : "string",
+              "description" : "Indicator of the produce purpose the cultivation.\\nFor instance: fresh marked, animal feed, seed production, etc.\\nCode list: nl.cl251",
+              "x-stoplight" : {
+                "id" : "db1ods23qgkej"
+              }
+            },
+            "productionSequence" : {
+              "type" : "string",
+              "description" : "ndicates if and how the cultivation is combines to other cultivations. \\nEnumeration: PRE_CROP = voorteelt, MAIN_CROP = hoofdteelt, FOLLOWUP_CROP = volgteelt, MIXED_CROP = mengteelt",
+              "x-stoplight" : {
+                "id" : "65jb1i0wfyhff"
+              }
+            },
+            "regularOrOrganic" : {
+              "type" : "string",
+              "description" : "Production protocol: indicates whether this cultivation is classified as grown organic or non-organic.\\nCode list: nl.cl015",
+              "x-stoplight" : {
+                "id" : "qgh8ua5czka5p"
+              }
+            },
+            "netArea" : {
+              "type" : "string",
+              "description" : "The net (netto) area (in m2, hectare, etc.) of the surface that is used for this cultivation.",
+              "x-stoplight" : {
+                "id" : "z2tlht2ifs8ai"
+              }
+            },
+            "growEnvironment" : {
+              "type" : "string",
+              "description" : "Indicates in what type of environment this cultivation took place, e.g. in the open air, in a greenhouse, etc.\\nCode list: nl.cl299",
+              "x-stoplight" : {
+                "id" : "nh7mr3ddc1idu"
+              }
+            },
+            "growMedium" : {
+              "type" : "string",
+              "description" : "Indicates in what medium the cultivation is rooted; for instance in soil, in substrate, on bark, etc.\\nCode list: nl.cl300",
+              "x-stoplight" : {
+                "id" : "amnbdzr28xcij"
+              }
+            },
+            "trackTillage" : {
+              "type" : "boolean",
+              "description" : "Indicates whether the cultivation, over the years, is done in fixed lanes with fixed tracks for machinery.\\n\\nyes = track tillage is applied\\nno = track tillage is not applied",
+              "x-stoplight" : {
+                "id" : "595zekiefw8g6"
+              }
+            }
           }
-        },
-        "description" : "The cultivation of a specific crop type (e.g. potato, wheat, rice,. etc.) on one or more plots during a specific period of time, specified by startDateTime and endDateTime."
+        } ]
       },
       "task" : {
         "title" : "task",
