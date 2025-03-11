@@ -2,7 +2,7 @@
   "openapi" : "3.0.0",
   "info" : {
     "title" : "AgroConnect eCrop API",
-    "description" : " ### eCrop API based on **AgroConnect eCrop standard version 0.4** \r\n\r\nThis API concerns registration of crop related activities like application of crop protection products and fertilizers and energy and water consumption.\r\n\r\nThis API is based on the [Agroconnect eCrop class model version 0.4](https://www.agroconnect.nl/Portals/10/EnterpriseArchitect/eCrop_json/eCrop_v0_4/index.html).\r\n\r\nApplied standards:\r\n- [API Design Rules version 2.0.2](https://gitdocumentatie.logius.nl/publicatie/api/adr/) of the NL API Strategie (Dutch API Strategy)\r\n- RFC 9457: Problem Details for HTTP APIs (Internet Engineering Task Force (IETF))\r\n- Sematic versioning using Semver\r\n\r\nDesign decisions\r\n- super/subtypes\r\n\r\nCopyright (c)  AgroConnect 2025",
+    "description" : " ### eCrop API based on **AgroConnect eCrop standard version 0.4** \r\n\r\nThis API concerns registration of crop related activities like application of crop protection products and fertilizers and energy and water consumption.\r\n\r\nThis API is based on the [Agroconnect eCrop class model version 0.4](https://www.agroconnect.nl/Portals/10/EnterpriseArchitect/eCrop_json/eCrop_v0_4/index.html).\r\n\r\nApplied standards:\r\n- [API Design Rules version 2.0.2](https://gitdocumentatie.logius.nl/publicatie/api/adr/) of the NL API Strategie (Dutch API Strategy)\r\n- RFC 9457: Problem Details for HTTP APIs (Internet Engineering Task Force (IETF))\r\n- Sematic versioning using Semver\r\n\r\nDesign decisions\r\n- super/subtypes: subtypes zijn allOf met ref naar supertype en object met subtype atributen \r\n-\r\n\r\nCopyright (c)  AgroConnect 2025",
     "termsOfService" : "",
     "contact" : {
       "name" : "Bernard van Raaij",
@@ -937,23 +937,125 @@
               "x-stoplight" : {
                 "id" : "595zekiefw8g6"
               }
+            },
+            "plantSpecies" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/plantspecies"
+              },
+              "x-stoplight" : {
+                "id" : "8kpqgpnhf9xw2"
+              }
+            }
+          }
+        } ]
+      },
+      "plantspecies" : {
+        "title" : "plantspecies",
+        "required" : [ "plantSpecies", "variety" ],
+        "type" : "object",
+        "properties" : {
+          "plantSpecies" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "0unpu41tgzijw"
+            }
+          },
+          "variety" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "rlu4sxgfkeoxq"
+            }
+          },
+          "precentageMix" : {
+            "type" : "number",
+            "format" : "float",
+            "x-stoplight" : {
+              "id" : "w5j7lgt1bqybq"
+            }
+          }
+        },
+        "description" : "Crop type at the level of potato, sugar beet, onion, winter wheat, etc.\nFor mixed crops more then one type of crop can be grown in the same period at the same plot."
+      },
+      "plot" : {
+        "title" : "plot",
+        "description" : "Surface (area) that is used to grow plants.\nThe exact location of this surface is specified by either, a greenhouse-location a point location or a border location (using outer and inner polygons).",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/asset"
+        }, {
+          "required" : [ "area", "type" ],
+          "type" : "object",
+          "properties" : {
+            "type" : {
+              "type" : "string"
+            },
+            "area" : {
+              "type" : "number",
+              "description" : "The surface (measured in for instance square meters, hectare) of this production plot.\r\n",
+              "format" : "float",
+              "x-stoplight" : {
+                "id" : "eair9u2mm4nqi"
+              }
+            },
+            "regularOrOrganic" : {
+              "type" : "string",
+              "description" : "Indicates whether this plot is classified for organic production or not.\r\nProduction protocol: indicates whether this plot is classified  for organic production or not.\r\nCode list:NL_CL015",
+              "x-stoplight" : {
+                "id" : "n1ns1tyi7m1ns"
+              }
+            },
+            "localSoilType" : {
+              "type" : "string",
+              "description" : "Code for the soil type, as used for a specific use case.\r\nLocalSoilType code consists of the reference to the code list that is being used plus the code from this code list.\r\nFor eCrop in arable farming in The Netherlands, code list nl.cl405 is used\r\n",
+              "x-stoplight" : {
+                "id" : "kvib3np0a30be"
+              }
+            },
+            "regulatorySoilType" : {
+              "type" : "string",
+              "description" : "Code for the soil type, as subscribed by a regulatory authority (e.g. MLNV-RVO in the Netherlands).\r\nFor eCrop in The Netherlands code list nl.cl405 is used.\r\n",
+              "x-stoplight" : {
+                "id" : "o3gb4tu5n7pnr"
+              }
             }
           }
         } ]
       },
       "task" : {
         "title" : "task",
+        "required" : [ "id", "name" ],
         "type" : "object",
         "properties" : {
-          "tid" : {
+          "id" : {
             "type" : "string",
-            "format" : "uuid"
+            "description" : "The identifier of the task assigned by the originator of the Task."
           },
-          "dateTimeOfTask" : {
+          "name" : {
             "type" : "string",
-            "format" : "date-time",
+            "description" : "Short name of the task."
+          },
+          "startDateTime" : {
+            "type" : "string",
+            "description" : "The timestamp of beginning the execution of the task.",
+            "format" : "date-time"
+          },
+          "endDateTime" : {
+            "type" : "string",
+            "description" : "The timestamp of the ending of execution the task.",
+            "format" : "date-time"
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "Indication of the execution status of the task in terms of: proposed, planned, executed. Code list: NL_CL256",
             "x-stoplight" : {
-              "id" : "yjlpqgz1infpe"
+              "id" : "4ze2lsr59ovaz"
+            }
+          },
+          "referenceId" : {
+            "type" : "string",
+            "description" : "The identifier of the ordered task that resulted in this executed task.\r\n",
+            "x-stoplight" : {
+              "id" : "0wgmugwqr7l37"
             }
           }
         },
@@ -961,16 +1063,32 @@
       },
       "operation" : {
         "title" : "operation",
+        "required" : [ "id", "name" ],
         "type" : "object",
         "properties" : {
-          "oid" : {
-            "type" : "string"
-          },
-          "opDate" : {
+          "id" : {
             "type" : "string",
-            "format" : "date",
+            "description" : "The identifier of the operation assigned by the originator of the operation."
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "Short name of the operation."
+          },
+          "startDateTime" : {
+            "type" : "string",
+            "description" : "The timestamp of beginning the execution of the operation.",
+            "format" : "date-time"
+          },
+          "endDateTime" : {
+            "type" : "string",
+            "description" : "The timestamp of the ending of execution the operation.",
+            "format" : "date-time"
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "Indication of the execution status of the operation in terms of: proposed, planned, executed. Code list: NL_CL256",
             "x-stoplight" : {
-              "id" : "hx2wmilakzees"
+              "id" : "4ze2lsr59ovaz"
             }
           }
         },
