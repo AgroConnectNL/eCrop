@@ -79,7 +79,7 @@
             }
           },
           "400" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -89,7 +89,7 @@
             }
           },
           "401" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -99,7 +99,7 @@
             }
           },
           "5XX" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -149,7 +149,7 @@
             }
           },
           "400" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -159,7 +159,7 @@
             }
           },
           "401" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -169,7 +169,7 @@
             }
           },
           "404" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -179,7 +179,7 @@
             }
           },
           "5XX" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -223,7 +223,7 @@
             }
           },
           "400" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -233,7 +233,7 @@
             }
           },
           "401" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -243,7 +243,7 @@
             }
           },
           "5XX" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -293,7 +293,7 @@
             }
           },
           "400" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -303,7 +303,7 @@
             }
           },
           "401" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -313,7 +313,7 @@
             }
           },
           "404" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -323,7 +323,7 @@
             }
           },
           "5XX" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -376,7 +376,7 @@
             }
           },
           "400" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -386,7 +386,7 @@
             }
           },
           "401" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -396,7 +396,7 @@
             }
           },
           "5XX" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -455,7 +455,7 @@
             }
           },
           "400" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -465,7 +465,7 @@
             }
           },
           "401" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -475,7 +475,7 @@
             }
           },
           "404" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -485,7 +485,7 @@
             }
           },
           "5XX" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -537,7 +537,7 @@
             }
           },
           "default" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -570,7 +570,7 @@
             "description" : "Accepted"
           },
           "default" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -624,7 +624,7 @@
             }
           },
           "400" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -634,7 +634,7 @@
             }
           },
           "401" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -644,7 +644,7 @@
             }
           },
           "403" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -654,7 +654,7 @@
             }
           },
           "default" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -683,7 +683,7 @@
             }
           },
           "default" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -766,6 +766,63 @@
         "additionalProperties" : false,
         "description" : "Representation of an identifier."
       },
+      "measurementtype" : {
+        "title" : "measurementtype",
+        "type" : "object",
+        "properties" : {
+          "value" : {
+            "type" : "number",
+            "description" : "Expresses the measured value of the measurement.",
+            "format" : "float"
+          },
+          "unitcode" : {
+            "type" : "string",
+            "description" : "The code that refers to the standard unit or dimension to express the value of this measurement. E.g. KGM for kilogram.\r\nCode list Id: nl.cl020",
+            "x-stoplight" : {
+              "id" : "kilal7v7ybauf"
+            }
+          }
+        },
+        "description" : "Standard data type for expressing the value of a measurement. To be used for all types of measurement in this class model."
+      },
+      "characteristic" : {
+        "title" : "characteristic",
+        "type" : "object",
+        "properties" : {
+          "codelistid" : {
+            "type" : "string",
+            "description" : "Identifier of the code list that contains the coding of characteristics for a specific domain:\r\n\r\nFor instance:\r\nThe code list id for crop and operations characteristics for arable farming is NL_CL265."
+          },
+          "value" : {
+            "$ref" : "#/components/schemas/measurementtype"
+          },
+          "issuedate" : {
+            "type" : "string",
+            "description" : "The data the characteristic was captured.\r\n",
+            "format" : "date",
+            "x-stoplight" : {
+              "id" : "r7foutm9h9b3c"
+            }
+          },
+          "startdate" : {
+            "type" : "string",
+            "description" : "Begin data of the period this characteristic is or was valid.\r\n",
+            "format" : "date",
+            "x-stoplight" : {
+              "id" : "97hif3dvffq1e"
+            }
+          },
+          "einddate" : {
+            "type" : "string",
+            "description" : "End data of the period this characteristic is or was valid.",
+            "format" : "date",
+            "x-stoplight" : {
+              "id" : "hkbnpja2afbri"
+            }
+          }
+        },
+        "description" : "Generic data type for linked characteristics to a crop, task, operation, allocation, etc."
+      },
       "party" : {
         "title" : "Party",
         "required" : [ "id", "name", "personName" ],
@@ -842,6 +899,15 @@
             "format" : "date",
             "x-stoplight" : {
               "id" : "q8mkecxxqjg37"
+            }
+          },
+          "characteristics" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/characteristic"
+            },
+            "x-stoplight" : {
+              "id" : "fmi4cfqq7u0de"
             }
           }
         },
@@ -1057,6 +1123,15 @@
             "x-stoplight" : {
               "id" : "0wgmugwqr7l37"
             }
+          },
+          "operations" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/operation"
+            },
+            "x-stoplight" : {
+              "id" : "7bh6eomykcfn1"
+            }
           }
         },
         "description" : "A Task is the execution of one or more Operation's by a ma-machine-system.\nA 'task' consists of one ore more 'operations' that are closely related but involve different assents and resources. All combined operations need to be carried out well coordinated, to execute the task.\nFor instance, the task potato harvesting involves: one tractor pulling the potato harvester, 2 units to take care of the transport of the harvested potatoes to the barn, equipment at the barn to unload the transport units and to bring the produce in the storing place."
@@ -1090,41 +1165,178 @@
             "x-stoplight" : {
               "id" : "4ze2lsr59ovaz"
             }
-          }
-        },
-        "description" : "Activity carried out by man and/or machine as part op the execution of a task.\nAn operation performs a particular OperationTechnique on a particular asset (a crop,a field, a production unit, a batch, etc.) to realize a certain Cultural Practice or Husbandry Practice.\nExamples for CropProduction:\nThe CulturalPractise \"weed control\"can be realized by one of various OperationTechnique's like spraying, row cultivation, manual hoeing, etc."
-      },
-      "inputAllocation" : {
-        "title" : "inputAllocation",
-        "type" : "object",
-        "properties" : {
-          "iid" : {
-            "type" : "string"
           },
-          "typeOfAllocation" : {
+          "thirdPartyId" : {
             "type" : "string",
+            "description" : "Identifier of this operation, allocated by a third party.",
             "x-stoplight" : {
-              "id" : "pekk7al9b9107"
+              "id" : "8b5t3svjwi1gk"
+            }
+          },
+          "operationTechnique" : {
+            "type" : "string",
+            "description" : "An operation performs a particular OperationTechnique on a particular asset (a crop,a field, a production unit, a batch, etc.) to realize a certain Cultural Practice or Husbandry Practice. Examples for CropProduction: The CulturalPractise \"weed control\"can be realized by one of various OperationTechnique's like spraying, row cultivation, manual hoeing, etc. Code list Id for arable farming: nl.cl127 (or nl.cl293)",
+            "x-stoplight" : {
+              "id" : "uqzoqivfdnour"
+            }
+          },
+          "culturalPractice" : {
+            "type" : "string",
+            "description" : "An operation performs a particular OperationTechnique on a particular asset (a crop,a field, a production unit, a batch, etc.) to realize a certain Cultural Practice or Husbandry Practice.Examples for CropProduction:\r\nThe CulturalPractise \"weed control\"can be realized by one of various OperationTechnique's like spraying, row cultivation, manual hoeing, etc.Code list Id for arable farming: nl.cl127 (or nl.cl293)",
+            "x-stoplight" : {
+              "id" : "vhit0pr8vgqgc"
+            }
+          },
+          "characteristics" : {
+            "type" : "array",
+            "description" : "The option to attach one or more characteristics about the execution of this operation.",
+            "items" : {
+              "$ref" : "#/components/schemas/characteristic"
+            },
+            "x-stoplight" : {
+              "id" : "x2rxrk0cotvoy"
+            }
+          },
+          "area" : {
+            "$ref" : "#/components/schemas/measurementtype"
+          },
+          "refereanceId" : {
+            "type" : "string",
+            "description" : "The identifier of the ordered operation that resulted in this executed operation.",
+            "x-stoplight" : {
+              "id" : "ny0u2dlffz1h9"
+            }
+          },
+          "inputAllocations" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/inputallocation"
+            },
+            "x-stoplight" : {
+              "id" : "aacsk3doru3f2"
+            }
+          },
+          "outputAllocations" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/outputallocation"
+            },
+            "x-stoplight" : {
+              "id" : "rm8v2kyx2wmlp"
             }
           }
         },
-        "description" : "One or more inputs used to execute this operation.\nExamples of types of input are: crop protection products, fertilizer, water, energy, labor, etc."
+        "description" : "Activity carried out by man and/or machine as part op the execution of a task.\nAn operation performs a particular OperationTechnique on a particular asset (a crop,a field, a production unit, a batch, etc.) to realize a certain Cultural Practice or Husbandry Practice.\nExamples for CropProduction:\nThe CulturalPractise \"weed control\"can be realized by one of various OperationTechnique's like spraying, row cultivation, manual hoeing, etc."
       },
       "allocation" : {
         "title" : "allocation",
         "type" : "object",
         "properties" : {
-          "aid" : {
-            "type" : "string"
+          "id" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "jkfgqocosl5b8"
+            }
           },
           "name" : {
             "type" : "string",
             "x-stoplight" : {
-              "id" : "aplxd6h2dz30a"
+              "id" : "gi4kfzqlk5ax5"
+            }
+          },
+          "type" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "40nf4wnyqa5ag"
+            }
+          },
+          "resourceId" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "ea1qawret9yty"
+            }
+          },
+          "quantityAbsolute" : {
+            "$ref" : "#/components/schemas/measurementtype"
+          },
+          "quatityRate" : {
+            "$ref" : "#/components/schemas/measurementtype"
+          },
+          "characteristics" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/characteristic"
+            },
+            "x-stoplight" : {
+              "id" : "6b5g78ts8noxj"
             }
           }
         },
         "description" : "The generic class (the parent) for input and output allocation."
+      },
+      "inputallocation" : {
+        "title" : "inputallocation",
+        "description" : "One or more inputs used to execute this operation.\nExamples of types of input are: crop protection products, fertilizer, water, energy, labor, etc.",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/allocation"
+        }, {
+          "required" : [ "treatmentzone" ],
+          "type" : "object",
+          "properties" : {
+            "treatmentzone" : {
+              "$ref" : "#/components/schemas/treatmentzone"
+            }
+          },
+          "x-stoplight" : {
+            "id" : "xfdl7jpjanjqf"
+          }
+        } ]
+      },
+      "outputallocation" : {
+        "title" : "outputallocation",
+        "description" : "One or more outputs as the result of the execution of the operation.\nFor example harvested produce: potatoes, onions, flowers, vegetables, etc..\nBut an output could also be for instance energy.",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/allocation"
+        }, {
+          "required" : [ "treatmentzone" ],
+          "type" : "object",
+          "properties" : {
+            "treatmentzone" : {
+              "$ref" : "#/components/schemas/treatmentzone"
+            }
+          },
+          "x-stoplight" : {
+            "id" : "47w6igyuz1ba5"
+          }
+        } ]
+      },
+      "treatmentzone" : {
+        "title" : "treatmentzone",
+        "required" : [ "id" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "thirdpartyId" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "peo1jxuz4h5y8"
+            }
+          },
+          "characteristics" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/characteristic"
+            },
+            "x-stoplight" : {
+              "id" : "8r8ukp9nfr6fn"
+            }
+          },
+          "area" : {
+            "$ref" : "#/components/schemas/measurementtype"
+          }
+        }
       }
     },
     "responses" : {
@@ -1142,7 +1354,7 @@
         }
       },
       "default_error" : {
-        "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+        "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
         "content" : {
           "application/json" : {
             "schema" : {
@@ -1183,12 +1395,6 @@
             "schema" : {
               "allOf" : [ {
                 "$ref" : "#/components/schemas/task"
-              }, {
-                "$ref" : "#/components/schemas/operation"
-              }, {
-                "$ref" : "#/components/schemas/inputAllocation"
-              }, {
-                "$ref" : "#/components/schemas/allocation"
               } ]
             }
           }
