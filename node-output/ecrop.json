@@ -5,7 +5,7 @@
     "description" : "Agroconnect Virtual API server"
   } ],
   "info" : {
-    "description" : "### eCrop API based on **AgroConnect eCrop standard version 0.4** \r\n\r\nThis API concerns registration of crop related activities like application of crop protection products and fertilizers and energy and water consumption.\r\n\r\nThis API is based on the [Agroconnect eCrop class model version 0.4](https://www.agroconnect.nl/Portals/10/EnterpriseArchitect/eCrop_json/eCrop_v0_4/index.html).\r\n\r\nApplied standards:\r\n- [API Design Rules version 2.0.2](https://gitdocumentatie.logius.nl/publicatie/api/adr/) of the NL API Strategie (Dutch API Strategy)\r\n- RFC 9457: Problem Details for HTTP APIs (Internet Engineering Task Force (IETF))\r\n- Sematic versioning using Semver\r\n\r\nDesign decisions\r\n- super/subtypes (UML generalisations): subtypes are allOf with $ref to supertype and object with subtype atributes\r\n- UML compositions: hierachy in URI (should be aggegrations in eCrop class model) or array in master-object\r\n\r\nRemarks on class model\r\n- Renamed \"cytyName\" in address to \"cityName\"\r\n- \"Compositions\" should be renames to \"Components\"\r\n- change applicable composition-relations to aggegration-relations \r\n\r\nCopyright (c)  AgroConnect 2025",
+    "description" : "### eCrop API based on **AgroConnect eCrop standard version 0.4** \r\n\r\nThis API concerns registration of crop related activities like application of crop protection products and fertilizers and energy and water consumption.\r\n\r\nThis API is based on the [Agroconnect eCrop class model version 0.4](https://www.agroconnect.nl/Portals/10/EnterpriseArchitect/eCrop_json/eCrop_v0_4/index.html).\r\n\r\nApplied standards:\r\n- [API Design Rules version 2.0.2](https://gitdocumentatie.logius.nl/publicatie/api/adr/) of the NL API Strategie (Dutch API Strategy)\r\n- RFC 9457: Problem Details for HTTP APIs (Internet Engineering Task Force (IETF))\r\n- Sematic versioning using Semver\r\n\r\nDesign decisions\r\n- super/subtypes (UML generalisations): subtypes are allOf with $ref to supertype and object with subtype atributes\r\n- UML compositions: hierachy in URI (should be aggegrations in eCrop class model) or array in master-object\r\n\r\nRemarks on class model\r\n- Renamed \"cytyName\" in address to \"cityName\"\r\n- \"Compositions\" should be renames to \"Components\"\r\n- change applicable composition-relations to aggegration-relations \r\n- Rename \"Farm\" to \"Location\"\r\n- Relation delivery should link to \"grower\" iso \"receiver\"\r\n\r\nCopyright (c)  AgroConnect 2025",
     "version" : "0.1.0",
     "title" : "AgroConnect eCrop API",
     "contact" : {
@@ -345,6 +345,54 @@
         "description" : "Returns a specific grower if the supplier is autorised"
       }
     },
+    "/suppliers/{supplierId}/growers/{growerId}/deliveries" : {
+      "parameters" : [ {
+        "schema" : {
+          "type" : "string"
+        },
+        "name" : "supplierId",
+        "in" : "path",
+        "required" : true
+      }, {
+        "schema" : {
+          "type" : "string"
+        },
+        "name" : "growerId",
+        "in" : "path",
+        "required" : true
+      } ],
+      "post" : {
+        "summary" : "Register a delivery for a grower by a suppliers",
+        "tags" : [ "delivery" ],
+        "responses" : {
+          "202" : {
+            "description" : "Accepted"
+          },
+          "400" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "default" : {
+            "$ref" : "#/components/responses/default_error"
+          }
+        },
+        "operationId" : "post-suppliers-supplierId-growers-growerId-deliveries",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/delivery"
+              }
+            }
+          }
+        }
+      }
+    },
     "/growers/{growerId}/crops" : {
       "parameters" : [ {
         "schema" : {
@@ -418,7 +466,7 @@
         "tags" : [ "crop registration" ],
         "responses" : {
           "202" : {
-            "$ref" : "#/components/responses/default"
+            "description" : "Accepted"
           },
           "400" : {
             "$ref" : "#/components/responses/default_error"
@@ -441,7 +489,7 @@
     },
     "/metadata" : {
       "get" : {
-        "summary" : "return metadata",
+        "summary" : "Return metadata",
         "tags" : [ "general" ],
         "responses" : {
           "200" : {
@@ -745,6 +793,11 @@
         } ]
       },
       "supplier" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/party"
+        } ]
+      },
+      "farm" : {
         "allOf" : [ {
           "$ref" : "#/components/schemas/party"
         } ]
@@ -1204,6 +1257,65 @@
         "pattern" : "^(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$",
         "description" : "Default datetime format with ISO-8601 standard date format \"yyyy-mm-ddThh24:mm:ss+nn:nn\"",
         "example" : "2023-03-12T15:51:00+01:00"
+      },
+      "delivery" : {
+        "title" : "delivery",
+        "type" : "object",
+        "description" : "Delivery by the farm of a harvested batch of produce to a buyer.\nOr, materials and inputs delivered by a supplier to a grower as input for their crop process. A\ndelivery describes a certain amount of a certain product acquired by a buyer through an order to\na seller.\n",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "thirdPartyDeliveryReferenceId" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "7eq8n07hrkkc0"
+            }
+          },
+          "dateOfDelivery" : {
+            "$ref" : "#/components/schemas/date"
+          },
+          "quantity" : {
+            "$ref" : "#/components/schemas/measurementtype"
+          },
+          "product" : {
+            "$ref" : "#/components/schemas/product"
+          },
+          "location" : {
+            "$ref" : "#/components/schemas/farm"
+          }
+        }
+      },
+      "product" : {
+        "title" : "product",
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "$ref" : "#/components/schemas/identifier"
+          },
+          "name" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "nwi9elh9so9w0"
+            }
+          },
+          "thirdPartyProductReferenceId" : {
+            "$ref" : "#/components/schemas/identifier"
+          },
+          "regionalAuthorisationId" : {
+            "$ref" : "#/components/schemas/identifier"
+          },
+          "additionalProductProperties" : {
+            "type" : "array",
+            "x-stoplight" : {
+              "id" : "4i37hhcagih21"
+            },
+            "items" : {
+              "$ref" : "#/components/schemas/characteristic"
+            }
+          }
+        },
+        "description" : ""
       }
     },
     "responses" : {
@@ -1236,9 +1348,7 @@
         "content" : {
           "application/json" : {
             "schema" : {
-              "allOf" : [ {
-                "$ref" : "#/components/schemas/task"
-              } ]
+              "$ref" : "#/components/schemas/task"
             }
           }
         }
@@ -1248,6 +1358,15 @@
           "application/json" : {
             "schema" : {
               "$ref" : "#/components/schemas/crop"
+            }
+          }
+        }
+      },
+      "req_delivery" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/delivery"
             }
           }
         }
