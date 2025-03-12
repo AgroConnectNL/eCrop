@@ -5,7 +5,7 @@
     "description" : "Agroconnect Virtual API server"
   } ],
   "info" : {
-    "description" : "### eCrop API based on **AgroConnect eCrop standard version 0.4** \r\n\r\nThis API concerns registration of crop related activities like application of crop protection products and fertilizers and energy and water consumption.\r\n\r\nThis API is based on the [Agroconnect eCrop class model version 0.4](https://www.agroconnect.nl/Portals/10/EnterpriseArchitect/eCrop_json/eCrop_v0_4/index.html).\r\n\r\nApplied standards:\r\n- [API Design Rules version 2.0.2](https://gitdocumentatie.logius.nl/publicatie/api/adr/) of the NL API Strategie (Dutch API Strategy)\r\n- RFC 9457: Problem Details for HTTP APIs (Internet Engineering Task Force (IETF))\r\n- Sematic versioning using Semver\r\n\r\nDesign decisions\r\n- super/subtypes (UML generalisations): subtypes are allOf with $ref to supertype and object with subtype atributes\r\n- UML compositions: hierachy in URI (should be aggegrations in eCrop class model) or array in master-object\r\n\r\nCopyright (c)  AgroConnect 2025",
+    "description" : "### eCrop API based on **AgroConnect eCrop standard version 0.4** \r\n\r\nThis API concerns registration of crop related activities like application of crop protection products and fertilizers and energy and water consumption.\r\n\r\nThis API is based on the [Agroconnect eCrop class model version 0.4](https://www.agroconnect.nl/Portals/10/EnterpriseArchitect/eCrop_json/eCrop_v0_4/index.html).\r\n\r\nApplied standards:\r\n- [API Design Rules version 2.0.2](https://gitdocumentatie.logius.nl/publicatie/api/adr/) of the NL API Strategie (Dutch API Strategy)\r\n- RFC 9457: Problem Details for HTTP APIs (Internet Engineering Task Force (IETF))\r\n- Sematic versioning using Semver\r\n\r\nDesign decisions\r\n- super/subtypes (UML generalisations): subtypes are allOf with $ref to supertype and object with subtype atributes\r\n- UML compositions: hierachy in URI (should be aggegrations in eCrop class model) or array in master-object\r\n\r\nRemarks on class model\r\n- Renamed \"cytyName\" in address to \"cityName\"\r\n- \"Compositions\" should be renames to \"Components\"\r\n- change applicable composition-relations to aggegration-relations \r\n\r\nCopyright (c)  AgroConnect 2025",
     "version" : "0.1.0",
     "title" : "AgroConnect eCrop API",
     "contact" : {
@@ -532,28 +532,6 @@
         "additionalProperties" : false,
         "description" : "Representation of an identifier."
       },
-      "partyidtype" : {
-        "type" : "object",
-        "additionalProperties" : false,
-        "description" : "Representation of an identifier.",
-        "required" : [ "id" ],
-        "properties" : {
-          "id" : {
-            "minLength" : 1,
-            "type" : "string",
-            "description" : "Represents the value of the identifier; e.g. the gln number.",
-            "default" : 12345
-          },
-          "type" : {
-            "$ref" : "#/components/schemas/partyidtypecodetype"
-          }
-        }
-      },
-      "partyidtypecodetype" : {
-        "title" : "partyidtypecodetype",
-        "enum" : [ "NL_UBN", "NL_KVK", "GS1_GLN", "CUSNR", "nl.cl031", "VAT" ],
-        "description" : "Code list for the type of scheme that is used for the type of identifier (e.g. a gln, or chamber of commerce number). For this, code list CL709 is used."
-      },
       "measurementtype" : {
         "title" : "measurementtype",
         "type" : "object",
@@ -610,6 +588,28 @@
             "description" : "End data of the period this characteristic is or was valid."
           }
         }
+      },
+      "partyidtype" : {
+        "type" : "object",
+        "additionalProperties" : false,
+        "description" : "Representation of an identifier.",
+        "required" : [ "id" ],
+        "properties" : {
+          "id" : {
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Represents the value of the identifier; e.g. the gln number.",
+            "default" : 12345
+          },
+          "type" : {
+            "$ref" : "#/components/schemas/partyidtypecodetype"
+          }
+        }
+      },
+      "partyidtypecodetype" : {
+        "title" : "partyidtypecodetype",
+        "enum" : [ "NL_UBN", "NL_KVK", "GS1_GLN", "CUSNR", "nl.cl031", "VAT" ],
+        "description" : "Code list for the type of scheme that is used for the type of identifier (e.g. a gln, or chamber of commerce number). For this, code list CL709 is used."
       },
       "party" : {
         "type" : "object",
@@ -670,33 +670,83 @@
             "x-stoplight" : {
               "id" : "h7ngifrxgh6h7"
             }
+          },
+          "postaladdress" : {
+            "$ref" : "#/components/schemas/postaladdress"
+          },
+          "visitoraddress" : {
+            "$ref" : "#/components/schemas/visitorsaddress"
           }
         }
+      },
+      "address" : {
+        "title" : "address",
+        "type" : "object",
+        "required" : [ "postalCode", "cityName", "streetName", "streetNumber", "country", "countryName", "postalBoxId" ],
+        "properties" : {
+          "postalCode" : {
+            "type" : "string"
+          },
+          "cityName" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "rvjvk41n8jovq"
+            }
+          },
+          "streetName" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "ze32fnuj7ob99"
+            }
+          },
+          "streetNumber" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "8jxtdseh9z32s"
+            }
+          },
+          "country" : {
+            "$ref" : "#/components/schemas/countrycodetype"
+          },
+          "countryName" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "u8oax2gr82dg1"
+            }
+          },
+          "postalBoxId" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "zgoqkvqcpvtge"
+            }
+          }
+        }
+      },
+      "postaladdress" : {
+        "title" : "postaladdress",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/address"
+        } ]
+      },
+      "visitorsaddress" : {
+        "title" : "visitorsaddress",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/address"
+        } ]
+      },
+      "countrycodetype" : {
+        "title" : "countrycodetype",
+        "enum" : [ "NL", "DE", "UK", "BE", "ES", "PL", "DK" ],
+        "description" : "Country codes: 2 letter ISO 3166."
       },
       "grower" : {
         "allOf" : [ {
           "$ref" : "#/components/schemas/party"
-        }, {
-          "type" : "object",
-          "properties" : {
-            "grownerName" : {
-              "type" : "string"
-            }
-          },
-          "required" : [ "growerName" ]
         } ]
       },
       "supplier" : {
         "allOf" : [ {
           "$ref" : "#/components/schemas/party"
-        }, {
-          "type" : "object",
-          "properties" : {
-            "supplierName" : {
-              "type" : "string"
-            }
-          },
-          "required" : [ "supplierName" ]
         } ]
       },
       "asset" : {
@@ -716,18 +766,10 @@
             }
           },
           "startDate" : {
-            "type" : "string",
-            "x-stoplight" : {
-              "id" : "b0fsf0o9mvd54"
-            },
-            "format" : "date"
+            "$ref" : "#/components/schemas/date"
           },
           "endDate" : {
-            "type" : "string",
-            "x-stoplight" : {
-              "id" : "q8mkecxxqjg37"
-            },
-            "format" : "date"
+            "$ref" : "#/components/schemas/date"
           },
           "characteristics" : {
             "type" : "array",
@@ -888,14 +930,10 @@
             "description" : "Short name of the task."
           },
           "startDateTime" : {
-            "type" : "string",
-            "format" : "date-time",
-            "description" : "The timestamp of beginning the execution of the task."
+            "$ref" : "#/components/schemas/datetime"
           },
           "endDateTime" : {
-            "type" : "string",
-            "format" : "date-time",
-            "description" : "The timestamp of the ending of execution the task."
+            "$ref" : "#/components/schemas/datetime"
           },
           "status" : {
             "$ref" : "#/components/schemas/processstate"
@@ -933,14 +971,10 @@
             "description" : "Short name of the operation."
           },
           "startDateTime" : {
-            "type" : "string",
-            "format" : "date-time",
-            "description" : "The timestamp of beginning the execution of the operation."
+            "$ref" : "#/components/schemas/datetime"
           },
           "endDateTime" : {
-            "type" : "string",
-            "format" : "date-time",
-            "description" : "The timestamp of the ending of execution the operation."
+            "$ref" : "#/components/schemas/datetime"
           },
           "status" : {
             "$ref" : "#/components/schemas/processstate"
@@ -1113,11 +1147,6 @@
         "enum" : [ "PROPOSED", "PLANNED", "COMLETED" ],
         "description" : "To specify the status of execution (proposed, planned, executed) of a task or operation."
       },
-      "plottype" : {
-        "title" : "plottype",
-        "enum" : [ "CROPFIELD", "ACTIVITYFIELD", "TABLE" ],
-        "description" : "The type of production surface to grow plants. Can be a crop field for arable farming or a moving table (platform) for potted plants in floriculture."
-      },
       "codetype" : {
         "title" : "codetype",
         "type" : "object",
@@ -1150,15 +1179,31 @@
           }
         }
       },
+      "plottype" : {
+        "title" : "plottype",
+        "enum" : [ "CROPFIELD", "ACTIVITYFIELD", "TABLE" ],
+        "description" : "The type of production surface to grow plants. Can be a crop field for arable farming or a moving table (platform) for potted plants in floriculture."
+      },
       "productionsequencetype" : {
         "title" : "productionsequencetype",
         "enum" : [ "PRE_CROP", "MAIN_CROP", "FOLLOWUP_CROP", "MIXED_CROP" ],
         "description" : ""
       },
-      "countrycodetype" : {
-        "title" : "countrycodetype",
-        "enum" : [ "NL", "DE", "UK", "BE", "ES", "PL", "DK" ],
-        "description" : "Country codes: 2 letter ISO 3166."
+      "date" : {
+        "title" : "date",
+        "type" : "string",
+        "format" : "date",
+        "pattern" : "^\\d{4}-\\d{2}-\\d{2}$",
+        "description" : "Default date format with ISO-8601 standard date format \"yyyy-mm-dd\"",
+        "example" : "2023-03-12"
+      },
+      "datetime" : {
+        "title" : "datetime",
+        "type" : "string",
+        "format" : "date",
+        "pattern" : "^(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$",
+        "description" : "Default datetime format with ISO-8601 standard date format \"yyyy-mm-ddThh24:mm:ss+nn:nn\"",
+        "example" : "2023-03-12T15:51:00+01:00"
       }
     },
     "responses" : {
