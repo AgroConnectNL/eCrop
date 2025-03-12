@@ -1,0 +1,1171 @@
+{
+  "openapi" : "3.0.0",
+  "servers" : [ {
+    "url" : "http://standard-api.agroconnect.nl",
+    "description" : "Agroconnect Virtual API server"
+  } ],
+  "info" : {
+    "description" : "### eCrop API based on **AgroConnect eCrop standard version 0.4** \r\n\r\nThis API concerns registration of crop related activities like application of crop protection products and fertilizers and energy and water consumption.\r\n\r\nThis API is based on the [Agroconnect eCrop class model version 0.4](https://www.agroconnect.nl/Portals/10/EnterpriseArchitect/eCrop_json/eCrop_v0_4/index.html).\r\n\r\nApplied standards:\r\n- [API Design Rules version 2.0.2](https://gitdocumentatie.logius.nl/publicatie/api/adr/) of the NL API Strategie (Dutch API Strategy)\r\n- RFC 9457: Problem Details for HTTP APIs (Internet Engineering Task Force (IETF))\r\n- Sematic versioning using Semver\r\n\r\nDesign decisions\r\n- super/subtypes (UML generalisations): subtypes are allOf with $ref to supertype and object with subtype atributes\r\n- UML compositions: hierachy in URI (should be aggegrations in eCrop class model) or array in master-object\r\n\r\nCopyright (c)  AgroConnect 2025",
+    "version" : "0.1.0",
+    "title" : "AgroConnect eCrop API",
+    "contact" : {
+      "email" : "bernard@vanraaijadvies.nl",
+      "name" : "Bernard van Raaij",
+      "url" : ""
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "termsOfService" : ""
+  },
+  "tags" : [ {
+    "name" : "general",
+    "description" : "General Operations"
+  }, {
+    "name" : "parties",
+    "description" : "Operations on party-level"
+  }, {
+    "name" : "delivery",
+    "description" : "Delivery Operations"
+  }, {
+    "name" : "crop registration",
+    "description" : "Registration Operations"
+  } ],
+  "paths" : {
+    "/growers" : {
+      "get" : {
+        "tags" : [ "parties" ],
+        "summary" : "get all growers",
+        "operationId" : "get-growers",
+        "description" : "Returns all growers for which caller is autorised\n",
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "offset",
+          "description" : "number of records to skip for pagination",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "minimum" : 0
+          }
+        }, {
+          "in" : "query",
+          "name" : "limit",
+          "description" : "maximum number of records to return",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "minimum" : 0,
+            "maximum" : 50
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Shared Response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/grower"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "5XX" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "default" : {
+            "description" : "Default",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/growers/{growerId}" : {
+      "parameters" : [ {
+        "schema" : {
+          "type" : "string"
+        },
+        "name" : "growerId",
+        "in" : "path",
+        "required" : true
+      } ],
+      "get" : {
+        "tags" : [ "parties" ],
+        "summary" : "get specific grower",
+        "operationId" : "get-growers-by-growerId",
+        "description" : "Returns a specific grower\n",
+        "responses" : {
+          "200" : {
+            "description" : "Specific supplier",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/supplier"
+                }
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "5XX" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "default" : {
+            "description" : "Default",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/suppliers" : {
+      "get" : {
+        "tags" : [ "parties" ],
+        "summary" : "get all suppliers",
+        "responses" : {
+          "200" : {
+            "description" : "List of suppliers",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/supplier"
+                  }
+                },
+                "examples" : { }
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "5XX" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "default" : {
+            "description" : "Default",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        },
+        "operationId" : "get-suppliers",
+        "description" : "Returns all suppliers for which caller is autorised"
+      }
+    },
+    "/suppliers/{supplierId}" : {
+      "parameters" : [ {
+        "schema" : {
+          "type" : "string"
+        },
+        "name" : "supplierId",
+        "in" : "path",
+        "required" : true
+      } ],
+      "get" : {
+        "tags" : [ "parties" ],
+        "operationId" : "get-suppliers-by-growerId",
+        "summary" : "get specific supplier",
+        "description" : "Returns specific grower\n",
+        "responses" : {
+          "200" : {
+            "description" : "Specific supplier",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/supplier"
+                }
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "5XX" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "default" : {
+            "description" : "Default",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/suppliers/{supplierId}/growers" : {
+      "parameters" : [ {
+        "schema" : {
+          "type" : "string"
+        },
+        "name" : "supplierId",
+        "in" : "path",
+        "required" : true
+      } ],
+      "get" : {
+        "summary" : "get growers per supplier",
+        "tags" : [ "delivery" ],
+        "responses" : {
+          "200" : {
+            "description" : "Shared Response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/grower"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "5XX" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "default" : {
+            "description" : "Default",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        },
+        "operationId" : "get-suppliers-supplierId-growers",
+        "description" : "Returns all growers for which a supplier is autorised"
+      }
+    },
+    "/suppliers/{supplierId}/growers/{growerId}" : {
+      "parameters" : [ {
+        "schema" : {
+          "type" : "string"
+        },
+        "name" : "supplierId",
+        "in" : "path",
+        "required" : true
+      }, {
+        "schema" : {
+          "type" : "string"
+        },
+        "name" : "growerId",
+        "in" : "path",
+        "required" : true
+      } ],
+      "get" : {
+        "summary" : "get specific grower for a supplier",
+        "tags" : [ "delivery" ],
+        "responses" : {
+          "200" : {
+            "description" : "Shared Response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/grower"
+                }
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "5XX" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "default" : {
+            "description" : "Default",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        },
+        "operationId" : "get-suppliers-supplierId-growers-growerId",
+        "description" : "Returns a specific grower if the supplier is autorised"
+      }
+    },
+    "/growers/{growerId}/crops" : {
+      "parameters" : [ {
+        "schema" : {
+          "type" : "string"
+        },
+        "name" : "growerId",
+        "in" : "path",
+        "required" : true
+      } ],
+      "get" : {
+        "summary" : "List crops per grower",
+        "tags" : [ "crop registration" ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/crop"
+                  }
+                }
+              }
+            }
+          },
+          "default" : {
+            "$ref" : "#/components/responses/default_error"
+          }
+        },
+        "operationId" : "get-growers-growerId-crops"
+      },
+      "post" : {
+        "summary" : "Register a crop by a grower",
+        "tags" : [ "crop registration" ],
+        "responses" : {
+          "202" : {
+            "description" : "Accepted"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "default" : {
+            "$ref" : "#/components/responses/default_error"
+          }
+        },
+        "operationId" : "post-growers-growerId-crops",
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/req_crop"
+        }
+      }
+    },
+    "/growers/{growerId}/crops/{cropId}/tasks" : {
+      "parameters" : [ {
+        "schema" : {
+          "type" : "string"
+        },
+        "name" : "growerId",
+        "in" : "path",
+        "required" : true
+      }, {
+        "schema" : {
+          "type" : "string"
+        },
+        "name" : "cropId",
+        "in" : "path",
+        "required" : true
+      } ],
+      "post" : {
+        "summary" : "Register a task with operations",
+        "tags" : [ "crop registration" ],
+        "responses" : {
+          "202" : {
+            "$ref" : "#/components/responses/default"
+          },
+          "400" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "default" : {
+            "$ref" : "#/components/responses/default_error"
+          }
+        },
+        "operationId" : "post-growers-growerId-tasks",
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/req_task"
+        }
+      }
+    },
+    "/metadata" : {
+      "get" : {
+        "summary" : "return metadata",
+        "tags" : [ "general" ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/version"
+                }
+              }
+            }
+          },
+          "default" : {
+            "$ref" : "#/components/responses/default_error"
+          }
+        },
+        "operationId" : "get-metadata"
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "version" : {
+        "type" : "object",
+        "additionalProperties" : false,
+        "description" : "Version of the API based on semver notation",
+        "required" : [ "major", "minor", "patch" ],
+        "properties" : {
+          "major" : {
+            "type" : "integer",
+            "description" : "Major.",
+            "format" : "int32"
+          },
+          "minor" : {
+            "type" : "integer",
+            "description" : "Minor.",
+            "format" : "int32"
+          },
+          "patch" : {
+            "type" : "integer",
+            "description" : "Patch.",
+            "format" : "int32"
+          }
+        }
+      },
+      "error" : {
+        "type" : "object",
+        "required" : [ "type", "title", "status" ],
+        "properties" : {
+          "type" : {
+            "type" : "string"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "status" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "detail" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "instance" : {
+            "type" : "string",
+            "nullable" : true
+          }
+        },
+        "description" : ""
+      },
+      "identifier" : {
+        "required" : [ "id", "schemaIdType" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Identifier value.",
+            "default" : "12345"
+          },
+          "schemaIdType" : {
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Schema type.",
+            "default" : "MPS"
+          }
+        },
+        "additionalProperties" : false,
+        "description" : "Representation of an identifier."
+      },
+      "measurementtype" : {
+        "title" : "measurementtype",
+        "type" : "object",
+        "description" : "Standard data type for expressing the value of a measurement. To be used for all types of measurement in this class model.",
+        "properties" : {
+          "value" : {
+            "type" : "number",
+            "format" : "float",
+            "description" : "Expresses the measured value of the measurement."
+          },
+          "unitcode" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "kilal7v7ybauf"
+            },
+            "description" : "The code that refers to the standard unit or dimension to express the value of this measurement. E.g. KGM for kilogram.\r\nCode list Id: nl.cl020"
+          }
+        }
+      },
+      "characteristic" : {
+        "title" : "characteristic",
+        "type" : "object",
+        "description" : "Generic data type for linked characteristics to a crop, task, operation, allocation, etc.",
+        "properties" : {
+          "codelistid" : {
+            "type" : "string",
+            "description" : "Identifier of the code list that contains the coding of characteristics for a specific domain:\r\n\r\nFor instance:\r\nThe code list id for crop and operations characteristics for arable farming is NL_CL265."
+          },
+          "value" : {
+            "$ref" : "#/components/schemas/measurementtype"
+          },
+          "issuedate" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "r7foutm9h9b3c"
+            },
+            "description" : "The data the characteristic was captured.\r\n",
+            "format" : "date"
+          },
+          "startdate" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "97hif3dvffq1e"
+            },
+            "format" : "date",
+            "description" : "Begin data of the period this characteristic is or was valid.\r\n"
+          },
+          "einddate" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "hkbnpja2afbri"
+            },
+            "format" : "date",
+            "description" : "End data of the period this characteristic is or was valid."
+          }
+        }
+      },
+      "party" : {
+        "type" : "object",
+        "title" : "Party",
+        "required" : [ "id", "name", "personName" ],
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid",
+            "example" : "d290f1ee-6c54-4b01-90e6-d701748f0851"
+          },
+          "partyId" : {
+            "$ref" : "#/components/schemas/identifier"
+          },
+          "name" : {
+            "type" : "string",
+            "example" : "VOF De Lier"
+          },
+          "personName" : {
+            "type" : "string",
+            "example" : "J. de Lier"
+          }
+        }
+      },
+      "grower" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/party"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "grownerName" : {
+              "type" : "string"
+            }
+          },
+          "required" : [ "growerName" ]
+        } ]
+      },
+      "supplier" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/party"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "supplierName" : {
+              "type" : "string"
+            }
+          },
+          "required" : [ "supplierName" ]
+        } ]
+      },
+      "asset" : {
+        "title" : "asset",
+        "type" : "object",
+        "description" : "Entity of a tangible object on which operations can be performed.\nE.g.: a crop, a building, a machine, a ditch, a greenhouse, a climate control system, a feeding system, etc.",
+        "required" : [ "id", "name" ],
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "description" : "Identifier of the asset."
+          },
+          "name" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "rg34jp6i0ornr"
+            }
+          },
+          "startDate" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "b0fsf0o9mvd54"
+            },
+            "format" : "date"
+          },
+          "endDate" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "q8mkecxxqjg37"
+            },
+            "format" : "date"
+          },
+          "characteristics" : {
+            "type" : "array",
+            "x-stoplight" : {
+              "id" : "fmi4cfqq7u0de"
+            },
+            "items" : {
+              "$ref" : "#/components/schemas/characteristic"
+            }
+          }
+        }
+      },
+      "crop" : {
+        "title" : "crop",
+        "description" : "The cultivation of a specific crop type (e.g. potato, wheat, rice,. etc.) on one or more plots during a specific period of time, specified by startDateTime and endDateTime.",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/asset"
+        }, {
+          "type" : "object",
+          "required" : [ "year" ],
+          "properties" : {
+            "year" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Indication of the year in which the cultivation is harvested."
+            },
+            "country" : {
+              "type" : "string",
+              "x-stoplight" : {
+                "id" : "08swed8u1a95w"
+              },
+              "description" : "Code list: ISO country code: 2 letter ISO 3166."
+            },
+            "region" : {
+              "type" : "string",
+              "x-stoplight" : {
+                "id" : "035xhjjhxcan9"
+              },
+              "description" : "Region of a country the cultivation took place.\\nFor eCrop in The Netherlands for this code list code list NL.CL044 is used."
+            },
+            "useTitle" : {
+              "type" : "string",
+              "x-stoplight" : {
+                "id" : "j1vyfe82lser2"
+              },
+              "description" : "Code to indicate the type of legal ownership of the field that is used for the cultivation.\\nFor eCrop in The Netherlands code list nl.cl412 is used for this."
+            },
+            "productinType" : {
+              "type" : "string",
+              "x-stoplight" : {
+                "id" : "kc7hwstxuzvyx"
+              },
+              "description" : "Indicates the intensity of the cultivation.\\nIn The Netherlands used to report to the MLNV-RVO authority.\\nCode list: nl.cl255"
+            },
+            "productionPurpose" : {
+              "type" : "string",
+              "x-stoplight" : {
+                "id" : "db1ods23qgkej"
+              },
+              "description" : "Indicator of the produce purpose the cultivation.\\nFor instance: fresh marked, animal feed, seed production, etc.\\nCode list: nl.cl251"
+            },
+            "productionSequence" : {
+              "type" : "string",
+              "x-stoplight" : {
+                "id" : "65jb1i0wfyhff"
+              },
+              "description" : "ndicates if and how the cultivation is combines to other cultivations. \\nEnumeration: PRE_CROP = voorteelt, MAIN_CROP = hoofdteelt, FOLLOWUP_CROP = volgteelt, MIXED_CROP = mengteelt"
+            },
+            "regularOrOrganic" : {
+              "type" : "string",
+              "x-stoplight" : {
+                "id" : "qgh8ua5czka5p"
+              },
+              "description" : "Production protocol: indicates whether this cultivation is classified as grown organic or non-organic.\\nCode list: nl.cl015"
+            },
+            "netArea" : {
+              "type" : "string",
+              "x-stoplight" : {
+                "id" : "z2tlht2ifs8ai"
+              },
+              "description" : "The net (netto) area (in m2, hectare, etc.) of the surface that is used for this cultivation."
+            },
+            "growEnvironment" : {
+              "type" : "string",
+              "x-stoplight" : {
+                "id" : "nh7mr3ddc1idu"
+              },
+              "description" : "Indicates in what type of environment this cultivation took place, e.g. in the open air, in a greenhouse, etc.\\nCode list: nl.cl299"
+            },
+            "growMedium" : {
+              "type" : "string",
+              "x-stoplight" : {
+                "id" : "amnbdzr28xcij"
+              },
+              "description" : "Indicates in what medium the cultivation is rooted; for instance in soil, in substrate, on bark, etc.\\nCode list: nl.cl300"
+            },
+            "trackTillage" : {
+              "type" : "boolean",
+              "x-stoplight" : {
+                "id" : "595zekiefw8g6"
+              },
+              "description" : "Indicates whether the cultivation, over the years, is done in fixed lanes with fixed tracks for machinery.\\n\\nyes = track tillage is applied\\nno = track tillage is not applied"
+            },
+            "plantSpecies" : {
+              "x-stoplight" : {
+                "id" : "8kpqgpnhf9xw2"
+              },
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/plantspecies"
+              }
+            }
+          }
+        } ]
+      },
+      "plantspecies" : {
+        "title" : "plantspecies",
+        "type" : "object",
+        "description" : "Crop type at the level of potato, sugar beet, onion, winter wheat, etc.\nFor mixed crops more then one type of crop can be grown in the same period at the same plot.",
+        "required" : [ "plantSpecies", "variety" ],
+        "properties" : {
+          "plantSpecies" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "0unpu41tgzijw"
+            }
+          },
+          "variety" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "rlu4sxgfkeoxq"
+            }
+          },
+          "precentageMix" : {
+            "type" : "number",
+            "x-stoplight" : {
+              "id" : "w5j7lgt1bqybq"
+            },
+            "format" : "float"
+          }
+        }
+      },
+      "plot" : {
+        "title" : "plot",
+        "description" : "Surface (area) that is used to grow plants.\nThe exact location of this surface is specified by either, a greenhouse-location a point location or a border location (using outer and inner polygons).",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/asset"
+        }, {
+          "type" : "object",
+          "required" : [ "type", "area" ],
+          "properties" : {
+            "type" : {
+              "type" : "string"
+            },
+            "area" : {
+              "$ref" : "#/components/schemas/measurementtype"
+            },
+            "regularOrOrganic" : {
+              "type" : "string",
+              "x-stoplight" : {
+                "id" : "n1ns1tyi7m1ns"
+              },
+              "description" : "Indicates whether this plot is classified for organic production or not.\r\nProduction protocol: indicates whether this plot is classified  for organic production or not.\r\nCode list:NL_CL015"
+            },
+            "localSoilType" : {
+              "type" : "string",
+              "x-stoplight" : {
+                "id" : "kvib3np0a30be"
+              },
+              "description" : "Code for the soil type, as used for a specific use case.\r\nLocalSoilType code consists of the reference to the code list that is being used plus the code from this code list.\r\nFor eCrop in arable farming in The Netherlands, code list nl.cl405 is used\r\n"
+            },
+            "regulatorySoilType" : {
+              "type" : "string",
+              "x-stoplight" : {
+                "id" : "o3gb4tu5n7pnr"
+              },
+              "description" : "Code for the soil type, as subscribed by a regulatory authority (e.g. MLNV-RVO in the Netherlands).\r\nFor eCrop in The Netherlands code list nl.cl405 is used.\r\n"
+            }
+          }
+        } ]
+      },
+      "task" : {
+        "title" : "task",
+        "type" : "object",
+        "description" : "A Task is the execution of one or more Operation's by a ma-machine-system.\nA 'task' consists of one ore more 'operations' that are closely related but involve different assents and resources. All combined operations need to be carried out well coordinated, to execute the task.\nFor instance, the task potato harvesting involves: one tractor pulling the potato harvester, 2 units to take care of the transport of the harvested potatoes to the barn, equipment at the barn to unload the transport units and to bring the produce in the storing place.",
+        "required" : [ "id", "name" ],
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "description" : "The identifier of the task assigned by the originator of the Task."
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "Short name of the task."
+          },
+          "startDateTime" : {
+            "type" : "string",
+            "format" : "date-time",
+            "description" : "The timestamp of beginning the execution of the task."
+          },
+          "endDateTime" : {
+            "type" : "string",
+            "format" : "date-time",
+            "description" : "The timestamp of the ending of execution the task."
+          },
+          "status" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "4ze2lsr59ovaz"
+            },
+            "description" : "Indication of the execution status of the task in terms of: proposed, planned, executed. Code list: NL_CL256"
+          },
+          "referenceId" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "0wgmugwqr7l37"
+            },
+            "description" : "The identifier of the ordered task that resulted in this executed task.\r\n"
+          },
+          "operations" : {
+            "type" : "array",
+            "x-stoplight" : {
+              "id" : "7bh6eomykcfn1"
+            },
+            "items" : {
+              "$ref" : "#/components/schemas/operation"
+            }
+          }
+        }
+      },
+      "operation" : {
+        "title" : "operation",
+        "type" : "object",
+        "description" : "Activity carried out by man and/or machine as part op the execution of a task.\nAn operation performs a particular OperationTechnique on a particular asset (a crop,a field, a production unit, a batch, etc.) to realize a certain Cultural Practice or Husbandry Practice.\nExamples for CropProduction:\nThe CulturalPractise \"weed control\"can be realized by one of various OperationTechnique's like spraying, row cultivation, manual hoeing, etc.",
+        "required" : [ "id", "name" ],
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "description" : "The identifier of the operation assigned by the originator of the operation."
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "Short name of the operation."
+          },
+          "startDateTime" : {
+            "type" : "string",
+            "format" : "date-time",
+            "description" : "The timestamp of beginning the execution of the operation."
+          },
+          "endDateTime" : {
+            "type" : "string",
+            "format" : "date-time",
+            "description" : "The timestamp of the ending of execution the operation."
+          },
+          "status" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "4ze2lsr59ovaz"
+            },
+            "description" : "Indication of the execution status of the operation in terms of: proposed, planned, executed. Code list: NL_CL256"
+          },
+          "thirdPartyId" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "8b5t3svjwi1gk"
+            },
+            "description" : "Identifier of this operation, allocated by a third party."
+          },
+          "operationTechnique" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "uqzoqivfdnour"
+            },
+            "description" : "An operation performs a particular OperationTechnique on a particular asset (a crop,a field, a production unit, a batch, etc.) to realize a certain Cultural Practice or Husbandry Practice. Examples for CropProduction: The CulturalPractise \"weed control\"can be realized by one of various OperationTechnique's like spraying, row cultivation, manual hoeing, etc. Code list Id for arable farming: nl.cl127 (or nl.cl293)"
+          },
+          "culturalPractice" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "vhit0pr8vgqgc"
+            },
+            "description" : "An operation performs a particular OperationTechnique on a particular asset (a crop,a field, a production unit, a batch, etc.) to realize a certain Cultural Practice or Husbandry Practice.Examples for CropProduction:\r\nThe CulturalPractise \"weed control\"can be realized by one of various OperationTechnique's like spraying, row cultivation, manual hoeing, etc.Code list Id for arable farming: nl.cl127 (or nl.cl293)"
+          },
+          "characteristics" : {
+            "type" : "array",
+            "x-stoplight" : {
+              "id" : "x2rxrk0cotvoy"
+            },
+            "description" : "The option to attach one or more characteristics about the execution of this operation.",
+            "items" : {
+              "$ref" : "#/components/schemas/characteristic"
+            }
+          },
+          "area" : {
+            "$ref" : "#/components/schemas/measurementtype"
+          },
+          "refereanceId" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "ny0u2dlffz1h9"
+            },
+            "description" : "The identifier of the ordered operation that resulted in this executed operation."
+          },
+          "inputAllocations" : {
+            "type" : "array",
+            "x-stoplight" : {
+              "id" : "aacsk3doru3f2"
+            },
+            "items" : {
+              "$ref" : "#/components/schemas/inputallocation"
+            }
+          },
+          "outputAllocations" : {
+            "type" : "array",
+            "x-stoplight" : {
+              "id" : "rm8v2kyx2wmlp"
+            },
+            "items" : {
+              "$ref" : "#/components/schemas/outputallocation"
+            }
+          }
+        }
+      },
+      "allocation" : {
+        "title" : "allocation",
+        "type" : "object",
+        "description" : "The generic class (the parent) for input and output allocation.",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "jkfgqocosl5b8"
+            }
+          },
+          "name" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "gi4kfzqlk5ax5"
+            }
+          },
+          "type" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "40nf4wnyqa5ag"
+            }
+          },
+          "resourceId" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "ea1qawret9yty"
+            }
+          },
+          "quantityAbsolute" : {
+            "$ref" : "#/components/schemas/measurementtype"
+          },
+          "quatityRate" : {
+            "$ref" : "#/components/schemas/measurementtype"
+          },
+          "characteristics" : {
+            "type" : "array",
+            "x-stoplight" : {
+              "id" : "6b5g78ts8noxj"
+            },
+            "items" : {
+              "$ref" : "#/components/schemas/characteristic"
+            }
+          }
+        }
+      },
+      "inputallocation" : {
+        "title" : "inputallocation",
+        "description" : "One or more inputs used to execute this operation.\nExamples of types of input are: crop protection products, fertilizer, water, energy, labor, etc.",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/allocation"
+        }, {
+          "x-stoplight" : {
+            "id" : "xfdl7jpjanjqf"
+          },
+          "type" : "object",
+          "required" : [ "treatmentzone" ],
+          "properties" : {
+            "treatmentzone" : {
+              "$ref" : "#/components/schemas/treatmentzone"
+            }
+          }
+        } ]
+      },
+      "outputallocation" : {
+        "title" : "outputallocation",
+        "description" : "One or more outputs as the result of the execution of the operation.\nFor example harvested produce: potatoes, onions, flowers, vegetables, etc..\nBut an output could also be for instance energy.",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/allocation"
+        }, {
+          "x-stoplight" : {
+            "id" : "47w6igyuz1ba5"
+          },
+          "type" : "object",
+          "required" : [ "treatmentzone" ],
+          "properties" : {
+            "treatmentzone" : {
+              "$ref" : "#/components/schemas/treatmentzone"
+            }
+          }
+        } ]
+      },
+      "treatmentzone" : {
+        "title" : "treatmentzone",
+        "type" : "object",
+        "required" : [ "id" ],
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "thirdpartyId" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "peo1jxuz4h5y8"
+            }
+          },
+          "characteristics" : {
+            "type" : "array",
+            "x-stoplight" : {
+              "id" : "8r8ukp9nfr6fn"
+            },
+            "items" : {
+              "$ref" : "#/components/schemas/characteristic"
+            }
+          },
+          "area" : {
+            "$ref" : "#/components/schemas/measurementtype"
+          }
+        }
+      }
+    },
+    "responses" : {
+      "default" : {
+        "description" : "Default response",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/grower"
+              }
+            }
+          }
+        }
+      },
+      "default_error" : {
+        "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/error"
+            }
+          }
+        }
+      }
+    },
+    "requestBodies" : {
+      "req_task" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "allOf" : [ {
+                "$ref" : "#/components/schemas/task"
+              } ]
+            }
+          }
+        }
+      },
+      "req_crop" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/crop"
+            }
+          }
+        }
+      }
+    },
+    "parameters" : {
+      "Major-Version" : {
+        "name" : "Major-Version",
+        "in" : "header",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "description" : "Major version of the API"
+      },
+      "User-Agent" : {
+        "name" : "User-Agent",
+        "in" : "header",
+        "required" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "description" : "Make, brand and version of the calling client software"
+      }
+    }
+  }
+}
