@@ -2,7 +2,7 @@
   "openapi" : "3.0.0",
   "info" : {
     "title" : "AgroConnect eCrop API",
-    "description" : " ### Crop API based on **AgroConnect eCrop standard version 0.4** \r\n\r\nThis API concerns registration of crop related activities like application of crop protection products and fertilizers and energy and water consumption.\r\n\r\nThis API is based on the [Agroconnect eCrop class model version 0.4](https://www.agroconnect.nl/Portals/10/EnterpriseArchitect/eCrop_json/eCrop_v0_4/index.html).\r\n\r\nApplied standards:\r\n- [API Design Rules version 2.0.2](https://gitdocumentatie.logius.nl/publicatie/api/adr/) of the NL API Strategie (Dutch API Strategy)\r\n- RFC 9457: Problem Details for HTTP APIs (Internet Engineering Task Force (IETF))\r\n- Sematic versioning using Semver\r\n\r\nDesign decisions\r\n- super/subtypes\r\n\r\nCopyright (c)  AgroConnect 2025",
+    "description" : "### eCrop API based on **AgroConnect eCrop standard version 0.4** \r\n\r\nThis API concerns registration of crop related activities like application of crop protection products and fertilizers and energy and water consumption.\r\n\r\nThis API is based on the [Agroconnect eCrop class model version 0.4](https://www.agroconnect.nl/Portals/10/EnterpriseArchitect/eCrop_json/eCrop_v0_4/index.html).\r\n\r\nApplied standards:\r\n- [API Design Rules version 2.0.2](https://gitdocumentatie.logius.nl/publicatie/api/adr/) of the NL API Strategie (Dutch API Strategy)\r\n- RFC 9457: Problem Details for HTTP APIs (Internet Engineering Task Force (IETF))\r\n- Sematic versioning using Semver\r\n\r\nDesign decisions\r\n- super/subtypes (UML generalisations): subtypes are allOf with $ref to supertype and object with subtype atributes\r\n- UML compositions: hierachy in URI (should be aggegrations) or array in master-object\r\n\r\nCopyright (c)  AgroConnect 2025",
     "termsOfService" : "",
     "contact" : {
       "name" : "Bernard van Raaij",
@@ -16,7 +16,8 @@
     "version" : "0.1.0"
   },
   "servers" : [ {
-    "url" : "/"
+    "url" : "http://standard-api.agroconnect.nl",
+    "description" : "Agroconnect Virtual API server"
   } ],
   "tags" : [ {
     "name" : "general",
@@ -26,9 +27,9 @@
     "description" : "Operations on party-level"
   }, {
     "name" : "delivery",
-    "description" : "delivery Operations"
+    "description" : "Delivery Operations"
   }, {
-    "name" : "registration",
+    "name" : "crop registration",
     "description" : "Registration Operations"
   } ],
   "paths" : {
@@ -79,7 +80,7 @@
             }
           },
           "400" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -89,7 +90,7 @@
             }
           },
           "401" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -99,7 +100,7 @@
             }
           },
           "5XX" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -139,17 +140,17 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "Shared Response",
+            "description" : "Specific supplier",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/grower"
+                  "$ref" : "#/components/schemas/supplier"
                 }
               }
             }
           },
           "400" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -159,7 +160,7 @@
             }
           },
           "401" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -169,7 +170,7 @@
             }
           },
           "404" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -179,7 +180,7 @@
             }
           },
           "5XX" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -223,7 +224,7 @@
             }
           },
           "400" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -233,7 +234,7 @@
             }
           },
           "401" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -243,7 +244,7 @@
             }
           },
           "5XX" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -293,7 +294,7 @@
             }
           },
           "400" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -303,7 +304,7 @@
             }
           },
           "401" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -313,7 +314,7 @@
             }
           },
           "404" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -323,7 +324,7 @@
             }
           },
           "5XX" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -376,7 +377,7 @@
             }
           },
           "400" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -386,7 +387,7 @@
             }
           },
           "401" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -396,7 +397,7 @@
             }
           },
           "5XX" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -455,7 +456,7 @@
             }
           },
           "400" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -465,7 +466,7 @@
             }
           },
           "401" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -475,7 +476,7 @@
             }
           },
           "404" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -485,7 +486,7 @@
             }
           },
           "5XX" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -507,9 +508,94 @@
         }
       }
     },
+    "/growers/{growerId}/crops" : {
+      "get" : {
+        "tags" : [ "crop registration" ],
+        "summary" : "List crops per grower",
+        "operationId" : "get-growers-growerId-crops",
+        "parameters" : [ {
+          "name" : "growerId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/crop"
+                  }
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "crop registration" ],
+        "summary" : "Register a crop by a grower",
+        "operationId" : "post-growers-growerId-crops",
+        "parameters" : [ {
+          "name" : "growerId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/req_crop"
+        },
+        "responses" : {
+          "202" : {
+            "description" : "Accepted"
+          },
+          "403" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/growers/{growerId}/crops/{cropId}/tasks" : {
       "post" : {
-        "tags" : [ "registration" ],
+        "tags" : [ "crop registration" ],
         "summary" : "Register a task with operations",
         "operationId" : "post-growers-growerId-tasks",
         "parameters" : [ {
@@ -549,7 +635,7 @@
             }
           },
           "400" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -559,7 +645,7 @@
             }
           },
           "401" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -569,7 +655,7 @@
             }
           },
           "403" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -579,82 +665,7 @@
             }
           },
           "default" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/error"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/growers/{growerId}/crops" : {
-      "get" : {
-        "tags" : [ "registration" ],
-        "summary" : "List crops per grower",
-        "operationId" : "get-growers-growerId-crops",
-        "parameters" : [ {
-          "name" : "growerId",
-          "in" : "path",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/crop"
-                  }
-                }
-              }
-            }
-          },
-          "default" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/error"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post" : {
-        "tags" : [ "registration" ],
-        "summary" : "Register a crop by a grower",
-        "operationId" : "post-growers-growerId-crops",
-        "parameters" : [ {
-          "name" : "growerId",
-          "in" : "path",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "requestBody" : {
-          "$ref" : "#/components/requestBodies/req_crop"
-        },
-        "responses" : {
-          "202" : {
-            "description" : "Accepted"
-          },
-          "default" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -683,7 +694,7 @@
             }
           },
           "default" : {
-            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+            "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -766,6 +777,63 @@
         "additionalProperties" : false,
         "description" : "Representation of an identifier."
       },
+      "measurementtype" : {
+        "title" : "measurementtype",
+        "type" : "object",
+        "properties" : {
+          "value" : {
+            "type" : "number",
+            "description" : "Expresses the measured value of the measurement.",
+            "format" : "float"
+          },
+          "unitcode" : {
+            "type" : "string",
+            "description" : "The code that refers to the standard unit or dimension to express the value of this measurement. E.g. KGM for kilogram.\r\nCode list Id: nl.cl020",
+            "x-stoplight" : {
+              "id" : "kilal7v7ybauf"
+            }
+          }
+        },
+        "description" : "Standard data type for expressing the value of a measurement. To be used for all types of measurement in this class model."
+      },
+      "characteristic" : {
+        "title" : "characteristic",
+        "type" : "object",
+        "properties" : {
+          "codelistid" : {
+            "type" : "string",
+            "description" : "Identifier of the code list that contains the coding of characteristics for a specific domain:\r\n\r\nFor instance:\r\nThe code list id for crop and operations characteristics for arable farming is NL_CL265."
+          },
+          "value" : {
+            "$ref" : "#/components/schemas/measurementtype"
+          },
+          "issuedate" : {
+            "type" : "string",
+            "description" : "The data the characteristic was captured.\r\n",
+            "format" : "date",
+            "x-stoplight" : {
+              "id" : "r7foutm9h9b3c"
+            }
+          },
+          "startdate" : {
+            "type" : "string",
+            "description" : "Begin data of the period this characteristic is or was valid.\r\n",
+            "format" : "date",
+            "x-stoplight" : {
+              "id" : "97hif3dvffq1e"
+            }
+          },
+          "einddate" : {
+            "type" : "string",
+            "description" : "End data of the period this characteristic is or was valid.",
+            "format" : "date",
+            "x-stoplight" : {
+              "id" : "hkbnpja2afbri"
+            }
+          }
+        },
+        "description" : "Generic data type for linked characteristics to a crop, task, operation, allocation, etc."
+      },
       "party" : {
         "title" : "Party",
         "required" : [ "id", "name", "personName" ],
@@ -790,47 +858,285 @@
         }
       },
       "grower" : {
-        "$ref" : "#/components/schemas/party"
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/party"
+        }, {
+          "required" : [ "growerName" ],
+          "type" : "object",
+          "properties" : {
+            "grownerName" : {
+              "type" : "string"
+            }
+          }
+        } ]
       },
       "supplier" : {
-        "$ref" : "#/components/schemas/party"
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/party"
+        }, {
+          "required" : [ "supplierName" ],
+          "type" : "object",
+          "properties" : {
+            "supplierName" : {
+              "type" : "string"
+            }
+          }
+        } ]
       },
       "asset" : {
         "title" : "asset",
+        "required" : [ "id", "name" ],
         "type" : "object",
         "properties" : {
           "id" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Identifier of the asset."
+          },
+          "name" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "rg34jp6i0ornr"
+            }
+          },
+          "startDate" : {
+            "type" : "string",
+            "format" : "date",
+            "x-stoplight" : {
+              "id" : "b0fsf0o9mvd54"
+            }
+          },
+          "endDate" : {
+            "type" : "string",
+            "format" : "date",
+            "x-stoplight" : {
+              "id" : "q8mkecxxqjg37"
+            }
+          },
+          "characteristics" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/characteristic"
+            },
+            "x-stoplight" : {
+              "id" : "fmi4cfqq7u0de"
+            }
           }
         },
         "description" : "Entity of a tangible object on which operations can be performed.\nE.g.: a crop, a building, a machine, a ditch, a greenhouse, a climate control system, a feeding system, etc."
       },
       "crop" : {
         "title" : "crop",
+        "description" : "The cultivation of a specific crop type (e.g. potato, wheat, rice,. etc.) on one or more plots during a specific period of time, specified by startDateTime and endDateTime.",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/asset"
+        }, {
+          "required" : [ "year" ],
+          "type" : "object",
+          "properties" : {
+            "year" : {
+              "type" : "integer",
+              "description" : "Indication of the year in which the cultivation is harvested.",
+              "format" : "int32"
+            },
+            "country" : {
+              "type" : "string",
+              "description" : "Code list: ISO country code: 2 letter ISO 3166.",
+              "x-stoplight" : {
+                "id" : "08swed8u1a95w"
+              }
+            },
+            "region" : {
+              "type" : "string",
+              "description" : "Region of a country the cultivation took place.\\nFor eCrop in The Netherlands for this code list code list NL.CL044 is used.",
+              "x-stoplight" : {
+                "id" : "035xhjjhxcan9"
+              }
+            },
+            "useTitle" : {
+              "type" : "string",
+              "description" : "Code to indicate the type of legal ownership of the field that is used for the cultivation.\\nFor eCrop in The Netherlands code list nl.cl412 is used for this.",
+              "x-stoplight" : {
+                "id" : "j1vyfe82lser2"
+              }
+            },
+            "productinType" : {
+              "type" : "string",
+              "description" : "Indicates the intensity of the cultivation.\\nIn The Netherlands used to report to the MLNV-RVO authority.\\nCode list: nl.cl255",
+              "x-stoplight" : {
+                "id" : "kc7hwstxuzvyx"
+              }
+            },
+            "productionPurpose" : {
+              "type" : "string",
+              "description" : "Indicator of the produce purpose the cultivation.\\nFor instance: fresh marked, animal feed, seed production, etc.\\nCode list: nl.cl251",
+              "x-stoplight" : {
+                "id" : "db1ods23qgkej"
+              }
+            },
+            "productionSequence" : {
+              "type" : "string",
+              "description" : "ndicates if and how the cultivation is combines to other cultivations. \\nEnumeration: PRE_CROP = voorteelt, MAIN_CROP = hoofdteelt, FOLLOWUP_CROP = volgteelt, MIXED_CROP = mengteelt",
+              "x-stoplight" : {
+                "id" : "65jb1i0wfyhff"
+              }
+            },
+            "regularOrOrganic" : {
+              "type" : "string",
+              "description" : "Production protocol: indicates whether this cultivation is classified as grown organic or non-organic.\\nCode list: nl.cl015",
+              "x-stoplight" : {
+                "id" : "qgh8ua5czka5p"
+              }
+            },
+            "netArea" : {
+              "type" : "string",
+              "description" : "The net (netto) area (in m2, hectare, etc.) of the surface that is used for this cultivation.",
+              "x-stoplight" : {
+                "id" : "z2tlht2ifs8ai"
+              }
+            },
+            "growEnvironment" : {
+              "type" : "string",
+              "description" : "Indicates in what type of environment this cultivation took place, e.g. in the open air, in a greenhouse, etc.\\nCode list: nl.cl299",
+              "x-stoplight" : {
+                "id" : "nh7mr3ddc1idu"
+              }
+            },
+            "growMedium" : {
+              "type" : "string",
+              "description" : "Indicates in what medium the cultivation is rooted; for instance in soil, in substrate, on bark, etc.\\nCode list: nl.cl300",
+              "x-stoplight" : {
+                "id" : "amnbdzr28xcij"
+              }
+            },
+            "trackTillage" : {
+              "type" : "boolean",
+              "description" : "Indicates whether the cultivation, over the years, is done in fixed lanes with fixed tracks for machinery.\\n\\nyes = track tillage is applied\\nno = track tillage is not applied",
+              "x-stoplight" : {
+                "id" : "595zekiefw8g6"
+              }
+            },
+            "plantSpecies" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/plantspecies"
+              },
+              "x-stoplight" : {
+                "id" : "8kpqgpnhf9xw2"
+              }
+            }
+          }
+        } ]
+      },
+      "plantspecies" : {
+        "title" : "plantspecies",
+        "required" : [ "plantSpecies", "variety" ],
         "type" : "object",
         "properties" : {
-          "id" : {
-            "type" : "string"
+          "plantSpecies" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "0unpu41tgzijw"
+            }
           },
-          "asset" : {
-            "$ref" : "#/components/schemas/asset"
+          "variety" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "rlu4sxgfkeoxq"
+            }
+          },
+          "precentageMix" : {
+            "type" : "number",
+            "format" : "float",
+            "x-stoplight" : {
+              "id" : "w5j7lgt1bqybq"
+            }
           }
         },
-        "description" : "The cultivation of a specific crop type (e.g. potato, wheat, rice,. etc.) on one or more plots during a specific period of time, specified by startDateTime and endDateTime."
+        "description" : "Crop type at the level of potato, sugar beet, onion, winter wheat, etc.\nFor mixed crops more then one type of crop can be grown in the same period at the same plot."
+      },
+      "plot" : {
+        "title" : "plot",
+        "description" : "Surface (area) that is used to grow plants.\nThe exact location of this surface is specified by either, a greenhouse-location a point location or a border location (using outer and inner polygons).",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/asset"
+        }, {
+          "required" : [ "area", "type" ],
+          "type" : "object",
+          "properties" : {
+            "type" : {
+              "type" : "string"
+            },
+            "area" : {
+              "$ref" : "#/components/schemas/measurementtype"
+            },
+            "regularOrOrganic" : {
+              "type" : "string",
+              "description" : "Indicates whether this plot is classified for organic production or not.\r\nProduction protocol: indicates whether this plot is classified  for organic production or not.\r\nCode list:NL_CL015",
+              "x-stoplight" : {
+                "id" : "n1ns1tyi7m1ns"
+              }
+            },
+            "localSoilType" : {
+              "type" : "string",
+              "description" : "Code for the soil type, as used for a specific use case.\r\nLocalSoilType code consists of the reference to the code list that is being used plus the code from this code list.\r\nFor eCrop in arable farming in The Netherlands, code list nl.cl405 is used\r\n",
+              "x-stoplight" : {
+                "id" : "kvib3np0a30be"
+              }
+            },
+            "regulatorySoilType" : {
+              "type" : "string",
+              "description" : "Code for the soil type, as subscribed by a regulatory authority (e.g. MLNV-RVO in the Netherlands).\r\nFor eCrop in The Netherlands code list nl.cl405 is used.\r\n",
+              "x-stoplight" : {
+                "id" : "o3gb4tu5n7pnr"
+              }
+            }
+          }
+        } ]
       },
       "task" : {
         "title" : "task",
+        "required" : [ "id", "name" ],
         "type" : "object",
         "properties" : {
-          "tid" : {
+          "id" : {
             "type" : "string",
-            "format" : "uuid"
+            "description" : "The identifier of the task assigned by the originator of the Task."
           },
-          "dateTimeOfTask" : {
+          "name" : {
             "type" : "string",
-            "format" : "date-time",
+            "description" : "Short name of the task."
+          },
+          "startDateTime" : {
+            "type" : "string",
+            "description" : "The timestamp of beginning the execution of the task.",
+            "format" : "date-time"
+          },
+          "endDateTime" : {
+            "type" : "string",
+            "description" : "The timestamp of the ending of execution the task.",
+            "format" : "date-time"
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "Indication of the execution status of the task in terms of: proposed, planned, executed. Code list: NL_CL256",
             "x-stoplight" : {
-              "id" : "yjlpqgz1infpe"
+              "id" : "4ze2lsr59ovaz"
+            }
+          },
+          "referenceId" : {
+            "type" : "string",
+            "description" : "The identifier of the ordered task that resulted in this executed task.\r\n",
+            "x-stoplight" : {
+              "id" : "0wgmugwqr7l37"
+            }
+          },
+          "operations" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/operation"
+            },
+            "x-stoplight" : {
+              "id" : "7bh6eomykcfn1"
             }
           }
         },
@@ -838,52 +1144,205 @@
       },
       "operation" : {
         "title" : "operation",
+        "required" : [ "id", "name" ],
         "type" : "object",
         "properties" : {
-          "oid" : {
-            "type" : "string"
-          },
-          "opDate" : {
+          "id" : {
             "type" : "string",
-            "format" : "date",
+            "description" : "The identifier of the operation assigned by the originator of the operation."
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "Short name of the operation."
+          },
+          "startDateTime" : {
+            "type" : "string",
+            "description" : "The timestamp of beginning the execution of the operation.",
+            "format" : "date-time"
+          },
+          "endDateTime" : {
+            "type" : "string",
+            "description" : "The timestamp of the ending of execution the operation.",
+            "format" : "date-time"
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "Indication of the execution status of the operation in terms of: proposed, planned, executed. Code list: NL_CL256",
             "x-stoplight" : {
-              "id" : "hx2wmilakzees"
+              "id" : "4ze2lsr59ovaz"
+            }
+          },
+          "thirdPartyId" : {
+            "type" : "string",
+            "description" : "Identifier of this operation, allocated by a third party.",
+            "x-stoplight" : {
+              "id" : "8b5t3svjwi1gk"
+            }
+          },
+          "operationTechnique" : {
+            "type" : "string",
+            "description" : "An operation performs a particular OperationTechnique on a particular asset (a crop,a field, a production unit, a batch, etc.) to realize a certain Cultural Practice or Husbandry Practice. Examples for CropProduction: The CulturalPractise \"weed control\"can be realized by one of various OperationTechnique's like spraying, row cultivation, manual hoeing, etc. Code list Id for arable farming: nl.cl127 (or nl.cl293)",
+            "x-stoplight" : {
+              "id" : "uqzoqivfdnour"
+            }
+          },
+          "culturalPractice" : {
+            "type" : "string",
+            "description" : "An operation performs a particular OperationTechnique on a particular asset (a crop,a field, a production unit, a batch, etc.) to realize a certain Cultural Practice or Husbandry Practice.Examples for CropProduction:\r\nThe CulturalPractise \"weed control\"can be realized by one of various OperationTechnique's like spraying, row cultivation, manual hoeing, etc.Code list Id for arable farming: nl.cl127 (or nl.cl293)",
+            "x-stoplight" : {
+              "id" : "vhit0pr8vgqgc"
+            }
+          },
+          "characteristics" : {
+            "type" : "array",
+            "description" : "The option to attach one or more characteristics about the execution of this operation.",
+            "items" : {
+              "$ref" : "#/components/schemas/characteristic"
+            },
+            "x-stoplight" : {
+              "id" : "x2rxrk0cotvoy"
+            }
+          },
+          "area" : {
+            "$ref" : "#/components/schemas/measurementtype"
+          },
+          "refereanceId" : {
+            "type" : "string",
+            "description" : "The identifier of the ordered operation that resulted in this executed operation.",
+            "x-stoplight" : {
+              "id" : "ny0u2dlffz1h9"
+            }
+          },
+          "inputAllocations" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/inputallocation"
+            },
+            "x-stoplight" : {
+              "id" : "aacsk3doru3f2"
+            }
+          },
+          "outputAllocations" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/outputallocation"
+            },
+            "x-stoplight" : {
+              "id" : "rm8v2kyx2wmlp"
             }
           }
         },
         "description" : "Activity carried out by man and/or machine as part op the execution of a task.\nAn operation performs a particular OperationTechnique on a particular asset (a crop,a field, a production unit, a batch, etc.) to realize a certain Cultural Practice or Husbandry Practice.\nExamples for CropProduction:\nThe CulturalPractise \"weed control\"can be realized by one of various OperationTechnique's like spraying, row cultivation, manual hoeing, etc."
       },
-      "inputAllocation" : {
-        "title" : "inputAllocation",
-        "type" : "object",
-        "properties" : {
-          "iid" : {
-            "type" : "string"
-          },
-          "typeOfAllocation" : {
-            "type" : "string",
-            "x-stoplight" : {
-              "id" : "pekk7al9b9107"
-            }
-          }
-        },
-        "description" : "One or more inputs used to execute this operation.\nExamples of types of input are: crop protection products, fertilizer, water, energy, labor, etc."
-      },
       "allocation" : {
         "title" : "allocation",
         "type" : "object",
         "properties" : {
-          "aid" : {
-            "type" : "string"
+          "id" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "jkfgqocosl5b8"
+            }
           },
           "name" : {
             "type" : "string",
             "x-stoplight" : {
-              "id" : "aplxd6h2dz30a"
+              "id" : "gi4kfzqlk5ax5"
+            }
+          },
+          "type" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "40nf4wnyqa5ag"
+            }
+          },
+          "resourceId" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "ea1qawret9yty"
+            }
+          },
+          "quantityAbsolute" : {
+            "$ref" : "#/components/schemas/measurementtype"
+          },
+          "quatityRate" : {
+            "$ref" : "#/components/schemas/measurementtype"
+          },
+          "characteristics" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/characteristic"
+            },
+            "x-stoplight" : {
+              "id" : "6b5g78ts8noxj"
             }
           }
         },
         "description" : "The generic class (the parent) for input and output allocation."
+      },
+      "inputallocation" : {
+        "title" : "inputallocation",
+        "description" : "One or more inputs used to execute this operation.\nExamples of types of input are: crop protection products, fertilizer, water, energy, labor, etc.",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/allocation"
+        }, {
+          "required" : [ "treatmentzone" ],
+          "type" : "object",
+          "properties" : {
+            "treatmentzone" : {
+              "$ref" : "#/components/schemas/treatmentzone"
+            }
+          },
+          "x-stoplight" : {
+            "id" : "xfdl7jpjanjqf"
+          }
+        } ]
+      },
+      "outputallocation" : {
+        "title" : "outputallocation",
+        "description" : "One or more outputs as the result of the execution of the operation.\nFor example harvested produce: potatoes, onions, flowers, vegetables, etc..\nBut an output could also be for instance energy.",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/allocation"
+        }, {
+          "required" : [ "treatmentzone" ],
+          "type" : "object",
+          "properties" : {
+            "treatmentzone" : {
+              "$ref" : "#/components/schemas/treatmentzone"
+            }
+          },
+          "x-stoplight" : {
+            "id" : "47w6igyuz1ba5"
+          }
+        } ]
+      },
+      "treatmentzone" : {
+        "title" : "treatmentzone",
+        "required" : [ "id" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "thirdpartyId" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "peo1jxuz4h5y8"
+            }
+          },
+          "characteristics" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/characteristic"
+            },
+            "x-stoplight" : {
+              "id" : "8r8ukp9nfr6fn"
+            }
+          },
+          "area" : {
+            "$ref" : "#/components/schemas/measurementtype"
+          }
+        }
       }
     },
     "responses" : {
@@ -901,7 +1360,7 @@
         }
       },
       "default_error" : {
-        "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).\r\n\r\n",
+        "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
         "content" : {
           "application/json" : {
             "schema" : {
@@ -942,12 +1401,6 @@
             "schema" : {
               "allOf" : [ {
                 "$ref" : "#/components/schemas/task"
-              }, {
-                "$ref" : "#/components/schemas/operation"
-              }, {
-                "$ref" : "#/components/schemas/inputAllocation"
-              }, {
-                "$ref" : "#/components/schemas/allocation"
               } ]
             }
           }
