@@ -1,7 +1,7 @@
 {
   "openapi" : "3.0.0",
   "servers" : [ {
-    "url" : "http://standard-api.agroconnect.nl",
+    "url" : "http://standard-api.agroconnect.nl/ecrop",
     "description" : "Agroconnect Virtual API server"
   } ],
   "info" : {
@@ -464,9 +464,6 @@
   },
   "components" : {
     "schemas" : {
-      "dataschema" : {
-        "$ref" : "./openapi-schema.json"
-      },
       "version" : {
         "type" : "object",
         "additionalProperties" : false,
@@ -535,6 +532,28 @@
         "additionalProperties" : false,
         "description" : "Representation of an identifier."
       },
+      "partyidtype" : {
+        "type" : "object",
+        "additionalProperties" : false,
+        "description" : "Representation of an identifier.",
+        "required" : [ "id" ],
+        "properties" : {
+          "id" : {
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Represents the value of the identifier; e.g. the gln number.",
+            "default" : 12345
+          },
+          "type" : {
+            "$ref" : "#/components/schemas/partyidtypecodetype"
+          }
+        }
+      },
+      "partyidtypecodetype" : {
+        "title" : "partyidtypecodetype",
+        "enum" : [ "NL_UBN", "NL_KVK", "GS1_GLN", "CUSNR", "nl.cl031", "VAT" ],
+        "description" : "Code list for the type of scheme that is used for the type of identifier (e.g. a gln, or chamber of commerce number). For this, code list CL709 is used."
+      },
       "measurementtype" : {
         "title" : "measurementtype",
         "type" : "object",
@@ -595,7 +614,7 @@
       "party" : {
         "type" : "object",
         "title" : "Party",
-        "required" : [ "id", "name", "personName" ],
+        "required" : [ "id", "partyId", "name" ],
         "properties" : {
           "id" : {
             "type" : "string",
@@ -603,7 +622,16 @@
             "example" : "d290f1ee-6c54-4b01-90e6-d701748f0851"
           },
           "partyId" : {
-            "$ref" : "#/components/schemas/identifier"
+            "$ref" : "#/components/schemas/partyidtype"
+          },
+          "secondaryIds" : {
+            "type" : "array",
+            "x-stoplight" : {
+              "id" : "0hfb7zjxl02ov"
+            },
+            "items" : {
+              "$ref" : "#/components/schemas/partyidtype"
+            }
           },
           "name" : {
             "type" : "string",
@@ -612,6 +640,36 @@
           "personName" : {
             "type" : "string",
             "example" : "J. de Lier"
+          },
+          "phonenumber" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "2r4nr48fochbk"
+            }
+          },
+          "telefaxnumber" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "u5l38bdwdyygg"
+            }
+          },
+          "emailAdress" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "fdbejbaxiuawj"
+            }
+          },
+          "IBAN" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "5pvivt06vlx5l"
+            }
+          },
+          "websiteUrl" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "h7ngifrxgh6h7"
+            }
           }
         }
       },
@@ -697,11 +755,7 @@
               "description" : "Indication of the year in which the cultivation is harvested."
             },
             "country" : {
-              "type" : "string",
-              "x-stoplight" : {
-                "id" : "08swed8u1a95w"
-              },
-              "description" : "Code list: ISO country code: 2 letter ISO 3166."
+              "$ref" : "#/components/schemas/countrycodetype"
             },
             "region" : {
               "type" : "string",
@@ -711,60 +765,28 @@
               "description" : "Region of a country the cultivation took place.\\nFor eCrop in The Netherlands for this code list code list NL.CL044 is used."
             },
             "useTitle" : {
-              "type" : "string",
-              "x-stoplight" : {
-                "id" : "j1vyfe82lser2"
-              },
-              "description" : "Code to indicate the type of legal ownership of the field that is used for the cultivation.\\nFor eCrop in The Netherlands code list nl.cl412 is used for this."
+              "$ref" : "#/components/schemas/codetype"
             },
             "productinType" : {
-              "type" : "string",
-              "x-stoplight" : {
-                "id" : "kc7hwstxuzvyx"
-              },
-              "description" : "Indicates the intensity of the cultivation.\\nIn The Netherlands used to report to the MLNV-RVO authority.\\nCode list: nl.cl255"
+              "$ref" : "#/components/schemas/codetype"
             },
             "productionPurpose" : {
-              "type" : "string",
-              "x-stoplight" : {
-                "id" : "db1ods23qgkej"
-              },
-              "description" : "Indicator of the produce purpose the cultivation.\\nFor instance: fresh marked, animal feed, seed production, etc.\\nCode list: nl.cl251"
+              "$ref" : "#/components/schemas/codetype"
             },
             "productionSequence" : {
-              "type" : "string",
-              "x-stoplight" : {
-                "id" : "65jb1i0wfyhff"
-              },
-              "description" : "ndicates if and how the cultivation is combines to other cultivations. \\nEnumeration: PRE_CROP = voorteelt, MAIN_CROP = hoofdteelt, FOLLOWUP_CROP = volgteelt, MIXED_CROP = mengteelt"
+              "$ref" : "#/components/schemas/productionsequencetype"
             },
             "regularOrOrganic" : {
-              "type" : "string",
-              "x-stoplight" : {
-                "id" : "qgh8ua5czka5p"
-              },
-              "description" : "Production protocol: indicates whether this cultivation is classified as grown organic or non-organic.\\nCode list: nl.cl015"
+              "$ref" : "#/components/schemas/codetype"
             },
             "netArea" : {
-              "type" : "string",
-              "x-stoplight" : {
-                "id" : "z2tlht2ifs8ai"
-              },
-              "description" : "The net (netto) area (in m2, hectare, etc.) of the surface that is used for this cultivation."
+              "$ref" : "#/components/schemas/measurementtype"
             },
             "growEnvironment" : {
-              "type" : "string",
-              "x-stoplight" : {
-                "id" : "nh7mr3ddc1idu"
-              },
-              "description" : "Indicates in what type of environment this cultivation took place, e.g. in the open air, in a greenhouse, etc.\\nCode list: nl.cl299"
+              "$ref" : "#/components/schemas/codetype"
             },
             "growMedium" : {
-              "type" : "string",
-              "x-stoplight" : {
-                "id" : "amnbdzr28xcij"
-              },
-              "description" : "Indicates in what medium the cultivation is rooted; for instance in soil, in substrate, on bark, etc.\\nCode list: nl.cl300"
+              "$ref" : "#/components/schemas/codetype"
             },
             "trackTillage" : {
               "type" : "boolean",
@@ -822,7 +844,7 @@
           "required" : [ "type", "area" ],
           "properties" : {
             "type" : {
-              "type" : "string"
+              "$ref" : "#/components/schemas/plottype"
             },
             "area" : {
               "$ref" : "#/components/schemas/measurementtype"
@@ -876,11 +898,7 @@
             "description" : "The timestamp of the ending of execution the task."
           },
           "status" : {
-            "type" : "string",
-            "x-stoplight" : {
-              "id" : "4ze2lsr59ovaz"
-            },
-            "description" : "Indication of the execution status of the task in terms of: proposed, planned, executed. Code list: NL_CL256"
+            "$ref" : "#/components/schemas/processstate"
           },
           "referenceId" : {
             "type" : "string",
@@ -925,11 +943,7 @@
             "description" : "The timestamp of the ending of execution the operation."
           },
           "status" : {
-            "type" : "string",
-            "x-stoplight" : {
-              "id" : "4ze2lsr59ovaz"
-            },
-            "description" : "Indication of the execution status of the operation in terms of: proposed, planned, executed. Code list: NL_CL256"
+            "$ref" : "#/components/schemas/processstate"
           },
           "thirdPartyId" : {
             "type" : "string",
@@ -939,18 +953,10 @@
             "description" : "Identifier of this operation, allocated by a third party."
           },
           "operationTechnique" : {
-            "type" : "string",
-            "x-stoplight" : {
-              "id" : "uqzoqivfdnour"
-            },
-            "description" : "An operation performs a particular OperationTechnique on a particular asset (a crop,a field, a production unit, a batch, etc.) to realize a certain Cultural Practice or Husbandry Practice. Examples for CropProduction: The CulturalPractise \"weed control\"can be realized by one of various OperationTechnique's like spraying, row cultivation, manual hoeing, etc. Code list Id for arable farming: nl.cl127 (or nl.cl293)"
+            "$ref" : "#/components/schemas/codetype"
           },
           "culturalPractice" : {
-            "type" : "string",
-            "x-stoplight" : {
-              "id" : "vhit0pr8vgqgc"
-            },
-            "description" : "An operation performs a particular OperationTechnique on a particular asset (a crop,a field, a production unit, a batch, etc.) to realize a certain Cultural Practice or Husbandry Practice.Examples for CropProduction:\r\nThe CulturalPractise \"weed control\"can be realized by one of various OperationTechnique's like spraying, row cultivation, manual hoeing, etc.Code list Id for arable farming: nl.cl127 (or nl.cl293)"
+            "$ref" : "#/components/schemas/codetype"
           },
           "characteristics" : {
             "type" : "array",
@@ -1101,6 +1107,58 @@
             "$ref" : "#/components/schemas/measurementtype"
           }
         }
+      },
+      "processstate" : {
+        "title" : "processstate",
+        "enum" : [ "PROPOSED", "PLANNED", "COMLETED" ],
+        "description" : "To specify the status of execution (proposed, planned, executed) of a task or operation."
+      },
+      "plottype" : {
+        "title" : "plottype",
+        "enum" : [ "CROPFIELD", "ACTIVITYFIELD", "TABLE" ],
+        "description" : "The type of production surface to grow plants. Can be a crop field for arable farming or a moving table (platform) for potted plants in floriculture."
+      },
+      "codetype" : {
+        "title" : "codetype",
+        "type" : "object",
+        "required" : [ "code", "codeListid" ],
+        "properties" : {
+          "code" : {
+            "type" : "string",
+            "description" : "Specific code from the code list that is referred to by codeListId.\r\n"
+          },
+          "codeListid" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "lodzaelpq3v41"
+            },
+            "description" : "Identifier of the standard code list that contains the allowed codes.\r\nThe naming convention for the reference to a standard code list is: “nl.cl<nnn>” (e.g. “nl.cl232”).\r\nWhere \"nl\" stands for the 2 character country code, \"cl\" stands for code list and <nnn> stands for the 3 character identifier of the specific code list within the scope of the specified country.\r\n"
+          },
+          "issueingPartyId" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "rigfc9lcfu4mq"
+            },
+            "description" : "The organization that is responsible for issuing and maintaining the standard code list"
+          },
+          "uri" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "2v8g8q7wd725f"
+            },
+            "description" : "Url where the standard code list is to be found."
+          }
+        }
+      },
+      "productionsequencetype" : {
+        "title" : "productionsequencetype",
+        "enum" : [ "PRE_CROP", "MAIN_CROP", "FOLLOWUP_CROP", "MIXED_CROP" ],
+        "description" : ""
+      },
+      "countrycodetype" : {
+        "title" : "countrycodetype",
+        "enum" : [ "NL", "DE", "UK", "BE", "ES", "PL", "DK" ],
+        "description" : "Country codes: 2 letter ISO 3166."
       }
     },
     "responses" : {
