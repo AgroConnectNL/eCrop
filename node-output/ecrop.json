@@ -464,6 +464,9 @@
   },
   "components" : {
     "schemas" : {
+      "dataschema" : {
+        "$ref" : "./openapi-schema.json"
+      },
       "version" : {
         "type" : "object",
         "additionalProperties" : false,
