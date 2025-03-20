@@ -1,0 +1,1510 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XMLSpy v2017 rel. 3 sp1 (http://www.altova.com) by Conny Graumans (AgroConnect) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:annotation>
+		<xs:documentation>This is the master class model for the eCrop data sets.
+Subsets of this class model are used to specify the 'payload' of the bodies of smaller data sets that are used in specific REST API's.</xs:documentation>
+	</xs:annotation>
+	<xs:element name="additionalItemProperties" type="additionalItemProperties"/>
+	<xs:complexType name="additionalItemProperties">
+		<xs:sequence/>
+	</xs:complexType>
+	<xs:element name="address" type="address"/>
+	<xs:complexType name="address">
+		<xs:annotation>
+			<xs:documentation>Data set to specify the postal or physical address of the party involved.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="country" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The code of the country as part of this address.
+Country codes: 2 letter ISO 3166.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="countryName" type="countryCodeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The name of the country for this address.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="cytyName" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The name of the city for this address.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="postalBoxId" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The unique identifier for the postal box.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="postalCode" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The postal code of this address.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="streetName" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The name of the street for this address.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="streetNumber" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The building-number in the street of this address.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="allocation" type="allocation"/>
+	<xs:complexType name="allocation">
+		<xs:annotation>
+			<xs:documentation>The generic class (the parent) for input and output allocation.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="characteristics" type="characteristicType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The option to attach one or more characteristics about this specific allocation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="id" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Identifier of an allocation, assigned by the originator of the operation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="name" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Short name for this allocation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="quantityAbsolute" type="measurementType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Quantity of the allocation measured in absolute terms, meaning for instance applied liters or kilogram in total for this allocation (so not in liter/hectare of kilogram/hectare).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="quantityRate" type="measurementType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Quantity of the allocation measured in terms of the rate of application: for instance in liter/hectare, kilogram/hectare, etc.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="resourceId" type="codeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Identifier of the resource that is used or the produce that is delivered by this operation.
+The identifier is a  'codeType'. data type. CodeType provides the identifier for the code list that is used for this specific product or produce, plus the exact code (identifier) picked from the indicated code list to identify the exact type op product or produce.
+
+For instance, for the use of crop protection products:
+type = "PROTEC"
+recourceId -&gt; codeListId = "CTGB"
+recourseId -&gt; code = "14689"
+name = "Gallant 2000"</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="type" type="codeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Indicator for the type of input or output that is used or delivered by this operation.
+For instance: FERTIL = fertilizer, PROTEC = crop protection product, ENERG = energy, etc.
+For this AgroConnect code list NL_CL271 is used.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="article" type="article" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="plantSpecies" type="plantSpecies" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="article" type="article"/>
+	<xs:complexType name="article">
+		<xs:sequence>
+			<xs:element name="additionalProductProperties" type="characteristicType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="id" type="idType" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="regionalAuthorisationId" type="idType" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="thirdPartyProductReferenceId" type="idType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="assets" type="assets"/>
+	<xs:complexType name="assets">
+		<xs:annotation>
+			<xs:documentation>Entity of a tangible object on which operations can be performed.
+E.g.: a crop, a building, a machine, a ditch, a greenhouse, a climate control system, a feeding system, etc.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="characteristics" type="characteristicType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>One or more characteristics the apply to the asset.
+The characteristic is represented by: reference tot the code list, the code from this code list, the measured value.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="endDate" type="xs:date" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The end data of the existence of the asset.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="id" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Identifier of the asset.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Short name of the asset.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="startDate" type="xs:date" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The start data of the existence of the asset.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="certificats" type="certificats" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="classifications" type="classifications" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="contracts" type="contracts" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="observation" type="observation" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="party" type="party" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="assetTypeCode">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PLOT"/>
+			<xs:enumeration value="CROP"/>
+			<xs:enumeration value="BUILDING"/>
+			<xs:enumeration value="DITCH"/>
+			<xs:enumeration value="GREENHOUSE"/>
+			<xs:enumeration value="STORAGE"/>
+			<xs:enumeration value="MACHINE"/>
+			<xs:enumeration value="BATCH"/>
+			<xs:enumeration value="BLOCK">
+				<xs:annotation>
+					<xs:documentation>Part of a greenhouse (Dutch term: afdeling).
+Each bloch has a fixes xyz-reference-point. The Dutch term for this reference point is: Hortivationpoint.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="batchRecord" type="batchRecord"/>
+	<xs:complexType name="batchRecord">
+		<xs:sequence/>
+	</xs:complexType>
+	<xs:element name="binaryFiles" type="binaryFiles"/>
+	<xs:complexType name="binaryFiles">
+		<xs:sequence>
+			<xs:element name="access" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="acessAvailabilitySpecifiedPeriod" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="authorName" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="characterSetCode" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="description" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="encodingCode" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="fileName" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="id" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="includedBinaryObject" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="mimeCode" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="sizeMeasure" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="titel" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="uriid" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="versionId" type="xs:string" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="binaryObjectType" type="binaryObjectType"/>
+	<xs:complexType name="binaryObjectType">
+		<xs:sequence>
+			<xs:element name="charactersetCode" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="encodingCode" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="filename" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="format" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="mimeCode" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="uri" type="xs:string" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="certificats" type="certificats"/>
+	<xs:complexType name="certificats">
+		<xs:annotation>
+			<xs:documentation>A certificate that proves that the process is carried out according to the agreed production and quality rules.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="endDate" type="xs:date" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The end date of the period this certificate is valid for.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="id" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Identifier of the certificate.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="issueDate" type="xs:date" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The data the certificate is issued.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Short name for the certificate.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="startDate" type="xs:date" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The start date of the period this certificate is valid for.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="certifier" type="certifier" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="certifier" type="certifier"/>
+	<xs:complexType name="certifier">
+		<xs:annotation>
+			<xs:documentation>The certifying company (e.g. the auditor) that grants certificates that prove that the crop is grown according to the agreed production and quality rules.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="party">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="characteristic" type="characteristic"/>
+	<xs:complexType name="characteristic">
+		<xs:sequence>
+			<xs:element name="id" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="value" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="valueUnit" type="xs:string" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="characteristicType" type="characteristicType"/>
+	<xs:complexType name="characteristicType">
+		<xs:annotation>
+			<xs:documentation>Generic data type for linked characteristics to a crop, task, operation, allocation, etc.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="code" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="codeListId" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Identifier of the code list that contains the coding of characteristics for a specific domain:
+
+For instance:
+The code list id for crop and operations characteristics for arable farming is NL_CL265.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="endDate" type="xs:date" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>End data of the period this characteristic is or was valid.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="issueDate" type="xs:date" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The data the characteristic was captured.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="startDate" type="xs:date" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Begin data of the period this characteristic is or was valid.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="value" type="measurementType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The value of the registered characteristic. Is of data type measurementType.
+Measurement type consists of separate data element for the code for the measurementUnit and for the measured value.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="classifications" type="classifications"/>
+	<xs:complexType name="classifications">
+		<xs:annotation>
+			<xs:documentation>Indication that the cop or produce complies to a specific official class.
+E.g.: derogation, organic farming, etc.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="endDate" type="xs:date" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The end date of the period this classification is valid for.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="id" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Identifier or code for this classification.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="issueDate" type="xs:date" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The data this classification was issued.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Short name of the classification.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="startDate" type="xs:date" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The start date of the period this classification is valid for.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="type" type="codeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Reference to the standard code list and the code within this code list, for this type of classification.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="value" type="measurementType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The exact observed value (in numbers or in text) on which the classification is based.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="climatObservation" type="climatObservation"/>
+	<xs:complexType name="climatObservation">
+		<xs:complexContent>
+			<xs:extension base="observation">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="codeType" type="codeType"/>
+	<xs:complexType name="codeType">
+		<xs:annotation>
+			<xs:documentation>Generic class to represent the code list and code that is used.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="code" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Specific code from the code list that is referred to by codeListId.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="codeListId" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Identifier of the standard code list that contains the allowed codes.
+The naming convention for the reference to a standard code list is: “nl.cl&lt;nnn&gt;” (e.g. “nl.cl232”).
+Where "nl" stands for the 2 character country code, "cl" stands for code list and &lt;nnn&gt; stands for the 3 character identifier of the specific code list within the scope of the specified country.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="issueingPartyId" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The organization that is responsible for issuing and maintaining the standard code list.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="uri" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Url where the standard code list is to be found.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="compositions" type="compositions"/>
+	<xs:complexType name="compositions">
+		<xs:annotation>
+			<xs:documentation>Specification of the mixed content (mixture of several components) of a product, for instance a fertilizer.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="componentId" type="codeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Identification of the component of the composed product.
+Code list: nl.cl363</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="componentName" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Name of the component of the composed product.
+See code list: NL_CL363</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="quantity" type="measurementType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Specification of the quantity of this component as part of the composed product.
+Could be in terms of a percentage or in terms of a dimension;  For instance gram/kilogram or milliliter per liter.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="contractor" type="contractor"/>
+	<xs:complexType name="contractor">
+		<xs:annotation>
+			<xs:documentation>Third party that provides services, ordered by the farmer, in cultivation a crop, treating batches of agricultural producer, maintaining buildings and premises, etc.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="party">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="contracts" type="contracts"/>
+	<xs:complexType name="contracts">
+		<xs:annotation>
+			<xs:documentation>A contractual agreement related tot the production of the crop or the processing of the agricultural produce.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="endDate" type="xs:date" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The end date of the period this contract is valid for.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="id" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Identifier of the contact.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="issueDate" type="xs:date" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The data the contract is issued.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Short name of the contract.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="startDate" type="xs:date" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The start date of the period this contract is valid for.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="receiver" type="receiver" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="countryCodeType">
+		<xs:annotation>
+			<xs:documentation>Country codes: 2 letter ISO 3166.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="NL">
+				<xs:annotation>
+					<xs:documentation>NL = Netherlands</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BE">
+				<xs:annotation>
+					<xs:documentation>BE = Belgium</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DE">
+				<xs:annotation>
+					<xs:documentation>DE = Germany</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="UK">
+				<xs:annotation>
+					<xs:documentation>UK = United Kingdom</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ES">
+				<xs:annotation>
+					<xs:documentation>ES = Spain</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PL">
+				<xs:annotation>
+					<xs:documentation>PL = Poland</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DK">
+				<xs:annotation>
+					<xs:documentation>DK = Denmark</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="cropObservation" type="cropObservation"/>
+	<xs:complexType name="cropObservation">
+		<xs:complexContent>
+			<xs:extension base="observation">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="cultivations" type="cultivations"/>
+	<xs:complexType name="cultivations">
+		<xs:annotation>
+			<xs:documentation>The cultivation of a specific crop type (e.g. potato, wheat, rice,. etc.) on one or more plots during a specific period of time, specified by startDateTime and endDateTime.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="assets">
+				<xs:sequence>
+					<xs:element name="country" type="countryCodeType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Code list: ISO country code: 2 letter ISO 3166.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="growEnvironment" type="codeType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Indicates in what type of environment this cultivation took place, e.g. in the open air, in a greenhouse, etc.
+Code list: nl.cl299</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="growMedium" type="codeType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Indicates in what medium the cultivation is rooted; for instance in soil, in substrate, on bark, etc.
+Code list: nl.cl300</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="netArea" type="measurementType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The net (netto) area (in m2, hectare, etc.) of the surface that is used for this cultivation.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="productionPurpose" type="codeType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Indicator of the produce purpose the cultivation.
+For instance: fresh marked, animal feed, seed production, etc.
+Code list: nl.cl251</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="productionSequence" type="codeType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Indicates if and how the cultivation is combines to other cultivations. 
+Enumeration: PRE_CROP = voorteelt, MAIN_CROP = hoofdteelt, FOLLOWUP_CROP = volgteelt, MIXED_CROP = mengteelt</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="productionType" type="codeType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Indicates the intensity of the cultivation.
+In The Netherlands used to report to the MLNV-RVO authority.
+Code list: nl.cl255</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="region" type="codeType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Region of a country the cultivation took place.
+For eCrop in The Netherlands for this code list code list NL.CL044 is used.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="regularOrOrganic" type="codeType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Production protocol: indicates whether this cultivation is classified as grown organic or non-organic.
+Code list: nl.cl015</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="trackTillage" type="xs:boolean" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Indicates whether the cultivation, over the years, is done in fixed lanes with fixed tracks for machinery.
+
+yes = track tillage is applied
+no = track tillage is not applied</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="useTitle" type="codeType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Code to indicate the type of legal ownership of the field that is used for the cultivation.
+For eCrop in The Netherlands code list nl.cl412 is used for this.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="year" type="xs:int" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Indication of the year in which the cultivation is harvested.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="deliveries" type="deliveries" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="plantSpecies" type="plantSpecies" minOccurs="1" maxOccurs="unbounded"/>
+					<xs:element name="plots" type="plots" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="tasks" type="tasks" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="dataCropInputs" type="dataCropInputs"/>
+	<xs:complexType name="dataCropInputs">
+		<xs:sequence>
+			<xs:element name="cultivations" type="cultivations" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="grower" type="grower" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="dataCropRecord" type="dataCropRecord"/>
+	<xs:complexType name="dataCropRecord">
+		<xs:annotation>
+			<xs:documentation>The root-class for the data structure for the data set.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="binaryFiles" type="binaryFiles" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="cultivations" type="cultivations" minOccurs="1" maxOccurs="unbounded"/>
+			<xs:element name="grower" type="grower" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="images" type="images" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="deliveries" type="deliveries"/>
+	<xs:complexType name="deliveries">
+		<xs:annotation>
+			<xs:documentation>Delivery by the farm of a harvested batch of produce to a buyer.
+Or, materials and inputs delivered by a supplier to a grower as input for their crop process. A
+delivery describes a certain amount of a certain product acquired by a buyer through an order to
+a seller.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="dateOfDelivery" type="xs:date" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The exact date of the delivery.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="id" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Unique identifier of a delivered load of produce.
+Often the ticket is handed out by the driver of the transport vehicle to the farmer at the moment the loaded vehicle leaves the production site (e.g. the farm).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="quantity" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The delivered quantity.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="thirdPartyDeliveryReferenceId" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="article" type="article" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="farm" type="farm" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="grower" type="grower" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="order" type="order" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="receiver" type="receiver" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="supplier" type="supplier" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="farm" type="farm"/>
+	<xs:complexType name="farm">
+		<xs:annotation>
+			<xs:documentation>The entity that is responsible for cultivation the crops.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="party">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="features" type="features"/>
+	<xs:complexType name="features">
+		<xs:annotation>
+			<xs:documentation>A feature is an abstraction of a real world phenomena [ISO 19101-1:2014].</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="type" type="featureType" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="geometry" type="geometry" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="properties" type="properties" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="featureType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Feature"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="geometry" type="geometry"/>
+	<xs:complexType name="geometry">
+		<xs:annotation>
+			<xs:documentation>The geometry (the geographic location, position, shape) of the feature (the farm, the field, the greenhouse).
+For this, the OGC-API/GeoJSON standards are leading.
+Relevant links:
+https://ogcapi.ogc.org/#standards
+Open Geospatial Consortium</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="coordinates" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Represents one or more coordinates.
+A coordinate is one of a sequence of numbers designating the position of a point [ISO 19111:2019, definition 3.1.5]
+A coordinate can be represented 2 dimensional of 3 dimensional.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="count" type="xs:int" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The number of coordinates to represent geometry.
+Not mandatory, can be deduced from the number of coordinates in the Polygon.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="srsDimension" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Indicates if the coordinate is represented in 2 dimensions s(xy) or represented in 3 dimensions (xyz).
+xy = 2
+xyz = 3
+Data-element is not mandatory; default value is "2".</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="srsName" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Mandatory, necessary to be able to interpret the points properly. To be filled in with srsName="EPSG:4326" or srsName="EPSG:28992".</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="type" type="geometryType" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="properties" type="properties" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="geometryType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Point"/>
+			<xs:enumeration value="Polygon"/>
+			<xs:enumeration value="MultiPolygon"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="getDeliveries_parameters" type="getDeliveries_parameters"/>
+	<xs:complexType name="getDeliveries_parameters">
+		<xs:sequence/>
+	</xs:complexType>
+	<xs:element name="greenhouseLocation" type="greenhouseLocation"/>
+	<xs:complexType name="greenhouseLocation">
+		<xs:annotation>
+			<xs:documentation>Location within a greenhouse.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="blockId" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Identifier of a block (in Dutch: afdeling) within the greenhouse.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="greenhouseId" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Identifier of the greenhouse.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="greenhouseName" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Name of the greenhouse.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="hortivationpointBlock" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Coordinates of the standard Hortivation location reference point for the block.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="postId" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Identifier of a post (in Dutch: paal) within the block of the greenhouse.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="upToPostId" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Identifier of a second post (in Dutch: paal) within the block of the greenhouse.
+The upToPost can be used to refer to the location between two posts (postId and upToPostId).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="waterTapId" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Identifier of a watertap (in Dutch: waterpunt) within a greenhouse.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="xyzReferenceToHotivationPoint" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The xyz-position to the standard Hortivationpoint of this block within a greenhouse.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="grower" type="grower"/>
+	<xs:complexType name="grower">
+		<xs:annotation>
+			<xs:documentation>The grower (e.g. the farmer) that is responsible for the cultivation of the crop.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="party">
+				<xs:sequence>
+					<xs:element name="certificats" type="certificats" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="contracts" type="contracts" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="growMediumType" type="growMediumType"/>
+	<xs:complexType name="growMediumType">
+		<xs:sequence>
+			<xs:element name="code" type="xs:int" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="idType" type="idType"/>
+	<xs:complexType name="idType">
+		<xs:sequence>
+			<xs:element name="id" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="schemaIdType" type="xs:string" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="images" type="images"/>
+	<xs:complexType name="images">
+		<xs:sequence>
+			<xs:element name="areaIncluded" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="copyrightOwnerName" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="description" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="digitalImageBinaryObject" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="id" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="subject" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="takeDateTime" type="xs:dateTime" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="titelName" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="type" type="xs:string" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="inputAllocations" type="inputAllocations"/>
+	<xs:complexType name="inputAllocations">
+		<xs:annotation>
+			<xs:documentation>One or more inputs used to execute this operation.
+Examples of types of input are: crop protection products, fertilizer, water, energy, labor, etc.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="allocation">
+				<xs:sequence>
+					<xs:element name="compositions" type="compositions" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="treatmentZone" type="treatmentZone" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="laboratory" type="laboratory"/>
+	<xs:complexType name="laboratory">
+		<xs:annotation>
+			<xs:documentation>Organization that performs the analyses of samples and reports the analyses results.
+Samples can be taken from for example: soil, crop, water, animal feed, etc.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="party">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="languageCodeType">
+		<xs:annotation>
+			<xs:documentation>Language codes to ISO 639-2:1998. Notation Alpha-3.
+http://www.loc.gov/standards/iso639-2/php/code_list.php</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="dan = Danish"/>
+			<xs:enumeration value="nld = Dutch"/>
+			<xs:enumeration value="fra = French"/>
+			<xs:enumeration value="ger = German"/>
+			<xs:enumeration value="eng = English"/>
+			<xs:enumeration value="spa = Spanish"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="measurementType" type="measurementType"/>
+	<xs:complexType name="measurementType">
+		<xs:annotation>
+			<xs:documentation>Standard data type for expressing the value of a measurement. To be used for all types of measurement in this class model.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="unitCode" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The code that refers to the standard unit or dimension to express the value of this measurement. E.g. KGM for kilogram.
+Code list Id: nl.cl020</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="value" type="xs:float" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Expresses the measured value of the measurement.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="observation" type="observation"/>
+	<xs:complexType name="observation">
+		<xs:annotation>
+			<xs:documentation>Observation on an asset (e.g. a crop, plot, machine, building, batch of produce, etc.).</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="dateTime" type="xs:dateTime" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Time stamp of the moment the observation was done.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="duration" type="measurementType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The duration of the observation (time between start time and end time of the observation).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="endDateTime" type="xs:dateTime" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Time stamp of the end of the observation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="id" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="issueDateLaboritory" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The data the laboratory issued the results of this analysis report.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="laboratoryAssignedId" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Identifier, assigned by the laboratory, to this report of observation (analysis) results.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="method" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Method used for the observation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Short name of the observation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sampleProtocol" type="observationTypeCode" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Indicates for what purpose the analyses can be used.
+In Dutch: standaard, derogatie, gestratificeerd, fosfaat reparatie, etc.
+Code list Id: nl.cl269</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="startDateTime" type="xs:dateTime" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Time stamp of the start of the observation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="laboratory" type="laboratory" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="observationResult" type="observationResult" minOccurs="1" maxOccurs="unbounded"/>
+			<xs:element name="sample" type="sample" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="observationResult" type="observationResult"/>
+	<xs:complexType name="observationResult">
+		<xs:sequence>
+			<xs:element name="value" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="variableCode" type="xs:string" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="observationTypeCode">
+		<xs:annotation>
+			<xs:documentation>Indication of the subject that is being observed, for instance: a crop, soil, indoor climate, outdoor weather.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CROP"/>
+			<xs:enumeration value="SOIL"/>
+			<xs:enumeration value="PRODUCE"/>
+			<xs:enumeration value="INDOOR_CLIMATE"/>
+			<xs:enumeration value="OUTDOOR_WEATHER"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="operations" type="operations"/>
+	<xs:complexType name="operations">
+		<xs:annotation>
+			<xs:documentation>Activity carried out by man and/or machine as part op the execution of a task.
+An operation performs a particular OperationTechnique on a particular asset (a crop,a field, a production unit, a batch, etc.) to realize a certain Cultural Practice or Husbandry Practice.
+Examples for CropProduction:
+The CulturalPractise "weed control"can be realized by one of various OperationTechnique's like spraying, row cultivation, manual hoeing, etc.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="area" type="measurementType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The treated area (hectare, m2) during the execution of this operation.
+Can be a percentage of the total area or an absolute value (like hectare or square meter).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="characteristics" type="characteristicType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The option to attach one or more characteristics about the execution of this operation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="culturalPractice" type="codeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>An operation performs a particular OperationTechnique on a particular asset (a crop,a field, a production unit, a batch, etc.) to realize a certain Cultural Practice or Husbandry Practice.
+Examples for CropProduction:
+The CulturalPractise "weed control"can be realized by one of various OperationTechnique's like spraying, row cultivation, manual hoeing, etc.
+Code list Id for arable farming: nl.cl127 (or nl.cl293)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="endDateTime" type="xs:dateTime" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The timestamp of the ending of execution the operation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="id" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The identifier of the operation assigned by the originator of the operation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Short name of the operation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="operationTechnique" type="codeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>An operation performs a particular OperationTechnique on a particular asset (a crop,a field, a production unit, a batch, etc.) to realize a certain Cultural Practice or Husbandry Practice.
+Examples for CropProduction:
+The CulturalPractise "weed control"can be realized by one of various OperationTechnique's like spraying, row cultivation, manual hoeing, etc.
+Code list Id for arable farming: nl.cl127 (or nl.cl293)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="referenceId" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The identifier of the ordered operation that resulted in this executed operation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="startDateTime" type="xs:dateTime" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The timestamp of beginning the execution of the operation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="status" type="processStatusCode" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Indication of the execution status of the operation in terms of: proposed, planned, executed.
+Code list: NL_CL256</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="thirdPartyId" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Identifier of this operation, allocated by a third party.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="contractor" type="contractor" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="geometry" type="geometry" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="inputAllocations" type="inputAllocations" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="observation" type="observation" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="outputAllocations" type="outputAllocations" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="order" type="order"/>
+	<xs:complexType name="order">
+		<xs:sequence>
+			<xs:element name="date" type="xs:date" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="id" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="orderLine" type="orderLine" minOccurs="1" maxOccurs="unbounded"/>
+			<xs:element name="receiver" type="receiver" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="supplier" type="supplier" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="orderLine" type="orderLine"/>
+	<xs:complexType name="orderLine">
+		<xs:sequence>
+			<xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="id" type="xs:string" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="outputAllocations" type="outputAllocations"/>
+	<xs:complexType name="outputAllocations">
+		<xs:annotation>
+			<xs:documentation>One or more outputs as the result of the execution of the operation.
+For example harvested produce: potatoes, onions, flowers, vegetables, etc..
+But an output could also be for instance energy.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="allocation">
+				<xs:sequence>
+					<xs:element name="treatmentZone" type="treatmentZone" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="party" type="party"/>
+	<xs:complexType name="party">
+		<xs:annotation>
+			<xs:documentation>Data about the party that is involved in producing or processing the crop and or agricultural produce.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="emailAddress" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The email address of the party involved.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="iban" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The International Bank Account Number (IBAN) of  the party involved.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="id" type="partyIdType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Identifier of the party.
+For companies and organizations AgroConnect codelist CL031 is leading.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The name of the party involved.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="personName" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The name of the person of the company to contact.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="phoneNumber" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The phone number of the party involved.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="secondaryIds" type="partyIdType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Secondary identifier of the party.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="telefaxNumber" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The telefax number of the party involved.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="websiteUrl" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Url of the website of this party.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="postalAddress" type="postalAddress" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="visitorsAddress" type="visitorsAddress" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="partyIdType" type="partyIdType"/>
+	<xs:complexType name="partyIdType">
+		<xs:annotation>
+			<xs:documentation>Generic class to represent the identifier of a party (organization or person). Consist out of two elements; one to refer to the type of scheme that is used for the type of identifier (e.g. a gln, or chamber of commerce number), the second one to represent the value of this identifier.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="id" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Represents the value of the identifier; e.g. the gln number.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="type" type="partyIDTypeCodeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Refers to the type of scheme that is used for the type of identifier (e.g. a gln, or chamber of commerce number).
+For this, code list CL709 is used. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="partyIDTypeCodeType">
+		<xs:annotation>
+			<xs:documentation>Code list for the type of scheme that is used for the type of identifier (e.g. a gln, or chamber of commerce number). For this, code list CL709 is used.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="NL_UBN"/>
+			<xs:enumeration value="NL_KVK"/>
+			<xs:enumeration value="GS1_GLN"/>
+			<xs:enumeration value="CUSNR"/>
+			<xs:enumeration value="nl.cl031">
+				<xs:annotation>
+					<xs:documentation>nl.cl031 = AgroConnect code list</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="VAT">
+				<xs:annotation>
+					<xs:documentation>Value Added Tax code or number.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="partyRoleType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="LABORATORY"/>
+			<xs:enumeration value="ORDERING_CUSTOMER"/>
+			<xs:enumeration value="REPORT_RESULTS_TO"/>
+			<xs:enumeration value="INVOICE_TO"/>
+			<xs:enumeration value="SAMPLER"/>
+			<xs:enumeration value="SENDER_SAMPLES"/>
+			<xs:enumeration value="GROWER"/>
+			<xs:enumeration value="RECIPIENT_SAMPLES"/>
+			<xs:enumeration value="CARRIER_SAMPLES"/>
+			<xs:enumeration value="SUPPLIER_SAMPLES"/>
+			<xs:enumeration value="OWNER_SAMPLED_OBJECT"/>
+			<xs:enumeration value="TRADER"/>
+			<xs:enumeration value="LEGAL_OWNER"/>
+			<xs:enumeration value="ISSUER_GROWERS_CONTRACT"/>
+			<xs:enumeration value="ISSUER_CERTIFICATE"/>
+			<xs:enumeration value="FARM"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="plantSpecies" type="plantSpecies"/>
+	<xs:complexType name="plantSpecies">
+		<xs:annotation>
+			<xs:documentation>Crop type at the level of potato, sugar beet, onion, winter wheat, etc.
+For mixed crops more then one type of crop can be grown in the same period at the same plot.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="percentageInMix" type="xs:float" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>To be used in case of a mixed crop. Indicator of the percentage of this crop species related to the other crop species that are part of this mixed crop.
+The percentage is based on the weight proportions of the seed of each of the species that are part of the mixed crop.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="plantSpecies" type="codeType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Code of the crop species, at the aggregation level of potato, sugar beet, onion, etc.
+For eCrop in The Netherlands, code list nl.cl263 is used for crop species.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="variety" type="codeType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Identification of the variety of the type of crop that is grown.
+For eCrop in The Netherlands code list nl.cl232 is used.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="plots" type="plots"/>
+	<xs:complexType name="plots">
+		<xs:annotation>
+			<xs:documentation>Surface (area) that is used to grow plants.
+The exact location of this surface is specified by either, a greenhouse-location a point location or a border location (using outer and inner polygons).</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="assets">
+				<xs:sequence>
+					<xs:element name="area" type="measurementType" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The surface (measured in for instance square meters, hectare) of this production plot.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="localSoilType" type="codeType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Code for the soil type, as used for a specific use case.
+LocalSoilType code consists of the reference to the code list that is being used plus the code from this code list.
+For eCrop in arable farming in The Netherlands, code list nl.cl405 is used</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="regularOrOrganic" type="codeType" minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Indicates whether this plot is classified for organic production or not.
+Production protocol: indicates whether this plot is classified  for organic production or not.
+Code list:NL_CL015</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="regulatorySoilType" type="codeType" minOccurs="1" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Code for the soil type, as subscribed by a regulatory authority (e.g. MLNV-RVO in the Netherlands).
+For eCrop in The Netherlands code list nl.cl405 is used.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="type" type="plotTypeCode" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="geometry" type="geometry" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="greenhouseLocation" type="greenhouseLocation" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="soilObservation" type="soilObservation" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="plotTypeCode">
+		<xs:annotation>
+			<xs:documentation>The type of production surface to grow plants.
+Can be a crop field for arable farming or a moving table (platform) for potted plants in floriculture.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CROPFIELD"/>
+			<xs:enumeration value="ACTIVITYFIELD"/>
+			<xs:enumeration value="TABLE">
+				<xs:annotation>
+					<xs:documentation>Stationary or mobile platform for growing pot plants in horticulture in a greenhouse.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="pointLocations" type="pointLocations"/>
+	<xs:complexType name="pointLocations">
+		<xs:annotation>
+			<xs:documentation>Xyz-coordinates of this exact point location.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="altitude" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The altitude of this pointlocation.
+The altitude specifies the height above sea level of the location</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="latitude" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The latitude of this pointlocation.
+The latitude specifies the north-south position of a point on the surface of the Earth (the y-coordinate).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="logitude" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The longitude of this pointlocation.
+The longitude specifies the east–west position of a point on the surface of the Earth (the x-coordinate).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="systemId" type="xs:string" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="postalAddress" type="postalAddress"/>
+	<xs:complexType name="postalAddress">
+		<xs:annotation>
+			<xs:documentation>The portal address for this party.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="address">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="processStatusCode">
+		<xs:annotation>
+			<xs:documentation>To specify the status of execution (proposed, planned, executed) of a task or operation.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PROPOSED"/>
+			<xs:enumeration value="PLANNED"/>
+			<xs:enumeration value="COMPLETED"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="produce" type="produce"/>
+	<xs:complexType name="produce">
+		<xs:sequence>
+			<xs:element name="id" type="xs:int" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="name" type="xs:int" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="produceBatches" type="produceBatches"/>
+	<xs:complexType name="produceBatches">
+		<xs:annotation>
+			<xs:documentation>Batches of agricultural produce.
+For instance: batch of potatoes, batch of onions, batch of grain.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="assets">
+				<xs:sequence>
+					<xs:element name="cultivationIds" type="xs:string" minOccurs="1" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>On ore more references to the cultivations that resulted in the harvested batches of produce.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="productTypeCode" type="codeType" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Code for the type of product that is produces.
+The type of product might differ from the type of crop and for the type of product a different code list might be used (e.g. GTIN identifiers) as for the type of crop (e.g. EPPO identifiers).</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="cropObservation" type="cropObservation" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="cultivations" type="cultivations" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="deliveries" type="deliveries" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="productionSequenceType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PRE_CROP"/>
+			<xs:enumeration value="MAIN_CROP"/>
+			<xs:enumeration value="FOLLOWUP_CROP"/>
+			<xs:enumeration value="MIXED_CROP"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="properties" type="properties"/>
+	<xs:complexType name="properties">
+		<xs:sequence>
+			<xs:element name="name" type="xs:int" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="receiver" type="receiver"/>
+	<xs:complexType name="receiver">
+		<xs:annotation>
+			<xs:documentation>The company that purchased the agricultural produce.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="party">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="sample" type="sample"/>
+	<xs:complexType name="sample">
+		<xs:sequence>
+			<xs:element name="id" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="name" type="xs:string" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="sampleDateTime" type="xs:dateTime" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="soilObservation" type="soilObservation"/>
+	<xs:complexType name="soilObservation">
+		<xs:complexContent>
+			<xs:extension base="observation">
+				<xs:sequence>
+					<xs:element name="soilZoneId" type="xs:string" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="soilZoneName" type="xs:string" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="verticalLayer" type="verticalLayer" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="statusType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ORIGINAL"/>
+			<xs:enumeration value="UPDATED"/>
+			<xs:enumeration value="DELETED"/>
+			<xs:enumeration value="COMPLETED"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="supplier" type="supplier"/>
+	<xs:complexType name="supplier">
+		<xs:complexContent>
+			<xs:extension base="party">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="tasks" type="tasks"/>
+	<xs:complexType name="tasks">
+		<xs:annotation>
+			<xs:documentation>A Task is the execution of one or more Operation's by a ma-machine-system.
+A 'task' consists of one ore more 'operations' that are closely related but involve different assents and resources. All combined operations need to be carried out well coordinated, to execute the task.
+For instance, the task potato harvesting involves: one tractor pulling the potato harvester, 2 units to take care of the transport of the harvested potatoes to the barn, equipment at the barn to unload the transport units and to bring the produce in the storing place.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="endDateTime" type="xs:dateTime" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The timestamp of the ending of execution the task.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="id" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The identifier of the task assigned by the originator of the Task.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Short name of the task.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="referenceId" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The identifier of the ordered task that resulted in this executed task.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="startDateTime" type="xs:dateTime" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The timestamp of beginning the execution of the task.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="status" type="processStatusCode" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Indication of the execution status of the task in terms of: proposed, planned, executed.
+Code list: NL_CL256</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="observation" type="observation" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="operations" type="operations" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="treatmentZone" type="treatmentZone"/>
+	<xs:complexType name="treatmentZone">
+		<xs:annotation>
+			<xs:documentation>In case, for instance, the application of a fertilizer during the execution of the operation, varies per treated area, a specific treatment zone can be linked to a specific allocation.
+The borders of a treatmentZone varie per operation; treatmentZones are not fixed area's with fixed borders like for instance a field.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="area" type="measurementType" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="charcteristic" type="characteristicType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The option to attach one or more characteristics about this treatment zone.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="id" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Identifier of the treatment zone  assigned by the originator of the operation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="thirdPartyId" type="xs:int" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Extra identifier for the treatmentZone assigned by a third party.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="geometry" type="geometry" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="verticalLayer" type="verticalLayer"/>
+	<xs:complexType name="verticalLayer">
+		<xs:annotation>
+			<xs:documentation>Expressed in cm.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="absoluteBeginHeight" type="xs:float" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="absoluteEndHeight" type="xs:float" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="relativeBeginHeight" type="xs:float" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="relativeEndHeight" type="xs:float" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="visitorsAddress" type="visitorsAddress"/>
+	<xs:complexType name="visitorsAddress">
+		<xs:annotation>
+			<xs:documentation>The visitors address of this company.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="address">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="weatherObservation" type="weatherObservation"/>
+	<xs:complexType name="weatherObservation">
+		<xs:complexContent>
+			<xs:extension base="observation">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>
