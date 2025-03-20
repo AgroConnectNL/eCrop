@@ -5,7 +5,7 @@
     "description" : "Agroconnect Virtual API server"
   } ],
   "info" : {
-    "description" : "### eCrop API based on **AgroConnect eCrop standard version 0.4** \r\n\r\nThis API concerns registration of crop related activities like application of crop protection products and fertilizers and energy and water consumption.\r\n\r\nThis API is based on the [Agroconnect eCrop class model version 0.4](https://www.agroconnect.nl/Portals/10/EnterpriseArchitect/eCrop_json/eCrop_v0_4/index.html).\r\n\r\nApplied standards:\r\n- [API Design Rules version 2.0.2](https://gitdocumentatie.logius.nl/publicatie/api/adr/) of the NL API Strategie (Dutch API Strategy)\r\n- RFC 9457: Problem Details for HTTP APIs (Internet Engineering Task Force (IETF))\r\n- Sematic versioning using Semver\r\n\r\nDesign decisions\r\n- super/subtypes (UML generalisations): subtypes are allOf with $ref to supertype and object with subtype atributes\r\n- UML compositions: hierachy in URI (should be aggegrations in eCrop class model) or array in master-object\r\n\r\nRemarks on class model\r\n- Renamed \"cytyName\" in address to \"cityName\"\r\n- \"Compositions\" should be renamed to \"Components\"\r\n- change applicable composition-relations to aggegration-relations \r\n- Rename \"Farm\" to \"Location\"\r\n- Relation delivery should link to \"grower\" iso \"receiver\"\r\n\r\nCopyright (c)  AgroConnect 2025",
+    "description" : "### eCrop API based on **AgroConnect eCrop standard version 0.4** \r\n\r\nThis API concerns registration of crop related activities like application of crop protection products and fertilizers and energy and water consumption.\r\n\r\nThis API is based on the [Agroconnect eCrop class model version 0.4](https://www.agroconnect.nl/Portals/10/EnterpriseArchitect/eCrop_json/eCrop_v0_4/index.html).\r\n\r\nApplied standards:\r\n- [API Design Rules version 2.0.2](https://gitdocumentatie.logius.nl/publicatie/api/adr/) of the NL API Strategie (Dutch API Strategy)\r\n- RFC 9457: Problem Details for HTTP APIs (Internet Engineering Task Force (IETF))\r\n- Sematic versioning using Semver\r\n\r\nDesign decisions\r\n- super/subtypes (UML generalisations): subtypes are allOf with $ref to supertype and object with subtype atributes\r\n- UML compositions: hierachy in URI (should be aggegrations in eCrop class model) or array in master-object\r\n\r\nRemarks on class model\r\n- Renamed \"cytyName\" in address to \"cityName\"\r\n- \"Compositions\" should be renamed to \"Components\"\r\n- change applicable composition-relations to aggegration-relations \r\n- Rename \"Farm\" to \"Location\"\r\n- Relation delivery should link to \"grower\" iso \"receiver\"\r\n- attributes \"id\" and \"name\" in \"greenhouselocation\" are prefixed with class name\r\n\r\nCopyright (c)  AgroConnect 2025",
     "version" : "0.1.0",
     "title" : "AgroConnect eCrop API",
     "contact" : {
@@ -14,8 +14,8 @@
       "url" : ""
     },
     "license" : {
-      "name" : "Apache 2.0",
-      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+      "name" : "Agroconnect",
+      "url" : "https://www.agroconnect.nl/"
     },
     "termsOfService" : ""
   },
@@ -362,7 +362,7 @@
         "required" : true
       } ],
       "post" : {
-        "summary" : "Register a delivery for a grower by a suppliers",
+        "summary" : "register a delivery for a grower by a suppliers",
         "tags" : [ "delivery" ],
         "responses" : {
           "202" : {
@@ -393,6 +393,76 @@
         }
       }
     },
+    "/growers/{growerId}/plots" : {
+      "get" : {
+        "summary" : "returns all plots of a grower",
+        "tags" : [ "crop registration" ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/plot"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "404" : {
+            "description" : "Not Found"
+          },
+          "default" : {
+            "$ref" : "#/components/responses/default_error"
+          }
+        },
+        "operationId" : "get-growers-growerId-plots"
+      },
+      "parameters" : [ {
+        "schema" : {
+          "type" : "string"
+        },
+        "name" : "growerId",
+        "in" : "path",
+        "required" : true
+      } ],
+      "post" : {
+        "summary" : "register a plot by a grower",
+        "tags" : [ "crop registration" ],
+        "responses" : {
+          "202" : {
+            "description" : "Accepted"
+          },
+          "400" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/default_error"
+          },
+          "default" : {
+            "$ref" : "#/components/responses/default_error"
+          }
+        },
+        "operationId" : "post-growers-growerId-plots",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/plot"
+              }
+            }
+          }
+        }
+      }
+    },
     "/growers/{growerId}/crops" : {
       "parameters" : [ {
         "schema" : {
@@ -403,7 +473,7 @@
         "required" : true
       } ],
       "get" : {
-        "summary" : "List crops per grower",
+        "summary" : "return crops per grower",
         "tags" : [ "crop registration" ],
         "responses" : {
           "200" : {
@@ -426,7 +496,7 @@
         "operationId" : "get-growers-growerId-crops"
       },
       "post" : {
-        "summary" : "Register a crop by a grower",
+        "summary" : "register a crop by a grower",
         "tags" : [ "crop registration" ],
         "responses" : {
           "202" : {
@@ -462,7 +532,7 @@
         "required" : true
       } ],
       "post" : {
-        "summary" : "Register a task with operations",
+        "summary" : "register a task with operations",
         "tags" : [ "crop registration" ],
         "responses" : {
           "202" : {
@@ -489,7 +559,7 @@
     },
     "/metadata" : {
       "get" : {
-        "summary" : "Return metadata",
+        "summary" : "return metadata",
         "tags" : [ "general" ],
         "responses" : {
           "200" : {
@@ -570,24 +640,23 @@
         }
       },
       "identifier" : {
-        "required" : [ "id", "schemaIdType" ],
         "type" : "object",
+        "additionalProperties" : false,
+        "description" : "Representation of an identifier.",
+        "required" : [ "id", "schemaIdType" ],
         "properties" : {
           "id" : {
             "minLength" : 1,
             "type" : "string",
             "description" : "Identifier value.",
-            "default" : "12345"
+            "example" : "12345"
           },
           "schemaIdType" : {
             "minLength" : 1,
             "type" : "string",
-            "description" : "Schema type.",
-            "default" : "MPS"
+            "description" : "Schema type."
           }
-        },
-        "additionalProperties" : false,
-        "description" : "Representation of an identifier."
+        }
       },
       "measurementtype" : {
         "title" : "measurementtype",
@@ -642,7 +711,7 @@
             "format" : "date",
             "description" : "Begin data of the period this characteristic is or was valid.\r\n"
           },
-          "einddate" : {
+          "enddate" : {
             "type" : "string",
             "x-stoplight" : {
               "id" : "hkbnpja2afbri"
@@ -676,7 +745,7 @@
       },
       "party" : {
         "type" : "object",
-        "title" : "Party",
+        "title" : "party",
         "required" : [ "id", "partyId", "name" ],
         "properties" : {
           "id" : {
@@ -740,7 +809,8 @@
           "visitoraddress" : {
             "$ref" : "#/components/schemas/visitorsaddress"
           }
-        }
+        },
+        "description" : "Data about the party that is involved in producing or processing the crop and or agricultural produce."
       },
       "address" : {
         "title" : "address",
@@ -805,7 +875,8 @@
       "grower" : {
         "allOf" : [ {
           "$ref" : "#/components/schemas/party"
-        } ]
+        } ],
+        "description" : "The grower (e.g. the farmer) that is responsible for the cultivation of the crop."
       },
       "supplier" : {
         "allOf" : [ {
@@ -815,7 +886,9 @@
       "farm" : {
         "allOf" : [ {
           "$ref" : "#/components/schemas/party"
-        } ]
+        } ],
+        "title" : "",
+        "description" : "The entity that is responsible for cultivation the crops."
       },
       "asset" : {
         "title" : "asset",
@@ -979,9 +1052,72 @@
                 "id" : "o3gb4tu5n7pnr"
               },
               "description" : "Code for the soil type, as subscribed by a regulatory authority (e.g. MLNV-RVO in the Netherlands).\r\nFor eCrop in The Netherlands code list nl.cl405 is used.\r\n"
+            },
+            "greenhouseLocation" : {
+              "$ref" : "#/components/schemas/greenhouselocation"
             }
           }
         } ]
+      },
+      "greenhouselocation" : {
+        "title" : "greenhouselocation",
+        "type" : "object",
+        "required" : [ "id", "name" ],
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "description" : "Identifier of the greenhouse.\r\n"
+          },
+          "name" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "d436uzec7a1nm"
+            },
+            "description" : "Name of the greenhouse"
+          },
+          "blockId" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "gowzjg2xtghry"
+            },
+            "description" : "Identifier of a block (in Dutch: afdeling) within the greenhouse."
+          },
+          "postId" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "zi4o8d5tdstfw"
+            },
+            "description" : "Identifier of a post (in Dutch: paal) within the block of the greenhouse"
+          },
+          "upToPostId" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "ccar1d3w1m0g8"
+            },
+            "description" : "Identifier of a second post (in Dutch: paal) within the block of the greenhouse.\r\nThe upToPost can be used to refer to the location between two posts (postId and upToPostId)."
+          },
+          "waterTapId" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "34r3566do2axn"
+            },
+            "description" : "Identifier of a watertap (in Dutch: waterpunt) within a greenhouse."
+          },
+          "hortivationpointBlock" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "h1ovj3fp8qc3k"
+            },
+            "description" : "Coordinates of the standard Hortivation location reference point for the block"
+          },
+          "xyzReferenceToHotivationPoint" : {
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "ki4iya0xpxz2x"
+            },
+            "description" : "The xyz-position to the standard Hortivationpoint of this block within a greenhouse"
+          }
+        }
       },
       "task" : {
         "title" : "task",
