@@ -5,7 +5,7 @@
     "description" : "Agroconnect Virtual API server"
   } ],
   "info" : {
-    "description" : "### eCrop API based on **AgroConnect eCrop standard version 0.4** \r\n\r\nThis API concerns registration of crop related activities like application of crop protection products and fertilizers and energy and water consumption.\r\n\r\nThis API is based on the [Agroconnect eCrop class model version 0.4](https://www.agroconnect.nl/Portals/10/EnterpriseArchitect/eCrop_json/eCrop_v0_4/index.html).\r\n\r\nApplied standards:\r\n- [API Design Rules version 2.0.2](https://gitdocumentatie.logius.nl/publicatie/api/adr/) of the NL API Strategie (Dutch API Strategy)\r\n- RFC 9457: Problem Details for HTTP APIs (Internet Engineering Task Force (IETF))\r\n- Sematic versioning using Semver\r\n\r\nDesign decisions\r\n- super/subtypes (UML generalisations): subtypes are allOf with $ref to supertype and object with subtype atributes\r\n- UML compositions: hierachy in URI (should be aggegrations in eCrop class model) or array in master-object\r\n\r\nRemarks on class model\r\n- Renamed \"cytyName\" in address to \"cityName\"\r\n- \"Compositions\" should be renamed to \"Components\"\r\n- change applicable composition-relations to aggegration-relations \r\n- Rename \"Farm\" to \"Location\" (or ay least confirm Farm == Location)??\r\n- Add relation grower-to-farm to support get/post locations per grower?\r\n- Relation delivery should link to \"grower\" iso \"receiver\"\r\n- attributes \"id\" and \"name\" in \"greenhouselocation\" are prefixed with class name\r\n- changed IBAN to iban (ADR: properties must be lowerCamelCase)\r\n\r\nCopyright (c)  AgroConnect 2025",
+    "description" : "### eCrop API based on **AgroConnect eCrop standard version 0.4** \r\n\r\nThis API concerns registration of crop related activities like application of crop protection products and fertilizers and energy and water consumption.\r\n\r\nThis API is based on the [Agroconnect eCrop class model version 0.4](https://www.agroconnect.nl/Portals/10/EnterpriseArchitect/eCrop_json/eCrop_v0_4/index.html).\r\n\r\nApplied standards:\r\n- [API Design Rules version 2.0.2](https://gitdocumentatie.logius.nl/publicatie/api/adr/) of the NL API Strategie (Dutch API Strategy)\r\n- RFC 9457: Problem Details for HTTP APIs (Internet Engineering Task Force (IETF))\r\n- Sematic versioning using Semver\r\n\r\nDesign decisions\r\n- super/subtypes (UML generalisations): subtypes are allOf with $ref to supertype and object with subtype atributes\r\n- UML compositions: hierachy in URI (should be aggegrations in eCrop class model) or array in master-object\r\n\r\nRemarks on class model\r\n- Renamed \"cytyName\" in Address to \"cityName\"\r\n- \"Compositions\" should be renamed to \"Components\"\r\n- change applicable composition-relations to aggegration-relations \r\n- Rename \"Farm\" to \"Location\" (or ay least confirm Farm == Location)??\r\n- Add relation grower-to-farm to support get/post locations per grower?\r\n- Relation delivery should link to \"grower\" iso \"receiver\"\r\n- attributes \"id\" and \"name\" in \"greenhouselocation\" are prefixed with class name\r\n- changed IBAN to iban (ADR: properties must be lowerCamelCase)\r\n\r\nCopyright (c)  AgroConnect 2025",
     "version" : "0.1.0",
     "title" : "AgroConnect eCrop API",
     "contact" : {
@@ -24,7 +24,7 @@
     "description" : "General Operations"
   }, {
     "name" : "parties",
-    "description" : "Operations on party-level"
+    "description" : "Operations on Party-level"
   }, {
     "name" : "delivery",
     "description" : "Delivery Operations"
@@ -217,7 +217,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/problemdetails"
+                  "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
             }
@@ -265,7 +265,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/problemdetails"
+                  "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
             }
@@ -322,7 +322,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/problemdetails"
+                  "$ref" : "#/components/schemas/ProblemDetails"
                 }
               }
             }
@@ -592,7 +592,7 @@
           }
         }
       },
-      "problemdetails" : {
+      "ProblemDetails" : {
         "type" : "object",
         "description" : "Problem details based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).",
         "required" : [ "type", "title", "status" ],
@@ -626,7 +626,7 @@
           }
         }
       },
-      "identifier" : {
+      "Identifier" : {
         "type" : "object",
         "additionalProperties" : false,
         "description" : "Representation of an identifier.",
@@ -645,8 +645,8 @@
           }
         }
       },
-      "measurementtype" : {
-        "title" : "measurementtype",
+      "MeasurementType" : {
+        "title" : "MeasurementType",
         "type" : "object",
         "description" : "Standard data type for expressing the value of a measurement. To be used for all types of measurement in this class model.",
         "properties" : {
@@ -664,8 +664,8 @@
           }
         }
       },
-      "characteristictype" : {
-        "title" : "characteristictype",
+      "CharacteristicType" : {
+        "title" : "CharacteristicType",
         "type" : "object",
         "description" : "Generic data type for linked characteristics to a crop, task, operation, allocation, etc.",
         "properties" : {
@@ -680,7 +680,7 @@
             "description" : "Identifier of the code list that contains the coding of characteristics for a specific domain:\r\n\r\nFor instance:\r\nThe code list id for crop and operations characteristics for arable farming is NL_CL265."
           },
           "value" : {
-            "$ref" : "#/components/schemas/measurementtype"
+            "$ref" : "#/components/schemas/MeasurementType"
           },
           "issuedate" : {
             "type" : "string",
@@ -708,40 +708,40 @@
           }
         }
       },
-      "partyidtype" : {
+      "PartyIdType" : {
         "type" : "object",
         "additionalProperties" : false,
-        "description" : "Representation of an identifier.",
+        "description" : "Representation of an Identifier.",
         "required" : [ "id" ],
         "properties" : {
           "id" : {
             "minLength" : 1,
             "type" : "string",
-            "description" : "Represents the value of the identifier; e.g. the gln number.",
+            "description" : "Represents the value of the Identifier; e.g. the gln number.",
             "default" : 12345
           },
           "type" : {
-            "$ref" : "#/components/schemas/partyidtypecodetype"
+            "$ref" : "#/components/schemas/PartyIdTypeCodeType"
           }
         }
       },
-      "partyidtypecodetype" : {
-        "title" : "partyidtypecodetype",
+      "PartyIdTypeCodeType" : {
+        "title" : "PartyIdTypeCodeType",
         "enum" : [ "NL_UBN", "NL_KVK", "GS1_GLN", "CUSNR", "nl.cl031", "VAT" ],
-        "description" : "Code list for the type of scheme that is used for the type of identifier (e.g. a gln, or chamber of commerce number). For this, code list CL709 is used."
+        "description" : "Code list for the type of scheme that is used for the type of Identifier (e.g. a gln, or chamber of commerce number). For this, code list CL709 is used."
       },
-      "party" : {
+      "Party" : {
         "type" : "object",
-        "title" : "party",
-        "required" : [ "id", "partyId", "name" ],
+        "title" : "Party",
+        "required" : [ "id", "PartyId", "name" ],
         "properties" : {
           "id" : {
             "type" : "string",
             "format" : "uuid",
             "example" : "d290f1ee-6c54-4b01-90e6-d701748f0851"
           },
-          "partyId" : {
-            "$ref" : "#/components/schemas/partyidtype"
+          "PartyId" : {
+            "$ref" : "#/components/schemas/PartyIdType"
           },
           "secondaryIds" : {
             "type" : "array",
@@ -749,7 +749,7 @@
               "id" : "0hfb7zjxl02ov"
             },
             "items" : {
-              "$ref" : "#/components/schemas/partyidtype"
+              "$ref" : "#/components/schemas/PartyIdType"
             }
           },
           "name" : {
@@ -790,17 +790,17 @@
               "id" : "h7ngifrxgh6h7"
             }
           },
-          "postaladdress" : {
-            "$ref" : "#/components/schemas/postaladdress"
+          "PostalAddress" : {
+            "$ref" : "#/components/schemas/PostalAddress"
           },
-          "visitoraddress" : {
-            "$ref" : "#/components/schemas/visitorsaddress"
+          "VisitorAddress" : {
+            "$ref" : "#/components/schemas/VisitorsAddress"
           }
         },
-        "description" : "Data about the party that is involved in producing or processing the crop and or agricultural produce."
+        "description" : "Data about the Party that is involved in producing or processing the crop and or agricultural produce."
       },
-      "address" : {
-        "title" : "address",
+      "Address" : {
+        "title" : "Address",
         "type" : "object",
         "required" : [ "postalCode", "cityName", "streetName", "streetNumber", "country", "countryName", "postalBoxId" ],
         "properties" : {
@@ -826,7 +826,7 @@
             }
           },
           "country" : {
-            "$ref" : "#/components/schemas/countrycodetype"
+            "$ref" : "#/components/schemas/CountryCodeType"
           },
           "countryName" : {
             "type" : "string",
@@ -842,42 +842,42 @@
           }
         }
       },
-      "postaladdress" : {
-        "title" : "postaladdress",
+      "PostalAddress" : {
+        "title" : "PostalAddress",
         "allOf" : [ {
-          "$ref" : "#/components/schemas/address"
+          "$ref" : "#/components/schemas/Address"
         } ]
       },
-      "visitorsaddress" : {
-        "title" : "visitorsaddress",
+      "VisitorsAddress" : {
+        "title" : "VisitorsAddress",
         "allOf" : [ {
-          "$ref" : "#/components/schemas/address"
+          "$ref" : "#/components/schemas/Address"
         } ]
       },
-      "countrycodetype" : {
-        "title" : "countrycodetype",
+      "CountryCodeType" : {
+        "title" : "CountryCodeType",
         "enum" : [ "NL", "DE", "UK", "BE", "ES", "PL", "DK" ],
         "description" : "Country codes: 2 letter ISO 3166."
       },
-      "grower" : {
+      "Grower" : {
         "allOf" : [ {
-          "$ref" : "#/components/schemas/party"
+          "$ref" : "#/components/schemas/Party"
         } ],
         "description" : "The grower (e.g. the farmer) that is responsible for the cultivation of the crop."
       },
-      "supplier" : {
+      "Supplier" : {
         "allOf" : [ {
-          "$ref" : "#/components/schemas/party"
+          "$ref" : "#/components/schemas/Party"
         } ]
       },
-      "farm" : {
+      "Farm" : {
         "allOf" : [ {
-          "$ref" : "#/components/schemas/party"
+          "$ref" : "#/components/schemas/Party"
         } ],
         "title" : "",
         "description" : "The entity that is responsible for cultivation the crops."
       },
-      "asset" : {
+      "Asset" : {
         "title" : "asset",
         "type" : "object",
         "description" : "Entity of a tangible object on which operations can be performed.\nE.g.: a crop, a building, a machine, a ditch, a greenhouse, a climate control system, a feeding system, etc.",
@@ -894,10 +894,10 @@
             }
           },
           "startDate" : {
-            "$ref" : "#/components/schemas/date"
+            "$ref" : "#/components/schemas/Date"
           },
           "endDate" : {
-            "$ref" : "#/components/schemas/date"
+            "$ref" : "#/components/schemas/Date"
           },
           "characteristics" : {
             "type" : "array",
@@ -905,16 +905,16 @@
               "id" : "fmi4cfqq7u0de"
             },
             "items" : {
-              "$ref" : "#/components/schemas/characteristictype"
+              "$ref" : "#/components/schemas/CharacteristicType"
             }
           }
         }
       },
-      "crop" : {
+      "Crop" : {
         "title" : "crop",
         "description" : "The cultivation of a specific crop type (e.g. potato, wheat, rice,. etc.) on one or more plots during a specific period of time, specified by startDateTime and endDateTime.",
         "allOf" : [ {
-          "$ref" : "#/components/schemas/asset"
+          "$ref" : "#/components/schemas/Asset"
         }, {
           "type" : "object",
           "required" : [ "year" ],
@@ -925,7 +925,7 @@
               "description" : "Indication of the year in which the cultivation is harvested."
             },
             "country" : {
-              "$ref" : "#/components/schemas/countrycodetype"
+              "$ref" : "#/components/schemas/CountryCodeType"
             },
             "region" : {
               "type" : "string",
@@ -935,28 +935,28 @@
               "description" : "Region of a country the cultivation took place.\\nFor eCrop in The Netherlands for this code list code list NL.CL044 is used."
             },
             "useTitle" : {
-              "$ref" : "#/components/schemas/codetype"
+              "$ref" : "#/components/schemas/CodeType"
             },
             "productionType" : {
-              "$ref" : "#/components/schemas/codetype"
+              "$ref" : "#/components/schemas/CodeType"
             },
             "productionPurpose" : {
-              "$ref" : "#/components/schemas/codetype"
+              "$ref" : "#/components/schemas/CodeType"
             },
             "productionSequence" : {
-              "$ref" : "#/components/schemas/productionsequencetype"
+              "$ref" : "#/components/schemas/ProductionSequenceType"
             },
             "regularOrOrganic" : {
-              "$ref" : "#/components/schemas/codetype"
+              "$ref" : "#/components/schemas/CodeType"
             },
             "netArea" : {
-              "$ref" : "#/components/schemas/measurementtype"
+              "$ref" : "#/components/schemas/MeasurementType"
             },
             "growEnvironment" : {
-              "$ref" : "#/components/schemas/codetype"
+              "$ref" : "#/components/schemas/CodeType"
             },
             "growMedium" : {
-              "$ref" : "#/components/schemas/codetype"
+              "$ref" : "#/components/schemas/CodeType"
             },
             "trackTillage" : {
               "type" : "boolean",
@@ -971,13 +971,13 @@
               },
               "type" : "array",
               "items" : {
-                "$ref" : "#/components/schemas/plantspecies"
+                "$ref" : "#/components/schemas/PlantSpecies"
               }
             }
           }
         } ]
       },
-      "plantspecies" : {
+      "PlantSpecies" : {
         "title" : "plantspecies",
         "type" : "object",
         "description" : "Crop type at the level of potato, sugar beet, onion, winter wheat, etc.\nFor mixed crops more then one type of crop can be grown in the same period at the same plot.",
@@ -1004,7 +1004,7 @@
           }
         }
       },
-      "plot" : {
+      "Plot" : {
         "title" : "plot",
         "description" : "Surface (area) that is used to grow plants.\nThe exact location of this surface is specified by either, a greenhouse-location a point location or a border location (using outer and inner polygons).",
         "allOf" : [ {
@@ -1014,10 +1014,10 @@
           "required" : [ "type", "area" ],
           "properties" : {
             "type" : {
-              "$ref" : "#/components/schemas/plottype"
+              "$ref" : "#/components/schemas/PlotType"
             },
             "area" : {
-              "$ref" : "#/components/schemas/measurementtype"
+              "$ref" : "#/components/schemas/MeasurementType"
             },
             "regularOrOrganic" : {
               "type" : "string",
@@ -1041,12 +1041,12 @@
               "description" : "Code for the soil type, as subscribed by a regulatory authority (e.g. MLNV-RVO in the Netherlands).\r\nFor eCrop in The Netherlands code list nl.cl405 is used.\r\n"
             },
             "greenhouseLocation" : {
-              "$ref" : "#/components/schemas/greenhouselocation"
+              "$ref" : "#/components/schemas/GreenhouseLocation"
             }
           }
         } ]
       },
-      "greenhouselocation" : {
+      "GreenhouseLocation" : {
         "title" : "greenhouselocation",
         "type" : "object",
         "required" : [ "id", "name" ],
@@ -1106,7 +1106,7 @@
           }
         }
       },
-      "task" : {
+      "Task" : {
         "title" : "task",
         "type" : "object",
         "description" : "A Task is the execution of one or more Operation's by a ma-machine-system.\nA 'task' consists of one ore more 'operations' that are closely related but involve different assents and resources. All combined operations need to be carried out well coordinated, to execute the task.\nFor instance, the task potato harvesting involves: one tractor pulling the potato harvester, 2 units to take care of the transport of the harvested potatoes to the barn, equipment at the barn to unload the transport units and to bring the produce in the storing place.",
@@ -1114,27 +1114,27 @@
         "properties" : {
           "id" : {
             "type" : "string",
-            "description" : "The identifier of the task assigned by the originator of the Task."
+            "description" : "The Identifier of the task assigned by the originator of the Task."
           },
           "name" : {
             "type" : "string",
             "description" : "Short name of the task."
           },
           "startDateTime" : {
-            "$ref" : "#/components/schemas/datetime"
+            "$ref" : "#/components/schemas/DateTime"
           },
           "endDateTime" : {
-            "$ref" : "#/components/schemas/datetime"
+            "$ref" : "#/components/schemas/DateTime"
           },
           "status" : {
-            "$ref" : "#/components/schemas/processstate"
+            "$ref" : "#/components/schemas/ProcessState"
           },
           "referenceId" : {
             "type" : "string",
             "x-stoplight" : {
               "id" : "0wgmugwqr7l37"
             },
-            "description" : "The identifier of the ordered task that resulted in this executed task.\r\n"
+            "description" : "The Identifier of the ordered task that resulted in this executed task.\r\n"
           },
           "operations" : {
             "type" : "array",
@@ -1142,12 +1142,12 @@
               "id" : "7bh6eomykcfn1"
             },
             "items" : {
-              "$ref" : "#/components/schemas/operation"
+              "$ref" : "#/components/schemas/Operation"
             }
           }
         }
       },
-      "operation" : {
+      "Operation" : {
         "title" : "operation",
         "type" : "object",
         "description" : "Activity carried out by man and/or machine as part op the execution of a task.\nAn operation performs a particular OperationTechnique on a particular asset (a crop,a field, a production unit, a batch, etc.) to realize a certain Cultural Practice or Husbandry Practice.\nExamples for CropProduction:\nThe CulturalPractise \"weed control\"can be realized by one of various OperationTechnique's like spraying, row cultivation, manual hoeing, etc.",
@@ -1155,33 +1155,33 @@
         "properties" : {
           "id" : {
             "type" : "string",
-            "description" : "The identifier of the operation assigned by the originator of the operation."
+            "description" : "The Identifier of the operation assigned by the originator of the operation."
           },
           "name" : {
             "type" : "string",
             "description" : "Short name of the operation."
           },
           "startDateTime" : {
-            "$ref" : "#/components/schemas/datetime"
+            "$ref" : "#/components/schemas/DateTime"
           },
           "endDateTime" : {
-            "$ref" : "#/components/schemas/datetime"
+            "$ref" : "#/components/schemas/DateTime"
           },
           "status" : {
-            "$ref" : "#/components/schemas/processstate"
+            "$ref" : "#/components/schemas/ProcessState"
           },
           "thirdPartyId" : {
             "type" : "string",
             "x-stoplight" : {
               "id" : "8b5t3svjwi1gk"
             },
-            "description" : "Identifier of this operation, allocated by a third party."
+            "description" : "Identifier of this operation, allocated by a third Party."
           },
           "operationTechnique" : {
-            "$ref" : "#/components/schemas/codetype"
+            "$ref" : "#/components/schemas/CodeType"
           },
           "culturalPractice" : {
-            "$ref" : "#/components/schemas/codetype"
+            "$ref" : "#/components/schemas/CodeType"
           },
           "characteristics" : {
             "type" : "array",
@@ -1190,40 +1190,40 @@
             },
             "description" : "The option to attach one or more characteristics about the execution of this operation.",
             "items" : {
-              "$ref" : "#/components/schemas/characteristictype"
+              "$ref" : "#/components/schemas/CharacteristicType"
             }
           },
           "area" : {
-            "$ref" : "#/components/schemas/measurementtype"
+            "$ref" : "#/components/schemas/MeasurementType"
           },
           "refereanceId" : {
             "type" : "string",
             "x-stoplight" : {
               "id" : "ny0u2dlffz1h9"
             },
-            "description" : "The identifier of the ordered operation that resulted in this executed operation."
+            "description" : "The Identifier of the ordered operation that resulted in this executed operation."
           },
-          "inputAllocations" : {
+          "inputallocations" : {
             "type" : "array",
             "x-stoplight" : {
               "id" : "aacsk3doru3f2"
             },
             "items" : {
-              "$ref" : "#/components/schemas/inputallocation"
+              "$ref" : "#/components/schemas/InputAllocation"
             }
           },
-          "outputAllocations" : {
+          "outputallocations" : {
             "type" : "array",
             "x-stoplight" : {
               "id" : "rm8v2kyx2wmlp"
             },
             "items" : {
-              "$ref" : "#/components/schemas/outputallocation"
+              "$ref" : "#/components/schemas/OutputAllocation"
             }
           }
         }
       },
-      "allocation" : {
+      "Allocation" : {
         "title" : "allocation",
         "type" : "object",
         "description" : "The generic class (the parent) for input and output allocation.",
@@ -1253,10 +1253,10 @@
             }
           },
           "quantityAbsolute" : {
-            "$ref" : "#/components/schemas/measurementtype"
+            "$ref" : "#/components/schemas/MeasurementType"
           },
           "quatityRate" : {
-            "$ref" : "#/components/schemas/measurementtype"
+            "$ref" : "#/components/schemas/MeasurementType"
           },
           "characteristics" : {
             "type" : "array",
@@ -1264,16 +1264,16 @@
               "id" : "6b5g78ts8noxj"
             },
             "items" : {
-              "$ref" : "#/components/schemas/characteristictype"
+              "$ref" : "#/components/schemas/CharacteristicType"
             }
           }
         }
       },
-      "inputallocation" : {
+      "InputAllocation" : {
         "title" : "inputallocation",
         "description" : "One or more inputs used to execute this operation.\nExamples of types of input are: crop protection products, fertilizer, water, energy, labor, etc.",
         "allOf" : [ {
-          "$ref" : "#/components/schemas/allocation"
+          "$ref" : "#/components/schemas/Allocation"
         }, {
           "x-stoplight" : {
             "id" : "xfdl7jpjanjqf"
@@ -1282,16 +1282,16 @@
           "required" : [ "treatmentzone" ],
           "properties" : {
             "treatmentzone" : {
-              "$ref" : "#/components/schemas/treatmentzone"
+              "$ref" : "#/components/schemas/TreatmentZone"
             }
           }
         } ]
       },
-      "outputallocation" : {
+      "OutputAllocation" : {
         "title" : "outputallocation",
         "description" : "One or more outputs as the result of the execution of the operation.\nFor example harvested produce: potatoes, onions, flowers, vegetables, etc..\nBut an output could also be for instance energy.",
         "allOf" : [ {
-          "$ref" : "#/components/schemas/allocation"
+          "$ref" : "#/components/schemas/Allocation"
         }, {
           "x-stoplight" : {
             "id" : "47w6igyuz1ba5"
@@ -1300,12 +1300,12 @@
           "required" : [ "treatmentzone" ],
           "properties" : {
             "treatmentzone" : {
-              "$ref" : "#/components/schemas/treatmentzone"
+              "$ref" : "#/components/schemas/TreatmentZone"
             }
           }
         } ]
       },
-      "treatmentzone" : {
+      "TreatmentZone" : {
         "title" : "treatmentzone",
         "type" : "object",
         "required" : [ "id" ],
@@ -1313,7 +1313,7 @@
           "id" : {
             "type" : "string"
           },
-          "thirdpartyId" : {
+          "thirdPartyId" : {
             "type" : "string",
             "x-stoplight" : {
               "id" : "peo1jxuz4h5y8"
@@ -1325,21 +1325,21 @@
               "id" : "8r8ukp9nfr6fn"
             },
             "items" : {
-              "$ref" : "#/components/schemas/characteristictype"
+              "$ref" : "#/components/schemas/CharacteristicType"
             }
           },
           "area" : {
-            "$ref" : "#/components/schemas/measurementtype"
+            "$ref" : "#/components/schemas/MeasurementType"
           }
         }
       },
-      "processstate" : {
-        "title" : "processstate",
+      "ProcessState" : {
+        "title" : "ProcessState",
         "enum" : [ "PROPOSED", "PLANNED", "COMLETED" ],
         "description" : "To specify the status of execution (proposed, planned, executed) of a task or operation."
       },
-      "codetype" : {
-        "title" : "codetype",
+      "CodeType" : {
+        "title" : "CodeType",
         "type" : "object",
         "required" : [ "code", "codeListid" ],
         "properties" : {
@@ -1352,7 +1352,7 @@
             "x-stoplight" : {
               "id" : "lodzaelpq3v41"
             },
-            "description" : "Identifier of the standard code list that contains the allowed codes.\r\nThe naming convention for the reference to a standard code list is: “nl.cl<nnn>” (e.g. “nl.cl232”).\r\nWhere \"nl\" stands for the 2 character country code, \"cl\" stands for code list and <nnn> stands for the 3 character identifier of the specific code list within the scope of the specified country.\r\n"
+            "description" : "Identifier of the standard code list that contains the allowed codes.\r\nThe naming convention for the reference to a standard code list is: “nl.cl<nnn>” (e.g. “nl.cl232”).\r\nWhere \"nl\" stands for the 2 character country code, \"cl\" stands for code list and <nnn> stands for the 3 character Identifier of the specific code list within the scope of the specified country.\r\n"
           },
           "issueingPartyId" : {
             "type" : "string",
@@ -1370,17 +1370,17 @@
           }
         }
       },
-      "plottype" : {
+      "PlotType" : {
         "title" : "plottype",
         "enum" : [ "CROPFIELD", "ACTIVITYFIELD", "TABLE" ],
         "description" : "The type of production surface to grow plants. Can be a crop field for arable farming or a moving table (platform) for potted plants in floriculture."
       },
-      "productionsequencetype" : {
-        "title" : "productionsequencetype",
+      "ProductionSequenceType" : {
+        "title" : "Productionsequencetype",
         "enum" : [ "PRE_CROP", "MAIN_CROP", "FOLLOWUP_CROP", "MIXED_CROP" ],
         "description" : ""
       },
-      "date" : {
+      "Date" : {
         "title" : "date",
         "type" : "string",
         "format" : "date",
@@ -1388,7 +1388,7 @@
         "description" : "Default date format with ISO-8601 standard date format \"yyyy-mm-dd\"",
         "example" : "2023-03-12"
       },
-      "datetime" : {
+      "DateTime" : {
         "title" : "datetime",
         "type" : "string",
         "format" : "date",
@@ -1396,7 +1396,7 @@
         "description" : "Default datetime format with ISO-8601 standard date format \"yyyy-mm-ddThh24:mm:ss+nn:nn\"",
         "example" : "2023-03-12T15:51:00+01:00"
       },
-      "delivery" : {
+      "Delivery" : {
         "title" : "delivery",
         "type" : "object",
         "description" : "Delivery by the farm of a harvested batch of produce to a buyer.\nOr, materials and inputs delivered by a supplier to a grower as input for their crop process. A\ndelivery describes a certain amount of a certain product acquired by a buyer through an order to\na seller.\n",
@@ -1411,25 +1411,25 @@
             }
           },
           "dateOfDelivery" : {
-            "$ref" : "#/components/schemas/date"
+            "$ref" : "#/components/schemas/Date"
           },
           "quantity" : {
-            "$ref" : "#/components/schemas/measurementtype"
+            "$ref" : "#/components/schemas/MeasurementType"
           },
           "product" : {
-            "$ref" : "#/components/schemas/product"
+            "$ref" : "#/components/schemas/Product"
           },
           "location" : {
-            "$ref" : "#/components/schemas/farm"
+            "$ref" : "#/components/schemas/Farm"
           }
         }
       },
-      "product" : {
+      "Product" : {
         "title" : "product",
         "type" : "object",
         "properties" : {
           "id" : {
-            "$ref" : "#/components/schemas/identifier"
+            "$ref" : "#/components/schemas/Identifier"
           },
           "name" : {
             "type" : "string",
@@ -1438,10 +1438,10 @@
             }
           },
           "thirdPartyProductReferenceId" : {
-            "$ref" : "#/components/schemas/identifier"
+            "$ref" : "#/components/schemas/Identifier"
           },
           "regionalAuthorisationId" : {
-            "$ref" : "#/components/schemas/identifier"
+            "$ref" : "#/components/schemas/Identifier"
           },
           "additionalProductProperties" : {
             "type" : "array",
@@ -1449,7 +1449,7 @@
               "id" : "4i37hhcagih21"
             },
             "items" : {
-              "$ref" : "#/components/schemas/characteristictype"
+              "$ref" : "#/components/schemas/CharacteristicType"
             }
           }
         },
@@ -1462,7 +1462,7 @@
         "content" : {
           "application/json" : {
             "schema" : {
-              "$ref" : "#/components/schemas/problemdetails"
+              "$ref" : "#/components/schemas/ProblemDetails"
             }
           }
         },
@@ -1481,7 +1481,7 @@
         "content" : {
           "application/json" : {
             "schema" : {
-              "$ref" : "#/components/schemas/task"
+              "$ref" : "#/components/schemas/Task"
             }
           }
         }
@@ -1490,7 +1490,7 @@
         "content" : {
           "application/json" : {
             "schema" : {
-              "$ref" : "#/components/schemas/crop"
+              "$ref" : "#/components/schemas/Crop"
             }
           }
         }
@@ -1499,7 +1499,7 @@
         "content" : {
           "application/json" : {
             "schema" : {
-              "$ref" : "#/components/schemas/delivery"
+              "$ref" : "#/components/schemas/Delivery"
             }
           }
         }
