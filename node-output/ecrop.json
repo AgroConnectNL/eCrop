@@ -1,7 +1,7 @@
 {
   "openapi" : "3.0.0",
   "servers" : [ {
-    "url" : "http://standard-api.agroconnect.nl/ecrop",
+    "url" : "https://standard-api.agroconnect.nl/ecrop/v1",
     "description" : "Agroconnect Virtual API server"
   } ],
   "info" : {
@@ -67,7 +67,7 @@
                 "schema" : {
                   "type" : "array",
                   "items" : {
-                    "$ref" : "#/components/schemas/grower"
+                    "$ref" : "#/components/schemas/Grower"
                   }
                 }
               }
@@ -116,7 +116,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/supplier"
+                  "$ref" : "#/components/schemas/Supplier"
                 }
               }
             }
@@ -151,7 +151,7 @@
                 "schema" : {
                   "type" : "array",
                   "items" : {
-                    "$ref" : "#/components/schemas/supplier"
+                    "$ref" : "#/components/schemas/Supplier"
                   }
                 },
                 "examples" : { }
@@ -188,14 +188,14 @@
         "tags" : [ "parties" ],
         "operationId" : "get-suppliers-by-growerId",
         "summary" : "get specific supplier",
-        "description" : "Returns specific grower\n",
+        "description" : "Returns specific grower",
         "responses" : {
           "200" : {
             "description" : "Specific supplier",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/supplier"
+                  "$ref" : "#/components/schemas/Supplier"
                 }
               }
             }
@@ -245,7 +245,7 @@
                 "schema" : {
                   "type" : "array",
                   "items" : {
-                    "$ref" : "#/components/schemas/grower"
+                    "$ref" : "#/components/schemas/Grower"
                   }
                 }
               }
@@ -300,7 +300,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/grower"
+                  "$ref" : "#/components/schemas/Grower"
                 }
               }
             }
@@ -350,6 +350,7 @@
       } ],
       "post" : {
         "summary" : "register a delivery for a grower by a suppliers",
+        "description" : "register an delvery of a product for a grower by a supplier",
         "tags" : [ "delivery" ],
         "responses" : {
           "202" : {
@@ -373,7 +374,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/delivery"
+                "$ref" : "#/components/schemas/Delivery"
               }
             }
           }
@@ -383,6 +384,7 @@
     "/growers/{growerId}/plots" : {
       "get" : {
         "summary" : "returns all plots of a grower",
+        "description" : "return all plots of a grower",
         "tags" : [ "crop registration" ],
         "responses" : {
           "200" : {
@@ -392,7 +394,7 @@
                 "schema" : {
                   "type" : "array",
                   "items" : {
-                    "$ref" : "#/components/schemas/plot"
+                    "$ref" : "#/components/schemas/Plot"
                   }
                 }
               }
@@ -408,7 +410,7 @@
             "$ref" : "#/components/responses/default_error"
           }
         },
-        "operationId" : "get-growers-growerId-plots"
+        "operationId" : "get-growers-growerId-plots",
       },
       "parameters" : [ {
         "schema" : {
@@ -421,6 +423,7 @@
       "post" : {
         "summary" : "register a plot by a grower",
         "tags" : [ "crop registration" ],
+        "description" : "register a plot by a grower",
         "responses" : {
           "202" : {
             "description" : "Accepted"
@@ -443,7 +446,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/plot"
+                "$ref" : "#/components/schemas/Plot"
               }
             }
           }
@@ -462,6 +465,7 @@
       "get" : {
         "summary" : "return crops per grower",
         "tags" : [ "crop registration" ],
+        "description" : "returns all crop of a grower",
         "responses" : {
           "200" : {
             "description" : "OK",
@@ -470,7 +474,7 @@
                 "schema" : {
                   "type" : "array",
                   "items" : {
-                    "$ref" : "#/components/schemas/crop"
+                    "$ref" : "#/components/schemas/Crop"
                   }
                 }
               }
@@ -484,6 +488,7 @@
       },
       "post" : {
         "summary" : "register a crop by a grower",
+        "description" : "register a crop by a grower",
         "tags" : [ "crop registration" ],
         "responses" : {
           "202" : {
@@ -520,6 +525,7 @@
       } ],
       "post" : {
         "summary" : "register a task with operations",
+        "description" : "register a task witjh one or more operations by a grower",
         "tags" : [ "crop registration" ],
         "responses" : {
           "202" : {
@@ -547,6 +553,7 @@
     "/metadata" : {
       "get" : {
         "summary" : "return metadata",
+        "description" : "return APIs metadata ",
         "tags" : [ "general" ],
         "responses" : {
           "200" : {
@@ -718,7 +725,7 @@
             "minLength" : 1,
             "type" : "string",
             "description" : "Represents the value of the Identifier; e.g. the gln number.",
-            "default" : 12345
+            "default" : "12345"
           },
           "type" : {
             "$ref" : "#/components/schemas/PartyIdTypeCodeType"
@@ -740,10 +747,10 @@
             "format" : "uuid",
             "example" : "d290f1ee-6c54-4b01-90e6-d701748f0851"
           },
-          "PartyId" : {
+          "partyid" : {
             "$ref" : "#/components/schemas/PartyIdType"
           },
-          "secondaryIds" : {
+          "secondaryids" : {
             "type" : "array",
             "x-stoplight" : {
               "id" : "0hfb7zjxl02ov"
@@ -790,10 +797,10 @@
               "id" : "h7ngifrxgh6h7"
             }
           },
-          "PostalAddress" : {
+          "postaladdress" : {
             "$ref" : "#/components/schemas/PostalAddress"
           },
-          "VisitorAddress" : {
+          "visitorsaddress" : {
             "$ref" : "#/components/schemas/VisitorsAddress"
           }
         },
@@ -804,22 +811,22 @@
         "type" : "object",
         "required" : [ "postalCode", "cityName", "streetName", "streetNumber", "country", "countryName", "postalBoxId" ],
         "properties" : {
-          "postalCode" : {
+          "postalcode" : {
             "type" : "string"
           },
-          "cityName" : {
+          "cityname" : {
             "type" : "string",
             "x-stoplight" : {
               "id" : "rvjvk41n8jovq"
             }
           },
-          "streetName" : {
+          "streetname" : {
             "type" : "string",
             "x-stoplight" : {
               "id" : "ze32fnuj7ob99"
             }
           },
-          "streetNumber" : {
+          "streetnumber" : {
             "type" : "string",
             "x-stoplight" : {
               "id" : "8jxtdseh9z32s"
@@ -834,7 +841,7 @@
               "id" : "u8oax2gr82dg1"
             }
           },
-          "postalBoxId" : {
+          "postalboxid" : {
             "type" : "string",
             "x-stoplight" : {
               "id" : "zgoqkvqcpvtge"
@@ -1008,7 +1015,7 @@
         "title" : "plot",
         "description" : "Surface (area) that is used to grow plants.\nThe exact location of this surface is specified by either, a greenhouse-location a point location or a border location (using outer and inner polygons).",
         "allOf" : [ {
-          "$ref" : "#/components/schemas/asset"
+          "$ref" : "#/components/schemas/Asset"
         }, {
           "type" : "object",
           "required" : [ "type", "area" ],
@@ -1391,7 +1398,7 @@
       "DateTime" : {
         "title" : "datetime",
         "type" : "string",
-        "format" : "date",
+        "format" : "datetime",
         "pattern" : "^(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$",
         "description" : "Default datetime format with ISO-8601 standard date format \"yyyy-mm-ddThh24:mm:ss+nn:nn\"",
         "example" : "2023-03-12T15:51:00+01:00"
