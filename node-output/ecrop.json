@@ -40,6 +40,10 @@
         "operationId" : "get-growers",
         "description" : "Returns all growers for which caller is autorised\n",
         "parameters" : [ {
+          "$ref" : "#/components/parameters/Major-Version"
+        }, {
+          "$ref" : "#/components/parameters/User-Agent"
+        }, {
           "in" : "query",
           "name" : "offset",
           "description" : "number of records to skip for pagination",
@@ -99,6 +103,10 @@
     },
     "/growers/{growerId}" : {
       "parameters" : [ {
+        "$ref" : "#/components/parameters/Major-Version"
+      }, {
+        "$ref" : "#/components/parameters/User-Agent"
+      }, {
         "schema" : {
           "type" : "string"
         },
@@ -149,6 +157,11 @@
       }
     },
     "/suppliers" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/Major-Version"
+      }, {
+        "$ref" : "#/components/parameters/User-Agent"
+      } ],
       "get" : {
         "tags" : [ "parties" ],
         "summary" : "List of suppliers",
@@ -194,6 +207,10 @@
     },
     "/suppliers/{supplierId}" : {
       "parameters" : [ {
+        "$ref" : "#/components/parameters/Major-Version"
+      }, {
+        "$ref" : "#/components/parameters/User-Agent"
+      }, {
         "schema" : {
           "type" : "string"
         },
@@ -245,6 +262,10 @@
     },
     "/suppliers/{supplierId}/growers" : {
       "parameters" : [ {
+        "$ref" : "#/components/parameters/Major-Version"
+      }, {
+        "$ref" : "#/components/parameters/User-Agent"
+      }, {
         "schema" : {
           "type" : "string"
         },
@@ -296,6 +317,10 @@
     },
     "/suppliers/{supplierId}/growers/{growerId}" : {
       "parameters" : [ {
+        "$ref" : "#/components/parameters/Major-Version"
+      }, {
+        "$ref" : "#/components/parameters/User-Agent"
+      }, {
         "schema" : {
           "type" : "string"
         },
@@ -354,6 +379,10 @@
     },
     "/suppliers/{supplierId}/growers/{growerId}/deliveries" : {
       "parameters" : [ {
+        "$ref" : "#/components/parameters/Major-Version"
+      }, {
+        "$ref" : "#/components/parameters/User-Agent"
+      }, {
         "schema" : {
           "type" : "string"
         },
@@ -411,6 +440,18 @@
       }
     },
     "/growers/{growerId}/plots" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/Major-Version"
+      }, {
+        "$ref" : "#/components/parameters/User-Agent"
+      }, {
+        "schema" : {
+          "type" : "string"
+        },
+        "name" : "growerId",
+        "in" : "path",
+        "required" : true
+      } ],
       "get" : {
         "summary" : "returns all plots of a grower",
         "description" : "return all plots of a grower",
@@ -449,14 +490,6 @@
         },
         "operationId" : "get-growers-growerId-plots"
       },
-      "parameters" : [ {
-        "schema" : {
-          "type" : "string"
-        },
-        "name" : "growerId",
-        "in" : "path",
-        "required" : true
-      } ],
       "post" : {
         "summary" : "register a plot by a grower",
         "tags" : [ "crop registration" ],
@@ -500,6 +533,10 @@
     },
     "/growers/{growerId}/crops" : {
       "parameters" : [ {
+        "$ref" : "#/components/parameters/Major-Version"
+      }, {
+        "$ref" : "#/components/parameters/User-Agent"
+      }, {
         "schema" : {
           "type" : "string"
         },
@@ -570,6 +607,10 @@
     },
     "/growers/{growerId}/crops/{cropId}/tasks" : {
       "parameters" : [ {
+        "$ref" : "#/components/parameters/Major-Version"
+      }, {
+        "$ref" : "#/components/parameters/User-Agent"
+      }, {
         "schema" : {
           "type" : "string"
         },
@@ -620,6 +661,11 @@
       }
     },
     "/metadata" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/Major-Version"
+      }, {
+        "$ref" : "#/components/parameters/User-Agent"
+      } ],
       "get" : {
         "summary" : "return metadata",
         "description" : "return APIs metadata ",
@@ -1602,7 +1648,7 @@
       "User-Agent" : {
         "name" : "User-Agent",
         "in" : "header",
-        "required" : false,
+        "required" : true,
         "schema" : {
           "type" : "string"
         },
