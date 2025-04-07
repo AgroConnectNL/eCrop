@@ -1579,7 +1579,13 @@
         }
       },
       "req_delivery" : {
-        "content" : { }
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Delivery"
+            }
+          }
+        }
       }
     },
     "parameters" : {
