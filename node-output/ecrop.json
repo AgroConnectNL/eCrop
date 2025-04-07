@@ -69,7 +69,8 @@
                   "items" : {
                     "$ref" : "#/components/schemas/Grower"
                   }
-                }
+                },
+                "examples" : { }
               }
             },
             "headers" : {
@@ -112,11 +113,11 @@
         "description" : "Returns a specific grower\n",
         "responses" : {
           "200" : {
-            "description" : "Specific supplier",
+            "description" : "Returns specific grower",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Supplier"
+                  "$ref" : "#/components/schemas/Grower"
                 }
               }
             },
@@ -150,7 +151,7 @@
     "/suppliers" : {
       "get" : {
         "tags" : [ "parties" ],
-        "summary" : "get all suppliers",
+        "summary" : "List of suppliers",
         "responses" : {
           "200" : {
             "description" : "List of suppliers",
@@ -1541,9 +1542,9 @@
     },
     "responses" : {
       "default_error" : {
-        "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457). \r\n\r\n*Remark: Content-type should be application/problem+json (not application/json)*",
+        "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457). \r\n\r\n*Remark: Content-type is application/problem+json (not application/json)*",
         "content" : {
-          "application/json" : {
+          "application/problem+json" : {
             "schema" : {
               "$ref" : "#/components/schemas/ProblemDetails"
             }
