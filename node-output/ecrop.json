@@ -1,7 +1,7 @@
 {
   "openapi" : "3.0.0",
   "servers" : [ {
-    "url" : "https://standard-api.agroconnect.nl/ecrop/v1",
+    "url" : "https://standard-api.agroconnect.nl/ecrop/v0",
     "description" : "Agroconnect Virtual API server"
   } ],
   "info" : {
@@ -36,7 +36,7 @@
     "/growers" : {
       "get" : {
         "tags" : [ "parties" ],
-        "summary" : "get all growers",
+        "summary" : "Get all growers for which the client is authorized",
         "operationId" : "get-growers",
         "description" : "Returns all growers for which caller is autorised\n",
         "parameters" : [ {
@@ -116,9 +116,9 @@
       } ],
       "get" : {
         "tags" : [ "parties" ],
-        "summary" : "get specific grower",
+        "summary" : "Get a specific grower",
         "operationId" : "get-growers-by-growerId",
-        "description" : "Returns a specific grower\n",
+        "description" : "Returns a specific grower",
         "responses" : {
           "200" : {
             "description" : "Returns specific grower",
@@ -164,7 +164,9 @@
       } ],
       "get" : {
         "tags" : [ "parties" ],
-        "summary" : "List of suppliers",
+        "summary" : "Get all supliers for which the client is authorized",
+        "operationId" : "get-suppliers",
+        "description" : "Returns all suppliers for which caller is autorised",
         "responses" : {
           "200" : {
             "description" : "List of suppliers",
@@ -200,9 +202,7 @@
           "default" : {
             "$ref" : "#/components/responses/default_error"
           }
-        },
-        "operationId" : "get-suppliers",
-        "description" : "Returns all suppliers for which caller is autorised"
+        }
       }
     },
     "/suppliers/{supplierId}" : {
@@ -220,9 +220,9 @@
       } ],
       "get" : {
         "tags" : [ "parties" ],
-        "operationId" : "get-suppliers-by-growerId",
-        "summary" : "get specific supplier",
-        "description" : "Returns specific grower",
+        "operationId" : "get-suppliers-by-supplierId",
+        "summary" : "Get e specific supplier",
+        "description" : "Returns specific supplier",
         "responses" : {
           "200" : {
             "description" : "Specific supplier",
@@ -274,11 +274,13 @@
         "required" : true
       } ],
       "get" : {
-        "summary" : "get growers per supplier",
+        "summary" : "Get all growers for a supplier",
+        "operationId" : "get-suppliers-supplierId-growers",
+        "description" : "Returns all growers for which a supplier is autorised",
         "tags" : [ "delivery" ],
         "responses" : {
           "200" : {
-            "description" : "Shared Response",
+            "description" : "List of growers",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -310,9 +312,7 @@
           "default" : {
             "$ref" : "#/components/responses/default_error"
           }
-        },
-        "operationId" : "get-suppliers-supplierId-growers",
-        "description" : "Returns all growers for which a supplier is autorised"
+        }
       }
     },
     "/suppliers/{supplierId}/growers/{growerId}" : {
@@ -336,11 +336,13 @@
         "required" : true
       } ],
       "get" : {
-        "summary" : "get specific grower for a supplier",
+        "summary" : "Get a specific grower for a supplier",
+        "operationId" : "get-suppliers-supplierId-growers-growerId",
+        "description" : "Returns a specific grower if the supplier is autorised",
         "tags" : [ "delivery" ],
         "responses" : {
           "200" : {
-            "description" : "Shared Response",
+            "description" : "Specific grower",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -372,9 +374,7 @@
           "default" : {
             "$ref" : "#/components/responses/default_error"
           }
-        },
-        "operationId" : "get-suppliers-supplierId-growers-growerId",
-        "description" : "Returns a specific grower if the supplier is autorised"
+        }
       }
     },
     "/suppliers/{supplierId}/growers/{growerId}/deliveries" : {
@@ -398,12 +398,13 @@
         "required" : true
       } ],
       "post" : {
-        "summary" : "register a delivery for a grower by a suppliers",
-        "description" : "register an delvery of a product for a grower by a supplier",
+        "summary" : "Register a delivery for a grower by a suppliers",
+        "operationId" : "post-suppliers-supplierId-growers-growerId-deliveries",
+        "description" : "Register an delvery of a product for a grower by a supplier",
         "tags" : [ "delivery" ],
         "responses" : {
           "202" : {
-            "description" : "Accepted",
+            "description" : "Delivery accepted",
             "headers" : {
               "API-Version" : {
                 "schema" : {
@@ -426,7 +427,6 @@
             "$ref" : "#/components/responses/default_error"
           }
         },
-        "operationId" : "post-suppliers-supplierId-growers-growerId-deliveries",
         "requestBody" : {
           "description" : "Shared Request",
           "content" : {
@@ -453,8 +453,9 @@
         "required" : true
       } ],
       "get" : {
-        "summary" : "returns all plots of a grower",
-        "description" : "return all plots of a grower",
+        "summary" : "Returns all plots of a grower",
+        "operationId" : "get-growers-growerId-plots",
+        "description" : "Returns all plots of a grower",
         "tags" : [ "crop registration" ],
         "responses" : {
           "200" : {
@@ -487,13 +488,13 @@
           "default" : {
             "$ref" : "#/components/responses/default_error"
           }
-        },
-        "operationId" : "get-growers-growerId-plots"
+        }
       },
       "post" : {
-        "summary" : "register a plot by a grower",
+        "summary" : "Register a plot by a grower",
+        "operationId" : "post-growers-growerId-plots",
+        "description" : "Register a plot by a grower",
         "tags" : [ "crop registration" ],
-        "description" : "register a plot by a grower",
         "responses" : {
           "202" : {
             "description" : "Accepted",
@@ -519,7 +520,6 @@
             "$ref" : "#/components/responses/default_error"
           }
         },
-        "operationId" : "post-growers-growerId-plots",
         "requestBody" : {
           "content" : {
             "application/json" : {
@@ -545,9 +545,10 @@
         "required" : true
       } ],
       "get" : {
-        "summary" : "return crops per grower",
+        "summary" : "Return the crops of a grower",
+        "operationId" : "get-growers-growerId-crops",
+        "description" : "Returns all crops of a grower",
         "tags" : [ "crop registration" ],
-        "description" : "returns all crop of a grower",
         "responses" : {
           "200" : {
             "description" : "OK",
@@ -573,12 +574,12 @@
           "default" : {
             "$ref" : "#/components/responses/default_error"
           }
-        },
-        "operationId" : "get-growers-growerId-crops"
+        }
       },
       "post" : {
-        "summary" : "register a crop by a grower",
-        "description" : "register a crop by a grower",
+        "summary" : "Register a crop for a grower",
+        "operationId" : "post-growers-growerId-crops",
+        "description" : "Register a crop for a grower",
         "tags" : [ "crop registration" ],
         "responses" : {
           "202" : {
@@ -599,7 +600,6 @@
             "$ref" : "#/components/responses/default_error"
           }
         },
-        "operationId" : "post-growers-growerId-crops",
         "requestBody" : {
           "$ref" : "#/components/requestBodies/req_crop"
         }
@@ -626,8 +626,9 @@
         "required" : true
       } ],
       "post" : {
-        "summary" : "register a task with operations",
-        "description" : "register a task witjh one or more operations by a grower",
+        "summary" : "Register a task with operations on a specific crop by a grower",
+        "operationId" : "post-growers-growerId-tasks",
+        "description" : "Register a task with operations on a specific crop by a grower",
         "tags" : [ "crop registration" ],
         "responses" : {
           "202" : {
@@ -654,7 +655,6 @@
             "$ref" : "#/components/responses/default_error"
           }
         },
-        "operationId" : "post-growers-growerId-tasks",
         "requestBody" : {
           "$ref" : "#/components/requestBodies/req_task"
         }
@@ -667,7 +667,8 @@
         "$ref" : "#/components/parameters/User-Agent"
       } ],
       "get" : {
-        "summary" : "return metadata",
+        "summary" : "Returns metadata of this API",
+        "operationId" : "get-metadata",
         "description" : "return APIs metadata ",
         "tags" : [ "general" ],
         "responses" : {
@@ -692,8 +693,7 @@
           "default" : {
             "$ref" : "#/components/responses/default_error"
           }
-        },
-        "operationId" : "get-metadata"
+        }
       }
     }
   },
@@ -1557,6 +1557,7 @@
       "Product" : {
         "title" : "product",
         "type" : "object",
+        "description" : "A product delivered to a farmer is any agricultural input, tool, or resource designed to support farming activities, such as seeds, fertilizers, animal feed or crop protection solutions.",
         "properties" : {
           "id" : {
             "$ref" : "#/components/schemas/Identifier"
@@ -1582,8 +1583,7 @@
               "$ref" : "#/components/schemas/CharacteristicType"
             }
           }
-        },
-        "description" : ""
+        }
       }
     },
     "responses" : {
