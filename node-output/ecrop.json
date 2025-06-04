@@ -37,67 +37,64 @@
     "description" : "Registration Operations"
   } ],
   "paths" : {
+    "/metadata" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/Major-Version"
+      }, {
+        "$ref" : "#/components/parameters/User-Agent"
+      } ],
+      "get" : {
+        "summary" : "Returns metadata of this API",
+        "operationId" : "get-metadata",
+        "description" : "return APIs metadata ",
+        "tags" : [ "general" ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/metadata_200"
+          },
+          "400" : {
+            "$ref" : "#/components/responses/default_400"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/default_401"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/default_500"
+          },
+          "default" : {
+            "$ref" : "#/components/responses/default_error"
+          }
+        }
+      }
+    },
     "/growers" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/Major-Version"
+      }, {
+        "$ref" : "#/components/parameters/User-Agent"
+      } ],
       "get" : {
         "tags" : [ "parties" ],
         "summary" : "Get all growers for which the client is authorized",
         "operationId" : "get-growers",
         "description" : "Returns all growers for which caller is autorised\n",
         "parameters" : [ {
-          "$ref" : "#/components/parameters/Major-Version"
+          "$ref" : "#/components/parameters/offset"
         }, {
-          "$ref" : "#/components/parameters/User-Agent"
-        }, {
-          "in" : "query",
-          "name" : "offset",
-          "description" : "number of records to skip for pagination",
-          "schema" : {
-            "type" : "integer",
-            "format" : "int32",
-            "minimum" : 0
-          }
-        }, {
-          "in" : "query",
-          "name" : "limit",
-          "description" : "maximum number of records to return",
-          "schema" : {
-            "type" : "integer",
-            "format" : "int32",
-            "minimum" : 0,
-            "maximum" : 50
-          }
+          "$ref" : "#/components/parameters/limit"
         } ],
         "responses" : {
           "200" : {
-            "description" : "List of growers",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/Grower"
-                  }
-                },
-                "examples" : { }
-              }
-            },
-            "headers" : {
-              "API-Version" : {
-                "schema" : {
-                  "type" : "string"
-                },
-                "description" : "Full API version"
-              }
-            }
+            "$ref" : "#/components/responses/growers_200"
           },
           "400" : {
-            "$ref" : "#/components/responses/default_error"
+            "$ref" : "#/components/responses/default_400"
           },
           "401" : {
-            "$ref" : "#/components/responses/default_error"
+            "$ref" : "#/components/responses/default_401"
           },
-          "5XX" : {
-            "$ref" : "#/components/responses/default_error"
+          "500" : {
+            "$ref" : "#/components/responses/default_500"
           },
           "default" : {
             "$ref" : "#/components/responses/default_error"
@@ -111,12 +108,7 @@
       }, {
         "$ref" : "#/components/parameters/User-Agent"
       }, {
-        "schema" : {
-          "type" : "string"
-        },
-        "name" : "growerId",
-        "in" : "path",
-        "required" : true
+        "$ref" : "#/components/parameters/growerId"
       } ],
       "get" : {
         "tags" : [ "parties" ],
@@ -125,34 +117,19 @@
         "description" : "Returns a specific grower",
         "responses" : {
           "200" : {
-            "description" : "Returns specific grower",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Grower"
-                }
-              }
-            },
-            "headers" : {
-              "API-Version" : {
-                "schema" : {
-                  "type" : "string"
-                },
-                "description" : "Full API version"
-              }
-            }
+            "$ref" : "#/components/responses/growers_200"
           },
           "400" : {
-            "$ref" : "#/components/responses/default_error"
+            "$ref" : "#/components/responses/default_400"
           },
           "401" : {
-            "$ref" : "#/components/responses/default_error"
+            "$ref" : "#/components/responses/default_401"
           },
           "404" : {
-            "$ref" : "#/components/responses/default_error"
+            "$ref" : "#/components/responses/default_404"
           },
-          "5XX" : {
-            "$ref" : "#/components/responses/default_error"
+          "500" : {
+            "$ref" : "#/components/responses/default_500"
           },
           "default" : {
             "$ref" : "#/components/responses/default_error"
@@ -171,37 +148,23 @@
         "summary" : "Get all supliers for which the client is authorized",
         "operationId" : "get-suppliers",
         "description" : "Returns all suppliers for which caller is autorised",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/offset"
+        }, {
+          "$ref" : "#/components/parameters/limit"
+        } ],
         "responses" : {
           "200" : {
-            "description" : "List of suppliers",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/Supplier"
-                  }
-                },
-                "examples" : { }
-              }
-            },
-            "headers" : {
-              "API-Version" : {
-                "schema" : {
-                  "type" : "string"
-                },
-                "description" : "Full API version"
-              }
-            }
+            "$ref" : "#/components/responses/suppliers_200"
           },
           "400" : {
-            "$ref" : "#/components/responses/default_error"
+            "$ref" : "#/components/responses/default_400"
           },
           "401" : {
-            "$ref" : "#/components/responses/default_error"
+            "$ref" : "#/components/responses/default_401"
           },
-          "5XX" : {
-            "$ref" : "#/components/responses/default_error"
+          "500" : {
+            "$ref" : "#/components/responses/default_500"
           },
           "default" : {
             "$ref" : "#/components/responses/default_error"
@@ -215,12 +178,7 @@
       }, {
         "$ref" : "#/components/parameters/User-Agent"
       }, {
-        "schema" : {
-          "type" : "string"
-        },
-        "name" : "supplierId",
-        "in" : "path",
-        "required" : true
+        "$ref" : "#/components/parameters/supplierId"
       } ],
       "get" : {
         "tags" : [ "parties" ],
@@ -229,34 +187,19 @@
         "description" : "Returns specific supplier",
         "responses" : {
           "200" : {
-            "description" : "Specific supplier",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Supplier"
-                }
-              }
-            },
-            "headers" : {
-              "API-Version" : {
-                "schema" : {
-                  "type" : "string"
-                },
-                "description" : "Full API version"
-              }
-            }
+            "$ref" : "#/components/responses/suppliers_200"
           },
           "400" : {
-            "$ref" : "#/components/responses/default_error"
+            "$ref" : "#/components/responses/default_400"
           },
           "401" : {
-            "$ref" : "#/components/responses/default_error"
+            "$ref" : "#/components/responses/default_401"
           },
           "404" : {
-            "$ref" : "#/components/responses/default_error"
+            "$ref" : "#/components/responses/default_404"
           },
-          "5XX" : {
-            "$ref" : "#/components/responses/default_error"
+          "500" : {
+            "$ref" : "#/components/responses/default_500"
           },
           "default" : {
             "$ref" : "#/components/responses/default_error"
@@ -270,48 +213,30 @@
       }, {
         "$ref" : "#/components/parameters/User-Agent"
       }, {
-        "schema" : {
-          "type" : "string"
-        },
-        "name" : "supplierId",
-        "in" : "path",
-        "required" : true
+        "$ref" : "#/components/parameters/supplierId"
       } ],
       "get" : {
         "summary" : "Get all growers for a supplier",
         "operationId" : "get-suppliers-supplierId-growers",
         "description" : "Returns all growers for which a supplier is autorised",
         "tags" : [ "delivery" ],
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/offset"
+        }, {
+          "$ref" : "#/components/parameters/limit"
+        } ],
         "responses" : {
           "200" : {
-            "description" : "List of growers",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/Grower"
-                  }
-                }
-              }
-            },
-            "headers" : {
-              "API-Version" : {
-                "schema" : {
-                  "type" : "string"
-                },
-                "description" : "Full API version"
-              }
-            }
+            "$ref" : "#/components/responses/growers_200"
           },
           "400" : {
-            "$ref" : "#/components/responses/default_error"
+            "$ref" : "#/components/responses/default_400"
           },
           "401" : {
-            "$ref" : "#/components/responses/default_error"
+            "$ref" : "#/components/responses/default_401"
           },
-          "5XX" : {
-            "$ref" : "#/components/responses/default_error"
+          "500" : {
+            "$ref" : "#/components/responses/default_500"
           },
           "default" : {
             "$ref" : "#/components/responses/default_error"
@@ -325,19 +250,9 @@
       }, {
         "$ref" : "#/components/parameters/User-Agent"
       }, {
-        "schema" : {
-          "type" : "string"
-        },
-        "name" : "supplierId",
-        "in" : "path",
-        "required" : true
+        "$ref" : "#/components/parameters/supplierId"
       }, {
-        "schema" : {
-          "type" : "string"
-        },
-        "name" : "growerId",
-        "in" : "path",
-        "required" : true
+        "$ref" : "#/components/parameters/growerId"
       } ],
       "get" : {
         "summary" : "Get a specific grower for a supplier",
@@ -346,34 +261,19 @@
         "tags" : [ "delivery" ],
         "responses" : {
           "200" : {
-            "description" : "Specific grower",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Grower"
-                }
-              }
-            },
-            "headers" : {
-              "API-Version" : {
-                "schema" : {
-                  "type" : "string"
-                },
-                "description" : "Full API version"
-              }
-            }
+            "$ref" : "#/components/responses/growers_200"
           },
           "400" : {
-            "$ref" : "#/components/responses/default_error"
+            "$ref" : "#/components/responses/default_400"
           },
           "401" : {
-            "$ref" : "#/components/responses/default_error"
+            "$ref" : "#/components/responses/default_401"
           },
           "404" : {
-            "$ref" : "#/components/responses/default_error"
+            "$ref" : "#/components/responses/default_404"
           },
-          "5XX" : {
-            "$ref" : "#/components/responses/default_error"
+          "500" : {
+            "$ref" : "#/components/responses/default_500"
           },
           "default" : {
             "$ref" : "#/components/responses/default_error"
@@ -387,58 +287,36 @@
       }, {
         "$ref" : "#/components/parameters/User-Agent"
       }, {
-        "schema" : {
-          "type" : "string"
-        },
-        "name" : "supplierId",
-        "in" : "path",
-        "required" : true
+        "$ref" : "#/components/parameters/supplierId"
       }, {
-        "schema" : {
-          "type" : "string"
-        },
-        "name" : "growerId",
-        "in" : "path",
-        "required" : true
+        "$ref" : "#/components/parameters/growerId"
       } ],
       "post" : {
         "summary" : "Register a delivery for a grower by a suppliers",
         "operationId" : "post-suppliers-supplierId-growers-growerId-deliveries",
         "description" : "Register an delvery of a product for a grower by a supplier",
         "tags" : [ "delivery" ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/deliveryRequest"
+        },
         "responses" : {
           "202" : {
-            "description" : "Delivery accepted",
-            "headers" : {
-              "API-Version" : {
-                "schema" : {
-                  "type" : "string"
-                },
-                "description" : "Full API version"
-              }
-            }
+            "$ref" : "#/components/responses/delivery_202"
           },
           "400" : {
-            "$ref" : "#/components/responses/default_error"
+            "$ref" : "#/components/responses/default_400"
           },
           "401" : {
-            "$ref" : "#/components/responses/default_error"
+            "$ref" : "#/components/responses/default_401"
           },
           "403" : {
-            "$ref" : "#/components/responses/default_error"
+            "$ref" : "#/components/responses/default_403"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/default_500"
           },
           "default" : {
             "$ref" : "#/components/responses/default_error"
-          }
-        },
-        "requestBody" : {
-          "description" : "Shared Request",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/Delivery"
-              }
-            }
           }
         }
       }
@@ -449,45 +327,30 @@
       }, {
         "$ref" : "#/components/parameters/User-Agent"
       }, {
-        "schema" : {
-          "type" : "string"
-        },
-        "name" : "growerId",
-        "in" : "path",
-        "required" : true
+        "$ref" : "#/components/parameters/growerId"
       } ],
       "get" : {
         "summary" : "Returns all plots of a grower",
         "operationId" : "get-growers-growerId-plots",
         "description" : "Returns all plots of a grower",
         "tags" : [ "crop registration" ],
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/offset"
+        }, {
+          "$ref" : "#/components/parameters/limit"
+        } ],
         "responses" : {
           "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/Plot"
-                  }
-                }
-              }
-            },
-            "headers" : {
-              "API-Version" : {
-                "schema" : {
-                  "type" : "string"
-                },
-                "description" : "Full API version"
-              }
-            }
+            "$ref" : "#/components/responses/plot_200"
           },
           "400" : {
-            "$ref" : "#/components/responses/default_error"
+            "$ref" : "#/components/responses/default_400"
           },
-          "404" : {
-            "$ref" : "#/components/responses/default_error"
+          "401" : {
+            "$ref" : "#/components/responses/default_401"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/default_500"
           },
           "default" : {
             "$ref" : "#/components/responses/default_error"
@@ -499,38 +362,72 @@
         "operationId" : "post-growers-growerId-plots",
         "description" : "Register a plot by a grower",
         "tags" : [ "crop registration" ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/plotRequest"
+        },
         "responses" : {
           "202" : {
-            "description" : "Accepted",
-            "headers" : {
-              "API-Version" : {
-                "schema" : {
-                  "type" : "string"
-                },
-                "description" : "Full API version"
-              }
-            }
+            "$ref" : "#/components/responses/plot_202"
           },
           "400" : {
-            "$ref" : "#/components/responses/default_error"
+            "$ref" : "#/components/responses/default_400"
           },
           "401" : {
-            "$ref" : "#/components/responses/default_error"
+            "$ref" : "#/components/responses/default_401"
           },
           "403" : {
-            "$ref" : "#/components/responses/default_error"
+            "$ref" : "#/components/responses/default_403"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/default_500"
           },
           "default" : {
             "$ref" : "#/components/responses/default_error"
           }
+        }
+      }
+    },
+    "/growers/{growerId}/plots/{plotId}/tasks" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/Major-Version"
+      }, {
+        "$ref" : "#/components/parameters/User-Agent"
+      }, {
+        "$ref" : "#/components/parameters/growerId"
+      }, {
+        "schema" : {
+          "type" : "string"
         },
+        "name" : "plotId",
+        "in" : "path",
+        "required" : true
+      } ],
+      "post" : {
+        "summary" : "Register a non crop-specific task with operations by a grower",
+        "operationId" : "post-growers-plot-tasks",
+        "description" : "Register a non crop-specific task with operations by a grower",
+        "tags" : [ "crop registration" ],
         "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/Plot"
-              }
-            }
+          "$ref" : "#/components/requestBodies/taskRequest"
+        },
+        "responses" : {
+          "202" : {
+            "$ref" : "#/components/responses/task_202"
+          },
+          "400" : {
+            "$ref" : "#/components/responses/default_400"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/default_401"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/default_403"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/default_500"
+          },
+          "default" : {
+            "$ref" : "#/components/responses/default_error"
           }
         }
       }
@@ -541,39 +438,30 @@
       }, {
         "$ref" : "#/components/parameters/User-Agent"
       }, {
-        "schema" : {
-          "type" : "string"
-        },
-        "name" : "growerId",
-        "in" : "path",
-        "required" : true
+        "$ref" : "#/components/parameters/growerId"
       } ],
       "get" : {
         "summary" : "Return the crops of a grower",
         "operationId" : "get-growers-growerId-crops",
         "description" : "Returns all crops of a grower",
         "tags" : [ "crop registration" ],
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/offset"
+        }, {
+          "$ref" : "#/components/parameters/limit"
+        } ],
         "responses" : {
           "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/Crop"
-                  }
-                }
-              }
-            },
-            "headers" : {
-              "API-Version" : {
-                "schema" : {
-                  "type" : "string"
-                },
-                "description" : "Full API version"
-              }
-            }
+            "$ref" : "#/components/responses/crop_200"
+          },
+          "400" : {
+            "$ref" : "#/components/responses/default_400"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/default_401"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/default_500"
           },
           "default" : {
             "$ref" : "#/components/responses/default_error"
@@ -585,27 +473,28 @@
         "operationId" : "post-growers-growerId-crops",
         "description" : "Register a crop for a grower",
         "tags" : [ "crop registration" ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/cropRequest"
+        },
         "responses" : {
           "202" : {
-            "description" : "Accepted",
-            "headers" : {
-              "API-Version" : {
-                "schema" : {
-                  "type" : "string"
-                },
-                "description" : "Full API version"
-              }
-            }
+            "$ref" : "#/components/responses/crop_202"
+          },
+          "400" : {
+            "$ref" : "#/components/responses/default_400"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/default_401"
           },
           "403" : {
-            "$ref" : "#/components/responses/default_error"
+            "$ref" : "#/components/responses/default_403"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/default_500"
           },
           "default" : {
             "$ref" : "#/components/responses/default_error"
           }
-        },
-        "requestBody" : {
-          "$ref" : "#/components/requestBodies/req_crop"
         }
       }
     },
@@ -615,12 +504,7 @@
       }, {
         "$ref" : "#/components/parameters/User-Agent"
       }, {
-        "schema" : {
-          "type" : "string"
-        },
-        "name" : "growerId",
-        "in" : "path",
-        "required" : true
+        "$ref" : "#/components/parameters/growerId"
       }, {
         "schema" : {
           "type" : "string"
@@ -634,65 +518,24 @@
         "operationId" : "post-growers-growerId-tasks",
         "description" : "Register a task with operations on a specific crop by a grower",
         "tags" : [ "crop registration" ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/taskRequest"
+        },
         "responses" : {
           "202" : {
-            "description" : "Accepted",
-            "headers" : {
-              "API-Version" : {
-                "schema" : {
-                  "type" : "string"
-                },
-                "description" : "Full API version"
-              }
-            }
+            "$ref" : "#/components/responses/task_202"
           },
           "400" : {
-            "$ref" : "#/components/responses/default_error"
+            "$ref" : "#/components/responses/default_400"
           },
           "401" : {
-            "$ref" : "#/components/responses/default_error"
+            "$ref" : "#/components/responses/default_401"
           },
           "403" : {
-            "$ref" : "#/components/responses/default_error"
+            "$ref" : "#/components/responses/default_403"
           },
-          "default" : {
-            "$ref" : "#/components/responses/default_error"
-          }
-        },
-        "requestBody" : {
-          "$ref" : "#/components/requestBodies/req_task"
-        }
-      }
-    },
-    "/metadata" : {
-      "parameters" : [ {
-        "$ref" : "#/components/parameters/Major-Version"
-      }, {
-        "$ref" : "#/components/parameters/User-Agent"
-      } ],
-      "get" : {
-        "summary" : "Returns metadata of this API",
-        "operationId" : "get-metadata",
-        "description" : "return APIs metadata ",
-        "tags" : [ "general" ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Version"
-                }
-              }
-            },
-            "headers" : {
-              "API-Version" : {
-                "schema" : {
-                  "type" : "string"
-                },
-                "description" : "Full API version"
-              }
-            }
+          "500" : {
+            "$ref" : "#/components/responses/default_500"
           },
           "default" : {
             "$ref" : "#/components/responses/default_error"
@@ -723,6 +566,34 @@
             "type" : "integer",
             "description" : "Patch.",
             "format" : "int32"
+          }
+        },
+        "example" : {
+          "major" : 1,
+          "minor" : 3,
+          "patch" : 2
+        }
+      },
+      "MetaData" : {
+        "type" : "object",
+        "description" : "Metadata related to the response.",
+        "properties" : {
+          "requestId" : {
+            "type" : "string",
+            "description" : "The unique identifier for this request.",
+            "format" : "uuid"
+          },
+          "dateTimeOfRequest" : {
+            "type" : "string",
+            "description" : "The date and time when the request was made.",
+            "format" : "date-time"
+          }
+        },
+        "required" : [ "requestId", "dateTimeOfRequest" ],
+        "example" : {
+          "metadata" : {
+            "requestId" : "3f2504e0-4f89-11d3-9a0c-0305e82c3301",
+            "requestDateTime" : "2022-01-01T12:00:00+00:00"
           }
         }
       },
@@ -758,6 +629,20 @@
             "description" : "A URI reference that identifies the specific occurrence of the problem. It may or may not yield further information if dereferenced.",
             "nullable" : true
           }
+        }
+      },
+      "ErrorResponse" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/MetaData"
+        }, {
+          "$ref" : "#/components/schemas/ProblemDetails"
+        } ],
+        "example" : {
+          "type" : "/.../errors",
+          "title" : "Eror",
+          "status" : 400,
+          "detail" : "Bad request error",
+          "instance" : "/../growers/20234"
         }
       },
       "Identifier" : {
@@ -1567,10 +1452,7 @@
             "$ref" : "#/components/schemas/Identifier"
           },
           "name" : {
-            "type" : "string",
-            "x-stoplight" : {
-              "id" : "nwi9elh9so9w0"
-            }
+            "type" : "string"
           },
           "thirdPartyProductReferenceId" : {
             "$ref" : "#/components/schemas/Identifier"
@@ -1580,9 +1462,6 @@
           },
           "additionalProductProperties" : {
             "type" : "array",
-            "x-stoplight" : {
-              "id" : "4i37hhcagih21"
-            },
             "items" : {
               "$ref" : "#/components/schemas/CharacteristicType"
             }
@@ -1596,7 +1475,160 @@
         "content" : {
           "application/problem+json" : {
             "schema" : {
-              "$ref" : "#/components/schemas/ProblemDetails"
+              "$ref" : "#/components/schemas/ErrorResponse"
+            }
+          }
+        },
+        "headers" : {
+          "API-Version" : {
+            "$ref" : "#/components/headers/API-Version"
+          }
+        }
+      },
+      "default_400" : {
+        "description" : "Default Bad Request error",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ErrorResponse"
+            }
+          }
+        },
+        "headers" : {
+          "API-Version" : {
+            "$ref" : "#/components/headers/API-Version"
+          }
+        }
+      },
+      "default_401" : {
+        "description" : "Default Not Authorized (authenticated) error",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ErrorResponse"
+            }
+          }
+        },
+        "headers" : {
+          "API-Version" : {
+            "$ref" : "#/components/headers/API-Version"
+          }
+        }
+      },
+      "default_403" : {
+        "description" : "Default Forbidden error",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ErrorResponse"
+            }
+          }
+        },
+        "headers" : {
+          "API-Version" : {
+            "$ref" : "#/components/headers/API-Version"
+          }
+        }
+      },
+      "default_404" : {
+        "description" : "Default Not Found error",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ErrorResponse"
+            }
+          }
+        },
+        "headers" : {
+          "API-Version" : {
+            "$ref" : "#/components/headers/API-Version"
+          }
+        }
+      },
+      "default_500" : {
+        "description" : "Default Internal Server error",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ErrorResponse"
+            }
+          }
+        },
+        "headers" : {
+          "API-Version" : {
+            "$ref" : "#/components/headers/API-Version"
+          }
+        }
+      },
+      "metadata_200" : {
+        "description" : "Succesfull metadata response",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "allOf" : [ {
+                "$ref" : "#/components/schemas/Version"
+              }, {
+                "$ref" : "#/components/schemas/MetaData"
+              } ]
+            }
+          }
+        },
+        "headers" : {
+          "API-Version" : {
+            "$ref" : "#/components/headers/API-Version"
+          }
+        }
+      },
+      "growers_200" : {
+        "description" : "List of growers",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/Grower"
+              }
+            },
+            "examples" : { }
+          }
+        },
+        "headers" : {
+          "API-Version" : {
+            "schema" : {
+              "type" : "string"
+            },
+            "description" : "Full API version"
+          }
+        }
+      },
+      "suppliers_200" : {
+        "description" : "List of suppliers",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/Supplier"
+              }
+            },
+            "examples" : { }
+          }
+        },
+        "headers" : {
+          "API-Version" : {
+            "schema" : {
+              "type" : "string"
+            },
+            "description" : "Full API version"
+          }
+        }
+      },
+      "delivery_202" : {
+        "description" : "Delivery accepted",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Delivery"
             }
           }
         },
@@ -1605,22 +1637,118 @@
             "schema" : {
               "type" : "string"
             },
-            "description" : "Full version of the API"
+            "description" : "Full API version"
           }
         }
-      }
-    },
-    "requestBodies" : {
-      "req_task" : {
+      },
+      "plot_200" : {
+        "description" : "OK",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/Plot"
+              }
+            }
+          }
+        },
+        "headers" : {
+          "API-Version" : {
+            "schema" : {
+              "type" : "string"
+            },
+            "description" : "Full API version"
+          }
+        }
+      },
+      "plot_202" : {
+        "description" : "Plot accepted",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Plot"
+            }
+          }
+        },
+        "headers" : {
+          "API-Version" : {
+            "schema" : {
+              "type" : "string"
+            },
+            "description" : "Full API version"
+          }
+        }
+      },
+      "crop_200" : {
+        "description" : "OK",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/Crop"
+              }
+            }
+          }
+        },
+        "headers" : {
+          "API-Version" : {
+            "schema" : {
+              "type" : "string"
+            },
+            "description" : "Full API version"
+          }
+        }
+      },
+      "crop_202" : {
+        "description" : "Plot accepted",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Crop"
+            }
+          }
+        },
+        "headers" : {
+          "API-Version" : {
+            "schema" : {
+              "type" : "string"
+            },
+            "description" : "Full API version"
+          }
+        }
+      },
+      "task_202" : {
+        "description" : "Plot accepted",
         "content" : {
           "application/json" : {
             "schema" : {
               "$ref" : "#/components/schemas/Task"
             }
           }
+        },
+        "headers" : {
+          "API-Version" : {
+            "schema" : {
+              "type" : "string"
+            },
+            "description" : "Full API version"
+          }
+        }
+      }
+    },
+    "requestBodies" : {
+      "deliveryRequest" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Delivery"
+            }
+          }
         }
       },
-      "req_crop" : {
+      "cropRequest" : {
         "content" : {
           "application/json" : {
             "schema" : {
@@ -1629,11 +1757,21 @@
           }
         }
       },
-      "req_delivery" : {
+      "plotRequest" : {
         "content" : {
           "application/json" : {
             "schema" : {
-              "$ref" : "#/components/schemas/Delivery"
+              "$ref" : "#/components/schemas/Plot"
+            }
+          }
+        }
+      },
+      "taskRequest" : {
+        "description" : "",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Task"
             }
           }
         }
@@ -1655,8 +1793,54 @@
         "required" : true,
         "schema" : {
           "type" : "string"
+        }
+      },
+      "offset" : {
+        "name" : "offset",
+        "description" : "number of records to skip for pagination",
+        "in" : "query",
+        "schema" : {
+          "type" : "integer",
+          "format" : "int32",
+          "minimum" : 0
+        }
+      },
+      "limit" : {
+        "name" : "limit",
+        "description" : "maximum number of records to return",
+        "in" : "query",
+        "schema" : {
+          "type" : "integer",
+          "format" : "int32",
+          "minimum" : 0,
+          "maximum" : 50
+        }
+      },
+      "growerId" : {
+        "name" : "growerId",
+        "in" : "path",
+        "description" : "Unique identification of a grower.",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        }
+      },
+      "supplierId" : {
+        "name" : "supplierId",
+        "in" : "path",
+        "description" : "Unique identification of a supplier.",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        }
+      }
+    },
+    "headers" : {
+      "API-Version" : {
+        "schema" : {
+          "type" : "string"
         },
-        "description" : "Make, brand and version of the calling client software"
+        "description" : "Full API version"
       }
     }
   }
