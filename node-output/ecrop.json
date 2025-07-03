@@ -1,11 +1,11 @@
 {
   "openapi" : "3.0.4",
   "servers" : [ {
-    "url" : "https://standard-api.agroconnect.nl/ecrop/v0",
+    "url" : "https://standard-api.agroconnect.nl/ecrop/v1",
     "description" : "Agroconnect Virtual API server"
   } ],
   "info" : {
-    "description" : "### eCrop API based on **AgroConnect eCrop standard version 0.4** \r\n\r\nThis API concerns registration of crop related activities like application of crop protection products and fertilizers and energy and water consumption.\r\n\r\nThis API is based on the [Agroconnect eCrop class model\r\n\r\nConformation:\r\n- [API Design Rules version 2.0.2](https://gitdocumentatie.logius.nl/publicatie/api/adr/) of the NL API Strategie (Dutch API Strategy)\r\n- IETF RFC 6902: JavaScript Object Notation (JSON) Patch\r\n- IETF RFC 9457: Problem Details for HTTP APIs (Internet Engineering Task Force (IETF))\r\n- IETF Draft: Health Check Response Format for HTTP APIs \r\n- Sematic versioning using Semver\r\n\r\nDesign decisions\r\n- super/subtypes (UML generalisations): subtypes are allOf with $ref to supertype and object with subtype atributes\r\n- UML compositions: hierachy in URI (should be aggegrations in eCrop class model) or array in master-object\r\n\r\nRemarks on class model\r\n- Renamed \"cytyName\" in Address to \"cityName\"\r\n- \"Compositions\" should be renamed to \"Components\"\r\n- change applicable composition-relations to aggegration-relations \r\n- Rename \"Farm\" to \"Location\" (or ay least confirm Farm == Location)??\r\n- Add relation grower-to-farm to support get/post locations per grower?\r\n- Relation delivery should link to \"grower\" iso \"receiver\"\r\n- attributes \"id\" and \"name\" in \"greenhouselocation\" are prefixed with class name\r\n- changed all class names to PascalCase (ADR: schemanames must be CamelCase(=PascalCase=UpperCamelCase))\r\n- changed IBAN to iban (ADR: properties must be lowerCamelCase) \r\n- Association relation should be added between ProductionLocation and Task to support non crop-specific tasks\r\n13-6-2025\r\n- Product.thirdPartyDeliveryReferenceId should be of type Identifier iso string\r\n\r\nCopyright (c)  AgroConnect 2025",
+    "description" : "### eCrop API based on **AgroConnect eCrop standard version 0.4** \r\n\r\nThis API concerns registration of crop related activities like application of crop protection products and fertilizers and energy and water consumption.\r\n\r\nThis API is based on the Agroconnect eCrop class model\r\n\r\n## Conformation\r\n- [API Design Rules version 2.0.2](https://gitdocumentatie.logius.nl/publicatie/api/adr/) of the NL API Strategie (Dutch API Strategy)\r\n- IETF RFC 6902: JavaScript Object Notation (JSON) Patch\r\n- IETF RFC 9457: Problem Details for HTTP APIs (Internet Engineering Task Force (IETF))\r\n- IETF Draft: Health Check Response Format for HTTP APIs \r\n- ISO-3166 country codes\r\n- Sematic versioning using Semver\r\n\r\n## Design decisions\r\n- super/subtypes (UML generalisations): subtypes are allOf with $ref to supertype and object with subtype atributes\r\n- UML compositions: hierachy in URI (should be aggegrations in eCrop class model) or array in master-object\r\n- each resource has a server side assiged identification named {id} (type string or string(format uuid))\r\n- each resource has a client side assiged identification named {externalId} (complex type with id and schemaId attributes)\r\n\r\n## Default responses\r\nGET on collection resource (with or without query parameters)\r\n- 200: successful response returning list with 0 of more items. When no items are found an empty list is returned\r\n- 400: bad request (f.i. malformed query parameters)\r\n- 401: (token) authentication failed\r\n- 500: internal server error\r\n\r\nGET on singleton resource\r\n- 200: successful response one item\r\n- 400: bad request (f.i. malformed query parameters)\r\n- 401: (token) authentication failed\r\n- 404: resource indicated is not found (does not exist or client has no access to the resource)\r\n- 500: internal server error\r\n\r\nPOST\r\n- 202: resource accepted (asynchonously processed)\r\n- 400: bad request (f.i. malformed payload)\r\n- 401: (token) authentication failed\r\n- 403: forbidden (f.i. when posting sub resources to a resource on which the client is not allowed to\r\n- 500: internal server error\r\n\r\nPUT\r\n- 202: resource accepted (asynchonously processed)\r\n- 400: bad request (f.i. malformed payload)\r\n- 401: (token) authentication failed\r\n- 403: forbidden (f.i. when posting sub resources to a resource on which the client is not allowed to\r\n- 404: resource indicated is not found (does not exist or client has no access to the resource)\r\n- 500: internal server error\r\n\r\nDEL:\r\n- 204: no content: resource successfully deleted (could also be 202 when processing asynchonously)\r\n- 400: bad request (f.i. malformed payload)\r\n- 401: (token) authentication failed\r\n- 403: forbidden (f.i. when posting sub resources to a resource on which the client is not allowed to\r\n- 404: resource indicated is not found (does not exist or client has no access to the resource)\r\n- 500: internal server error\r\n\r\n## Remarks on class model\r\n- Renamed \"cytyName\" in Address to \"cityName\"\r\n- \"Compositions\" should be renamed to \"Components\"\r\n- change applicable composition-relations to aggegration-relations \r\n- Rename \"Farm\" to \"Location\" (or ay least confirm Farm == Location)??\r\n- Add relation grower-to-farm to support get/post locations per grower?\r\n- Relation delivery should link to \"grower\" iso \"receiver\"\r\n- attributes \"id\" and \"name\" in \"greenhouselocation\" are prefixed with class name\r\n- changed all class names to PascalCase (ADR: schemanames must be CamelCase(=PascalCase=UpperCamelCase))\r\n- changed IBAN to iban (ADR: properties must be lowerCamelCase) \r\n- Association relation should be added between ProductionLocation and Task to support non crop-specific tasks\r\n- Product.thirdPartyDeliveryReferenceId should be of type Identifier iso string\r\n- Status must be required in Task and Operation\r\n\r\nCopyright (c)  AgroConnect 2025",
     "version" : "0.1.0",
     "title" : "AgroConnect eCrop API",
     "contact" : {
@@ -31,7 +31,7 @@
     "description" : "Operations on Party-level"
   }, {
     "name" : "delivery",
-    "description" : "Delivery Operations"
+    "description" : "Inbound and Outbound Delivery Operations"
   }, {
     "name" : "crop registration",
     "description" : "Registration Operations"
@@ -46,7 +46,7 @@
       "get" : {
         "summary" : "Returns health check of this API",
         "operationId" : "get-health",
-        "description" : "return health check",
+        "description" : "This endpoint provides health status information about the API service, its dependencies, and overall operational condition. It is designed to be used by monitoring tools, load balancers, and orchestration systems to determine if the service is available and ready to process requests.\n\n**Usage:**   \n- **Monitoring:** Used by system administrators and automated monitoring to ensure service availability.",
         "tags" : [ "general" ],
         "responses" : {
           "200" : {
@@ -60,6 +60,9 @@
           },
           "500" : {
             "$ref" : "#/components/responses/default_500"
+          },
+          "503" : {
+            "$ref" : "#/components/responses/health_503"
           },
           "default" : {
             "$ref" : "#/components/responses/default_error"
@@ -77,7 +80,7 @@
         "tags" : [ "parties" ],
         "summary" : "Get all growers for which the client is authorized",
         "operationId" : "get-growers",
-        "description" : "Returns all growers for which caller is autorised\n",
+        "description" : "Returns a list with all growers which the requesting client has access to. When called by a grower, his own data will be returned\n",
         "parameters" : [ {
           "$ref" : "#/components/parameters/offset"
         }, {
@@ -112,12 +115,49 @@
       } ],
       "get" : {
         "tags" : [ "parties" ],
-        "summary" : "Get a specific grower",
-        "operationId" : "get-growers-by-growerId",
-        "description" : "Returns a specific grower",
+        "summary" : "Get a specific grower by his server assigned id",
+        "operationId" : "get-growers-by-id",
+        "description" : "Returns the data of a specific grower with the requested id when the requesting client has access to these.",
         "responses" : {
           "200" : {
-            "$ref" : "#/components/responses/growers_200"
+            "$ref" : "#/components/responses/grower_200"
+          },
+          "400" : {
+            "$ref" : "#/components/responses/default_400"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/default_401"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/default_404"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/default_500"
+          },
+          "default" : {
+            "$ref" : "#/components/responses/default_error"
+          }
+        }
+      }
+    },
+    "/growers/{idType}/{externalGrowerId}" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/Major-Version"
+      }, {
+        "$ref" : "#/components/parameters/User-Agent"
+      }, {
+        "$ref" : "#/components/parameters/idType"
+      }, {
+        "$ref" : "#/components/parameters/externalGrowerId"
+      } ],
+      "get" : {
+        "tags" : [ "parties" ],
+        "summary" : "Get a specific grower",
+        "operationId" : "get-growers-by-externalgrowerId",
+        "description" : "Returns the data of a specific grower with the requested idType and id when the requesting client has access to these.",
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/grower_200"
           },
           "400" : {
             "$ref" : "#/components/responses/default_400"
@@ -147,7 +187,7 @@
         "tags" : [ "parties" ],
         "summary" : "Get all supliers for which the client is authorized",
         "operationId" : "get-suppliers",
-        "description" : "Returns all suppliers for which caller is autorised",
+        "description" : "Returns a list with all suppliers which the requesting client has access to.",
         "parameters" : [ {
           "$ref" : "#/components/parameters/offset"
         }, {
@@ -182,12 +222,49 @@
       } ],
       "get" : {
         "tags" : [ "parties" ],
-        "operationId" : "get-suppliers-by-supplierId",
-        "summary" : "Get e specific supplier",
-        "description" : "Returns specific supplier",
+        "operationId" : "get-suppliers-by-id",
+        "summary" : "Get e specific supplier by his server assigned id",
+        "description" : "Returns the data of a specific supplier with the requested id when the requesting client has access to these.",
         "responses" : {
           "200" : {
-            "$ref" : "#/components/responses/suppliers_200"
+            "$ref" : "#/components/responses/supplier_200"
+          },
+          "400" : {
+            "$ref" : "#/components/responses/default_400"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/default_401"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/default_404"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/default_500"
+          },
+          "default" : {
+            "$ref" : "#/components/responses/default_error"
+          }
+        }
+      }
+    },
+    "/suppliers/{idType}/{externalSupplierId}" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/Major-Version"
+      }, {
+        "$ref" : "#/components/parameters/User-Agent"
+      }, {
+        "$ref" : "#/components/parameters/idType"
+      }, {
+        "$ref" : "#/components/parameters/externalSupplierId"
+      } ],
+      "get" : {
+        "tags" : [ "parties" ],
+        "operationId" : "get-suppliers-by-externalsupplierId",
+        "summary" : "Get a specific supplier",
+        "description" : "Returns the data of a specific supplier with the requested idType and id when the requesting client has access to these.",
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/supplier_200"
           },
           "400" : {
             "$ref" : "#/components/responses/default_400"
@@ -261,7 +338,7 @@
         "tags" : [ "delivery" ],
         "responses" : {
           "200" : {
-            "$ref" : "#/components/responses/growers_200"
+            "$ref" : "#/components/responses/grower_200"
           },
           "400" : {
             "$ref" : "#/components/responses/default_400"
@@ -281,7 +358,7 @@
         }
       }
     },
-    "/suppliers/{supplierId}/growers/{growerId}/deliveries" : {
+    "/suppliers/{supplierId}/growers/{growerId}/inbound-deliveries" : {
       "parameters" : [ {
         "$ref" : "#/components/parameters/Major-Version"
       }, {
@@ -292,16 +369,16 @@
         "$ref" : "#/components/parameters/growerId"
       } ],
       "post" : {
-        "summary" : "Register a delivery for a grower by a suppliers",
-        "operationId" : "post-suppliers-supplierId-growers-growerId-deliveries",
-        "description" : "Register an delvery of a product for a grower by a supplier",
+        "summary" : "Register an inbound delivery for a grower by a supplier",
+        "operationId" : "post-suppliers-supplierId-growers-growerId-inbound-deliveries",
+        "description" : "Register an inbound delivery of a product for a grower by a supplier.\r\n\r\nRemarks: repeatingly posting inbound deliveries with the same exterenal id will lead to updating de previously posted\r\ninboud delivery (so no duplicates will be generated). Preferrable, clients should use the PUT operation to update \r\npreviously POSTed inbound deliveries in stead of re-posting them.",
         "tags" : [ "delivery" ],
         "requestBody" : {
-          "$ref" : "#/components/requestBodies/deliveryRequest"
+          "$ref" : "#/components/requestBodies/inboundDeliveryRequest"
         },
         "responses" : {
           "202" : {
-            "$ref" : "#/components/responses/delivery_202"
+            "$ref" : "#/components/responses/inboundDelivery_202"
           },
           "400" : {
             "$ref" : "#/components/responses/default_400"
@@ -321,7 +398,81 @@
         }
       }
     },
-    "/growers/{growerId}/productionlocations" : {
+    "/suppliers/{supplierId}/growers/{growerId}/inbound-deliveries/{inboundDeliveryId}" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/Major-Version"
+      }, {
+        "$ref" : "#/components/parameters/User-Agent"
+      }, {
+        "$ref" : "#/components/parameters/supplierId"
+      }, {
+        "$ref" : "#/components/parameters/growerId"
+      }, {
+        "$ref" : "#/components/parameters/inboundDeliveryId"
+      } ],
+      "put" : {
+        "summary" : "Update a previously registered inbound delivery for a grower by a supplier",
+        "operationId" : "put-suppliers-supplierId-growers-growerId-inbound-deliveries",
+        "description" : "Update a previously registered inbound delivery for a grower by a supplier",
+        "tags" : [ "delivery" ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/inboundDeliveryRequest"
+        },
+        "responses" : {
+          "202" : {
+            "$ref" : "#/components/responses/inboundDelivery_202"
+          },
+          "400" : {
+            "$ref" : "#/components/responses/default_400"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/default_401"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/default_403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/default_404"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/default_500"
+          },
+          "default" : {
+            "$ref" : "#/components/responses/default_error"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Delete a previously registered inbound delivery for a grower by a supplier",
+        "operationId" : "del-suppliers-supplierId-growers-growerId-inbound-deliveries",
+        "description" : "Delete a previously registered inbound delivery for a grower by a supplier",
+        "tags" : [ "delivery" ],
+        "responses" : {
+          "204" : {
+            "$ref" : "#/components/responses/default_no_content"
+          },
+          "400" : {
+            "$ref" : "#/components/responses/default_400"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/default_401"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/default_403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/default_404"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/default_500"
+          },
+          "default" : {
+            "$ref" : "#/components/responses/default_error"
+          }
+        }
+      }
+    },
+    "/growers/{growerId}/production-locations" : {
       "parameters" : [ {
         "$ref" : "#/components/parameters/Major-Version"
       }, {
@@ -331,7 +482,7 @@
       } ],
       "get" : {
         "summary" : "Returns all productionlocations of a grower",
-        "operationId" : "get-growers-growerId-productionlocations",
+        "operationId" : "get-growers-growerId-production-locations",
         "description" : "Returns all productionlocations of a grower",
         "tags" : [ "crop registration" ],
         "parameters" : [ {
@@ -341,7 +492,7 @@
         } ],
         "responses" : {
           "200" : {
-            "$ref" : "#/components/responses/productionlocation_200"
+            "$ref" : "#/components/responses/productionlocations_200"
           },
           "400" : {
             "$ref" : "#/components/responses/default_400"
@@ -358,7 +509,7 @@
         }
       }
     },
-    "/growers/{growerId}/productionlocations/{productionLocationId}/tasks" : {
+    "/growers/{growerId}/production-locations/{productionLocationId}/tasks" : {
       "parameters" : [ {
         "$ref" : "#/components/parameters/Major-Version"
       }, {
@@ -366,17 +517,12 @@
       }, {
         "$ref" : "#/components/parameters/growerId"
       }, {
-        "schema" : {
-          "type" : "string"
-        },
-        "name" : "productionLocationId",
-        "in" : "path",
-        "required" : true
+        "$ref" : "#/components/parameters/productionLocationId"
       } ],
       "post" : {
         "summary" : "Register a non crop-specific task with operations on a production location by a grower",
-        "operationId" : "post-growers-productionlocation-tasks",
-        "description" : "Register a non crop-specific task with operations on a production location by a grower",
+        "operationId" : "post-growers-production-location-tasks",
+        "description" : "Register a non crop-specific task with operations on a production location by a grower\r\n\r\nRemarks: repeatingly posting tasks with the same exterenal id will lead to updating the previously posted task (so no duplicates will be generated). \r\nPreferrable, clients should use the PUT operation to update previously POSTed tasks in stead of re-posting them.",
         "tags" : [ "crop registration" ],
         "requestBody" : {
           "$ref" : "#/components/requestBodies/taskRequest"
@@ -393,6 +539,80 @@
           },
           "403" : {
             "$ref" : "#/components/responses/default_403"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/default_500"
+          },
+          "default" : {
+            "$ref" : "#/components/responses/default_error"
+          }
+        }
+      }
+    },
+    "/growers/{growerId}/production-locations/{productionLocationId}/tasks/{taskId}" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/Major-Version"
+      }, {
+        "$ref" : "#/components/parameters/User-Agent"
+      }, {
+        "$ref" : "#/components/parameters/growerId"
+      }, {
+        "$ref" : "#/components/parameters/productionLocationId"
+      }, {
+        "$ref" : "#/components/parameters/taskId"
+      } ],
+      "put" : {
+        "summary" : "Update a previously registered non crop-specific task with operations on a production location by a grower",
+        "operationId" : "put-growers-production-location-tasks-id",
+        "description" : "Update a previously registered non crop-specific task with operations on a production location by a grower",
+        "tags" : [ "crop registration" ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/taskRequest"
+        },
+        "responses" : {
+          "202" : {
+            "$ref" : "#/components/responses/task_202"
+          },
+          "400" : {
+            "$ref" : "#/components/responses/default_400"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/default_401"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/default_403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/default_404"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/default_500"
+          },
+          "default" : {
+            "$ref" : "#/components/responses/default_error"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Delete a previously registered non crop-specific task with operations on a production location by a grower",
+        "operationId" : "del-rowers-production-location-tasks-id",
+        "description" : "Delete a previously registered non crop-specific task with operations on a production location by a grower",
+        "tags" : [ "crop registration" ],
+        "responses" : {
+          "204" : {
+            "$ref" : "#/components/responses/default_no_content"
+          },
+          "400" : {
+            "$ref" : "#/components/responses/default_400"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/default_401"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/default_403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/default_404"
           },
           "500" : {
             "$ref" : "#/components/responses/default_500"
@@ -423,7 +643,7 @@
         } ],
         "responses" : {
           "200" : {
-            "$ref" : "#/components/responses/plot_200"
+            "$ref" : "#/components/responses/plots_200"
           },
           "400" : {
             "$ref" : "#/components/responses/default_400"
@@ -440,9 +660,9 @@
         }
       },
       "post" : {
-        "summary" : "Register a plot by a grower",
+        "summary" : "Register a new plot by a grower",
         "operationId" : "post-growers-growerId-plots",
-        "description" : "Register a plot by a grower",
+        "description" : "Register a new plot by a grower\r\n\r\nRemarks: repeatingly posting plots with the same exterenal id will lead to updating the previously posted plot (so no duplicates will be generated). \r\nPreferrable, clients should use the PUT operation to update previously POSTed plots in stead of re-posting them.",
         "tags" : [ "crop registration" ],
         "requestBody" : {
           "$ref" : "#/components/requestBodies/plotRequest"
@@ -469,6 +689,78 @@
         }
       }
     },
+    "/growers/{growerId}/plots/{plotId}" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/Major-Version"
+      }, {
+        "$ref" : "#/components/parameters/User-Agent"
+      }, {
+        "$ref" : "#/components/parameters/growerId"
+      }, {
+        "$ref" : "#/components/parameters/plotId"
+      } ],
+      "put" : {
+        "summary" : "Update a previously registered plot by a grower",
+        "operationId" : "put-growers-growerId-plots-plotid",
+        "description" : "Update a previously registered plot by a grower",
+        "tags" : [ "crop registration" ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/plotRequest"
+        },
+        "responses" : {
+          "202" : {
+            "$ref" : "#/components/responses/plot_202"
+          },
+          "400" : {
+            "$ref" : "#/components/responses/default_400"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/default_401"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/default_403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/default_404"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/default_500"
+          },
+          "default" : {
+            "$ref" : "#/components/responses/default_error"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Delete a plot by a grower",
+        "operationId" : "del-growers-growerId-plots-plotid",
+        "description" : "Delete a plot by a grower",
+        "tags" : [ "crop registration" ],
+        "responses" : {
+          "202" : {
+            "$ref" : "#/components/responses/default_no_content"
+          },
+          "400" : {
+            "$ref" : "#/components/responses/default_400"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/default_401"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/default_403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/default_404"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/default_500"
+          },
+          "default" : {
+            "$ref" : "#/components/responses/default_error"
+          }
+        }
+      }
+    },
     "/growers/{growerId}/plots/{plotId}/tasks" : {
       "parameters" : [ {
         "$ref" : "#/components/parameters/Major-Version"
@@ -477,17 +769,12 @@
       }, {
         "$ref" : "#/components/parameters/growerId"
       }, {
-        "schema" : {
-          "type" : "string"
-        },
-        "name" : "plotId",
-        "in" : "path",
-        "required" : true
+        "$ref" : "#/components/parameters/plotId"
       } ],
       "post" : {
         "summary" : "Register a non crop-specific task with operations on a plot by a grower",
         "operationId" : "post-growers-plot-tasks",
-        "description" : "Register a non crop-specific task with operations on a plot by a grower",
+        "description" : "Register a non crop-specific task with operations on a plot by a grower\r\n\r\nRemarks: repeatingly posting tasks with the same exterenal id will lead to updating the previously posted task (so no duplicates will be generated). \r\nPreferrable, clients should use the PUT operation to update previously POSTed tasks in stead of re-posting them.",
         "tags" : [ "crop registration" ],
         "requestBody" : {
           "$ref" : "#/components/requestBodies/taskRequest"
@@ -504,6 +791,80 @@
           },
           "403" : {
             "$ref" : "#/components/responses/default_403"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/default_500"
+          },
+          "default" : {
+            "$ref" : "#/components/responses/default_error"
+          }
+        }
+      }
+    },
+    "/growers/{growerId}/plots/{plotId}/tasks{taskId}" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/Major-Version"
+      }, {
+        "$ref" : "#/components/parameters/User-Agent"
+      }, {
+        "$ref" : "#/components/parameters/growerId"
+      }, {
+        "$ref" : "#/components/parameters/plotId"
+      }, {
+        "$ref" : "#/components/parameters/taskId"
+      } ],
+      "put" : {
+        "summary" : "Update a previously registered non crop-specific task with operations on a plot by a grower",
+        "operationId" : "put-growers-plot-tasks-taskid",
+        "description" : "Update a previously registered non crop-specific task with operations on a plot by a grower",
+        "tags" : [ "crop registration" ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/taskRequest"
+        },
+        "responses" : {
+          "202" : {
+            "$ref" : "#/components/responses/task_202"
+          },
+          "400" : {
+            "$ref" : "#/components/responses/default_400"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/default_401"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/default_403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/default_404"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/default_500"
+          },
+          "default" : {
+            "$ref" : "#/components/responses/default_error"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Delete a non crop-specific task with operations on a plot by a grower",
+        "operationId" : "del-growers-plot-tasks-taskid",
+        "description" : "Delete a non crop-specific task with operations on a plot by a grower",
+        "tags" : [ "crop registration" ],
+        "responses" : {
+          "202" : {
+            "$ref" : "#/components/responses/default_no_content"
+          },
+          "400" : {
+            "$ref" : "#/components/responses/default_400"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/default_401"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/default_403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/default_404"
           },
           "500" : {
             "$ref" : "#/components/responses/default_500"
@@ -534,7 +895,7 @@
         } ],
         "responses" : {
           "200" : {
-            "$ref" : "#/components/responses/crop_200"
+            "$ref" : "#/components/responses/crops_200"
           },
           "400" : {
             "$ref" : "#/components/responses/default_400"
@@ -551,9 +912,9 @@
         }
       },
       "post" : {
-        "summary" : "Register a crop for a grower",
+        "summary" : "Register a new crop for a grower",
         "operationId" : "post-growers-growerId-crops",
-        "description" : "Register a crop for a grower",
+        "description" : "Register a new crop for a grower\r\n\r\nRemarks: repeatingly posting multiple crops with the same exterenal id will lead to updating the previously posted crop (so no duplicates will be generated). \r\nPreferrable, clients should use the PUT operation to update previously POSTed crops in stead of re-posting them.",
         "tags" : [ "crop registration" ],
         "requestBody" : {
           "$ref" : "#/components/requestBodies/cropRequest"
@@ -561,6 +922,78 @@
         "responses" : {
           "202" : {
             "$ref" : "#/components/responses/crop_202"
+          },
+          "400" : {
+            "$ref" : "#/components/responses/default_400"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/default_401"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/default_403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/default_404"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/default_500"
+          },
+          "default" : {
+            "$ref" : "#/components/responses/default_error"
+          }
+        }
+      }
+    },
+    "/growers/{growerId}/crops/{cropId}" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/Major-Version"
+      }, {
+        "$ref" : "#/components/parameters/User-Agent"
+      }, {
+        "$ref" : "#/components/parameters/growerId"
+      }, {
+        "$ref" : "#/components/parameters/cropId"
+      } ],
+      "put" : {
+        "summary" : "Update a previously registered crop by a grower",
+        "operationId" : "put-growers-growerId-crops-id",
+        "description" : "Update a previously registered crop by a grower",
+        "tags" : [ "crop registration" ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/cropRequest"
+        },
+        "responses" : {
+          "202" : {
+            "$ref" : "#/components/responses/crop_202"
+          },
+          "400" : {
+            "$ref" : "#/components/responses/default_400"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/default_401"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/default_403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/default_404"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/default_500"
+          },
+          "default" : {
+            "$ref" : "#/components/responses/default_error"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Delete a crop by a grower",
+        "operationId" : "del-growers-growerId-crop-croptid",
+        "description" : "Delete a crop by a grower",
+        "tags" : [ "crop registration" ],
+        "responses" : {
+          "202" : {
+            "$ref" : "#/components/responses/default_no_content"
           },
           "400" : {
             "$ref" : "#/components/responses/default_400"
@@ -588,17 +1021,12 @@
       }, {
         "$ref" : "#/components/parameters/growerId"
       }, {
-        "schema" : {
-          "type" : "string"
-        },
-        "name" : "cropId",
-        "in" : "path",
-        "required" : true
+        "$ref" : "#/components/parameters/cropId"
       } ],
       "post" : {
         "summary" : "Register a task with operations on a specific crop by a grower",
         "operationId" : "post-growers-growerId-tasks",
-        "description" : "Register a task with operations on a specific crop by a grower",
+        "description" : "Register a task with operations on a specific crop by a grower\r\n\r\nRemarks: repeatingly posting multiple tasks with the same exterenal id will lead to updating the previously posted task (so no duplicates will be generated). \r\nPreferrable, clients should use the PUT operation to update previously POSTed tasks in stead of re-posting them.",
         "tags" : [ "crop registration" ],
         "requestBody" : {
           "$ref" : "#/components/requestBodies/taskRequest"
@@ -615,6 +1043,80 @@
           },
           "403" : {
             "$ref" : "#/components/responses/default_403"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/default_500"
+          },
+          "default" : {
+            "$ref" : "#/components/responses/default_error"
+          }
+        }
+      }
+    },
+    "/growers/{growerId}/crops/{cropId}/tasks/{taskId}" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/Major-Version"
+      }, {
+        "$ref" : "#/components/parameters/User-Agent"
+      }, {
+        "$ref" : "#/components/parameters/growerId"
+      }, {
+        "$ref" : "#/components/parameters/cropId"
+      }, {
+        "$ref" : "#/components/parameters/taskId"
+      } ],
+      "put" : {
+        "summary" : "Update a previously registered task with operations on a specific crop by a grower",
+        "operationId" : "put-growers-growerId-tasks-id",
+        "description" : "Update a previously registered task with operations on a specific crop by a grower",
+        "tags" : [ "crop registration" ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/taskRequest"
+        },
+        "responses" : {
+          "202" : {
+            "$ref" : "#/components/responses/task_202"
+          },
+          "400" : {
+            "$ref" : "#/components/responses/default_400"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/default_401"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/default_403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/default_404"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/default_500"
+          },
+          "default" : {
+            "$ref" : "#/components/responses/default_error"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Delete a previously registered task with operations on a specific crop by a grower",
+        "operationId" : "del-growers-growerId-tasks-id",
+        "description" : "Delete a previously registered task with operations on a specific crop by a grower",
+        "tags" : [ "crop registration" ],
+        "responses" : {
+          "202" : {
+            "$ref" : "#/components/responses/default_no_content"
+          },
+          "400" : {
+            "$ref" : "#/components/responses/default_400"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/default_401"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/default_403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/default_404"
           },
           "500" : {
             "$ref" : "#/components/responses/default_500"
@@ -641,29 +1143,6 @@
         },
         "example" : {
           "status" : "pass"
-        }
-      },
-      "MetaData" : {
-        "type" : "object",
-        "description" : "Metadata related to the response.",
-        "properties" : {
-          "requestId" : {
-            "type" : "string",
-            "description" : "The unique identifier for this request.",
-            "format" : "uuid"
-          },
-          "dateTimeOfRequest" : {
-            "type" : "string",
-            "description" : "The date and time when the request was made.",
-            "format" : "date-time"
-          }
-        },
-        "required" : [ "requestId", "dateTimeOfRequest" ],
-        "example" : {
-          "metadata" : {
-            "requestId" : "3f2504e0-4f89-11d3-9a0c-0305e82c3301",
-            "requestDateTime" : "2022-01-01T16:51:22+00:00"
-          }
         }
       },
       "ProblemDetails" : {
@@ -698,30 +1177,53 @@
             "description" : "A URI reference that identifies the specific occurrence of the problem. It may or may not yield further information if dereferenced.",
             "nullable" : true
           }
-        }
-      },
-      "ErrorResponse" : {
-        "allOf" : [ {
-          "$ref" : "#/components/schemas/MetaData"
-        }, {
-          "$ref" : "#/components/schemas/ProblemDetails"
-        } ],
+        },
         "example" : {
           "type" : "/.../errors",
           "title" : "Eror",
           "status" : 400,
           "detail" : "Bad request error",
-          "instance" : "/../growers/20234",
-          "metadata" : {
-            "requestId" : "3f2504e0-4f89-11d3-9a0c-0305e82c3301",
-            "requestDateTime" : "2022-01-01T12:00:00+00:00"
-          }
+          "instance" : "/../growers/20234"
         }
       },
-      "Identifier" : {
+      "ErrorResponse" : {
+        "$ref" : "#/components/schemas/ProblemDetails"
+      },
+      "Date" : {
+        "title" : "Date",
+        "type" : "string",
+        "format" : "date",
+        "pattern" : "^\\d{4}-\\d{2}-\\d{2}$",
+        "description" : "Date with ISO-8601 standard date format \"yyyy-mm-dd\"",
+        "example" : "2023-03-12"
+      },
+      "DateTime" : {
+        "title" : "Datetime",
+        "type" : "string",
+        "format" : "datetime",
+        "pattern" : "^(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$",
+        "description" : "Datetime with ISO-8601 standard date format \"yyyy-mm-ddThh24:mm:ss+hh:mm\"",
+        "example" : "2023-03-12T15:51:00+01:00"
+      },
+      "ServerId" : {
         "type" : "object",
         "additionalProperties" : false,
-        "description" : "Representation of an identifier.",
+        "description" : "Generic resource id assigned by the server",
+        "required" : [ "id" ],
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        },
+        "example" : {
+          "id" : "e484b3b3-1828-452b-af21-0e535a5013f9"
+        }
+      },
+      "ExternalIdentifier" : {
+        "type" : "object",
+        "additionalProperties" : false,
+        "description" : "External/functional identifier Representation of an identifier.",
         "required" : [ "id", "schemaIdType" ],
         "properties" : {
           "id" : {
@@ -777,18 +1279,18 @@
           },
           "issueDate" : {
             "type" : "string",
-            "description" : "The data the characteristic was captured.\r\n",
+            "description" : "The data the characteristic was captured.",
             "format" : "date"
           },
           "startDate" : {
             "type" : "string",
             "format" : "date",
-            "description" : "Begin data of the period this characteristic is or was valid.\r\n"
+            "description" : "Begin date of the period this characteristic is or was valid."
           },
           "endDate" : {
             "type" : "string",
             "format" : "date",
-            "description" : "End data of the period this characteristic is or was valid."
+            "description" : "End date of the period this characteristic is or was valid."
           }
         }
       },
@@ -817,13 +1319,8 @@
       "Party" : {
         "type" : "object",
         "title" : "Party",
-        "required" : [ "id", "partyId", "name" ],
+        "required" : [ "partyId", "name" ],
         "properties" : {
-          "id" : {
-            "type" : "string",
-            "format" : "uuid",
-            "example" : "d290f1ee-6c54-4b01-90e6-d701748f0851"
-          },
           "partyId" : {
             "$ref" : "#/components/schemas/PartyIdType"
           },
@@ -834,12 +1331,10 @@
             }
           },
           "name" : {
-            "type" : "string",
-            "example" : "VOF De Lier"
+            "type" : "string"
           },
           "personName" : {
-            "type" : "string",
-            "example" : "J. de Lier"
+            "type" : "string"
           },
           "phoneNumber" : {
             "type" : "string"
@@ -868,7 +1363,7 @@
       "Address" : {
         "title" : "Address",
         "type" : "object",
-        "required" : [ "postalCode", "cityName", "streetName", "streetNumber", "country", "countryName", "postalBoxId" ],
+        "required" : [ "postalCode", "cityName", "streetName", "streetNumber", "country", "countryName" ],
         "properties" : {
           "postalCode" : {
             "type" : "string"
@@ -914,7 +1409,45 @@
         "allOf" : [ {
           "$ref" : "#/components/schemas/Party"
         } ],
-        "description" : "The grower (e.g. the farmer) that is responsible for the cultivation of the crop."
+        "description" : "The grower (e.g. the farmer) that is responsible for the cultivation of the crop.",
+        "example" : {
+          "partyId" : {
+            "id" : "12345",
+            "type" : "NL_UBN"
+          },
+          "secondaryIds" : [ {
+            "id" : "09123559",
+            "type" : "NL_KVK"
+          }, {
+            "id" : "870012388392",
+            "type" : "NL_GLN"
+          } ],
+          "name" : "Kwekerij De Lier",
+          "personName" : "J. de Lier",
+          "phoneNumber" : "+31(0)74 26653244",
+          "telefaxNumber" : null,
+          "emailAdress" : "info@delier.nl",
+          "iban" : "NL04ABNA0667352669",
+          "websiteUrl" : "www.delier.nl",
+          "postalAddress" : {
+            "postalCode" : "3521 AA",
+            "cityName" : "Naaldwijk",
+            "streetName" : null,
+            "streetNumber" : null,
+            "country" : "NL",
+            "countryName" : "Netherlands",
+            "postalBoxId" : 4411
+          },
+          "visitorsAdress" : {
+            "postalCode" : "3521 AN",
+            "cityName" : "Naaldwijk",
+            "streetName" : "Broekweg",
+            "streetNumber" : 12,
+            "country" : "NL",
+            "countryName" : "Netherlands",
+            "postalBoxId" : null
+          }
+        }
       },
       "Supplier" : {
         "allOf" : [ {
@@ -932,20 +1465,25 @@
         "title" : "Asset",
         "type" : "object",
         "description" : "Entity of a tangible object on which operations can be performed.\nE.g.: a crop, a building, a machine, a ditch, a greenhouse, a climate control system, a feeding system, etc.",
-        "required" : [ "id", "name" ],
+        "required" : [ "externalId", "name" ],
         "properties" : {
-          "id" : {
-            "type" : "string",
-            "description" : "Identifier of the asset."
+          "externalId" : {
+            "$ref" : "#/components/schemas/ExternalIdentifier"
           },
           "name" : {
             "type" : "string"
           },
           "startDate" : {
-            "$ref" : "#/components/schemas/Date"
+            "description" : "The start data of the existence of the asset.",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Date"
+            } ]
           },
           "endDate" : {
-            "$ref" : "#/components/schemas/Date"
+            "description" : "The end data of the existence of the asset.",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Date"
+            } ]
           },
           "characteristics" : {
             "type" : "array",
@@ -962,7 +1500,7 @@
           "$ref" : "#/components/schemas/Asset"
         }, {
           "type" : "object",
-          "required" : [ "year" ],
+          "required" : [ "year", "plantSpecies" ],
           "properties" : {
             "year" : {
               "type" : "integer",
@@ -970,39 +1508,63 @@
               "description" : "Indication of the year in which the cultivation is harvested."
             },
             "country" : {
-              "$ref" : "#/components/schemas/CountryCodeType"
+              "description" : "Country where crop is grown. Code list: ISO country code: 2 letter ISO-3166.",
+              "allOf" : [ {
+                "$ref" : "#/components/schemas/CountryCodeType"
+              } ]
             },
             "region" : {
               "type" : "string",
-              "description" : "Region of a country the cultivation took place.\\nFor eCrop in The Netherlands for this code list code list NL.CL044 is used."
+              "description" : "Region of a country the cultivation took place.\\nFor eCrop in The Netherlands for this code list code list nl.cl044 is used."
             },
             "useTitle" : {
-              "$ref" : "#/components/schemas/CodeType"
+              "description" : "Code to indicate the type of legal ownership of the field that is used for the crop. For eCrop in The Netherlands code list nl.cl412 is used for this",
+              "allOf" : [ {
+                "$ref" : "#/components/schemas/CodeType"
+              } ]
             },
             "productionType" : {
-              "$ref" : "#/components/schemas/CodeType"
+              "description" : "Indicates the intensity of growing the crop. In The Netherlands used to report to the MLNV-RVO authority. Code list: nl.cl255",
+              "allOf" : [ {
+                "$ref" : "#/components/schemas/CodeType"
+              } ]
             },
             "productionPurpose" : {
-              "$ref" : "#/components/schemas/CodeType"
+              "description" : "Indicator of the produce purpose the crop. For instance: fresh marked, animal feed, seed production, etc. Code list: nl.cl251",
+              "allOf" : [ {
+                "$ref" : "#/components/schemas/CodeType"
+              } ]
             },
             "productionSequence" : {
               "$ref" : "#/components/schemas/ProductionSequenceType"
             },
             "regularOrOrganic" : {
-              "$ref" : "#/components/schemas/CodeType"
+              "description" : "Production protocol: indicates whether this crop is classified as grown organic or non-organic. Code list: nl.cl015",
+              "allOf" : [ {
+                "$ref" : "#/components/schemas/CodeType"
+              } ]
             },
             "netArea" : {
-              "$ref" : "#/components/schemas/MeasurementType"
+              "description" : "The net (netto) area (in m2, hectare, etc.) of the surface that is used for growing the crop.",
+              "allOf" : [ {
+                "$ref" : "#/components/schemas/MeasurementType"
+              } ]
             },
             "growEnvironment" : {
-              "$ref" : "#/components/schemas/CodeType"
+              "description" : "Indicates in what type of environment the crop is grown; e.g. in the open air, in a greenhouse, etc. Code list: nl.cl299",
+              "allOf" : [ {
+                "$ref" : "#/components/schemas/CodeType"
+              } ]
             },
             "growMedium" : {
-              "$ref" : "#/components/schemas/CodeType"
+              "description" : "Indicates in what medium the crop is rooted; for instance in soil, in substrate, on bark, etc. Code list: nl.cl300",
+              "allOf" : [ {
+                "$ref" : "#/components/schemas/CodeType"
+              } ]
             },
             "trackTillage" : {
               "type" : "boolean",
-              "description" : "Indicates whether the cultivation, over the years, is done in fixed lanes with fixed tracks for machinery.\\n\\nyes = track tillage is applied\\nno = track tillage is not applied"
+              "description" : "Indicates whether the cultivation, over the years, is done in fixed lanes with fixed tracks for machinery.\\n\\ntrue = track tillage is applied\\nfalse = track tillage is not applied"
             },
             "plantSpecies" : {
               "type" : "array",
@@ -1011,7 +1573,65 @@
               }
             }
           }
-        } ]
+        } ],
+        "example" : {
+          "externalId" : {
+            "id" : "12345",
+            "schemaIdType" : "MPS"
+          },
+          "name" : "string",
+          "startDate" : "2023-03-12",
+          "endDate" : "2023-03-12",
+          "year" : 2024,
+          "country" : "NL",
+          "region" : "string",
+          "useTitle" : {
+            "code" : "string",
+            "codeListId" : "string",
+            "issueingPartyId" : "string",
+            "uri" : "string"
+          },
+          "productionType" : {
+            "code" : "string",
+            "codeListId" : "string",
+            "issueingPartyId" : "string",
+            "uri" : "string"
+          },
+          "productionPurpose" : {
+            "code" : "string",
+            "codeListId" : "string",
+            "issueingPartyId" : "string",
+            "uri" : "string"
+          },
+          "productionSequence" : "MAIN_CROP",
+          "regularOrOrganic" : {
+            "code" : "string",
+            "codeListId" : "string",
+            "issueingPartyId" : "string",
+            "uri" : "string"
+          },
+          "netArea" : {
+            "value" : 6000,
+            "unitCode" : "M2"
+          },
+          "growEnvironment" : {
+            "code" : "string",
+            "codeListId" : "string",
+            "issueingPartyId" : "string",
+            "uri" : "string"
+          },
+          "growMedium" : {
+            "code" : "string",
+            "codeListId" : "string",
+            "issueingPartyId" : "string",
+            "uri" : "string"
+          },
+          "trackTillage" : false,
+          "plantSpecies" : [ {
+            "plantSpecies" : "1010101",
+            "variety" : "01201"
+          } ]
+        }
       },
       "PlantSpecies" : {
         "title" : "Plantspecies",
@@ -1020,12 +1640,15 @@
         "required" : [ "plantSpecies", "variety" ],
         "properties" : {
           "plantSpecies" : {
+            "description" : "Code of the crop species, at the aggregation level of potato, sugar beet, onion, etc. For eCrop in The Netherlands, code list nl.cl263 is used for crop species.",
             "type" : "string"
           },
           "variety" : {
+            "description" : "Identification of the variety of the type of crop that is grown. For eCrop in The Netherlands code list nl.cl232 is used.",
             "type" : "string"
           },
           "precentageMix" : {
+            "description" : "To be used in case of a mixed crop. Indicator of the percentage of this crop species related to the other crop species that are part of this mixed crop. The percentage is based on the weight proportions of the seed of each of the species that are part of the mixed crop.",
             "type" : "number",
             "format" : "float"
           }
@@ -1044,11 +1667,14 @@
               "$ref" : "#/components/schemas/PlotType"
             },
             "area" : {
-              "$ref" : "#/components/schemas/MeasurementType"
+              "description" : "The surface (measured in for instance square meters, hectare) of this production plot.",
+              "allOf" : [ {
+                "$ref" : "#/components/schemas/MeasurementType"
+              } ]
             },
             "regularOrOrganic" : {
               "type" : "string",
-              "description" : "Indicates whether this plot is classified for organic production or not.\r\nProduction protocol: indicates whether this plot is classified  for organic production or not.\r\nCode list:NL_CL015"
+              "description" : "Indicates whether this plot is classified for organic production or not.\r\nProduction protocol: indicates whether this plot is classified  for organic production or not.\r\nCode list: nl.cl015"
             },
             "localSoilType" : {
               "type" : "string",
@@ -1061,6 +1687,23 @@
             "greenhouseLocation" : {
               "$ref" : "#/components/schemas/GreenhouseLocation"
             }
+          },
+          "example" : {
+            "externalId" : {
+              "id" : "A342_1_6",
+              "schemaIdType" : "MPS"
+            },
+            "name" : "Tuin1, perceel6",
+            "startDate" : "2024-01-12",
+            "endDate" : "2024-12-14",
+            "type" : "CROPFIELD",
+            "area" : {
+              "value" : 6000,
+              "unitCode" : "M2"
+            },
+            "regularOrOrganic" : "REGULAR",
+            "localSoilType" : "CLAY",
+            "regulatorySoilType" : "CLAY"
           }
         } ]
       },
@@ -1107,28 +1750,36 @@
         "title" : "Task",
         "type" : "object",
         "description" : "A Task is the execution of one or more Operation's by a ma-machine-system.\nA 'task' consists of one ore more 'operations' that are closely related but involve different assents and resources. All combined operations need to be carried out well coordinated, to execute the task.\nFor instance, the task potato harvesting involves: one tractor pulling the potato harvester, 2 units to take care of the transport of the harvested potatoes to the barn, equipment at the barn to unload the transport units and to bring the produce in the storing place.",
-        "required" : [ "id", "name", "startDateTime" ],
+        "required" : [ "externalId", "name", "startDateTime", "status", "operations" ],
         "properties" : {
-          "id" : {
-            "type" : "string",
-            "description" : "The Identifier of the task assigned by the originator of the Task."
+          "externalId" : {
+            "description" : "The identifier of the task assigned by the originator of the Task.",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ExternalIdentifier"
+            } ]
           },
           "name" : {
             "type" : "string",
             "description" : "Short name of the task."
           },
           "startDateTime" : {
-            "$ref" : "#/components/schemas/DateTime"
+            "description" : "The timestamp of beginning the execution of the task.",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/DateTime"
+            } ]
           },
           "endDateTime" : {
-            "$ref" : "#/components/schemas/DateTime"
+            "description" : "The timestamp of the ending of execution the task.",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/DateTime"
+            } ]
           },
           "status" : {
             "$ref" : "#/components/schemas/ProcessState"
           },
           "referenceId" : {
             "type" : "string",
-            "description" : "The Identifier of the ordered task that resulted in this executed task.\r\n"
+            "description" : "The Identifier of the ordered task that resulted in this executed task."
           },
           "operations" : {
             "type" : "array",
@@ -1136,27 +1787,102 @@
               "$ref" : "#/components/schemas/Operation"
             }
           }
+        },
+        "example" : {
+          "externalId" : {
+            "id" : 12345,
+            "schemaIdType" : "MPS"
+          },
+          "name" : "string",
+          "startDateTime" : "2023-03-12T15:51:00+01:00",
+          "endDateTime" : "2023-03-12T15:51:00+01:00",
+          "status" : "PROPOSED",
+          "referenceId" : "string",
+          "operations" : [ {
+            "externalId" : {
+              "id" : "12345-1",
+              "schemaIdType" : "MPS"
+            },
+            "name" : "string",
+            "startDateTime" : "2023-03-12T15:51:00+01:00",
+            "endDateTime" : "2023-03-12T15:51:00+01:00",
+            "status" : "PROPOSED",
+            "thirdPartyId" : "string",
+            "operationTechnique" : {
+              "code" : "string",
+              "codeListId" : "string",
+              "issueingPartyId" : "string",
+              "uri" : "string"
+            },
+            "culturalPractice" : {
+              "code" : "string",
+              "codeListId" : "string",
+              "issueingPartyId" : "string",
+              "uri" : "string"
+            },
+            "area" : {
+              "value" : 250000,
+              "unitCode" : "M2"
+            },
+            "referenceId" : "string",
+            "inputAllocations" : [ {
+              "externalId" : {
+                "id" : "838439N",
+                "schemaIdType" : "AUTH_NL"
+              },
+              "name" : "string",
+              "type" : "string",
+              "resourceId" : "string",
+              "quantityAbsolute" : {
+                "value" : 1200,
+                "unitCode" : "KGR"
+              },
+              "quatityRate" : {
+                "value" : 480,
+                "unitCode" : "KGRHA"
+              },
+              "treatmentzone" : [ {
+                "externalId" : {
+                  "id" : "PAD-1-99",
+                  "schemaIdType" : "MPS"
+                },
+                "thirdPartyId" : "string",
+                "area" : {
+                  "value" : 23500,
+                  "unitCode" : "M2"
+                }
+              } ]
+            } ]
+          } ]
         }
       },
       "Operation" : {
         "title" : "Operation",
         "type" : "object",
-        "description" : "Activity carried out by man and/or machine as part op the execution of a task.\nAn operation performs a particular OperationTechnique on a particular asset (a crop,a field, a production unit, a batch, etc.) to realize a certain Cultural Practice or Husbandry Practice.\nExamples for CropProduction:\nThe CulturalPractise \"weed control\"can be realized by one of various OperationTechnique's like spraying, row cultivation, manual hoeing, etc.",
-        "required" : [ "id", "name", "startDateTime", "culturalPractice" ],
+        "description" : "Activity carried out by man and/or machine as part op the execution of a task. An operation performs a particular OperationTechnique on a particular asset (a crop,a field, a production unit, a batch, etc.) to realize a certain Cultural Practice or Husbandry Practice.\nExamples for CropProduction: The CulturalPractise \"weed control\"can be realized by one of various OperationTechniques like spraying, row cultivation, manual hoeing, etc.",
+        "required" : [ "externalId", "name", "startDateTime", "status", "culturalPractice" ],
         "properties" : {
-          "id" : {
-            "type" : "string",
-            "description" : "The Identifier of the operation assigned by the originator of the operation."
+          "externalId" : {
+            "description" : "The Identifier of the operation assigned by the originator of the operation.",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ExternalIdentifier"
+            } ]
           },
           "name" : {
             "type" : "string",
             "description" : "Short name of the operation."
           },
           "startDateTime" : {
-            "$ref" : "#/components/schemas/DateTime"
+            "description" : "The timestamp of beginning the execution of the operation.",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/DateTime"
+            } ]
           },
           "endDateTime" : {
-            "$ref" : "#/components/schemas/DateTime"
+            "description" : "The timestamp of the ending of execution the operation.",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/DateTime"
+            } ]
           },
           "status" : {
             "$ref" : "#/components/schemas/ProcessState"
@@ -1166,10 +1892,16 @@
             "description" : "Identifier of this operation, allocated by a third Party."
           },
           "operationTechnique" : {
-            "$ref" : "#/components/schemas/CodeType"
+            "description" : "Examples for CropProduction: The CulturalPractise \\\"weed control\\\"can be realized by one of various OperationTechniques like spraying, row cultivation, manual hoeing, etc. \\r\\nCode list Id for arable farming: nl.cl127 (or nl.cl293)",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/CodeType"
+            } ]
           },
           "culturalPractice" : {
-            "$ref" : "#/components/schemas/CodeType"
+            "description" : "Examples for CropProduction: The CulturalPractise \\\"weed control\\\"can be realized by one of various OperationTechniques like spraying, row cultivation, manual hoeing, etc. \\r\\nCode list Id for arable farming: nl.cl127 (or nl.cl293)",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/CodeType"
+            } ]
           },
           "characteristics" : {
             "type" : "array",
@@ -1179,7 +1911,10 @@
             }
           },
           "area" : {
-            "$ref" : "#/components/schemas/MeasurementType"
+            "description" : "The treated area (hectare, m2) during the execution of this operation. Can be a percentage of the total area or an absolute value (like hectare or square meter).",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/MeasurementType"
+            } ]
           },
           "referenceId" : {
             "type" : "string",
@@ -1203,25 +1938,41 @@
         "title" : "Allocation",
         "type" : "object",
         "description" : "The generic class (the parent) for input and output allocation.",
-        "required" : [ "type" ],
+        "required" : [ "externalId", "type" ],
         "properties" : {
-          "id" : {
-            "type" : "string"
+          "externalId" : {
+            "description" : "Identifier of an allocation, assigned by the originator of the operation",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ExternalIdentifier"
+            } ]
           },
           "name" : {
+            "description" : "Short name for this allocation.",
             "type" : "string"
           },
           "type" : {
-            "type" : "string"
+            "description" : "Indicator for the type of input or output that is used or delivered by this operation. For instance: \r\n- \"FERTIL\" = fertilizer\r\n- \"PROTEC\" = crop protection product\r\n- \"ENERG\" = energy, etc. \r\nFor this AgroConnect code list nl.cl271 is used.",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/CodeType"
+            } ]
           },
           "resourceId" : {
-            "type" : "string"
+            "description" : "Identifier of the resource that is used or the produce that is delivered by this operation. The identifier is a \"codeType\" data type. CodeType provides the identifier for the code list that is used for this specific product or produce, plus the exact code (identifier) picked from the indicated code list to identify the exact type op product or produce. \\r\\nFor instance, for the use of crop protection products:\r\n- type = \"PROTEC\" \r\n- recourceId -> codeListId = \"CTGB\"\r\n- resourceId -> code = \"14689\" \r\n- name = \"Gallant 2000\"",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/CodeType"
+            } ]
           },
           "quantityAbsolute" : {
-            "$ref" : "#/components/schemas/MeasurementType"
+            "description" : "Quantity of the allocation measured in absolute terms, meaning for instance applied liters or kilogram in total for this allocation (so not in liter/hectare of kilogram/hectare).",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/MeasurementType"
+            } ]
           },
           "quatityRate" : {
-            "$ref" : "#/components/schemas/MeasurementType"
+            "description" : "Quantity of the allocation measured in terms of the rate of application: for instance in liter/hectare, kilogram/hectare, etc.",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/MeasurementType"
+            } ]
           },
           "characteristics" : {
             "type" : "array",
@@ -1248,7 +1999,7 @@
       },
       "OutputAllocation" : {
         "title" : "Outputallocation",
-        "description" : "One or more outputs as the result of the execution of the operation.\nFor example harvested produce: potatoes, onions, flowers, vegetables, etc..\nBut an output could also be for instance energy.",
+        "description" : "One or more outputs as the result of the execution of the operation.\nFor example harvested produce: potatoes, onions, flowers, vegetables, etc.\nBut an output could also be for instance energy.",
         "allOf" : [ {
           "$ref" : "#/components/schemas/Allocation"
         }, {
@@ -1264,12 +2015,16 @@
       "TreatmentZone" : {
         "title" : "Treatmentzone",
         "type" : "object",
-        "required" : [ "id" ],
+        "required" : [ "externalId" ],
         "properties" : {
-          "id" : {
-            "type" : "string"
+          "externalId" : {
+            "description" : "Identifier of the treatment zone assigned by the originator of the operation.",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ExternalIdentifier"
+            } ]
           },
           "thirdPartyId" : {
+            "description" : "Extra identifier for the treatmentZone assigned by a third party.",
             "type" : "string"
           },
           "characteristics" : {
@@ -1285,8 +2040,8 @@
       },
       "ProcessState" : {
         "title" : "ProcessState",
-        "enum" : [ "PROPOSED", "PLANNED", "COMLETED" ],
-        "description" : "To specify the status of execution (proposed, planned, executed) of a task or operation."
+        "enum" : [ "PROPOSED", "PLANNED", "COMPLETED" ],
+        "description" : "Indication of the execution status of the task or operation in terms of: proposed, planned, executed. Code list: nl.clL256"
       },
       "CodeType" : {
         "title" : "CodeType",
@@ -1319,35 +2074,16 @@
       "ProductionSequenceType" : {
         "title" : "Productionsequencetype",
         "enum" : [ "PRE_CROP", "MAIN_CROP", "FOLLOWUP_CROP", "MIXED_CROP" ],
-        "description" : ""
+        "description" : "Indicates if and how the crop is combined with other crops. Enumeration: PRE_CROP = voorteelt, MAIN_CROP = hoofdteelt, FOLLOWUP_CROP = volgteelt, MIXED_CROP = mengteelt"
       },
-      "Date" : {
-        "title" : "Date",
-        "type" : "string",
-        "format" : "date",
-        "pattern" : "^\\d{4}-\\d{2}-\\d{2}$",
-        "description" : "Default date format with ISO-8601 standard date format \"yyyy-mm-dd\"",
-        "example" : "2023-03-12"
-      },
-      "DateTime" : {
-        "title" : "Datetime",
-        "type" : "string",
-        "format" : "datetime",
-        "pattern" : "^(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$",
-        "description" : "Default datetime format with ISO-8601 standard date format \"yyyy-mm-ddThh24:mm:ss+hh:mm\"",
-        "example" : "2023-03-12T15:51:00+01:00"
-      },
-      "Delivery" : {
-        "title" : "Delivery",
+      "InboundDelivery" : {
+        "title" : "Inbound Delivery",
         "type" : "object",
-        "description" : "Delivery by the farm of a harvested batch of produce to a buyer.\nOr, materials and inputs delivered by a supplier to a grower as input for their crop process. A\ndelivery describes a certain amount of a certain product acquired by a buyer through an order to\na seller.\n",
+        "description" : "Materials and inputs delivered by a supplier to a grower as input for their crop process. An inbound\ndelivery describes a certain amount of a certain product acquired by a grower through an order to\na supplier.\n",
+        "required" : [ "thirdPartyDeliveryReferenceId", "dateOfDelivery", "quantity", "product", "location" ],
         "properties" : {
-          "id" : {
-            "type" : "string",
-            "format" : "uuid"
-          },
-          "thirdPartyDeliveryReferenceId" : {
-            "$ref" : "#/components/schemas/Identifier"
+          "externalId" : {
+            "$ref" : "#/components/schemas/ExternalIdentifier"
           },
           "dateOfDelivery" : {
             "$ref" : "#/components/schemas/Date"
@@ -1363,8 +2099,7 @@
           }
         },
         "example" : {
-          "id" : "b7e3a2f0-1c4d-4f0e-9d0a-8c7b2e3f5a6b",
-          "thirdPartyDeliveryReferenceId" : {
+          "externalId" : {
             "id" : {
               "id" : "84037601",
               "schemaType" : "nl.iperen.cl010"
@@ -1424,16 +2159,16 @@
         "description" : "A product delivered to a farmer is any agricultural input, tool, or resource designed to support farming activities, such as seeds, fertilizers, animal feed or crop protection solutions.",
         "properties" : {
           "id" : {
-            "$ref" : "#/components/schemas/Identifier"
+            "$ref" : "#/components/schemas/ExternalIdentifier"
           },
           "name" : {
             "type" : "string"
           },
           "thirdPartyProductReferenceId" : {
-            "$ref" : "#/components/schemas/Identifier"
+            "$ref" : "#/components/schemas/ExternalIdentifier"
           },
           "regionalAuthorisationId" : {
-            "$ref" : "#/components/schemas/Identifier"
+            "$ref" : "#/components/schemas/ExternalIdentifier"
           },
           "additionalProductProperties" : {
             "type" : "array",
@@ -1460,6 +2195,20 @@
       }
     },
     "responses" : {
+      "default_no_content" : {
+        "description" : "The resource was successfully deleted. No content is returned.",
+        "headers" : {
+          "API-Version" : {
+            "$ref" : "#/components/headers/API-Version"
+          },
+          "Request-Id" : {
+            "$ref" : "#/components/headers/Request-Id"
+          },
+          "Request-Date-Time" : {
+            "$ref" : "#/components/headers/Request-Date-Time"
+          }
+        }
+      },
       "default_error" : {
         "description" : "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457). \r\n\r\n*Remark: Content-type is application/problem+json (not application/json)*",
         "content" : {
@@ -1472,11 +2221,17 @@
         "headers" : {
           "API-Version" : {
             "$ref" : "#/components/headers/API-Version"
+          },
+          "Request-Id" : {
+            "$ref" : "#/components/headers/Request-Id"
+          },
+          "Request-Date-Time" : {
+            "$ref" : "#/components/headers/Request-Date-Time"
           }
         }
       },
       "default_400" : {
-        "description" : "Default Bad Request error",
+        "description" : "Bad Request",
         "content" : {
           "application/problem+json" : {
             "schema" : {
@@ -1487,11 +2242,17 @@
         "headers" : {
           "API-Version" : {
             "$ref" : "#/components/headers/API-Version"
+          },
+          "Request-Id" : {
+            "$ref" : "#/components/headers/Request-Id"
+          },
+          "Request-Date-Time" : {
+            "$ref" : "#/components/headers/Request-Date-Time"
           }
         }
       },
       "default_401" : {
-        "description" : "Default Not Authorized (authenticated) error",
+        "description" : "Not Authorized (authenticated)",
         "content" : {
           "application/problem+json" : {
             "schema" : {
@@ -1502,11 +2263,17 @@
         "headers" : {
           "API-Version" : {
             "$ref" : "#/components/headers/API-Version"
+          },
+          "Request-Id" : {
+            "$ref" : "#/components/headers/Request-Id"
+          },
+          "Request-Date-Time" : {
+            "$ref" : "#/components/headers/Request-Date-Time"
           }
         }
       },
       "default_403" : {
-        "description" : "Default Forbidden error",
+        "description" : "Forbidden",
         "content" : {
           "application/problem+json" : {
             "schema" : {
@@ -1517,11 +2284,17 @@
         "headers" : {
           "API-Version" : {
             "$ref" : "#/components/headers/API-Version"
+          },
+          "Request-Id" : {
+            "$ref" : "#/components/headers/Request-Id"
+          },
+          "Request-Date-Time" : {
+            "$ref" : "#/components/headers/Request-Date-Time"
           }
         }
       },
       "default_404" : {
-        "description" : "Default Not Found error",
+        "description" : "Not Found",
         "content" : {
           "application/problem+json" : {
             "schema" : {
@@ -1532,11 +2305,17 @@
         "headers" : {
           "API-Version" : {
             "$ref" : "#/components/headers/API-Version"
+          },
+          "Request-Id" : {
+            "$ref" : "#/components/headers/Request-Id"
+          },
+          "Request-Date-Time" : {
+            "$ref" : "#/components/headers/Request-Date-Time"
           }
         }
       },
       "default_500" : {
-        "description" : "Default Internal Server error",
+        "description" : "Internal Server Error",
         "content" : {
           "application/problem+json" : {
             "schema" : {
@@ -1547,18 +2326,66 @@
         "headers" : {
           "API-Version" : {
             "$ref" : "#/components/headers/API-Version"
+          },
+          "Request-Id" : {
+            "$ref" : "#/components/headers/Request-Id"
+          },
+          "Request-Date-Time" : {
+            "$ref" : "#/components/headers/Request-Date-Time"
           }
         }
       },
       "health_200" : {
-        "description" : "Succesfull health response",
+        "description" : "The API is healthy and operational. The response body contains detailed health information.",
         "content" : {
           "application/health+json" : {
             "schema" : {
+              "$ref" : "#/components/schemas/Health"
+            }
+          }
+        },
+        "headers" : {
+          "API-Version" : {
+            "$ref" : "#/components/headers/API-Version"
+          },
+          "Request-Id" : {
+            "$ref" : "#/components/headers/Request-Id"
+          },
+          "Request-Date-Time" : {
+            "$ref" : "#/components/headers/Request-Date-Time"
+          }
+        }
+      },
+      "health_503" : {
+        "description" : "Service Unavailable: The API is not healthy or one or more critical dependencies are unavailable",
+        "content" : {
+          "application/problem+json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ErrorResponse"
+            }
+          }
+        },
+        "headers" : {
+          "API-Version" : {
+            "$ref" : "#/components/headers/API-Version"
+          },
+          "Request-Id" : {
+            "$ref" : "#/components/headers/Request-Id"
+          },
+          "Request-Date-Time" : {
+            "$ref" : "#/components/headers/Request-Date-Time"
+          }
+        }
+      },
+      "grower_200" : {
+        "description" : "Single grower",
+        "content" : {
+          "application/json" : {
+            "schema" : {
               "allOf" : [ {
-                "$ref" : "#/components/schemas/Health"
+                "$ref" : "#/components/schemas/ServerId"
               }, {
-                "$ref" : "#/components/schemas/MetaData"
+                "$ref" : "#/components/schemas/Grower"
               } ]
             }
           }
@@ -1566,6 +2393,12 @@
         "headers" : {
           "API-Version" : {
             "$ref" : "#/components/headers/API-Version"
+          },
+          "Request-Id" : {
+            "$ref" : "#/components/headers/Request-Id"
+          },
+          "Request-Date-Time" : {
+            "$ref" : "#/components/headers/Request-Date-Time"
           }
         }
       },
@@ -1574,23 +2407,51 @@
         "content" : {
           "application/json" : {
             "schema" : {
-              "allOf" : [ {
-                "type" : "array",
-                "items" : {
+              "type" : "array",
+              "items" : {
+                "allOf" : [ {
+                  "$ref" : "#/components/schemas/ServerId"
+                }, {
                   "$ref" : "#/components/schemas/Grower"
-                }
+                } ]
+              }
+            }
+          }
+        },
+        "headers" : {
+          "API-Version" : {
+            "$ref" : "#/components/headers/API-Version"
+          },
+          "Request-Id" : {
+            "$ref" : "#/components/headers/Request-Id"
+          },
+          "Request-Date-Time" : {
+            "$ref" : "#/components/headers/Request-Date-Time"
+          }
+        }
+      },
+      "supplier_200" : {
+        "description" : "Single supplier",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "allOf" : [ {
+                "$ref" : "#/components/schemas/ServerId"
               }, {
-                "$ref" : "#/components/schemas/MetaData"
+                "$ref" : "#/components/schemas/Supplier"
               } ]
             }
           }
         },
         "headers" : {
           "API-Version" : {
-            "schema" : {
-              "type" : "string"
-            },
-            "description" : "Full API version"
+            "$ref" : "#/components/headers/API-Version"
+          },
+          "Request-Id" : {
+            "$ref" : "#/components/headers/Request-Id"
+          },
+          "Request-Date-Time" : {
+            "$ref" : "#/components/headers/Request-Date-Time"
           }
         }
       },
@@ -1599,71 +2460,79 @@
         "content" : {
           "application/json" : {
             "schema" : {
-              "allOf" : [ {
-                "type" : "array",
-                "items" : {
+              "type" : "array",
+              "items" : {
+                "allOf" : [ {
+                  "$ref" : "#/components/schemas/ServerId"
+                }, {
                   "$ref" : "#/components/schemas/Supplier"
-                }
-              }, {
-                "$ref" : "#/components/schemas/MetaData"
-              } ]
-            },
-            "examples" : { }
+                } ]
+              }
+            }
           }
         },
         "headers" : {
           "API-Version" : {
-            "schema" : {
-              "type" : "string"
-            },
-            "description" : "Full API version"
+            "$ref" : "#/components/headers/API-Version"
+          },
+          "Request-Id" : {
+            "$ref" : "#/components/headers/Request-Id"
+          },
+          "Request-Date-Time" : {
+            "$ref" : "#/components/headers/Request-Date-Time"
           }
         }
       },
-      "delivery_202" : {
+      "inboundDelivery_202" : {
         "description" : "Delivery accepted",
         "content" : {
           "application/json" : {
             "schema" : {
               "allOf" : [ {
-                "$ref" : "#/components/schemas/Delivery"
+                "$ref" : "#/components/schemas/ServerId"
               }, {
-                "$ref" : "#/components/schemas/MetaData"
+                "$ref" : "#/components/schemas/InboundDelivery"
               } ]
             }
           }
         },
         "headers" : {
           "API-Version" : {
-            "schema" : {
-              "type" : "string"
-            },
-            "description" : "Full API version"
+            "$ref" : "#/components/headers/API-Version"
+          },
+          "Request-Id" : {
+            "$ref" : "#/components/headers/Request-Id"
+          },
+          "Request-Date-Time" : {
+            "$ref" : "#/components/headers/Request-Date-Time"
           }
         }
       },
-      "plot_200" : {
+      "plots_200" : {
         "description" : "OK",
         "content" : {
           "application/json" : {
             "schema" : {
-              "allOf" : [ {
-                "type" : "array",
-                "items" : {
+              "type" : "array",
+              "items" : {
+                "allOf" : [ {
+                  "$ref" : "#/components/schemas/ServerId"
+                }, {
                   "$ref" : "#/components/schemas/Plot"
-                }
-              }, {
-                "$ref" : "#/components/schemas/MetaData"
-              } ]
+                } ]
+              }
             }
           }
         },
         "headers" : {
           "API-Version" : {
-            "schema" : {
-              "type" : "string"
-            },
-            "description" : "Full API version"
+            "$ref" : "#/components/headers/API-Version"
+          },
+          "Request-Id" : {
+            "$ref" : "#/components/headers/Request-Id"
+          },
+          "Request-Date-Time" : {
+            "$ref" : "#/components/headers/Request-Date-Time"
           }
         }
       },
@@ -1673,69 +2542,78 @@
           "application/json" : {
             "schema" : {
               "allOf" : [ {
+                "$ref" : "#/components/schemas/ServerId"
+              }, {
                 "$ref" : "#/components/schemas/Plot"
-              }, {
-                "$ref" : "#/components/schemas/MetaData"
               } ]
             }
           }
         },
         "headers" : {
           "API-Version" : {
-            "schema" : {
-              "type" : "string"
-            },
-            "description" : "Full API version"
+            "$ref" : "#/components/headers/API-Version"
+          },
+          "Request-Id" : {
+            "$ref" : "#/components/headers/Request-Id"
+          },
+          "Request-Date-Time" : {
+            "$ref" : "#/components/headers/Request-Date-Time"
           }
         }
       },
-      "productionlocation_200" : {
+      "productionlocations_200" : {
         "description" : "OK",
         "content" : {
           "application/json" : {
             "schema" : {
-              "allOf" : [ {
-                "type" : "array",
-                "items" : {
+              "type" : "array",
+              "items" : {
+                "allOf" : [ {
+                  "$ref" : "#/components/schemas/ServerId"
+                }, {
                   "$ref" : "#/components/schemas/ProductionLocation"
-                }
-              }, {
-                "$ref" : "#/components/schemas/MetaData"
-              } ]
+                } ]
+              }
             }
           }
         },
         "headers" : {
           "API-Version" : {
-            "schema" : {
-              "type" : "string"
-            },
-            "description" : "Full API version"
+            "$ref" : "#/components/headers/API-Version"
+          },
+          "Request-Id" : {
+            "$ref" : "#/components/headers/Request-Id"
+          },
+          "Request-Date-Time" : {
+            "$ref" : "#/components/headers/Request-Date-Time"
           }
         }
       },
-      "crop_200" : {
+      "crops_200" : {
         "description" : "OK",
         "content" : {
           "application/json" : {
             "schema" : {
-              "allOf" : [ {
-                "type" : "array",
-                "items" : {
+              "type" : "array",
+              "items" : {
+                "allOf" : [ {
+                  "$ref" : "#/components/schemas/ServerId"
+                }, {
                   "$ref" : "#/components/schemas/Crop"
-                }
-              }, {
-                "$ref" : "#/components/schemas/MetaData"
-              } ]
+                } ]
+              }
             }
           }
         },
         "headers" : {
           "API-Version" : {
-            "schema" : {
-              "type" : "string"
-            },
-            "description" : "Full API version"
+            "$ref" : "#/components/headers/API-Version"
+          },
+          "Request-Id" : {
+            "$ref" : "#/components/headers/Request-Id"
+          },
+          "Request-Date-Time" : {
+            "$ref" : "#/components/headers/Request-Date-Time"
           }
         }
       },
@@ -1745,19 +2623,22 @@
           "application/json" : {
             "schema" : {
               "allOf" : [ {
-                "$ref" : "#/components/schemas/Crop"
+                "$ref" : "#/components/schemas/ServerId"
               }, {
-                "$ref" : "#/components/schemas/MetaData"
+                "$ref" : "#/components/schemas/Crop"
               } ]
             }
           }
         },
         "headers" : {
           "API-Version" : {
-            "schema" : {
-              "type" : "string"
-            },
-            "description" : "Full API version"
+            "$ref" : "#/components/headers/API-Version"
+          },
+          "Request-Id" : {
+            "$ref" : "#/components/headers/Request-Id"
+          },
+          "Request-Date-Time" : {
+            "$ref" : "#/components/headers/Request-Date-Time"
           }
         }
       },
@@ -1767,29 +2648,32 @@
           "application/json" : {
             "schema" : {
               "allOf" : [ {
-                "$ref" : "#/components/schemas/Task"
+                "$ref" : "#/components/schemas/ServerId"
               }, {
-                "$ref" : "#/components/schemas/MetaData"
+                "$ref" : "#/components/schemas/Task"
               } ]
             }
           }
         },
         "headers" : {
           "API-Version" : {
-            "schema" : {
-              "type" : "string"
-            },
-            "description" : "Full API version"
+            "$ref" : "#/components/headers/API-Version"
+          },
+          "Request-Id" : {
+            "$ref" : "#/components/headers/Request-Id"
+          },
+          "Request-Date-Time" : {
+            "$ref" : "#/components/headers/Request-Date-Time"
           }
         }
       }
     },
     "requestBodies" : {
-      "deliveryRequest" : {
+      "inboundDeliveryRequest" : {
         "content" : {
           "application/json" : {
             "schema" : {
-              "$ref" : "#/components/schemas/Delivery"
+              "$ref" : "#/components/schemas/InboundDelivery"
             }
           }
         }
@@ -1864,10 +2748,41 @@
           "maximum" : 50
         }
       },
+      "serverSideAssignedId" : {
+        "name" : "id",
+        "in" : "path",
+        "description" : "Unique serverside assigned resource id",
+        "required" : true,
+        "schema" : {
+          "type" : "string",
+          "format" : "uuid"
+        },
+        "example" : "e484b3b3-1828-452b-af21-0e535a5013f9"
+      },
+      "idType" : {
+        "name" : "idType",
+        "in" : "path",
+        "description" : "idType with which the party is identified",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "example" : "MPS"
+      },
       "growerId" : {
         "name" : "growerId",
         "in" : "path",
-        "description" : "Unique identification of a grower.",
+        "description" : "Unique serverside assigned identification of a grower",
+        "required" : true,
+        "schema" : {
+          "$ref" : "#/components/parameters/serverSideAssignedId"
+        },
+        "example" : "e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b"
+      },
+      "externalGrowerId" : {
+        "name" : "externalGrowerId",
+        "in" : "path",
+        "description" : "Unique externally defined identification of a grower",
         "required" : true,
         "schema" : {
           "type" : "string"
@@ -1877,12 +2792,72 @@
       "supplierId" : {
         "name" : "supplierId",
         "in" : "path",
-        "description" : "Unique identification of a supplier.",
+        "description" : "Unique serverside assigned identification of a supplier",
+        "required" : true,
+        "schema" : {
+          "$ref" : "#/components/parameters/serverSideAssignedId"
+        },
+        "example" : "7a2e4c3d-9b8f-1a2c-3e4d-5f6a7b8c9d0e"
+      },
+      "externalSupplierId" : {
+        "name" : "externalSupplierId",
+        "in" : "path",
+        "description" : "Unique externally defined identification of a supplier",
         "required" : true,
         "schema" : {
           "type" : "string"
         },
         "example" : 729439
+      },
+      "inboundDeliveryId" : {
+        "name" : "inboundDeliveryId",
+        "in" : "path",
+        "description" : "Unique serverside assigned identification of an inbound delivery",
+        "required" : true,
+        "schema" : {
+          "$ref" : "#/components/parameters/serverSideAssignedId"
+        },
+        "example" : "6f6d3b8c4-2e7a-4a1d-9b2c-0e1f2a3b4c5d"
+      },
+      "productionLocationId" : {
+        "name" : "productionLocationId",
+        "in" : "path",
+        "description" : "Unique serverside assigned identification of a production location",
+        "required" : true,
+        "schema" : {
+          "$ref" : "#/components/parameters/serverSideAssignedId"
+        },
+        "example" : "8b2c1a7e-4f3d-4e9c-a1b2-3c4d5e6f7a8b"
+      },
+      "cropId" : {
+        "name" : "cropId",
+        "in" : "path",
+        "description" : "Unique serverside assigned identification of a crop",
+        "required" : true,
+        "schema" : {
+          "$ref" : "#/components/parameters/serverSideAssignedId"
+        },
+        "example" : "c9a7b8e2-3d4f-5e6a-7b8c-9d0e1f2a3b4c"
+      },
+      "plotId" : {
+        "name" : "plotId",
+        "in" : "path",
+        "description" : "Unique serverside assigned identification of a plot",
+        "required" : true,
+        "schema" : {
+          "$ref" : "#/components/parameters/serverSideAssignedId"
+        },
+        "example" : "e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b"
+      },
+      "taskId" : {
+        "name" : "taskId",
+        "in" : "path",
+        "description" : "Unique serverside assigned identification of a task",
+        "required" : true,
+        "schema" : {
+          "$ref" : "#/components/parameters/serverSideAssignedId"
+        },
+        "example" : "2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e"
       }
     },
     "headers" : {
@@ -1892,6 +2867,22 @@
         },
         "example" : "1.3.2",
         "description" : "Full API version"
+      },
+      "Request-Id" : {
+        "schema" : {
+          "type" : "string",
+          "format" : "uuid"
+        },
+        "example" : "3f2504e0-4f89-11d3-9a0c-0305e82c3301",
+        "description" : "Unique serverside assigned id of the request"
+      },
+      "Request-Date-Time" : {
+        "schema" : {
+          "type" : "string",
+          "format" : "datetime"
+        },
+        "example" : "2022-01-01T16:51:22+00:00",
+        "description" : "Timestamp of the request"
       }
     }
   }
