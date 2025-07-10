@@ -5,7 +5,7 @@
     "description" : "Agroconnect Virtual API server"
   } ],
   "info" : {
-    "description" : "### eCrop API based on **AgroConnect eCrop standard version 0.4** \r\n\r\nThis API concerns registration of crop related activities like application of crop protection products and fertilizers and energy and water consumption.\r\n\r\nThis API is based on the Agroconnect eCrop class model\r\n\r\n## Conformation\r\n- [API Design Rules version 2.0.2](https://gitdocumentatie.logius.nl/publicatie/api/adr/) of the NL API Strategie (Dutch API Strategy)\r\n- IETF RFC 6902: JavaScript Object Notation (JSON) Patch\r\n- IETF RFC 9457: Problem Details for HTTP APIs (Internet Engineering Task Force (IETF))\r\n- IETF Draft: Health Check Response Format for HTTP APIs \r\n- ISO-3166 country codes\r\n- Sematic versioning using Semver\r\n\r\n## Design decisions\r\n- super/subtypes (UML generalisations): subtypes are allOf with $ref to supertype and object with subtype atributes\r\n- UML compositions: hierachy in URI (should be aggegrations in eCrop class model) or array in master-object\r\n- each resource has a server side assiged identification named {id} (type string or string(format uuid))\r\n- each resource has a client side assiged identification named {externalId} (complex type with id and schemaId attributes)\r\n\r\n## Default responses\r\nGET on collection resource (with or without query parameters)\r\n- 200: successful response returning list with 0 of more items. When no items are found an empty list is returned\r\n- 400: bad request (f.i. malformed query parameters)\r\n- 401: (token) authentication failed\r\n- 500: internal server error\r\n\r\nGET on singleton resource\r\n- 200: successful response one item\r\n- 400: bad request (f.i. malformed query parameters)\r\n- 401: (token) authentication failed\r\n- 404: resource indicated is not found (does not exist or client has no access to the resource)\r\n- 500: internal server error\r\n\r\nPOST\r\n- 202: resource accepted (asynchonously processed)\r\n- 400: bad request (f.i. malformed payload)\r\n- 401: (token) authentication failed\r\n- 403: forbidden (f.i. when posting sub resources to a resource on which the client is not allowed to\r\n- 500: internal server error\r\n\r\nPUT\r\n- 202: resource accepted (asynchonously processed)\r\n- 400: bad request (f.i. malformed payload)\r\n- 401: (token) authentication failed\r\n- 403: forbidden (f.i. when posting sub resources to a resource on which the client is not allowed to\r\n- 404: resource indicated is not found (does not exist or client has no access to the resource)\r\n- 500: internal server error\r\n\r\nDEL:\r\n- 204: no content: resource successfully deleted (could also be 202 when processing asynchonously)\r\n- 400: bad request (f.i. malformed payload)\r\n- 401: (token) authentication failed\r\n- 403: forbidden (f.i. when posting sub resources to a resource on which the client is not allowed to\r\n- 404: resource indicated is not found (does not exist or client has no access to the resource)\r\n- 500: internal server error\r\n\r\n## Remarks on class model\r\n- Renamed \"cytyName\" in Address to \"cityName\"\r\n- \"Compositions\" should be renamed to \"Components\"\r\n- change applicable composition-relations to aggegration-relations \r\n- Rename \"Farm\" to \"Location\" (or ay least confirm Farm == Location)??\r\n- Add relation grower-to-farm to support get/post locations per grower?\r\n- Relation delivery should link to \"grower\" iso \"receiver\"\r\n- attributes \"id\" and \"name\" in \"greenhouselocation\" are prefixed with class name\r\n- changed all class names to PascalCase (ADR: schemanames must be CamelCase(=PascalCase=UpperCamelCase))\r\n- changed IBAN to iban (ADR: properties must be lowerCamelCase) \r\n- Association relation should be added between ProductionLocation and Task to support non crop-specific tasks\r\n- Product.thirdPartyDeliveryReferenceId should be of type Identifier iso string\r\n- Status must be required in Task and Operation\r\n\r\nCopyright (c)  AgroConnect 2025",
+    "description" : "### eCrop API based on **AgroConnect eCrop standard version 0.4** \r\n\r\nThis API concerns registration of crop related activities like application of crop protection products and fertilizers and energy and water consumption.\r\n\r\nThis API is based on the Agroconnect eCrop class model\r\n\r\n## Conformation\r\n- [API Design Rules version 2.0.2](https://gitdocumentatie.logius.nl/publicatie/api/adr/) of the NL API Strategie (Dutch API Strategy)\r\n- IETF RFC 6902: JavaScript Object Notation (JSON) Patch\r\n- IETF RFC 9457: Problem Details for HTTP APIs (Internet Engineering Task Force (IETF))\r\n- IETF Draft: Health Check Response Format for HTTP APIs \r\n- ISO-3166 country codes\r\n- Sematic versioning using Semver\r\n\r\n## Design decisions\r\n- super/subtypes (UML generalisations): subtypes are allOf with $ref to supertype and subtype-object with subtype atributes\r\n- UML compositions: hierachy in URI (should be aggegrations in eCrop class model) or array in master-object\r\n- each **resource** which has operations defined on it, has a server side assiged identification named {id} (type string or string(format uuid))\r\n- each **schema** has a client side assiged identification named **externalId** (complex type with id and schemaId attributes)\r\n\r\n## Default responses\r\nGET on collection resource (with or without query parameters)\r\n- 200: successful response returning list with 0 of more items. When no items are found an empty list is returned\r\n- 400: bad request (f.i. malformed query parameters)\r\n- 401: (token) authentication failed\r\n- 500: internal server error\r\n\r\nGET on singleton resource\r\n- 200: successful response one item\r\n- 400: bad request (f.i. malformed query parameters)\r\n- 401: (token) authentication failed\r\n- 404: resource indicated is not found (does not exist or client has no access to the resource)\r\n- 500: internal server error\r\n\r\nPOST\r\n- 202: resource accepted (asynchonously processed)\r\n- 400: bad request (f.i. malformed payload)\r\n- 401: (token) authentication failed\r\n- 403: forbidden (f.i. when posting sub resources to a resource on which the client is not allowed to\r\n- 500: internal server error\r\n\r\nPUT\r\n- 202: resource accepted (asynchonously processed)\r\n- 400: bad request (f.i. malformed payload)\r\n- 401: (token) authentication failed\r\n- 403: forbidden (f.i. when posting sub resources to a resource on which the client is not allowed to\r\n- 404: resource indicated is not found (does not exist or client has no access to the resource)\r\n- 500: internal server error\r\n\r\nDEL:\r\n- 204: no content: resource successfully deleted (could also be 202 when processing asynchonously)\r\n- 400: bad request (f.i. malformed payload)\r\n- 401: (token) authentication failed\r\n- 403: forbidden (f.i. when posting sub resources to a resource on which the client is not allowed to\r\n- 404: resource indicated is not found (does not exist or client has no access to the resource)\r\n- 500: internal server error\r\n\r\n## Remarks on class model\r\n- Renamed \"cytyName\" in Address to \"cityName\"\r\n- \"Compositions\" should be renamed to \"Components\"\r\n- change applicable composition-relations to aggegration-relations \r\n- Rename \"Farm\" to \"Location\" (or ay least confirm Farm == Location)??\r\n- Add relation grower-to-farm to support get/post locations per grower?\r\n- Relation delivery should link to \"grower\" iso \"receiver\"\r\n- attributes \"id\" and \"name\" in \"greenhouselocation\" are prefixed with class name\r\n- changed all class names to PascalCase (ADR: schemanames must be CamelCase(=PascalCase=UpperCamelCase))\r\n- changed IBAN to iban (ADR: properties must be lowerCamelCase) \r\n- Association relation should be added between ProductionLocation and Task to support non crop-specific tasks\r\n- Product.thirdPartyDeliveryReferenceId should be of type Identifier iso string\r\n- Status must be required in Task and Operation\r\n\r\nCopyright (c)  AgroConnect 2025",
     "version" : "0.1.0",
     "title" : "AgroConnect eCrop API",
     "contact" : {
@@ -28,13 +28,19 @@
     "description" : "General Operations"
   }, {
     "name" : "parties",
-    "description" : "Operations on Party-level"
+    "description" : "**Operations on Party-level**\r\n\r\nThese operations are added to this API definition as an example of how basic party information can be exposed to external clients. This can be extended with functions for registering new parties (growers, suppliers) or letting them modify their basic information (name, address, contact info, etc.)"
   }, {
     "name" : "delivery",
-    "description" : "Inbound and Outbound Delivery Operations"
+    "description" : "**Inbound Delivery Operations**\r\n\r\nThese operations can be used for registering products which have been delivered to a grower by a supplier. Suppliers can only register deliveries for growers they are granted for, which they can check with the GET operations in this section (optional)."
   }, {
-    "name" : "crop registration",
-    "description" : "Registration Operations"
+    "name" : "farm level registration",
+    "description" : "**Farm level registration Operations**\r\n\r\n Growers can use these operations to register non-crop related-) tasks and operations on **farm** level"
+  }, {
+    "name" : "plot level registration",
+    "description" : "**Plot level registration Operations**\r\n\r\n Growers can use these operations to register non-crop related-) tasks and operations on **plot** level"
+  }, {
+    "name" : "crop level registration",
+    "description" : "**Crop level registration Operations**\r\n\r\n Growers can use these operations to register **crop related** tasks and operations"
   } ],
   "paths" : {
     "/health" : {
@@ -46,7 +52,7 @@
       "get" : {
         "summary" : "Returns health check of this API",
         "operationId" : "get-health",
-        "description" : "This endpoint provides health status information about the API service, its dependencies, and overall operational condition. It is designed to be used by monitoring tools, load balancers, and orchestration systems to determine if the service is available and ready to process requests.\n\n**Usage:**   \n- **Monitoring:** Used by system administrators and automated monitoring to ensure service availability.",
+        "description" : "This endpoint provides health status information about the API service, its dependencies, and overall operational condition. It is designed to be used by monitoring tools, load balancers, and orchestration systems to determine if the service is available and ready to process requests.\n\n**Checks (examples):**\n- Validator (function) app available?\n- API datastore available?\n- Servicebus available? \n\n**Usage:**   \n- **Monitoring:** Used by system administrators and automated monitoring to ensure service availability.",
         "tags" : [ "general" ],
         "responses" : {
           "200" : {
@@ -484,7 +490,7 @@
         "summary" : "Returns all productionlocations of a grower",
         "operationId" : "get-growers-growerId-production-locations",
         "description" : "Returns all productionlocations of a grower",
-        "tags" : [ "crop registration" ],
+        "tags" : [ "farm level registration" ],
         "parameters" : [ {
           "$ref" : "#/components/parameters/offset"
         }, {
@@ -523,7 +529,7 @@
         "summary" : "Register a non crop-specific task with operations on a production location by a grower",
         "operationId" : "post-growers-production-location-tasks",
         "description" : "Register a non crop-specific task with operations on a production location by a grower\r\n\r\nRemarks: repeatingly posting tasks with the same exterenal id will lead to updating the previously posted task (so no duplicates will be generated). \r\nPreferrable, clients should use the PUT operation to update previously POSTed tasks in stead of re-posting them.",
-        "tags" : [ "crop registration" ],
+        "tags" : [ "farm level registration" ],
         "requestBody" : {
           "$ref" : "#/components/requestBodies/taskRequest"
         },
@@ -565,7 +571,7 @@
         "summary" : "Update a previously registered non crop-specific task with operations on a production location by a grower",
         "operationId" : "put-growers-production-location-tasks-id",
         "description" : "Update a previously registered non crop-specific task with operations on a production location by a grower",
-        "tags" : [ "crop registration" ],
+        "tags" : [ "farm level registration" ],
         "requestBody" : {
           "$ref" : "#/components/requestBodies/taskRequest"
         },
@@ -597,7 +603,7 @@
         "summary" : "Delete a previously registered non crop-specific task with operations on a production location by a grower",
         "operationId" : "del-rowers-production-location-tasks-id",
         "description" : "Delete a previously registered non crop-specific task with operations on a production location by a grower",
-        "tags" : [ "crop registration" ],
+        "tags" : [ "farm level registration" ],
         "responses" : {
           "204" : {
             "$ref" : "#/components/responses/default_no_content"
@@ -635,7 +641,7 @@
         "summary" : "Returns all plots of a grower",
         "operationId" : "get-growers-growerId-plots",
         "description" : "Returns all plots of a grower",
-        "tags" : [ "crop registration" ],
+        "tags" : [ "plot level registration" ],
         "parameters" : [ {
           "$ref" : "#/components/parameters/offset"
         }, {
@@ -663,7 +669,7 @@
         "summary" : "Register a new plot by a grower",
         "operationId" : "post-growers-growerId-plots",
         "description" : "Register a new plot by a grower\r\n\r\nRemarks: repeatingly posting plots with the same exterenal id will lead to updating the previously posted plot (so no duplicates will be generated). \r\nPreferrable, clients should use the PUT operation to update previously POSTed plots in stead of re-posting them.",
-        "tags" : [ "crop registration" ],
+        "tags" : [ "plot level registration" ],
         "requestBody" : {
           "$ref" : "#/components/requestBodies/plotRequest"
         },
@@ -703,7 +709,7 @@
         "summary" : "Update a previously registered plot by a grower",
         "operationId" : "put-growers-growerId-plots-plotid",
         "description" : "Update a previously registered plot by a grower",
-        "tags" : [ "crop registration" ],
+        "tags" : [ "plot level registration" ],
         "requestBody" : {
           "$ref" : "#/components/requestBodies/plotRequest"
         },
@@ -735,7 +741,7 @@
         "summary" : "Delete a plot by a grower",
         "operationId" : "del-growers-growerId-plots-plotid",
         "description" : "Delete a plot by a grower",
-        "tags" : [ "crop registration" ],
+        "tags" : [ "plot level registration" ],
         "responses" : {
           "202" : {
             "$ref" : "#/components/responses/default_no_content"
@@ -775,7 +781,7 @@
         "summary" : "Register a non crop-specific task with operations on a plot by a grower",
         "operationId" : "post-growers-plot-tasks",
         "description" : "Register a non crop-specific task with operations on a plot by a grower\r\n\r\nRemarks: repeatingly posting tasks with the same exterenal id will lead to updating the previously posted task (so no duplicates will be generated). \r\nPreferrable, clients should use the PUT operation to update previously POSTed tasks in stead of re-posting them.",
-        "tags" : [ "crop registration" ],
+        "tags" : [ "plot level registration" ],
         "requestBody" : {
           "$ref" : "#/components/requestBodies/taskRequest"
         },
@@ -817,7 +823,7 @@
         "summary" : "Update a previously registered non crop-specific task with operations on a plot by a grower",
         "operationId" : "put-growers-plot-tasks-taskid",
         "description" : "Update a previously registered non crop-specific task with operations on a plot by a grower",
-        "tags" : [ "crop registration" ],
+        "tags" : [ "plot level registration" ],
         "requestBody" : {
           "$ref" : "#/components/requestBodies/taskRequest"
         },
@@ -849,7 +855,7 @@
         "summary" : "Delete a non crop-specific task with operations on a plot by a grower",
         "operationId" : "del-growers-plot-tasks-taskid",
         "description" : "Delete a non crop-specific task with operations on a plot by a grower",
-        "tags" : [ "crop registration" ],
+        "tags" : [ "plot level registration" ],
         "responses" : {
           "202" : {
             "$ref" : "#/components/responses/default_no_content"
@@ -887,7 +893,7 @@
         "summary" : "Return the crops of a grower",
         "operationId" : "get-growers-growerId-crops",
         "description" : "Returns all crops of a grower",
-        "tags" : [ "crop registration" ],
+        "tags" : [ "crop level registration" ],
         "parameters" : [ {
           "$ref" : "#/components/parameters/offset"
         }, {
@@ -915,7 +921,7 @@
         "summary" : "Register a new crop for a grower",
         "operationId" : "post-growers-growerId-crops",
         "description" : "Register a new crop for a grower\r\n\r\nRemarks: repeatingly posting multiple crops with the same exterenal id will lead to updating the previously posted crop (so no duplicates will be generated). \r\nPreferrable, clients should use the PUT operation to update previously POSTed crops in stead of re-posting them.",
-        "tags" : [ "crop registration" ],
+        "tags" : [ "crop level registration" ],
         "requestBody" : {
           "$ref" : "#/components/requestBodies/cropRequest"
         },
@@ -958,7 +964,7 @@
         "summary" : "Update a previously registered crop by a grower",
         "operationId" : "put-growers-growerId-crops-id",
         "description" : "Update a previously registered crop by a grower",
-        "tags" : [ "crop registration" ],
+        "tags" : [ "crop level registration" ],
         "requestBody" : {
           "$ref" : "#/components/requestBodies/cropRequest"
         },
@@ -990,7 +996,7 @@
         "summary" : "Delete a crop by a grower",
         "operationId" : "del-growers-growerId-crop-croptid",
         "description" : "Delete a crop by a grower",
-        "tags" : [ "crop registration" ],
+        "tags" : [ "crop level registration" ],
         "responses" : {
           "202" : {
             "$ref" : "#/components/responses/default_no_content"
@@ -1027,7 +1033,7 @@
         "summary" : "Register a task with operations on a specific crop by a grower",
         "operationId" : "post-growers-growerId-tasks",
         "description" : "Register a task with operations on a specific crop by a grower\r\n\r\nRemarks: repeatingly posting multiple tasks with the same exterenal id will lead to updating the previously posted task (so no duplicates will be generated). \r\nPreferrable, clients should use the PUT operation to update previously POSTed tasks in stead of re-posting them.",
-        "tags" : [ "crop registration" ],
+        "tags" : [ "crop level registration" ],
         "requestBody" : {
           "$ref" : "#/components/requestBodies/taskRequest"
         },
@@ -1069,7 +1075,7 @@
         "summary" : "Update a previously registered task with operations on a specific crop by a grower",
         "operationId" : "put-growers-growerId-tasks-id",
         "description" : "Update a previously registered task with operations on a specific crop by a grower",
-        "tags" : [ "crop registration" ],
+        "tags" : [ "crop level registration" ],
         "requestBody" : {
           "$ref" : "#/components/requestBodies/taskRequest"
         },
@@ -1101,7 +1107,7 @@
         "summary" : "Delete a previously registered task with operations on a specific crop by a grower",
         "operationId" : "del-growers-growerId-tasks-id",
         "description" : "Delete a previously registered task with operations on a specific crop by a grower",
-        "tags" : [ "crop registration" ],
+        "tags" : [ "crop level registration" ],
         "responses" : {
           "202" : {
             "$ref" : "#/components/responses/default_no_content"
