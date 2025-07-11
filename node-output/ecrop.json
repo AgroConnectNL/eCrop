@@ -1136,19 +1136,60 @@
   },
   "components" : {
     "schemas" : {
-      "Health" : {
+      "ServerId" : {
         "type" : "object",
         "additionalProperties" : false,
-        "description" : "Health Check Response Format for HTTP APIs",
-        "required" : [ "status" ],
+        "description" : "Generic resource id assigned by the server (used in payloads)",
+        "required" : [ "id" ],
         "properties" : {
-          "status" : {
-            "description" : "Indicates whether the service status is acceptable or not",
-            "enum" : [ "pass", "warn", "fail" ]
+          "id" : {
+            "$ref" : "#/components/schemas/ServerSideAssignedId"
           }
         },
         "example" : {
-          "status" : "pass"
+          "id" : "e484b3b3-1828-452b-af21-0e535a5013f9"
+        }
+      },
+      "ServerSideAssignedId" : {
+        "type" : "string",
+        "format" : "uuid",
+        "description" : "Unique serverside assigned resource id (generic)",
+        "example" : "e484b3b3-1828-452b-af21-0e535a5013f9"
+      },
+      "Date" : {
+        "title" : "Date",
+        "type" : "string",
+        "format" : "date",
+        "pattern" : "^\\d{4}-\\d{2}-\\d{2}$",
+        "description" : "Date with ISO-8601 standard date format \"yyyy-mm-dd\"",
+        "example" : "2023-03-12"
+      },
+      "DateTime" : {
+        "title" : "Datetime",
+        "type" : "string",
+        "format" : "datetime",
+        "pattern" : "^(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$",
+        "description" : "Datetime with ISO-8601 standard date format \"yyyy-mm-ddThh24:mm:ss+hh:mm\"",
+        "example" : "2023-03-12T15:51:00+01:00"
+      },
+      "ExternalIdentifier" : {
+        "type" : "object",
+        "additionalProperties" : false,
+        "description" : "External/functional identifier Representation of an identifier.",
+        "required" : [ "id", "schemaIdType" ],
+        "properties" : {
+          "id" : {
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Identifier value.",
+            "example" : "12345"
+          },
+          "schemaIdType" : {
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Schema type.",
+            "example" : "MPS"
+          }
         }
       },
       "ProblemDetails" : {
@@ -1194,57 +1235,6 @@
       },
       "ErrorResponse" : {
         "$ref" : "#/components/schemas/ProblemDetails"
-      },
-      "Date" : {
-        "title" : "Date",
-        "type" : "string",
-        "format" : "date",
-        "pattern" : "^\\d{4}-\\d{2}-\\d{2}$",
-        "description" : "Date with ISO-8601 standard date format \"yyyy-mm-dd\"",
-        "example" : "2023-03-12"
-      },
-      "DateTime" : {
-        "title" : "Datetime",
-        "type" : "string",
-        "format" : "datetime",
-        "pattern" : "^(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$",
-        "description" : "Datetime with ISO-8601 standard date format \"yyyy-mm-ddThh24:mm:ss+hh:mm\"",
-        "example" : "2023-03-12T15:51:00+01:00"
-      },
-      "ServerId" : {
-        "type" : "object",
-        "additionalProperties" : false,
-        "description" : "Generic resource id assigned by the server",
-        "required" : [ "id" ],
-        "properties" : {
-          "id" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        },
-        "example" : {
-          "id" : "e484b3b3-1828-452b-af21-0e535a5013f9"
-        }
-      },
-      "ExternalIdentifier" : {
-        "type" : "object",
-        "additionalProperties" : false,
-        "description" : "External/functional identifier Representation of an identifier.",
-        "required" : [ "id", "schemaIdType" ],
-        "properties" : {
-          "id" : {
-            "minLength" : 1,
-            "type" : "string",
-            "description" : "Identifier value.",
-            "example" : "12345"
-          },
-          "schemaIdType" : {
-            "minLength" : 1,
-            "type" : "string",
-            "description" : "Schema type.",
-            "example" : "MPS"
-          }
-        }
       },
       "MeasurementType" : {
         "title" : "MeasurementType",
@@ -1298,6 +1288,21 @@
             "format" : "date",
             "description" : "End date of the period this characteristic is or was valid."
           }
+        }
+      },
+      "Health" : {
+        "type" : "object",
+        "additionalProperties" : false,
+        "description" : "Health Check Response Format for HTTP APIs",
+        "required" : [ "status" ],
+        "properties" : {
+          "status" : {
+            "description" : "Indicates whether the service status is acceptable or not",
+            "enum" : [ "pass", "warn", "fail" ]
+          }
+        },
+        "example" : {
+          "status" : "pass"
         }
       },
       "PartyIdType" : {
@@ -2754,17 +2759,6 @@
           "maximum" : 50
         }
       },
-      "serverSideAssignedId" : {
-        "name" : "id",
-        "in" : "path",
-        "description" : "Unique serverside assigned resource id",
-        "required" : true,
-        "schema" : {
-          "type" : "string",
-          "format" : "uuid"
-        },
-        "example" : "e484b3b3-1828-452b-af21-0e535a5013f9"
-      },
       "idType" : {
         "name" : "idType",
         "in" : "path",
@@ -2781,7 +2775,7 @@
         "description" : "Unique serverside assigned identification of a grower",
         "required" : true,
         "schema" : {
-          "$ref" : "#/components/parameters/serverSideAssignedId"
+          "$ref" : "#/components/schemas/ServerSideAssignedId"
         },
         "example" : "e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b"
       },
@@ -2801,7 +2795,7 @@
         "description" : "Unique serverside assigned identification of a supplier",
         "required" : true,
         "schema" : {
-          "$ref" : "#/components/parameters/serverSideAssignedId"
+          "$ref" : "#/components/schemas/ServerSideAssignedId"
         },
         "example" : "7a2e4c3d-9b8f-1a2c-3e4d-5f6a7b8c9d0e"
       },
@@ -2821,7 +2815,7 @@
         "description" : "Unique serverside assigned identification of an inbound delivery",
         "required" : true,
         "schema" : {
-          "$ref" : "#/components/parameters/serverSideAssignedId"
+          "$ref" : "#/components/schemas/ServerSideAssignedId"
         },
         "example" : "6f6d3b8c4-2e7a-4a1d-9b2c-0e1f2a3b4c5d"
       },
@@ -2831,7 +2825,7 @@
         "description" : "Unique serverside assigned identification of a production location",
         "required" : true,
         "schema" : {
-          "$ref" : "#/components/parameters/serverSideAssignedId"
+          "$ref" : "#/components/schemas/ServerSideAssignedId"
         },
         "example" : "8b2c1a7e-4f3d-4e9c-a1b2-3c4d5e6f7a8b"
       },
@@ -2841,7 +2835,7 @@
         "description" : "Unique serverside assigned identification of a crop",
         "required" : true,
         "schema" : {
-          "$ref" : "#/components/parameters/serverSideAssignedId"
+          "$ref" : "#/components/schemas/ServerSideAssignedId"
         },
         "example" : "c9a7b8e2-3d4f-5e6a-7b8c-9d0e1f2a3b4c"
       },
@@ -2851,7 +2845,7 @@
         "description" : "Unique serverside assigned identification of a plot",
         "required" : true,
         "schema" : {
-          "$ref" : "#/components/parameters/serverSideAssignedId"
+          "$ref" : "#/components/schemas/ServerSideAssignedId"
         },
         "example" : "e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b"
       },
@@ -2861,7 +2855,7 @@
         "description" : "Unique serverside assigned identification of a task",
         "required" : true,
         "schema" : {
-          "$ref" : "#/components/parameters/serverSideAssignedId"
+          "$ref" : "#/components/schemas/ServerSideAssignedId"
         },
         "example" : "2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e"
       }
