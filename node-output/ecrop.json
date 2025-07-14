@@ -743,7 +743,7 @@
         "description" : "Delete a plot by a grower",
         "tags" : [ "plot level registration" ],
         "responses" : {
-          "202" : {
+          "204" : {
             "$ref" : "#/components/responses/default_no_content"
           },
           "400" : {
@@ -857,7 +857,7 @@
         "description" : "Delete a non crop-specific task with operations on a plot by a grower",
         "tags" : [ "plot level registration" ],
         "responses" : {
-          "202" : {
+          "204" : {
             "$ref" : "#/components/responses/default_no_content"
           },
           "400" : {
@@ -998,7 +998,7 @@
         "description" : "Delete a crop by a grower",
         "tags" : [ "crop level registration" ],
         "responses" : {
-          "202" : {
+          "204" : {
             "$ref" : "#/components/responses/default_no_content"
           },
           "400" : {
@@ -1109,7 +1109,7 @@
         "description" : "Delete a previously registered task with operations on a specific crop by a grower",
         "tags" : [ "crop level registration" ],
         "responses" : {
-          "202" : {
+          "204" : {
             "$ref" : "#/components/responses/default_no_content"
           },
           "400" : {
