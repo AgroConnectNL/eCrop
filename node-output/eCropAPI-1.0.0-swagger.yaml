@@ -1,0 +1,2313 @@
+openapi: 3.0.4
+servers:
+  - url: 'https://standard-api.agroconnect.nl/ecrop/v1'
+    description: Agroconnect Virtual API server
+info:
+  description: "### eCrop API based on **AgroConnect eCrop standard version 0.4** \r\n\r\nThis API concerns registration of crop related activities like application of crop protection products and fertilizers and energy and water consumption.\r\n\r\nThis API is based on the Agroconnect eCrop class model\r\n\r\n## Conformation\r\n- [API Design Rules version 2.1.0](https://gitdocumentatie.logius.nl/publicatie/api/adr/) of the NL API Strategie (Dutch API Strategy)\r\n- [IETF RFC 2119](https://www.rfc-editor.org/rfc/rfc2119) Key words for use in RFCs to Indicate Requirement Levels. S. Bradner. IETF. March 1997. Best Current Practice.\r\n- [IETF RFC 3986](https://www.rfc-editor.org/rfc/rfc3986) Uniform Resource Identifier (URI): Generic Syntax. T. Berners-Lee; R. Fielding; L. Masinter. IETF. January 2005. Internet Standard. \r\n- [IETF RFC 7231](https://www.rfc-editor.org/rfc/rfc7231) Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content. R. Fielding, Ed.; J. Reschke, Ed. IETF. June 2014. Proposed Standard. \r\n- [IETF RFC 8174](https://www.rfc-editor.org/rfc/rfc8174) Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words. B. Leiba. IETF. May 2017. Best Current Practice. \r\n- [IETF RFC 6902](https://www.rfc-editor.org/rfc/rfc6902): JavaScript Object Notation (JSON) Patch. P. Bryan; Nottingham, IETF. April 2013. Proposed Standard.\r\n- [IETF RFC 9457](https://www.rfc-editor.org/rfc/rfc9457): Problem Details for HTTP APIs M. Nottingham; E. Wilde; S. Dalal. IETF. July 2023. Proposed Standard.\r\n- [IETF Draft: Health Check Response Format for HTTP APIs](https://datatracker.ietf.org/doc/draft-inadarei-api-health-check/) \r\n- ISO-3166 country codes\r\n- ISO-8601 Date and time format\r\n- [IETF RFC 9557](https://www.rfc-editor.org/rfc/rfc9557): Date and Time on the Internet: Timestamps with Additional Information. U. Sharma;Igalia, S.L.; C. Bormann. IETF. July 2023. Proposed Standard.\r\n- [SemVer](https://semver.org) Semantic Versioning 2.0.0. T. Preston-Werner. June 2013.\r\n- [OpenAPI Specification](https://www.openapis.org/). Darrell Miller; Jason Harmon; Jeremy Whitlock; Marsh Gardiner; Mike Ralphson; Ron Ratovsky; Tony Tam; Uri Sarid. OpenAPI Initiative.\r\n\r\n\r\n## Design decisions\r\n- super/subtypes (UML generalisations): subtypes are allOf with $ref to supertype and subtype-object with subtype atributes\r\n- UML compositions: hierachy in URI (should be aggegrations in eCrop class model) or array in master-object\r\n- each **resource** which has operations defined on it, has a server side assiged identification named {**id**} (type idType (content+schemeId))\r\n- each **schema** has a a list of client side assiged identifications named **{thirdPartyIds}** (array type with content+schemeId attributes)\r\n\r\n## Default responses\r\nGET on collection resource (with or without query parameters)\r\n- 200: successful response returning list with 0 of more items. When no items are found an empty list is returned\r\n- 400: bad request (f.i. malformed query parameters)\r\n- 401: (token) authentication failed\r\n- 500: internal server error\r\n\r\nGET on singleton resource\r\n- 200: successful response one item\r\n- 400: bad request (f.i. malformed query parameters)\r\n- 401: (token) authentication failed\r\n- 404: resource indicated is not found (does not exist or client has no access to the resource)\r\n- 500: internal server error\r\n\r\nPOST\r\n- 202: resource accepted (asynchonously processed)\r\n- 400: bad request (f.i. malformed payload)\r\n- 401: (token) authentication failed\r\n- 403: forbidden (f.i. when posting sub resources to a resource on which the client is not allowed to\r\n- 500: internal server error\r\n\r\nPUT\r\n- 202: resource accepted (asynchonously processed)\r\n- 400: bad request (f.i. malformed payload)\r\n- 401: (token) authentication failed\r\n- 403: forbidden (f.i. when posting sub resources to a resource on which the client is not allowed to\r\n- 404: resource indicated is not found (does not exist or client has no access to the resource)\r\n- 500: internal server error\r\n\r\nDEL:\r\n- 204: no content: resource successfully deleted (could also be 202 when processing asynchonously)\r\n- 400: bad request (f.i. malformed payload)\r\n- 401: (token) authentication failed\r\n- 403: forbidden (f.i. when posting sub resources to a resource on which the client is not allowed to\r\n- 404: resource indicated is not found (does not exist or client has no access to the resource)\r\n- 500: internal server error\r\n\r\n## Remarks on class model\r\n- Renamed \"cytyName\" in Address to \"cityName\"\r\n- \"Compositions\" should be renamed to \"Components\"\r\n- change applicable composition-relations to aggegration-relations \r\n- Rename \"Farm\" to \"Location\" (or ay least confirm Farm == Location)??\r\n- Add relation grower-to-farm to support get/post locations per grower?\r\n- Relation delivery should link to \"grower\" iso \"receiver\"\r\n- attributes \"id\" and \"name\" in \"greenhouselocation\" are prefixed with class name\r\n- changed all class names to PascalCase (ADR: schemanames must be CamelCase(=PascalCase=UpperCamelCase))\r\n- changed IBAN to iban (ADR: properties must be lowerCamelCase) \r\n- Association relation should be added between ProductionLocation and Task to support non crop-specific tasks\r\n- Product.thirdPartyDeliveryReferenceId should be of type Identifier iso string\r\n- Status must be required in Task and Operation\r\n\r\nCopyright (c)  AgroConnect 2025"
+  version: 1.0.0
+  title: AgroConnect eCrop API
+  contact:
+    email: bernard@vanraaijadvies.nl
+    name: Bernard van Raaij
+    url: ''
+  license:
+    name: Agroconnect
+    url: 'https://www.agroconnect.nl/'
+  termsOfService: ''
+externalDocs:
+  description: Agroconnect eCrop class model version 0.4.5.
+  url: 'https://www.agroconnect.nl/Portals/10/EnterpriseArchitect/eCrop_json/eCrop_v0_4_5/index.html'
+tags:
+  - name: general
+    description: General Operations
+  - name: parties
+    description: "**Operations on Party-level**\r\n\r\nThese operations are added to this API definition as an example of how basic party information can be exposed to external clients. This can be extended with functions for registering new parties (growers, suppliers) or letting them modify their basic information (name, address, contact info, etc.)"
+  - name: delivery
+    description: "**Inbound Delivery Operations**\r\n\r\nThese operations can be used for registering products which have been delivered to a grower by a supplier. Suppliers can only register deliveries for growers they are granted for, which they can check with the GET operations in this section (optional)."
+  - name: farm level registration
+    description: "**Farm level registration Operations**\r\n\r\n Growers can use these operations to register non-crop related-) tasks and operations on **farm** level"
+  - name: plot level registration
+    description: "**Plot level registration Operations**\r\n\r\n Growers can use these operations to register non-crop related-) tasks and operations on **plot** level"
+  - name: crop level registration
+    description: "**Crop level registration Operations**\r\n\r\n Growers can use these operations to register **crop related** tasks and operations"
+paths:
+  /health:
+    parameters:
+      - $ref: '#/components/parameters/Major-Version'
+      - $ref: '#/components/parameters/User-Agent'
+    get:
+      summary: Returns health check of this API
+      operationId: get-health
+      description: |-
+        This endpoint provides health status information about the API service, its dependencies, and overall operational condition. It is designed to be used by monitoring tools, load balancers, and orchestration systems to determine if the service is available and ready to process requests.
+
+        **Checks (examples):**
+        - Validator (function) app available?
+        - API datastore available?
+        - Servicebus available? 
+
+        **Usage:**   
+        - **Monitoring:** Used by system administrators and automated monitoring to ensure service availability.
+      tags:
+        - general
+      responses:
+        '200':
+          $ref: '#/components/responses/health_200'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '500':
+          $ref: '#/components/responses/default_500'
+        '503':
+          $ref: '#/components/responses/health_503'
+        default:
+          $ref: '#/components/responses/default_error'
+  /growers:
+    parameters:
+      - $ref: '#/components/parameters/Major-Version'
+      - $ref: '#/components/parameters/User-Agent'
+    get:
+      tags:
+        - parties
+      summary: Get all growers for which the client is authorized
+      operationId: get-growers
+      description: |
+        Returns a list with all growers which the requesting client has access to. When called by a grower, his own data will be returned
+      parameters:
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/limit'
+      responses:
+        '200':
+          $ref: '#/components/responses/growers_200'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
+  '/growers/{growerSchemeId}/{growerId}':
+    parameters:
+      - $ref: '#/components/parameters/Major-Version'
+      - $ref: '#/components/parameters/User-Agent'
+      - $ref: '#/components/parameters/growerSchemeId'
+      - $ref: '#/components/parameters/growerId'
+    get:
+      tags:
+        - parties
+      summary: Get a specific grower
+      operationId: get-growers-by-growerId
+      description: Returns the data of a specific grower with the requested schemeId and growerId when the requesting client has access to these.
+      responses:
+        '200':
+          $ref: '#/components/responses/grower_200'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '404':
+          $ref: '#/components/responses/default_404'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
+  /suppliers:
+    parameters:
+      - $ref: '#/components/parameters/Major-Version'
+      - $ref: '#/components/parameters/User-Agent'
+    get:
+      tags:
+        - parties
+      summary: Get all supliers for which the client is authorized
+      operationId: get-suppliers
+      description: Returns a list with all suppliers which the requesting client has access to.
+      parameters:
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/limit'
+      responses:
+        '200':
+          $ref: '#/components/responses/suppliers_200'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
+  '/suppliers/{supplierSchemeId}/{supplierId}':
+    parameters:
+      - $ref: '#/components/parameters/Major-Version'
+      - $ref: '#/components/parameters/User-Agent'
+      - $ref: '#/components/parameters/supplierSchemeId'
+      - $ref: '#/components/parameters/supplierId'
+    get:
+      tags:
+        - parties
+      operationId: get-suppliers-by-supplierId
+      summary: Get a specific supplier
+      description: Returns the data of a specific supplier with the requested idType and id when the requesting client has access to these.
+      responses:
+        '200':
+          $ref: '#/components/responses/supplier_200'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '404':
+          $ref: '#/components/responses/default_404'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
+  '/suppliers/{supplierSchemeId}/{supplierId}/growers':
+    parameters:
+      - $ref: '#/components/parameters/Major-Version'
+      - $ref: '#/components/parameters/User-Agent'
+      - $ref: '#/components/parameters/supplierSchemeId'
+      - $ref: '#/components/parameters/supplierId'
+    get:
+      summary: Get all growers for a supplier
+      operationId: get-suppliers-growers
+      description: Returns all growers for which a supplier is autorised
+      tags:
+        - delivery
+      parameters:
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/limit'
+      responses:
+        '200':
+          $ref: '#/components/responses/growers_200'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
+  '/suppliers/{supplierSchemeId}/{supplierId}/growers/{growerSchemeId}/{growerId}':
+    parameters:
+      - $ref: '#/components/parameters/Major-Version'
+      - $ref: '#/components/parameters/User-Agent'
+      - $ref: '#/components/parameters/supplierSchemeId'
+      - $ref: '#/components/parameters/supplierId'
+      - $ref: '#/components/parameters/growerSchemeId'
+      - $ref: '#/components/parameters/growerId'
+    get:
+      summary: Get a specific grower for a supplier
+      operationId: get-suppliers-growers-by-growerId
+      description: Returns a specific grower if the supplier is autorised
+      tags:
+        - delivery
+      responses:
+        '200':
+          $ref: '#/components/responses/grower_200'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '404':
+          $ref: '#/components/responses/default_404'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
+  '/suppliers/{supplierSchemeId}/{supplierId}/growers/{growerSchemeId}/{growerId}/inbound-deliveries':
+    parameters:
+      - $ref: '#/components/parameters/Major-Version'
+      - $ref: '#/components/parameters/User-Agent'
+      - $ref: '#/components/parameters/supplierSchemeId'
+      - $ref: '#/components/parameters/supplierId'
+      - $ref: '#/components/parameters/growerSchemeId'
+      - $ref: '#/components/parameters/growerId'
+    post:
+      summary: Register an inbound delivery for a grower by a supplier
+      operationId: post-suppliers-growers-inbound-deliveries
+      description: Register an inbound delivery of a product for a grower by a supplier.
+      tags:
+        - delivery
+      requestBody:
+        $ref: '#/components/requestBodies/inboundDeliveryRequest'
+      responses:
+        '202':
+          $ref: '#/components/responses/inboundDelivery_202'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '403':
+          $ref: '#/components/responses/default_403'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
+  '/suppliers/{supplierSchemeId}/{supplierId}/growers/{growerSchemeId}/{growerId}/inbound-deliveries/{inboundDeliverySchemeId}/{inboundDeliveryId}':
+    parameters:
+      - $ref: '#/components/parameters/Major-Version'
+      - $ref: '#/components/parameters/User-Agent'
+      - $ref: '#/components/parameters/supplierSchemeId'
+      - $ref: '#/components/parameters/supplierId'
+      - $ref: '#/components/parameters/growerSchemeId'
+      - $ref: '#/components/parameters/growerId'
+      - $ref: '#/components/parameters/inboundDeliverySchemeId'
+      - $ref: '#/components/parameters/inboundDeliveryId'
+    put:
+      summary: Update a previously registered inbound delivery for a grower by a supplier
+      operationId: put-suppliers-growers-inbound-deliveries
+      description: Update a previously registered inbound delivery for a grower by a supplier
+      tags:
+        - delivery
+      requestBody:
+        $ref: '#/components/requestBodies/inboundDeliveryRequest'
+      responses:
+        '202':
+          $ref: '#/components/responses/inboundDelivery_202'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '403':
+          $ref: '#/components/responses/default_403'
+        '404':
+          $ref: '#/components/responses/default_404'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
+    delete:
+      summary: Delete a previously registered inbound delivery for a grower by a supplier
+      operationId: del-suppliers-growers-inbound-deliveries
+      description: Delete a previously registered inbound delivery for a grower by a supplier
+      tags:
+        - delivery
+      responses:
+        '204':
+          $ref: '#/components/responses/default_no_content'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '403':
+          $ref: '#/components/responses/default_403'
+        '404':
+          $ref: '#/components/responses/default_404'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
+  '/growers/{growerSchemeId}/{growerId}/production-locations':
+    parameters:
+      - $ref: '#/components/parameters/Major-Version'
+      - $ref: '#/components/parameters/User-Agent'
+      - $ref: '#/components/parameters/growerSchemeId'
+      - $ref: '#/components/parameters/growerId'
+    get:
+      summary: Returns all productionlocations of a grower
+      operationId: get-growers-production-locations
+      description: Returns all productionlocations of a grower
+      tags:
+        - farm level registration
+      parameters:
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/limit'
+      responses:
+        '200':
+          $ref: '#/components/responses/productionlocations_200'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
+  '/growers/{growerSchemeId}/{growerId}/production-locations/{productionLocationSchemeId}/{productionLocationId}/tasks':
+    parameters:
+      - $ref: '#/components/parameters/Major-Version'
+      - $ref: '#/components/parameters/User-Agent'
+      - $ref: '#/components/parameters/growerSchemeId'
+      - $ref: '#/components/parameters/growerId'
+      - $ref: '#/components/parameters/productionLocationSchemeId'
+      - $ref: '#/components/parameters/productionLocationId'
+    post:
+      summary: Register a non crop-specific task with operations on a production location by a grower
+      operationId: post-growers-production-locations-tasks
+      description: "Register a non crop-specific task with operations on a production location by a grower\r\n\r\nRemarks: repeatingly posting tasks with the same exterenal id will lead to updating the previously posted task (so no duplicates will be generated). \r\nPreferrable, clients should use the PUT operation to update previously POSTed tasks in stead of re-posting them."
+      tags:
+        - farm level registration
+      requestBody:
+        $ref: '#/components/requestBodies/taskRequest'
+      responses:
+        '202':
+          $ref: '#/components/responses/task_202'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '403':
+          $ref: '#/components/responses/default_403'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
+  '/growers/{growerSchemeId}/{growerId}/production-locations/{productionLocationSchemeId}/{productionLocationId}/tasks/{taskSchemeId}/{taskId}':
+    parameters:
+      - $ref: '#/components/parameters/Major-Version'
+      - $ref: '#/components/parameters/User-Agent'
+      - $ref: '#/components/parameters/growerSchemeId'
+      - $ref: '#/components/parameters/growerId'
+      - $ref: '#/components/parameters/productionLocationSchemeId'
+      - $ref: '#/components/parameters/productionLocationId'
+      - $ref: '#/components/parameters/taskSchemeId'
+      - $ref: '#/components/parameters/taskId'
+    put:
+      summary: Update a previously registered non crop-specific task with operations on a production location by a grower
+      operationId: put-growers-production-locations-tasks
+      description: Update a previously registered non crop-specific task with operations on a production location by a grower
+      tags:
+        - farm level registration
+      requestBody:
+        $ref: '#/components/requestBodies/taskRequest'
+      responses:
+        '202':
+          $ref: '#/components/responses/task_202'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '403':
+          $ref: '#/components/responses/default_403'
+        '404':
+          $ref: '#/components/responses/default_404'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
+    delete:
+      summary: Delete a previously registered non crop-specific task with operations on a production location by a grower
+      operationId: del-growers-production-location-tasks
+      description: Delete a previously registered non crop-specific task with operations on a production location by a grower
+      tags:
+        - farm level registration
+      responses:
+        '204':
+          $ref: '#/components/responses/default_no_content'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '403':
+          $ref: '#/components/responses/default_403'
+        '404':
+          $ref: '#/components/responses/default_404'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
+  '/growers/{growerSchemeId}/{growerId}/plots':
+    parameters:
+      - $ref: '#/components/parameters/Major-Version'
+      - $ref: '#/components/parameters/User-Agent'
+      - $ref: '#/components/parameters/growerSchemeId'
+      - $ref: '#/components/parameters/growerId'
+    get:
+      summary: Returns all plots of a grower
+      operationId: get-growers-plots
+      description: Returns all plots of a grower
+      tags:
+        - plot level registration
+      parameters:
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/limit'
+      responses:
+        '200':
+          $ref: '#/components/responses/plots_200'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
+    post:
+      summary: Register a new plot by a grower
+      operationId: post-growers-plots
+      description: "Register a new plot by a grower\r\n\r\nRemarks: repeatingly posting plots with the same exterenal id will lead to updating the previously posted plot (so no duplicates will be generated). \r\nPreferrable, clients should use the PUT operation to update previously POSTed plots in stead of re-posting them."
+      tags:
+        - plot level registration
+      requestBody:
+        $ref: '#/components/requestBodies/plotRequest'
+      responses:
+        '202':
+          $ref: '#/components/responses/plot_202'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '403':
+          $ref: '#/components/responses/default_403'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
+  '/growers/{growerSchemeId}/{growerId}/plots/{plotSchemeId}/{plotId}':
+    parameters:
+      - $ref: '#/components/parameters/Major-Version'
+      - $ref: '#/components/parameters/User-Agent'
+      - $ref: '#/components/parameters/growerSchemeId'
+      - $ref: '#/components/parameters/growerId'
+      - $ref: '#/components/parameters/plotSchemeId'
+      - $ref: '#/components/parameters/plotId'
+    put:
+      summary: Update a previously registered plot by a grower
+      operationId: put-growers-plots
+      description: Update a previously registered plot by a grower
+      tags:
+        - plot level registration
+      requestBody:
+        $ref: '#/components/requestBodies/plotRequest'
+      responses:
+        '202':
+          $ref: '#/components/responses/plot_202'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '403':
+          $ref: '#/components/responses/default_403'
+        '404':
+          $ref: '#/components/responses/default_404'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
+    delete:
+      summary: Delete a plot by a grower
+      operationId: del-growers-plots
+      description: Delete a plot by a grower
+      tags:
+        - plot level registration
+      responses:
+        '204':
+          $ref: '#/components/responses/default_no_content'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '403':
+          $ref: '#/components/responses/default_403'
+        '404':
+          $ref: '#/components/responses/default_404'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
+  '/growers/{growerSchemeId}/{growerId}//plots/{plotSchemeId}/{plotId}/tasks':
+    parameters:
+      - $ref: '#/components/parameters/Major-Version'
+      - $ref: '#/components/parameters/User-Agent'
+      - $ref: '#/components/parameters/growerSchemeId'
+      - $ref: '#/components/parameters/growerId'
+      - $ref: '#/components/parameters/plotSchemeId'
+      - $ref: '#/components/parameters/plotId'
+    post:
+      summary: Register a non crop-specific task with operations on a plot by a grower
+      operationId: post-growers-plot-tasks
+      description: "Register a non crop-specific task with operations on a plot by a grower\r\n\r\nRemarks: repeatingly posting tasks with the same exterenal id will lead to updating the previously posted task (so no duplicates will be generated). \r\nPreferrable, clients should use the PUT operation to update previously POSTed tasks in stead of re-posting them."
+      tags:
+        - plot level registration
+      requestBody:
+        $ref: '#/components/requestBodies/taskRequest'
+      responses:
+        '202':
+          $ref: '#/components/responses/task_202'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '403':
+          $ref: '#/components/responses/default_403'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
+  '/growers/{growerSchemeId}/{growerId}//plots/{plotSchemeId}/{plotId}/tasks/{taskSchemeId}/{taskId}':
+    parameters:
+      - $ref: '#/components/parameters/Major-Version'
+      - $ref: '#/components/parameters/User-Agent'
+      - $ref: '#/components/parameters/growerSchemeId'
+      - $ref: '#/components/parameters/growerId'
+      - $ref: '#/components/parameters/plotSchemeId'
+      - $ref: '#/components/parameters/plotId'
+      - $ref: '#/components/parameters/taskSchemeId'
+      - $ref: '#/components/parameters/taskId'
+    put:
+      summary: Update a previously registered non crop-specific task with operations on a plot by a grower
+      operationId: put-growers-plot-tasks
+      description: Update a previously registered non crop-specific task with operations on a plot by a grower
+      tags:
+        - plot level registration
+      requestBody:
+        $ref: '#/components/requestBodies/taskRequest'
+      responses:
+        '202':
+          $ref: '#/components/responses/task_202'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '403':
+          $ref: '#/components/responses/default_403'
+        '404':
+          $ref: '#/components/responses/default_404'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
+    delete:
+      summary: Delete a non crop-specific task with operations on a plot by a grower
+      operationId: del-growers-plot-tasks
+      description: Delete a non crop-specific task with operations on a plot by a grower
+      tags:
+        - plot level registration
+      responses:
+        '204':
+          $ref: '#/components/responses/default_no_content'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '403':
+          $ref: '#/components/responses/default_403'
+        '404':
+          $ref: '#/components/responses/default_404'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
+  '/growers/{growerSchemeId}/{growerId}/crops':
+    parameters:
+      - $ref: '#/components/parameters/Major-Version'
+      - $ref: '#/components/parameters/User-Agent'
+      - $ref: '#/components/parameters/growerSchemeId'
+      - $ref: '#/components/parameters/growerId'
+    get:
+      summary: Return the crops of a grower
+      operationId: get-growers-crops
+      description: Returns all crops of a grower
+      tags:
+        - crop level registration
+      parameters:
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/limit'
+      responses:
+        '200':
+          $ref: '#/components/responses/crops_200'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
+    post:
+      summary: Register a new crop for a grower
+      operationId: post-growers-crops
+      description: "Register a new crop for a grower\r\n\r\nRemarks: repeatingly posting multiple crops with the same exterenal id will lead to updating the previously posted crop (so no duplicates will be generated). \r\nPreferrable, clients should use the PUT operation to update previously POSTed crops in stead of re-posting them."
+      tags:
+        - crop level registration
+      requestBody:
+        $ref: '#/components/requestBodies/cropRequest'
+      responses:
+        '202':
+          $ref: '#/components/responses/crop_202'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '403':
+          $ref: '#/components/responses/default_403'
+        '404':
+          $ref: '#/components/responses/default_404'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
+  '/growers/{growerSchemeId}/{growerId}/crops/{cropSchemeId}/{cropId}':
+    parameters:
+      - $ref: '#/components/parameters/Major-Version'
+      - $ref: '#/components/parameters/User-Agent'
+      - $ref: '#/components/parameters/growerSchemeId'
+      - $ref: '#/components/parameters/growerId'
+      - $ref: '#/components/parameters/cropSchemeId'
+      - $ref: '#/components/parameters/cropId'
+    put:
+      summary: Update a previously registered crop by a grower
+      operationId: put-growers-crops
+      description: Update a previously registered crop by a grower
+      tags:
+        - crop level registration
+      requestBody:
+        $ref: '#/components/requestBodies/cropRequest'
+      responses:
+        '202':
+          $ref: '#/components/responses/crop_202'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '403':
+          $ref: '#/components/responses/default_403'
+        '404':
+          $ref: '#/components/responses/default_404'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
+    delete:
+      summary: Delete a crop by a grower
+      operationId: del-growers-crop
+      description: Delete a crop by a grower
+      tags:
+        - crop level registration
+      responses:
+        '204':
+          $ref: '#/components/responses/default_no_content'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '403':
+          $ref: '#/components/responses/default_403'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
+  '/growers/{growerSchemeId}/{growerId}/crops/{cropSchemeId}/{cropId}/tasks':
+    parameters:
+      - $ref: '#/components/parameters/Major-Version'
+      - $ref: '#/components/parameters/User-Agent'
+      - $ref: '#/components/parameters/growerSchemeId'
+      - $ref: '#/components/parameters/growerId'
+      - $ref: '#/components/parameters/cropSchemeId'
+      - $ref: '#/components/parameters/cropId'
+    post:
+      summary: Register a task with operations on a specific crop by a grower
+      operationId: post-growers-tasks
+      description: "Register a task with operations on a specific crop by a grower\r\n\r\nRemarks: repeatingly posting multiple tasks with the same exterenal id will lead to updating the previously posted task (so no duplicates will be generated). \r\nPreferrable, clients should use the PUT operation to update previously POSTed tasks in stead of re-posting them."
+      tags:
+        - crop level registration
+      requestBody:
+        $ref: '#/components/requestBodies/taskRequest'
+      responses:
+        '202':
+          $ref: '#/components/responses/task_202'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '403':
+          $ref: '#/components/responses/default_403'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
+  '/growers/{growerSchemeId}/{growerId}/crops/{cropSchemeId}/{cropId}/tasks/{taskSchemeId}/{taskId}':
+    parameters:
+      - $ref: '#/components/parameters/Major-Version'
+      - $ref: '#/components/parameters/User-Agent'
+      - $ref: '#/components/parameters/growerSchemeId'
+      - $ref: '#/components/parameters/growerId'
+      - $ref: '#/components/parameters/cropSchemeId'
+      - $ref: '#/components/parameters/cropId'
+      - $ref: '#/components/parameters/taskSchemeId'
+      - $ref: '#/components/parameters/taskId'
+    put:
+      summary: Update a previously registered task with operations on a specific crop by a grower
+      operationId: put-growers-tasks
+      description: Update a previously registered task with operations on a specific crop by a grower
+      tags:
+        - crop level registration
+      requestBody:
+        $ref: '#/components/requestBodies/taskRequest'
+      responses:
+        '202':
+          $ref: '#/components/responses/task_202'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '403':
+          $ref: '#/components/responses/default_403'
+        '404':
+          $ref: '#/components/responses/default_404'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
+    delete:
+      summary: Delete a previously registered task with operations on a specific crop by a grower
+      operationId: del-growers-tasks
+      description: Delete a previously registered task with operations on a specific crop by a grower
+      tags:
+        - crop level registration
+      responses:
+        '204':
+          $ref: '#/components/responses/default_no_content'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '403':
+          $ref: '#/components/responses/default_403'
+        '404':
+          $ref: '#/components/responses/default_404'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
+components:
+  schemas:
+    ##########################################################################
+    # - DateTimeType                                                         #
+    # - DateType                                                             #
+    # Primary Data Types (PDT)                                               #
+    ##########################################################################
+    DateType:
+      title: DateType
+      type: string
+      format: date
+      pattern: '^\d{4}-\d{2}-\d{2}$'
+      description: Date with ISO-8601 standard date format "YYYY-MM-DD"
+      example: '2025-03-12'
+    DateTimeType:
+      title: DateTimeType
+      type: string
+      format: datetime
+      pattern: '^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.\d+)?(Z|[+-]\d{2}:\d{2})$'
+      description: 'Datetime with ISO-8601 standard date format "YYYY-MM-DDThh:mm:ss±hh:mm"'
+      example: '2025-03-12T15:31:21+01:00'
+    ##########################################################################
+    # (Un)qualified Data Types (UDT/QDT)                                     #
+    ##########################################################################
+    PrimaryIdContentType:
+      title: PrimaryIdContentType
+      type: string
+      format: uuid
+      description: The type for the content-part of primary ids of resouces
+    PrimaryIdSchemeIdType:
+      title: PrimaryIdSchemeIdType
+      type: string
+      description: The type for the schemaeId part of primary ids of resouces
+    PrimaryIdType:
+      title: PrimaryIdType
+      type: object
+      additionalProperties: false
+      description: idType used as primary id for resources assigned by the server (used in payloads)
+      required:
+        - content
+        - schemeId
+      properties:
+        content:
+          $ref: '#/components/schemas/PrimaryIdContentType'
+        schemeId:
+          $ref: '#/components/schemas/PrimaryIdSchemeIdType'
+    PrimaryId:
+      title: PrimaryId
+      type: object
+      additionalProperties: false
+      description: Reusable resource id assigned by the server (used in payloads)
+      required:
+        - id
+      properties:
+        id:
+          $ref: '#/components/schemas/PrimaryIdType'
+    IdType:
+      title: IdType
+      type: object
+      additionalProperties: false
+      description: Generiec IdType with which a resource is identified
+      required:
+        - content
+        - schemeId
+      properties:
+        content:
+          minLength: 1
+          type: string
+          description: Identifier value.
+        schemeId:
+          minLength: 1
+          type: string
+          description: Scheme Id.
+    ThirdPartyIdsType:
+      title: ThirdPartyIdsType
+      type: array
+      description: List of third party ids with which a resource is externally identified
+      uniqueItems: true
+      items:
+        $ref: '#/components/schemas/IdType'
+    CodeType:
+      title: CodeType
+      type: object
+      required:
+        - content
+        - listId
+      properties:
+        content:
+          type: string
+          description: "Specific code from the code list that is referred to by listId.\r\n"
+        listId:
+          type: string
+          description: "Identifier of the scheme that contains the allowed codes.\r\nThe naming convention for the reference to a standard code list is: “nl.cl<nnn>” (e.g. “nl.cl232”).\r\nWhere \"nl\" stands for the 2 character country code, \"cl\" stands for code list and <nnn> stands for the 3 character Identifier of the specific code list within the scope of the specified country.\r\n"
+    MeasurementType:
+      title: MeasurementType
+      type: object
+      description: Standard data type for expressing the value of a measurement. To be used for all types of measurement in this class model.
+      required:
+        - content
+      properties:
+        content:
+          type: number
+          format: float
+          description: Expresses the measured value of the measurement.
+        unitcode:
+          allOf:
+            - $ref: '#/components/schemas/CodeType'
+          description: "The code that refers to the standard unit or dimension to express the value of this measurement. E.g. kg for kilogram.\r\nlistId: nl.agroconnect.codelists.cl020"
+    CharacteristicType:
+      title: CharacteristicType
+      type: object
+      description: 'Generic data type for linked characteristics to a crop, task, operation, allocation, etc.'
+      required:
+        - code
+        - value
+      properties:
+        code:
+          allOf:
+            - $ref: '#/components/schemas/CodeType'
+          description: "Content and listId of the code list that contains the coding of characteristics for a specific domain:\r\n\r\nFor instance:\r\nThe code list id for crop and operations characteristics for arable farming is NL_CL265."
+        value:
+          # value can be exact one of the type below
+          oneOf:
+            - type: string
+            - type: boolean
+            - $ref: '#/components/schemas/DateType'
+            - $ref: '#/components/schemas/DateTimeType'
+            - $ref: '#/components/schemas/MeasurementType'
+        issueDate:
+          allOf:
+            - $ref: '#/components/schemas/DateType'
+          description: The data the characteristic was captured.
+        startDate:
+          allOf:
+            - $ref: '#/components/schemas/DateType'
+          description: Begin date of the period this characteristic is or was valid.
+        endDate:
+          allOf:
+            - $ref: '#/components/schemas/DateType'
+          description: End date of the period this characteristic is or was valid.
+    CountryCodeType:
+      title: CountryCodeType
+      allOf:
+        - $ref: '#/components/schemas/CodeType'
+      description: 'Country codes: 2 letter ISO 3166.'
+    AddressType:
+      title: AddressType
+      type: object
+      required:
+        - postalCode
+        - cityName
+        - streetName
+        - streetNumber
+        - country
+        - countryName
+      #- postalBoxId
+      properties:
+        postalCode:
+          type: string
+        cityName:
+          type: string
+        streetName:
+          type: string
+        streetNumber:
+          type: string
+        country:
+          $ref: '#/components/schemas/CountryCodeType'
+        countryName:
+          type: string
+        postalBoxId:
+          type: string
+    PostalAddressType:
+      title: PostalAddressType
+      allOf:
+        - $ref: '#/components/schemas/AddressType'
+    VisitorsAddressType:
+      title: VisitorsAddressType
+      allOf:
+        - $ref: '#/components/schemas/AddressType'
+    PlotType:
+      title: Plottype
+      enum:
+        - CROPFIELD
+        - ACTIVITYFIELD
+        - TABLE
+      description: The type of production surface to grow plants. Can be a crop field for arable farming or a moving table (platform) for potted plants in floriculture.
+    ProcessStateType:
+      title: ProcessState
+      enum:
+        - PROPOSED
+        - PLANNED
+        - COMPLETED
+      description: 'Indication of the execution status of the task or operation in terms of: proposed, planned, executed. Code list: nl.clL256'
+    ProductionSequenceType:
+      title: Productionsequencetype
+      enum:
+        - PRE_CROP
+        - MAIN_CROP
+        - FOLLOWUP_CROP
+        - MIXED_CROP
+      description: 'Indicates if and how the crop is combined with other crops. Enumeration: PRE_CROP = voorteelt, MAIN_CROP = hoofdteelt, FOLLOWUP_CROP = volgteelt, MIXED_CROP = mengteelt'
+    ##########################################################################
+    # Functional schemas (ABIEs, BBIEs and ASBIEs)                           #
+    ##########################################################################
+    ProblemDetails:
+      title: Problem details
+      type: object
+      description: |-
+        Problem details based on the ["Problem Details for HTTP APIs" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).
+
+        Remark: According tot Proposal NL ADR 2.1 optional properties status, title and detail are required, type and instance are optional
+      required:
+        - status
+        - title
+        - detail
+      properties:
+        status:
+          type: integer
+          format: int32
+          description: The HTTP status code generated by the origin server for this occurrence of the problem.
+          minimum: 100
+          maximum: 599
+        title:
+          type: string
+          description: 'A short, human-readable summary of the problem type.'
+        detail:
+          type: string
+          description: A human-readable explanation specific to this occurrence of the problem.
+        type:
+          type: string
+          format: uri-reference
+          description: A URI reference that identifies the problem type.
+        instance:
+          type: string
+          format: uri-reference
+          description: A URI reference that identifies the specific occurrence of the problem. It may or may not yield further information if dereferenced.
+      example:
+        status: 400
+        title: Bad request
+        detail: Required property id is missing
+    # type: /.../errors
+    # instance: /../growers/20234
+    Health:
+      title: Health
+      type: object
+      additionalProperties: false
+      description: Health Check Response Format for HTTP APIs
+      required:
+        - status
+      properties:
+        status:
+          description: Indicates whether the service status is acceptable or not
+          enum:
+            - pass # healthy 
+            - warn # healthy, with some concerns
+            - fail # unhealthy 
+      example:
+        status: pass
+    PartyDetails:
+      title: Party details
+      type: object
+      required:
+        - thirdPartyIds
+        - name
+      properties:
+        thirdPartyIds:
+          allOf:
+            - $ref: '#/components/schemas/ThirdPartyIdsType'
+          description: 'Content and schemeId that is used for the type of Identifier (e.g. a gln, or chamber of commerce number). For this, code list CL709 is used.'
+        name:
+          type: string
+        personName:
+          type: string
+        phoneNumber:
+          type: string
+        telefaxNumber:
+          type: string
+        emailAdress:
+          type: string
+        iban:
+          type: string
+        websiteUrl:
+          type: string
+        postalAddress:
+          $ref: '#/components/schemas/PostalAddressType'
+        visitorsAdress:
+          $ref: '#/components/schemas/VisitorsAddressType'
+      description: Data about the Party that is involved in producing or processing the crop and or agricultural produce.
+    Grower:
+      title: Grower
+      description: The grower (e.g. the farmer) that is responsible for the cultivation of the crop.
+      allOf:
+        - allOf:
+            - $ref: '#/components/schemas/PrimaryId'
+            - example:
+                id:
+                  content: e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b
+                  schemeId: com.my-mps.codelists.guid
+        - $ref: '#/components/schemas/GrowerDetails'
+    GrowerDetails:
+      title: Grower details
+      description: The details of the grower (e.g. the farmer) that is responsible for the cultivation of the crop.
+      allOf:
+        - $ref: '#/components/schemas/PartyDetails'
+      example:
+        thirdPartyIds:
+          - id: '09123559'
+            type: nl.kvk.codelists.kvknummer
+          - id: '870012388392'
+            type: com.gs1.codelists.gln
+        name: Kwekerij De Lier
+        personName: J. de Lier
+        phoneNumber: +31(0)74 26653244
+        telefaxNumber: null
+        emailAdress: info@delier.nl
+        iban: NL04ABNA0667352669
+        websiteUrl: www.delier.nl
+        postalAddress:
+          postalCode: 3521 AA
+          cityName: Naaldwijk
+          streetName: null
+          streetNumber: null
+          country: NL
+          countryName: Netherlands
+          postalBoxId: 4411
+        visitorsAdress:
+          postalCode: 3521 AN
+          cityName: Naaldwijk
+          streetName: Broekweg
+          streetNumber: 12
+          country: NL
+          countryName: Netherlands
+          postalBoxId: null
+    Supplier:
+      title: Supplier
+      description: The details of the supplier who delivers goods to a grower
+      allOf:
+        - allOf:
+            - $ref: '#/components/schemas/PrimaryId'
+            - example:
+                id:
+                  content: 7a2e4c3d-9b8f-1a2c-3e4d-5f6a7b8c9d0e
+                  schemeId: com.my-mps.codelists.guid
+        - $ref: '#/components/schemas/SupplierDetails'
+    SupplierDetails:
+      title: Supplier details
+      description: The details of the supplier who delivers goods to a grower
+      allOf:
+        - $ref: '#/components/schemas/PartyDetails'
+      example:
+        thirdPartyIds:
+          - id: '06448281'
+            type: nl.kvk.codelists/kvknummer
+          - id: '870066561253'
+            type: com.gs1.codelists.gln
+        name: Van Iperen
+        phoneNumber: +31(0)74 6521300
+        telefaxNumber: null
+        emailAdress: info@iperen.com
+        websiteUrl: www.iperen.com
+        visitorsAdress:
+          postalCode: 3273 LK
+          cityName: Westmaas
+          streetName: Smidsweg
+          streetNumber: 24
+          country: NL
+          countryName: Netherlands
+          postalBoxId: null
+    ProductionLocation:
+      title: ProductionLocation
+      description: The the entity that is responsible for cultivation the crops.
+      allOf:
+        - allOf:
+            - $ref: '#/components/schemas/PrimaryId'
+            - example:
+                id:
+                  content: 8b2c1a7e-4f3d-4e9c-a1b2-3c4d5e6f7a8b
+                  schemeId: com.my-mps.codelists.guid
+        - $ref: '#/components/schemas/ProductionLocationDetails'
+    ProductionLocationDetails:
+      title: ProductionLocation details
+      description: The details of the entity that is responsible for cultivation the crops.
+      allOf:
+        - $ref: '#/components/schemas/PartyDetails'
+      example:
+        thirdPartyIds:
+          - id: '8700778121125'
+            type: com.gs1.codelists.gln
+        name: Kas 1
+        visitorsAdress:
+          postalCode: 2675 SJ
+          cityName: Honselersdijk
+          streetName: Gantellaan
+          streetNumber: 8
+          country: NL
+          countryName: Netherlands
+          postalBoxId: null
+    AssetDetails:
+      title: Asset details
+      type: object
+      description: |-
+        Details of the entity of a tangible object on which operations can be performed.
+        E.g.: a crop, a building, a machine, a ditch, a greenhouse, a climate control system, a feeding system, etc.
+      required:
+        - thirdPartyIds
+        - name
+      properties:
+        thirdPartyIds:
+          $ref: '#/components/schemas/ThirdPartyIdsType'
+        name:
+          type: string
+        startDate:
+          description: The start data of the existence of the asset.
+          allOf:
+            - $ref: '#/components/schemas/DateType'
+        endDate:
+          description: The end data of the existence of the asset.
+          allOf:
+            - $ref: '#/components/schemas/DateType'
+        characteristics:
+          type: array
+          items:
+            $ref: '#/components/schemas/CharacteristicType'
+    Crop:
+      title: Crop
+      description: 'The cultivation of a specific crop type (e.g. potato, wheat, rice,. etc.) on one or more plots during a specific period of time, specified by startDateTime and endDateTime.'
+      allOf:
+        - allOf:
+            - $ref: '#/components/schemas/PrimaryId'
+            - example:
+                id:
+                  content: c9a7b8e2-3d4f-5e6a-7b8c-9d0e1f2a3b4c
+                  schemeId: com.my-mps.codelists.guid
+        - $ref: '#/components/schemas/CropDetails'
+    CropDetails:
+      title: Crop details
+      description: 'The details of the cultivation of a specific crop type (e.g. potato, wheat, rice,. etc.) on one or more plots during a specific period of time, specified by startDateTime and endDateTime.'
+      allOf:
+        - $ref: '#/components/schemas/AssetDetails'
+        - type: object
+          required:
+            - year
+            - plantSpecies
+          properties:
+            year:
+              type: integer
+              format: int32
+              description: Indication of the year in which the cultivation is harvested.
+            country:
+              description: 'Country where crop is grown. Code list: ISO country code: 2 letter ISO-3166.'
+              allOf:
+                - $ref: '#/components/schemas/CountryCodeType'
+            region:
+              type: string
+              description: Region of a country the cultivation took place.\nFor eCrop in The Netherlands for this code list code list nl.cl044 is used.
+            useTitle:
+              description: Code to indicate the type of legal ownership of the field that is used for the crop. For eCrop in The Netherlands code list nl.cl412 is used for this
+              allOf:
+                - $ref: '#/components/schemas/CodeType'
+            productionType:
+              description: 'Indicates the intensity of growing the crop. In The Netherlands used to report to the MLNV-RVO authority. Code list: nl.cl255'
+              allOf:
+                - $ref: '#/components/schemas/CodeType'
+            productionPurpose:
+              description: 'Indicator of the produce purpose the crop. For instance: fresh marked, animal feed, seed production, etc. Code list: nl.cl251'
+              allOf:
+                - $ref: '#/components/schemas/CodeType'
+            productionSequence:
+              $ref: '#/components/schemas/ProductionSequenceType'
+            regularOrOrganic:
+              description: 'Production protocol: indicates whether this crop is classified as grown organic or non-organic. Code list: nl.cl015'
+              allOf:
+                - $ref: '#/components/schemas/CodeType'
+            netArea:
+              description: 'The net (netto) area (in m2, hectare, etc.) of the surface that is used for growing the crop.'
+              allOf:
+                - $ref: '#/components/schemas/MeasurementType'
+            growEnvironment:
+              description: 'Indicates in what type of environment the crop is grown; e.g. in the open air, in a greenhouse, etc. Code list: nl.cl299'
+              allOf:
+                - $ref: '#/components/schemas/CodeType'
+            growMedium:
+              description: 'Indicates in what medium the crop is rooted; for instance in soil, in substrate, on bark, etc. Code list: nl.cl300'
+              allOf:
+                - $ref: '#/components/schemas/CodeType'
+            trackTillage:
+              type: boolean
+              description: 'Indicates whether the cultivation, over the years, is done in fixed lanes with fixed tracks for machinery.\n\ntrue = track tillage is applied\nfalse = track tillage is not applied'
+            plantSpecies:
+              type: array
+              items:
+                $ref: '#/components/schemas/PlantSpecies'
+            plots:
+              type: array
+              items:
+                $ref: '#/components/schemas/Plot'
+      example:
+        thirdPartyIds:
+          - content: '12345'
+            schemeId: com.my-mps.codelists.teeltnummer
+        name: string
+        startDate: '2025-03-12'
+        endDate: '2025-11-30'
+        year: 2025
+        country: NL
+        region: string
+        useTitle:
+          content: string
+          listId: string
+        productionType:
+          content: string
+          listId: string
+        productionPurpose:
+          content: string
+          listId: string
+        productionSequence: MAIN_CROP
+        regularOrOrganic:
+          content: string
+          listId: string
+        netArea:
+          content: 6000
+          unitCode:
+            content: m2
+            listId: nl.agroconnect.codelists.cl020
+        growEnvironment:
+          content: string
+          listId: string
+        growMedium:
+          content: string
+          listId: string
+        trackTillage: false
+        plantSpecies:
+          - plantSpecies: '1010101'
+            variety: '01201'
+        #   precentageMix: 0
+        plots:
+          - thirdPartydIds:
+              - content: A342_1_6
+                schemeId: com.my-mps.codelists.kasnummer
+            name: 'Tuin1, afdeling6'
+            startDate: '2024-01-12'
+            endDate: '2024-12-14'
+            type: CROPFIELD
+            area:
+              content: 2500
+              unitCode:
+                content: m2
+                listId: nl.agroconnectcodelists.cl020
+            regularOrOrganic: REGULAR
+            localSoilType: CLAY
+            regulatorySoilType: CLAY
+          - thirdPartydIds:
+              - content: A342_1_7
+                schemeId: com.my-mps.codelists.kasnummer
+            name: 'Tuin1, afdeling7'
+            startDate: '2024-01-12'
+            endDate: '2024-12-14'
+            type: CROPFIELD
+            area:
+              content: 3500
+              unitCode:
+                content: m2
+                listId: nl.agroconnectcodelists.cl020
+            regularOrOrganic: REGULAR
+            localSoilType: CLAY
+            regulatorySoilType: CLAY
+    PlantSpecies:
+      title: Plantspecies
+      type: object
+      description: |-
+        Crop type at the level of potato, sugar beet, onion, winter wheat, etc.
+        For mixed crops more then one type of crop can be grown in the same period at the same plot.
+      required:
+        - plantSpecies
+        - variety
+      properties:
+        plantSpecies:
+          description: 'Code of the crop species, at the aggregation level of potato, sugar beet, onion, etc. For eCrop in The Netherlands, code list nl.cl263 is used for crop species.'
+          type: string
+        variety:
+          description: Identification of the variety of the type of crop that is grown. For eCrop in The Netherlands code list nl.cl232 is used.
+          type: string
+        precentageMix:
+          description: To be used in case of a mixed crop. Indicator of the percentage of this crop species related to the other crop species that are part of this mixed crop. The percentage is based on the weight proportions of the seed of each of the species that are part of the mixed crop.
+          type: number
+          format: float
+    Plot:
+      title: Plot
+      description: |-
+        Surface (area) that is used to grow plants.
+        The exact location of this surface is specified by either, a greenhouse-location a point location or a border location (using outer and inner polygons).
+      allOf:
+        - allOf:
+            - $ref: '#/components/schemas/PrimaryId'
+            - example:
+                id:
+                  content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+                  schemeId: com.my-mps.codelists.guid
+        - $ref: '#/components/schemas/PlotDetails'
+    PlotDetails:
+      title: Plot details
+      description: |-
+        Details of the Surface (area) that is used to grow plants.
+        The exact location of this surface is specified by either, a greenhouse-location a point location or a border location (using outer and inner polygons).
+      allOf:
+        - $ref: '#/components/schemas/AssetDetails'
+        - type: object
+          required:
+            - type
+            - area
+          properties:
+            type:
+              $ref: '#/components/schemas/PlotType'
+            area:
+              description: 'The surface (measured in for instance square meters, hectare) of this production plot.'
+              allOf:
+                - $ref: '#/components/schemas/MeasurementType'
+            regularOrOrganic:
+              type: string
+              description: "Indicates whether this plot is classified for organic production or not.\r\nProduction protocol: indicates whether this plot is classified  for organic production or not.\r\nCode list: nl.cl015"
+            localSoilType:
+              type: string
+              description: "Code for the soil type, as used for a specific use case.\r\nLocalSoilType code consists of the reference to the code list that is being used plus the code from this code list.\r\nFor eCrop in arable farming in The Netherlands, code list nl.cl405 is used\r\n"
+            regulatorySoilType:
+              type: string
+              description: "Code for the soil type, as subscribed by a regulatory authority (e.g. MLNV-RVO in the Netherlands).\r\nFor eCrop in The Netherlands code list nl.cl405 is used.\r\n"
+            greenhouseLocation:
+              $ref: '#/components/schemas/GreenhouseLocationDetails'
+      example:
+        thirdPartydIds:
+          - conent: A342_1_6
+            schemeId: com.my-mps.codelists.kasnummer
+        name: 'Tuin1, perceel6'
+        startDate: '2024-01-12'
+        endDate: '2024-12-14'
+        type: CROPFIELD
+        area:
+          content: 6000
+          unitCode:
+            content: m2
+            listId: nl.agroconnectcodelists.cl020
+        regularOrOrganic: REGULAR
+        localSoilType: CLAY
+        regulatorySoilType: CLAY
+    GreenhouseLocationDetails:
+      title: Greenhouselocation details
+      description: Structure with transparent walls and roof designed to regulate temperature and humidity for growing plants.
+      type: object
+      required:
+        - thirdPartyIds
+        - name
+      properties:
+        thirdPartyIds:
+          description: "Identifier of the greenhouse.\r\n"
+          allOf:
+            - $ref: '#/components/schemas/ThirdPartyIdsType'
+        name:
+          type: string
+          description: Name of the greenhouse
+        blockId:
+          type: string
+          description: 'Identifier of a block (in Dutch: afdeling) within the greenhouse.'
+        postId:
+          type: string
+          description: 'Identifier of a post (in Dutch: paal) within the block of the greenhouse'
+        upToPostId:
+          type: string
+          description: "Identifier of a second post (in Dutch: paal) within the block of the greenhouse.\r\nThe upToPost can be used to refer to the location between two posts (postId and upToPostId)."
+        waterTapId:
+          type: string
+          description: 'Identifier of a watertap (in Dutch: waterpunt) within a greenhouse.'
+        hortivationpointBlock:
+          type: string
+          description: Coordinates of the standard Hortivation location reference point for the block
+        xyzReferenceToHotivationPoint:
+          type: string
+          description: The xyz-position to the standard Hortivationpoint of this block within a greenhouse
+    Task:
+      title: Task
+      description: |-
+        A Task is the execution of one or more Operation's by a ma-machine-system.
+        A 'task' consists of one ore more 'operations' that are closely related but involve different assents and resources. All combined operations need to be carried out well coordinated, to execute the task.
+        For instance, the task potato harvesting involves: one tractor pulling the potato harvester, 2 units to take care of the transport of the harvested potatoes to the barn, equipment at the barn to unload the transport units and to bring the produce in the storing place.
+      allOf:
+        - allOf:
+            - $ref: '#/components/schemas/PrimaryId'
+            - example:
+                id:
+                  content: 2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e
+                  schemeId: com.my-mps.codelists.guid
+        - $ref: '#/components/schemas/TaskDetails'
+    TaskDetails:
+      title: Task details
+      type: object
+      description: |-
+        A Task is the execution of one or more Operation's by a ma-machine-system.
+        A 'task' consists of one ore more 'operations' that are closely related but involve different assents and resources. All combined operations need to be carried out well coordinated, to execute the task.
+        For instance, the task potato harvesting involves: one tractor pulling the potato harvester, 2 units to take care of the transport of the harvested potatoes to the barn, equipment at the barn to unload the transport units and to bring the produce in the storing place.
+      required:
+        - thirdPartyIds
+        - name
+        - startDateTime
+        - status
+        - operations
+      properties:
+        thirdPartyIds:
+          description: The identifier(s) of the task assigned by the originator of the Task.
+          allOf:
+            - $ref: '#/components/schemas/ThirdPartyIdsType'
+        name:
+          type: string
+          description: Short name of the task.
+        startDateTime:
+          description: The date/timestamp of beginning the execution of the task.
+          allOf:
+            - $ref: '#/components/schemas/DateTimeType'
+        endDateTime:
+          description: The date/timestamp of the ending of execution the task.
+          allOf:
+            - $ref: '#/components/schemas/DateTimeType'
+        status:
+          $ref: '#/components/schemas/ProcessStateType'
+        referenceId:
+          type: string
+          description: The Identifier of the ordered task that resulted in this executed task.
+        operations:
+          type: array
+          items:
+            $ref: '#/components/schemas/OperationDetails'
+      example:
+        thirdPartyIds:
+          - content: 27575
+            schemeId: com.my-mps.codelists.registratienummer
+        #name: string
+        startDateTime: '2025-03-12T15:51:00+01:00'
+        endDateTime: '2025-03-12T16:45:00+01:00'
+        status: PROPOSED
+        #referenceId: string
+        operations:
+          - thirdPartyIds:
+              - content: 27575-1
+                schemeId: MPS
+            #name: string
+            startDateTime: '2025-03-12T15:51:00+01:00'
+            endDateTime: '2025-03-12T16:45:00+01:00'
+            status: PROPOSED
+            operationTechnique:
+              content: SPRAYING
+              listId: nl.agroconnect.codelists.cl302
+            culturalPractice:
+              content: string
+              listId: nl.agroconnect.codelists.cl280
+            area:
+              content: 250000
+              unitCode:
+                content: m2
+                listId: nl.agroconnect.codelists.cl020
+            inputAllocations:
+              - thirdPartyIds:
+                  - content: 838439N
+                    schemeId: nl.ctgb.codelists.toelatingsnummer
+                name: Movento
+                #type: string
+                #resourceId: string
+                quantityAbsolute:
+                  content: 1200
+                  unitCode:
+                    content: kg
+                    listId: nl.agroconnect.codelists.cl020
+                quatityRate:
+                  content: 480
+                  unitCode:
+                    content: kgha
+                    listId: nl.agroconnect.codelists.cl020
+                treatmentzone:
+                  thirdPartyIds:
+                    - content: PAD-1-99
+                      schemeId: com.my-mps.codelists.padnummers
+                  area:
+                    content: 23500
+                    unitCode:
+                      content: m2
+                      listId: nl.agroconnect.codelists.cl020
+    OperationDetails:
+      title: Operation details
+      type: object
+      description: |-
+        Activity carried out by man and/or machine as part op the execution of a task. An operation performs a particular OperationTechnique on a particular asset (a crop,a field, a production unit, a batch, etc.) to realize a certain Cultural Practice or Husbandry Practice.
+        Examples for CropProduction: The CulturalPractise "weed control"can be realized by one of various OperationTechniques like spraying, row cultivation, manual hoeing, etc.
+      required:
+        - thirdPartyIds
+        - name
+        - startDateTime
+        - status
+        - culturalPractice
+      properties:
+        thirdPartyIds:
+          description: The Identifier(s) of the operation assigned by the originator of the operation.
+          allOf:
+            - $ref: '#/components/schemas/ThirdPartyIdsType'
+        name:
+          type: string
+          description: Short name of the operation.
+        startDateTime:
+          description: The date/timestamp of beginning the execution of the operation.
+          allOf:
+            - $ref: '#/components/schemas/DateTimeType'
+        endDateTime:
+          description: The date/timestamp of the ending of execution the operation.
+          allOf:
+            - $ref: '#/components/schemas/DateTimeType'
+        status:
+          $ref: '#/components/schemas/ProcessStateType'
+        thirdPartyId:
+          type: string
+          description: 'Identifier of this operation, allocated by a third Party.'
+        operationTechnique:
+          description: 'Examples for CropProduction: The CulturalPractise \"weed control\"can be realized by one of various OperationTechniques like spraying, row cultivation, manual hoeing, etc. \r\nCode list Id for arable farming: nl.cl127 (or nl.cl293)'
+          allOf:
+            - $ref: '#/components/schemas/CodeType'
+        culturalPractice:
+          description: 'Examples for CropProduction: The CulturalPractise \"weed control\"can be realized by one of various OperationTechniques like spraying, row cultivation, manual hoeing, etc. \r\nCode list Id for arable farming: nl.cl127 (or nl.cl293)'
+          allOf:
+            - $ref: '#/components/schemas/CodeType'
+        characteristics:
+          type: array
+          description: The option to attach one or more characteristics about the execution of this operation.
+          items:
+            $ref: '#/components/schemas/CharacteristicType'
+        area:
+          description: 'The treated area (hectare, m2) during the execution of this operation. Can be a percentage of the total area or an absolute value (like hectare or square meter).'
+          allOf:
+            - $ref: '#/components/schemas/MeasurementType'
+        referenceId:
+          type: string
+          description: The Identifier of the ordered operation that resulted in this executed operation.
+        inputAllocations:
+          type: array
+          items:
+            $ref: '#/components/schemas/InputAllocationDetails'
+        outputAllocations:
+          type: array
+          items:
+            $ref: '#/components/schemas/OutputAllocationDetails'
+    AllocationDetails:
+      title: Allocation details
+      type: object
+      description: Details of the generic class (the parent) for input and output allocation.
+      required:
+        - thirdPartyIds
+        - type
+      properties:
+        thirdPartyIds:
+          description: 'Identifier of an allocation, assigned by the originator of the operation'
+          allOf:
+            - $ref: '#/components/schemas/ThirdPartyIdsType'
+        name:
+          description: Short name for this allocation.
+          type: string
+        type:
+          description: "Indicator for the type of input or output that is used or delivered by this operation. For instance: \r\n- \"FERTIL\" = fertilizer\r\n- \"PROTEC\" = crop protection product\r\n- \"ENERG\" = energy, etc. \r\nFor this AgroConnect code list nl.cl271 is used."
+          allOf:
+            - $ref: '#/components/schemas/CodeType'
+        resourceId:
+          description: "Identifier of the resource that is used or the produce that is delivered by this operation. The identifier is a \"codeType\" data type. CodeType provides the identifier for the code list that is used for this specific product or produce, plus the exact code (identifier) picked from the indicated code list to identify the exact type op product or produce. \\r\\nFor instance, for the use of crop protection products:\r\n- type = \"PROTEC\" \r\n- recourceId -> codeListId = \"nl.ctgb.codelists.toelatingsnummers\"\r\n- resourceId -> code = \"14689\" \r\n- name = \"Gallant 2000\""
+          allOf:
+            - $ref: '#/components/schemas/CodeType'
+        quantityAbsolute:
+          description: 'Quantity of the allocation measured in absolute terms, meaning for instance applied liters or kilogram in total for this allocation (so not in liter/hectare of kilogram/hectare).'
+          allOf:
+            - $ref: '#/components/schemas/MeasurementType'
+        quatityRate:
+          description: 'Quantity of the allocation measured in terms of the rate of application: for instance in liter/hectare, kilogram/hectare, etc.'
+          allOf:
+            - $ref: '#/components/schemas/MeasurementType'
+        characteristics:
+          type: array
+          items:
+            $ref: '#/components/schemas/CharacteristicType'
+    InputAllocationDetails:
+      title: Inputallocation details
+      description: |-
+        One or more inputs used to execute this operation.
+        Examples of types of input are: crop protection products, fertilizer, water, energy, labor, etc.
+      allOf:
+        - $ref: '#/components/schemas/AllocationDetails'
+        - type: object
+          required:
+            - treatmentzone
+          properties:
+            treatmentzone:
+              $ref: '#/components/schemas/TreatmentZoneDetails'
+    OutputAllocationDetails:
+      title: Outputallocation details
+      description: |-
+        One or more outputs as the result of the execution of the operation.
+        For example harvested produce: potatoes, onions, flowers, vegetables, etc.
+        But an output could also be for instance energy.
+      allOf:
+        - $ref: '#/components/schemas/AllocationDetails'
+        - type: object
+          required:
+            - treatmentzone
+          properties:
+            treatmentzone:
+              $ref: '#/components/schemas/TreatmentZoneDetails'
+    TreatmentZoneDetails:
+      title: Treatmentzone details
+      description: Part of the plot which is treated in an operation
+      type: object
+      required:
+        - thirdPartyIds
+      properties:
+        thirdPartyIds:
+          description: Identifier of the treatment zone assigned by the originator of the operation.
+          allOf:
+            - $ref: '#/components/schemas/ThirdPartyIdsType'
+        characteristics:
+          type: array
+          items:
+            $ref: '#/components/schemas/CharacteristicType'
+        area:
+          $ref: '#/components/schemas/MeasurementType'
+    InboundDelivery:
+      title: Inbound Delivery
+      description: |
+        Materials and inputs delivered by a supplier to a grower as input for their crop process. An inbound
+        delivery describes a certain amount of a certain product acquired by a grower through an order to
+        a supplier.
+      allOf:
+        - allOf:
+            - $ref: '#/components/schemas/PrimaryId'
+            - example:
+                id:
+                  content: 6f6d3b8c4-2e7a-4a1d-9b2c-0e1f2a3b4c5d
+                  schemeId: com.my-mps.codelists.guid
+        - $ref: '#/components/schemas/InboundDeliveryDetails'
+    InboundDeliveryDetails:
+      title: Inbound Delivery details
+      type: object
+      description: |
+        Materials and inputs delivered by a supplier to a grower as input for their crop process. An inbound
+        delivery describes a certain amount of a certain product acquired by a grower through an order to
+        a supplier.
+      required:
+        - thirdPartyIds
+        - dateOfDelivery
+        - quantity
+        - product
+        - location
+      properties:
+        thirdPartyIds:
+          $ref: '#/components/schemas/ThirdPartyIdsType'
+        dateOfDelivery:
+          $ref: '#/components/schemas/DateType'
+        quantity:
+          $ref: '#/components/schemas/MeasurementType'
+        product:
+          $ref: '#/components/schemas/ProductDetails'
+        location:
+          $ref: '#/components/schemas/ProductionLocationDetails'
+      example:
+        thirdPartyIds:
+          - content: '84037601'
+            schemeId: com.iperen.codelists.orderregelnummer
+        dateOfDelivery: '2025-01-23'
+        quantity:
+          content: 1200
+          unitCode:
+            content: kg
+            listId: nl.agroconnect.codelists.cl020
+        product:
+          thirdPartyIds:
+            - content: '1928'
+              schemeId: com.iperen.codelists.artikelnummer
+            - content: '8700127724892'
+              schemeId: nl.gs1.gtin
+          name: 'Peters professional 10-12-18, Blossom Booster'
+          additionalProductProperties:
+            - code:
+                content: 'N'
+                listId: nl.agroconnect.codelists.cl650
+              value:
+                content: 10
+                unitCode:
+                  content: '%'
+                  listId: nl.agroconnect.codelists.cl020
+            - code:
+                content: P2O5
+                listId: nl.agroconnect.codelists.cl650
+              value:
+                content: 12
+                unitCode:
+                  content: '%'
+                  listId: nl.agroconnect.codelists.cl020
+            - code:
+                content: K2O
+                listId: nl.agroconnect.codelists.cl650
+              value:
+                content: 18
+                unitCode:
+                  content: '%'
+                  listId: nl.agroconnect.codelists.cl020
+        location:
+          thirdPartyIds:
+            - content: 1
+              schemeId: com.iperen.cl030
+          name: De Tuinderij Honselersdijk
+    #   Product:
+    #     title: Product
+    #     description: 'A product delivered to a farmer is any agricultural input, tool, or resource designed to support farming activities, such as seeds, fertilizers,#animal feed or crop protection solutions.'
+    #     allOf:
+    #       - allOf:
+    #         - $ref: '#/components/schemas/PrimaryId'
+    #            - example:
+    #                id:
+    #                  content: 94437981-56e0-452a-9d20-059e9adf014d
+    #                  schemeId: com.my-mps.codelists.guid
+    #        - $ref: '#/components/schemas/ProductDetails'
+    ProductDetails:
+      title: Product details
+      type: object
+      description: 'Details of a product delivered to a farmer is any agricultural input, tool, or resource designed to support farming activities, such as seeds, fertilizers, animal feed or crop protection solutions.'
+      required:
+        - thirdPartyIds
+      properties:
+        thirdPartyIds:
+          $ref: '#/components/schemas/ThirdPartyIdsType'
+        name:
+          type: string
+        additionalProductProperties:
+          type: array
+          items:
+            $ref: '#/components/schemas/CharacteristicType'
+      example:
+        thirdPartyIds:
+          - content: '8922'
+            schemeId: com.iperen.codelists.artikelnummer
+          - content: '8700127724892'
+            schemeId: nl.gs1.gtin
+          - content: 13404 N
+            schemeId: nl.ctgb.codelists.toelatingsnummer
+        name: Movento 100 SC – 1L – spirotetramat
+  responses:
+    ##########################################################################
+    # default error responses                                                #
+    ##########################################################################
+    default_no_content:
+      description: The resource was successfully deleted. No content is returned.
+      headers:
+        API-Version:
+          $ref: '#/components/headers/API-Version'
+        Request-Id:
+          $ref: '#/components/headers/Request-Id'
+        Request-Date-Time:
+          $ref: '#/components/headers/Request-Date-Time'
+    default_error:
+      description: "Standard error response based on the \"[Problem Details for HTTP APIs\" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457). \r\n\r\n*Remarks: Content-type is application/problem+json (not application/json)*\r\n"
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+      headers:
+        API-Version:
+          $ref: '#/components/headers/API-Version'
+        Request-Id:
+          $ref: '#/components/headers/Request-Id'
+        Request-Date-Time:
+          $ref: '#/components/headers/Request-Date-Time'
+    default_400:
+      description: Bad Request
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+      headers:
+        API-Version:
+          $ref: '#/components/headers/API-Version'
+        Request-Id:
+          $ref: '#/components/headers/Request-Id'
+        Request-Date-Time:
+          $ref: '#/components/headers/Request-Date-Time'
+    default_401:
+      description: Not Authorized (authenticated)
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+      headers:
+        API-Version:
+          $ref: '#/components/headers/API-Version'
+        Request-Id:
+          $ref: '#/components/headers/Request-Id'
+        Request-Date-Time:
+          $ref: '#/components/headers/Request-Date-Time'
+    default_403:
+      description: Forbidden
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+      headers:
+        API-Version:
+          $ref: '#/components/headers/API-Version'
+        Request-Id:
+          $ref: '#/components/headers/Request-Id'
+        Request-Date-Time:
+          $ref: '#/components/headers/Request-Date-Time'
+    default_404:
+      description: Not Found
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+      headers:
+        API-Version:
+          $ref: '#/components/headers/API-Version'
+        Request-Id:
+          $ref: '#/components/headers/Request-Id'
+        Request-Date-Time:
+          $ref: '#/components/headers/Request-Date-Time'
+    default_500:
+      description: Internal Server Error
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+      headers:
+        API-Version:
+          $ref: '#/components/headers/API-Version'
+        Request-Id:
+          $ref: '#/components/headers/Request-Id'
+        Request-Date-Time:
+          $ref: '#/components/headers/Request-Date-Time'
+    ##########################################################################
+    # Resource specifieke responses                                          #
+    ##########################################################################
+    health_200:
+      description: The API is healthy and operational. The response body contains detailed health information.
+      content:
+        application/health+json:
+          schema:
+            $ref: '#/components/schemas/Health'
+      headers:
+        API-Version:
+          $ref: '#/components/headers/API-Version'
+        Request-Id:
+          $ref: '#/components/headers/Request-Id'
+        Request-Date-Time:
+          $ref: '#/components/headers/Request-Date-Time'
+    health_503:
+      description: 'Service Unavailable: The API is not healthy or one or more critical dependencies are unavailable'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+      headers:
+        API-Version:
+          $ref: '#/components/headers/API-Version'
+        Request-Id:
+          $ref: '#/components/headers/Request-Id'
+        Request-Date-Time:
+          $ref: '#/components/headers/Request-Date-Time'
+    grower_200:
+      description: Single grower
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Grower'
+      headers:
+        API-Version:
+          $ref: '#/components/headers/API-Version'
+        Request-Id:
+          $ref: '#/components/headers/Request-Id'
+        Request-Date-Time:
+          $ref: '#/components/headers/Request-Date-Time'
+    growers_200:
+      description: List of growers
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Grower'
+      headers:
+        API-Version:
+          $ref: '#/components/headers/API-Version'
+        Request-Id:
+          $ref: '#/components/headers/Request-Id'
+        Request-Date-Time:
+          $ref: '#/components/headers/Request-Date-Time'
+    supplier_200:
+      description: Single supplier
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Supplier'
+      headers:
+        API-Version:
+          $ref: '#/components/headers/API-Version'
+        Request-Id:
+          $ref: '#/components/headers/Request-Id'
+        Request-Date-Time:
+          $ref: '#/components/headers/Request-Date-Time'
+    suppliers_200:
+      description: List of suppliers
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              allOf:
+                - $ref: '#/components/schemas/Supplier'
+      headers:
+        API-Version:
+          $ref: '#/components/headers/API-Version'
+        Request-Id:
+          $ref: '#/components/headers/Request-Id'
+        Request-Date-Time:
+          $ref: '#/components/headers/Request-Date-Time'
+    inboundDelivery_202:
+      description: Delivery accepted
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/InboundDelivery'
+      headers:
+        API-Version:
+          $ref: '#/components/headers/API-Version'
+        Request-Id:
+          $ref: '#/components/headers/Request-Id'
+        Request-Date-Time:
+          $ref: '#/components/headers/Request-Date-Time'
+    plots_200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              allOf:
+                - $ref: '#/components/schemas/Plot'
+      headers:
+        API-Version:
+          $ref: '#/components/headers/API-Version'
+        Request-Id:
+          $ref: '#/components/headers/Request-Id'
+        Request-Date-Time:
+          $ref: '#/components/headers/Request-Date-Time'
+    plot_202:
+      description: Plot accepted
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Plot'
+      headers:
+        API-Version:
+          $ref: '#/components/headers/API-Version'
+        Request-Id:
+          $ref: '#/components/headers/Request-Id'
+        Request-Date-Time:
+          $ref: '#/components/headers/Request-Date-Time'
+    productionlocations_200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              allOf:
+                - $ref: '#/components/schemas/ProductionLocation'
+      headers:
+        API-Version:
+          $ref: '#/components/headers/API-Version'
+        Request-Id:
+          $ref: '#/components/headers/Request-Id'
+        Request-Date-Time:
+          $ref: '#/components/headers/Request-Date-Time'
+    crops_200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              allOf:
+                - $ref: '#/components/schemas/Crop'
+      headers:
+        API-Version:
+          $ref: '#/components/headers/API-Version'
+        Request-Id:
+          $ref: '#/components/headers/Request-Id'
+        Request-Date-Time:
+          $ref: '#/components/headers/Request-Date-Time'
+    crop_202:
+      description: Crop accepted
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Crop'
+      headers:
+        API-Version:
+          $ref: '#/components/headers/API-Version'
+        Request-Id:
+          $ref: '#/components/headers/Request-Id'
+        Request-Date-Time:
+          $ref: '#/components/headers/Request-Date-Time'
+    task_202:
+      description: Task accepted
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Task'
+      headers:
+        API-Version:
+          $ref: '#/components/headers/API-Version'
+        Request-Id:
+          $ref: '#/components/headers/Request-Id'
+        Request-Date-Time:
+          $ref: '#/components/headers/Request-Date-Time'
+  ##########################################################################
+  # Resource/operation specific requestbodies                              #
+  # request bodies are only defined for resources with POST/PUT methods    #
+  ##########################################################################
+  requestBodies:
+    inboundDeliveryRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InboundDeliveryDetails'
+    cropRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CropDetails'
+    plotRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PlotDetails'
+    taskRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TaskDetails'
+  parameters:
+    ##########################################################################
+    # default HTTP request header parameters                                 #
+    ##########################################################################
+    Major-Version:
+      name: Major-Version
+      in: header
+      required: true
+      schema:
+        type: string
+      example: v1
+      description: Major version of the API
+    User-Agent:
+      name: User-Agent
+      in: header
+      required: true
+      schema:
+        type: string
+      example: 9999/V2 (V2.1.12)
+    ##########################################################################
+    # default query parameters                                               #
+    ##########################################################################
+    offset:
+      # default offset query parameter for paging in GETs
+      name: offset
+      description: number of records to skip for pagination
+      in: query
+      schema:
+        type: integer
+        format: int32
+        minimum: 0
+    limit:
+      # default limit query parameter for paging in GETs
+      name: limit
+      description: maximum number of records to return
+      in: query
+      schema:
+        type: integer
+        format: int32
+        minimum: 0
+        maximum: 50
+    ##########################################################################
+    # default path (URI/template) parameters for identification of resources #
+    # remark: because path paramteers used in the same URI must have         #
+    # different names, separate path parameters are define for each resource #
+    # based on the default schemeId parameter
+    ##########################################################################
+    schemeId:
+      # To be copierd to specific instances of the parameters
+      # default schemeId with which the party is identified, 
+      name: schemeId
+      in: path
+      description: schemeId with which the <resource> is identified
+      required: true
+      schema:
+        $ref: '#/components/schemas/PrimaryIdSchemeIdType'
+      example: com.my-mps.codelists.guid
+    growerSchemeId:
+      name: growerSchemeId
+      in: path
+      description: schemeId with which the grower is identified
+      required: true
+      schema:
+        $ref: '#/components/schemas/PrimaryIdSchemeIdType'
+      example: com.my-mps.codelists.guid
+    growerId:
+      name: growerId
+      in: path
+      description: Unique identification of a grower
+      required: true
+      schema:
+        $ref: '#/components/schemas/PrimaryIdContentType'
+      example: e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b
+    supplierSchemeId:
+      name: supplierSchemeId
+      in: path
+      description: schemeId with which the supplier is identified
+      required: true
+      schema:
+        $ref: '#/components/schemas/PrimaryIdSchemeIdType'
+      example: com.my-mps.codelists.guid
+    supplierId:
+      name: supplierId
+      in: path
+      description: Unique identification of a supplier
+      required: true
+      schema:
+        $ref: '#/components/schemas/PrimaryIdContentType'
+      example: 7a2e4c3d-9b8f-1a2c-3e4d-5f6a7b8c9d0e
+    inboundDeliverySchemeId:
+      name: inboundDeliverySchemeId
+      in: path
+      description: schemeId with which the inbound delivery is identified
+      required: true
+      schema:
+        $ref: '#/components/schemas/PrimaryIdSchemeIdType'
+      example: com.my-mps.codelists.guid
+    inboundDeliveryId:
+      name: inboundDeliveryId
+      in: path
+      description: Unique serverside assigned identification of an inbound delivery
+      required: true
+      schema:
+        $ref: '#/components/schemas/PrimaryIdContentType'
+      example: 6f6d3b8c4-2e7a-4a1d-9b2c-0e1f2a3b4c5d
+    productionLocationSchemeId:
+      name: productionLocationSchemeId
+      in: path
+      description: schemeId with which the production location is identified
+      required: true
+      schema:
+        $ref: '#/components/schemas/PrimaryIdSchemeIdType'
+      example: com.my-mps.codelists.guid
+    productionLocationId:
+      name: productionLocationId
+      in: path
+      description: Unique serverside assigned identification of a production location
+      required: true
+      schema:
+        $ref: '#/components/schemas/PrimaryIdContentType'
+      example: 8b2c1a7e-4f3d-4e9c-a1b2-3c4d5e6f7a8b
+    cropSchemeId:
+      name: cropSchemeId
+      in: path
+      description: schemeId with which the crop is identified
+      required: true
+      schema:
+        $ref: '#/components/schemas/PrimaryIdSchemeIdType'
+      example: com.my-mps.codelists.guid
+    cropId:
+      name: cropId
+      in: path
+      description: Unique serverside assigned identification of a crop
+      required: true
+      schema:
+        $ref: '#/components/schemas/PrimaryIdContentType'
+      example: c9a7b8e2-3d4f-5e6a-7b8c-9d0e1f2a3b4c
+    plotSchemeId:
+      name: plotSchemeId
+      in: path
+      description: schemeId with which the plot is identified
+      required: true
+      schema:
+        $ref: '#/components/schemas/PrimaryIdSchemeIdType'
+      example: com.my-mps.codelists.guid
+    plotId:
+      name: plotId
+      in: path
+      description: Unique serverside assigned identification of a plot
+      required: true
+      schema:
+        $ref: '#/components/schemas/PrimaryIdContentType'
+      example: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+    taskSchemeId:
+      name: taskSchemeId
+      in: path
+      description: schemeId with which the task is identified
+      required: true
+      schema:
+        $ref: '#/components/schemas/PrimaryIdSchemeIdType'
+      example: com.my-mps.codelists.guid
+    taskId:
+      name: taskId
+      in: path
+      description: Unique serverside assigned identification of a task
+      required: true
+      schema:
+        $ref: '#/components/schemas/PrimaryIdContentType'
+      example: 2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e
+  ##########################################################################
+  # default HTTP-response headers                                          #
+  ##########################################################################
+  headers:
+    API-Version:
+      schema:
+        type: string
+      example: 1.3.2
+      description: Full API version
+    Request-Id:
+      schema:
+        type: string
+        format: uuid
+      example: 3f2504e0-4f89-11d3-9a0c-0305e82c3301
+      description: Unique serverside assigned id of the request
+    Request-Date-Time:
+      schema:
+        allOf:
+          - $ref: '#/components/schemas/DateTimeType'
+        example: '2025-08-01T09:16:22+02:00'
+      description: Timestamp of the request
