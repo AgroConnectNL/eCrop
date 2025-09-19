@@ -15,8 +15,8 @@ info:
     url: 'https://www.agroconnect.nl/'
   termsOfService: ''
 externalDocs:
-  description: Agroconnect eCrop class model version 0.4.5.
-  url: 'https://www.agroconnect.nl/Portals/10/EnterpriseArchitect/eCrop_json/eCrop_v0_4_5/index.html'
+  description: Agroconnect eCrop class model version 0.5.0.
+  url: 'https://www.agroconnect.nl/Portals/10/EnterpriseArchitect/eCrop_json/eCrop_v0_5_0/index.html'
 tags:
   - name: general
     description: General Operations
@@ -869,7 +869,7 @@ components:
       type: string
       format: datetime
       pattern: '^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.\d+)?(Z|[+-]\d{2}:\d{2})$'
-      description: 'Datetime with ISO-8601 standard date format "YYYY-MM-DDThh:mm:ss±hh:mm"'
+      description: 'Datetime with ISO-8601 standard date format "YYYY-MM-DDThh:mm:ss+/-hh:mm"'
       example: '2025-03-12T15:31:21+01:00'
     ##########################################################################
     # (Un)qualified Data Types (UDT/QDT)                                     #
@@ -887,7 +887,7 @@ components:
       title: PrimaryIdType
       type: object
       additionalProperties: false
-      description: idType used as primary id for resources assigned by the server (used in payloads)
+      description: Primary identification for the resources as assigned by the server
       required:
         - content
         - schemeId
@@ -900,7 +900,7 @@ components:
       title: PrimaryId
       type: object
       additionalProperties: false
-      description: Reusable resource id assigned by the server (used in payloads)
+      description: Primary identification for the resources as assigned by the server
       required:
         - id
       properties:
@@ -922,11 +922,11 @@ components:
         schemeId:
           minLength: 1
           type: string
-          description: Scheme Id.
+          description: Scheme Id of the identifier.
     ThirdPartyIdsType:
       title: ThirdPartyIdsType
       type: array
-      description: List of third party ids with which a resource is externally identified
+      description: List of third party ids with which the resource is externally identified
       uniqueItems: true
       items:
         $ref: '#/components/schemas/IdType'
@@ -997,6 +997,7 @@ components:
       description: 'Country codes: 2 letter ISO 3166.'
     AddressType:
       title: AddressType
+      description: Generic type for physical addresses
       type: object
       required:
         - postalCode
@@ -1009,24 +1010,32 @@ components:
       properties:
         postalCode:
           type: string
+          description: 'Postal code of the address'
         cityName:
           type: string
+          description: 'City name'
         streetName:
           type: string
+          description: 'Street name'
         streetNumber:
           type: string
+          description: 'Street number'
         country:
           $ref: '#/components/schemas/CountryCodeType'
         countryName:
           type: string
+          description: 'Country name'
         postalBoxId:
           type: string
+          description: 'Postal box number'
     PostalAddressType:
       title: PostalAddressType
+      description: Specific ype for postal addresses
       allOf:
         - $ref: '#/components/schemas/AddressType'
     VisitorsAddressType:
       title: VisitorsAddressType
+      description: Specific ype for visitor addresses
       allOf:
         - $ref: '#/components/schemas/AddressType'
     PlotType:
@@ -1059,8 +1068,8 @@ components:
       type: object
       description: |-
         Problem details based on the ["Problem Details for HTTP APIs" specification, RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457).
-
-        Remark: According tot Proposal NL ADR 2.1 optional properties status, title and detail are required, type and instance are optional
+        
+        Remark: According to Proposal NL API Design Rules 2.1 optional properties status, title and detail are required, type and instance are optional
       required:
         - status
         - title
@@ -1118,21 +1127,28 @@ components:
         thirdPartyIds:
           allOf:
             - $ref: '#/components/schemas/ThirdPartyIdsType'
-          description: 'Content and schemeId that is used for the type of Identifier (e.g. a gln, or chamber of commerce number). For this, code list CL709 is used.'
+          description: 'Content and schemeId that is used to identify the party (e.g. a gln, or chamber of commerce number)'
         name:
           type: string
+          description: 'Name of the party'
         personName:
           type: string
+          description: 'Persons name'
         phoneNumber:
           type: string
+          description: 'Phone number of the party'
         telefaxNumber:
           type: string
+          description: 'Telefax number of the party'
         emailAdress:
           type: string
+          description: 'E-mail address of the party'
         iban:
           type: string
+          description: 'International Bank Account Number (IBAN) of the party'
         websiteUrl:
           type: string
+          description: 'Address of the website of the party'
         postalAddress:
           $ref: '#/components/schemas/PostalAddressType'
         visitorsAdress:
@@ -1185,7 +1201,7 @@ components:
           postalBoxId: null
     Supplier:
       title: Supplier
-      description: The details of the supplier who delivers goods to a grower
+      description: The supplier who delivers goods to a grower
       allOf:
         - allOf:
             - $ref: '#/components/schemas/PrimaryId'
@@ -1202,7 +1218,7 @@ components:
       example:
         thirdPartyIds:
           - id: '06448281'
-            type: nl.kvk.codelists/kvknummer
+            type: nl.kvk.codelists.kvknummer
           - id: '870066561253'
             type: com.gs1.codelists.gln
         name: Van Iperen
@@ -1230,7 +1246,7 @@ components:
                   schemeId: com.my-mps.codelists.guid
         - $ref: '#/components/schemas/ProductionLocationDetails'
     ProductionLocationDetails:
-      title: ProductionLocation details
+      title: Production location details
       description: The details of the entity that is responsible for cultivation the crops.
       allOf:
         - $ref: '#/components/schemas/PartyDetails'
@@ -1804,7 +1820,7 @@ components:
     InboundDeliveryDetailsGrower:
       title: Inbound Delivery details as providerd by a grower (with supplier in the payloaddetails)
       description: |
-        Details of materials and inputs delivered by a supplier to a grower as input for their crop process. An inbound
+        Details of the materials and inputs delivered by a supplier to a grower as input for their crop process. An inbound
         delivery describes a certain amount of a certain product acquired by a grower through an order to
         a supplier.
       allOf:
@@ -1836,15 +1852,23 @@ components:
         - location
       properties:
         thirdPartyIds:
-          $ref: '#/components/schemas/ThirdPartyIdsType'
+          allOf:
+            - $ref: '#/components/schemas/ThirdPartyIdsType'
+          description: 'Third party identifications of the delivery'
         dateOfDelivery:
-          $ref: '#/components/schemas/DateType'
+          allOf:
+            - $ref: '#/components/schemas/DateType'
+          description: 'Date at which the product is delivered at the location of the grower (ISO-8601 standard date format "YYYY-MM-DD")'
         quantity:
-          $ref: '#/components/schemas/MeasurementType'
+          allOf:
+            - $ref: '#/components/schemas/MeasurementType'
+          description: 'Quantity of the product delivered to the grower.'
         product:
           $ref: '#/components/schemas/ProductDetails'
         location:
-          $ref: '#/components/schemas/ProductionLocationDetails'
+          allOf:
+            - $ref: '#/components/schemas/ProductionLocationDetails'
+          description: 'Identification of the production location of the grower at which the product is delivered'
       example:
         thirdPartyIds:
           - content: '84037601'
@@ -1894,7 +1918,7 @@ components:
           name: De Tuinderij Honselersdijk
     #   Product:
     #     title: Product
-    #     description: 'A product delivered to a farmer is any agricultural input, tool, or resource designed to support farming activities, such as seeds, fertilizers,#animal feed or crop protection solutions.'
+    #     description: 'A product delivered to a farmer, like any agricultural input, tool, or resource designed to support farming activities, such as seeds, fertilizers, animal feed or crop protection solutions.'
     #     allOf:
     #       - allOf:
     #         - $ref: '#/components/schemas/PrimaryId'
@@ -1906,15 +1930,19 @@ components:
     ProductDetails:
       title: Product details
       type: object
-      description: 'Details of a product delivered to a farmer is any agricultural input, tool, or resource designed to support farming activities, such as seeds, fertilizers, animal feed or crop protection solutions.'
+      description: 'Details of a product delivered to a farmer, like any agricultural input, tool, or resource designed to support farming activities, such as seeds, fertilizers, animal feed or crop protection solutions.'
       required:
         - thirdPartyIds
       properties:
         thirdPartyIds:
-          $ref: '#/components/schemas/ThirdPartyIdsType'
+          allOf:
+            - $ref: '#/components/schemas/ThirdPartyIdsType'
+          description: 'Third party identifications of the product, f.i. GS1 GTIN, CGTB authorisation number, article code'
         name:
           type: string
+          description: 'Name of the product'
         additionalProductProperties:
+          description: 'List of additional product characteristics'
           type: array
           items:
             $ref: '#/components/schemas/CharacteristicType'
@@ -2286,14 +2314,15 @@ components:
       name: Major-Version
       in: header
       required: true
+      description: Major version of the API (like V1)
       schema:
         type: string
       example: v1
-      description: Major version of the API
     User-Agent:
       name: User-Agent
       in: header
       required: true
+      description: Identification of the client software package using the API
       schema:
         type: string
       example: 9999/V2 (V2.1.12)
@@ -2327,10 +2356,10 @@ components:
     ##########################################################################
     schemeId:
       # To be copierd to specific instances of the parameters
-      # default schemeId with which the party is identified, 
+      # default SchemeId with which the party is identified, 
       name: schemeId
       in: path
-      description: schemeId with which the <resource> is identified
+      description: SchemeId with which the <resource> is identified
       required: true
       schema:
         $ref: '#/components/schemas/PrimaryIdSchemeIdType'
@@ -2338,7 +2367,7 @@ components:
     growerSchemeId:
       name: growerSchemeId
       in: path
-      description: schemeId with which the grower is identified
+      description: SchemeId of the growerId with which the grower is identified
       required: true
       schema:
         $ref: '#/components/schemas/PrimaryIdSchemeIdType'
@@ -2354,7 +2383,7 @@ components:
     supplierSchemeId:
       name: supplierSchemeId
       in: path
-      description: schemeId with which the supplier is identified
+      description: SchemeId of the supplierId with which the supplier is identified
       required: true
       schema:
         $ref: '#/components/schemas/PrimaryIdSchemeIdType'
@@ -2370,7 +2399,7 @@ components:
     inboundDeliverySchemeId:
       name: inboundDeliverySchemeId
       in: path
-      description: schemeId with which the inbound delivery is identified
+      description: SchemeId of the inboundDeliveryId with which the inbound delivery is identified
       required: true
       schema:
         $ref: '#/components/schemas/PrimaryIdSchemeIdType'
@@ -2386,7 +2415,7 @@ components:
     productionLocationSchemeId:
       name: productionLocationSchemeId
       in: path
-      description: schemeId with which the production location is identified
+      description: SchemeId of the productionLocationId with which the production location is identified
       required: true
       schema:
         $ref: '#/components/schemas/PrimaryIdSchemeIdType'
@@ -2402,7 +2431,7 @@ components:
     cropSchemeId:
       name: cropSchemeId
       in: path
-      description: schemeId with which the crop is identified
+      description: SchemeId of the cropId with which the crop is identified
       required: true
       schema:
         $ref: '#/components/schemas/PrimaryIdSchemeIdType'
@@ -2418,7 +2447,7 @@ components:
     plotSchemeId:
       name: plotSchemeId
       in: path
-      description: schemeId with which the plot is identified
+      description: SchemeId of the plotId with which the plot is identified
       required: true
       schema:
         $ref: '#/components/schemas/PrimaryIdSchemeIdType'
@@ -2434,7 +2463,7 @@ components:
     taskSchemeId:
       name: taskSchemeId
       in: path
-      description: schemeId with which the task is identified
+      description: SchemeId of the taskId with which the task is identified
       required: true
       schema:
         $ref: '#/components/schemas/PrimaryIdSchemeIdType'
@@ -2466,5 +2495,5 @@ components:
       schema:
         allOf:
           - $ref: '#/components/schemas/DateTimeType'
-        example: '2025-08-01T09:16:22+02:00'
-      description: Timestamp of the request
+        example: '2025-08-16T09:16:22+02:00'
+      description: 'Timestamp of the request (YYYY-MM-DDThh:mm:ss±hh:mm)'
