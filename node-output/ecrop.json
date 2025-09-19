@@ -1441,7 +1441,7 @@
           },
           "postalBoxId" : {
             "type" : "string",
-            "description" : ""
+            "description" : "Postal box number"
           }
         }
       },
