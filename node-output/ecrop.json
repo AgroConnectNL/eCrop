@@ -2740,7 +2740,7 @@
           },
           "location" : {
             "thirdPartyIds" : [ {
-              "content" : 1,
+              "content" : "1",
               "schemeId" : "com.iperen.cl030"
             } ],
             "name" : "De Tuinderij Honselersdijk"
@@ -2749,7 +2749,8 @@
             "thirdPartyIds" : [ {
               "content" : "0125948",
               "schemeId" : "nl.kvk.codelists.kvknummer"
-            } ]
+            } ],
+            "name" : "Van Ieperen"
           }
         }
       },
