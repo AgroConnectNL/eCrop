@@ -3549,10 +3549,7 @@
         "content" : {
           "application/json" : {
             "schema" : {
-              "allOf" : [ {
-                "$ref" : "#/components/schemas/InboundDeliveryDetailsGrower"
-              } ],
-              "additionalProperties" : false
+              "$ref" : "#/components/schemas/InboundDeliveryDetailsGrower"
             },
             "examples" : {
               "fertilizer" : {
@@ -3569,10 +3566,7 @@
         "content" : {
           "application/json" : {
             "schema" : {
-              "allOf" : [ {
-                "$ref" : "#/components/schemas/InboundDeliveryDetails"
-              } ],
-              "additionalProperties" : false
+              "$ref" : "#/components/schemas/InboundDeliveryDetails"
             },
             "examples" : {
               "fertilizer" : {
