@@ -2498,8 +2498,7 @@
             } ],
             "description" : "Identification of the production location of the grower at which the product is delivered"
           }
-        },
-        "additionalProperties" : false
+        }
       },
       "ProductDetails" : {
         "title" : "Product details",
