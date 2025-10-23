@@ -3717,7 +3717,7 @@
         "schema" : {
           "$ref" : "#/components/schemas/PrimaryIdContentType"
         },
-        "example" : "6f6d3b8c4-2e7a-4a1d-9b2c-0e1f2a3b4c5d"
+        "example" : "6f6d3b8c-2e7a-4a1d-9b2c-0e1f2a3b4c5d"
       },
       "productionLocationSchemeId" : {
         "name" : "productionLocationSchemeId",
