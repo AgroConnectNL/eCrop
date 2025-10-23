@@ -1280,7 +1280,6 @@
       "PrimaryIdType" : {
         "title" : "Primary Id Type",
         "type" : "object",
-        "additionalProperties" : false,
         "description" : "Primary identification for the resources as assigned by the server",
         "required" : [ "content", "schemeId" ],
         "properties" : {
@@ -1295,7 +1294,6 @@
       "PrimaryId" : {
         "title" : "Primary Id",
         "type" : "object",
-        "additionalProperties" : false,
         "description" : "Primary identification for the resources as assigned by the server",
         "required" : [ "id" ],
         "properties" : {
@@ -1320,8 +1318,7 @@
             "type" : "string",
             "description" : "Scheme Id of the identifier."
           }
-        },
-        "additionalProperties" : false
+        }
       },
       "ThirdPartyIdsType" : {
         "title" : "Third Party Ids Type",
@@ -1345,8 +1342,7 @@
             "type" : "string",
             "description" : "Identifier of the scheme that contains the allowed codes.\r\nThe naming convention for the reference to a standard code list is: “nl.cl<nnn>” (e.g. “nl.cl232”).\r\nWhere \"nl\" stands for the 2 character country code, \"cl\" stands for code list and <nnn> stands for the 3 character Identifier of the specific code list within the scope of the specified country.\r\n"
           }
-        },
-        "additionalProperties" : false
+        }
       },
       "MeasureType" : {
         "title" : "Measure Type",
@@ -1365,8 +1361,7 @@
             } ],
             "description" : "The code that refers to the standard unit or dimension to express the value of this measurement. E.g. kg for kilogram.\r\nlistId: nl.agroconnect.codelists.cl020"
           }
-        },
-        "additionalProperties" : false
+        }
       },
       "CharacteristicType" : {
         "title" : "Characteristic Type",
@@ -1399,8 +1394,7 @@
               } ],
               "description" : "End date of the period this characteristic is or was valid."
             }
-          },
-          "additionalProperties" : false
+          }
         }, {
           "oneOf" : [ {
             "required" : [ "stringValue" ],
@@ -1409,8 +1403,7 @@
                 "description" : "String value of the charateristic",
                 "type" : "string"
               }
-            },
-            "additionalProperties" : false
+            }
           }, {
             "required" : [ "booleanValue" ],
             "properties" : {
@@ -1418,32 +1411,28 @@
                 "description" : "Boolean value (true/false) of the charateristic",
                 "type" : "boolean"
               }
-            },
-            "additionalProperties" : false
+            }
           }, {
             "required" : [ "dateValue" ],
             "properties" : {
               "dateValue" : {
                 "$ref" : "#/components/schemas/DateType"
               }
-            },
-            "additionalProperties" : false
+            }
           }, {
             "required" : [ "dateTimeValue" ],
             "properties" : {
               "dateTimeValue" : {
                 "$ref" : "#/components/schemas/DateTimeType"
               }
-            },
-            "additionalProperties" : false
+            }
           }, {
             "required" : [ "measureValue" ],
             "properties" : {
               "measureValue" : {
                 "$ref" : "#/components/schemas/MeasureType"
               }
-            },
-            "additionalProperties" : false
+            }
           } ]
         } ]
       },
@@ -1487,8 +1476,7 @@
             "type" : "string",
             "description" : "Postal box number"
           }
-        },
-        "additionalProperties" : false
+        }
       },
       "PostalAddressType" : {
         "title" : "Postal Address Type",
@@ -2510,7 +2498,8 @@
             } ],
             "description" : "Identification of the production location of the grower at which the product is delivered"
           }
-        }
+        },
+        "additionalProperties" : false
       },
       "ProductDetails" : {
         "title" : "Product details",
@@ -2625,7 +2614,8 @@
             "thirdPartyIds" : [ {
               "content" : "0125948",
               "schemeId" : "nl.kvk.codelists.kvknummer"
-            } ]
+            } ],
+            "name" : "Van Iperen"
           }
         }
       },
@@ -2668,7 +2658,8 @@
             "thirdPartyIds" : [ {
               "content" : "0125948",
               "schemeId" : "nl.kvk.codelists.kvknummer"
-            } ]
+            } ],
+            "name" : "Van Iperen"
           }
         }
       },
@@ -2749,7 +2740,8 @@
             "thirdPartyIds" : [ {
               "content" : "0125948",
               "schemeId" : "nl.kvk.codelists.kvknummer"
-            } ]
+            } ],
+            "name" : "Van Iperen"
           }
         }
       },
