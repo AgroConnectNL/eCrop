@@ -2193,7 +2193,7 @@
         },
         "example" : {
           "thirdPartyIds" : [ {
-            "content" : 27575,
+            "content" : "27575",
             "schemeId" : "com.my-mps.codelists.registratienummer"
           } ],
           "startDateTime" : "2025-03-12T15:51:00+01:00",
@@ -2224,7 +2224,7 @@
             },
             "inputAllocations" : [ {
               "thirdPartyIds" : [ {
-                "content" : "52521785'",
+                "content" : "52521785",
                 "schemeId" : "com.my-mps.codelists.registratienummer"
               } ],
               "name" : "Movento",
@@ -2616,7 +2616,7 @@
           },
           "location" : {
             "thirdPartyIds" : [ {
-              "content" : 1,
+              "content" : "1",
               "schemeId" : "com.iperen.cl030"
             } ],
             "name" : "De Tuinderij Honselersdijk"
@@ -2659,7 +2659,7 @@
           },
           "location" : {
             "thirdPartyIds" : [ {
-              "content" : 1,
+              "content" : "1",
               "schemeId" : "com.iperen.cl030"
             } ],
             "name" : "De Tuinderij Honselersdijk"
@@ -2740,7 +2740,7 @@
           },
           "location" : {
             "thirdPartyIds" : [ {
-              "content" : 1,
+              "content" : "1",
               "schemeId" : "com.iperen.cl030"
             } ],
             "name" : "De Tuinderij Honselersdijk"
@@ -2902,7 +2902,7 @@
           },
           "location" : {
             "thirdPartyIds" : [ {
-              "content" : 1,
+              "content" : "1",
               "schemeId" : "com.iperen.cl030"
             } ],
             "name" : "De Tuinderij Honselersdijk"
@@ -2977,7 +2977,7 @@
           },
           "location" : {
             "thirdPartyIds" : [ {
-              "content" : 1,
+              "content" : "1",
               "schemeId" : "com.iperen.cl030"
             } ],
             "name" : "De Tuinderij Honselersdijk"
@@ -3018,7 +3018,7 @@
           },
           "location" : {
             "thirdPartyIds" : [ {
-              "content" : 1,
+              "content" : "1",
               "schemeId" : "com.iperen.cl030"
             } ],
             "name" : "De Tuinderij Honselersdijk"
