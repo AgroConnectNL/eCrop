@@ -2225,7 +2225,7 @@
                 "schemeId" : "com.my-mps.codelists.registratienummer"
               } ],
               "name" : "Movento",
-              "type" : "PROTEC",
+              "atype" : "PROTEC",
               "quantity" : {
                 "content" : 1200,
                 "unitCode" : {
@@ -2332,7 +2332,7 @@
         "title" : "Allocation details",
         "type" : "object",
         "description" : "Details of the generic class (the parent) for input and output allocation.",
-        "required" : [ "thirdPartyIds", "type", "quantity", "product" ],
+        "required" : [ "thirdPartyIds", "atype", "quantity", "product" ],
         "properties" : {
           "thirdPartyIds" : {
             "description" : "List of alternative identifiers (\\\"AKA, also-know-as\\\") with which the allocation is identified by third parties.",
@@ -2344,7 +2344,7 @@
             "description" : "Short name for this allocation.",
             "type" : "string"
           },
-          "type" : {
+          "atype" : {
             "description" : "Indicator for the type of input or output that is used or delivered by this operation. For instance: \r\n- \"FERTIL\" = fertilizer\r\n- \"PROTEC\" = crop protection product\r\n- \"ENERG\" = energy, etc. \r\nFor this AgroConnect code list nl.cl271 is used.",
             "allOf" : [ {
               "$ref" : "#/components/schemas/CodeType"
