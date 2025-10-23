@@ -2569,7 +2569,7 @@
                 "content" : "N",
                 "listId" : "nl.agroconnect.codelists.cl650"
               },
-              "measuredValue" : {
+              "measureValue" : {
                 "content" : 10,
                 "unitCode" : {
                   "content" : "%",
@@ -2581,7 +2581,7 @@
                 "content" : "P2O5",
                 "listId" : "nl.agroconnect.codelists.cl650"
               },
-              "measuredValue" : {
+              "measureValue" : {
                 "content" : 12,
                 "unitCode" : {
                   "content" : "%",
@@ -2593,7 +2593,7 @@
                 "content" : "K2O",
                 "listId" : "nl.agroconnect.codelists.cl650"
               },
-              "measuredValue" : {
+              "measureValue" : {
                 "content" : 18,
                 "unitCode" : {
                   "content" : "%",
@@ -2695,7 +2695,7 @@
                 "content" : "N",
                 "listId" : "nl.agroconnect.codelists.cl650"
               },
-              "measuredValue" : {
+              "measureValue" : {
                 "content" : 10,
                 "unitCode" : {
                   "content" : "%",
@@ -2707,7 +2707,7 @@
                 "content" : "P2O5",
                 "listId" : "nl.agroconnect.codelists.cl650"
               },
-              "measuredValue" : {
+              "measureValue" : {
                 "content" : 12,
                 "unitCode" : {
                   "content" : "%",
@@ -2719,7 +2719,7 @@
                 "content" : "K2O",
                 "listId" : "nl.agroconnect.codelists.cl650"
               },
-              "measuredValue" : {
+              "measureValue" : {
                 "content" : 18,
                 "unitCode" : {
                   "content" : "%",
@@ -2821,7 +2821,7 @@
                 "content" : "N",
                 "listId" : "nl.agroconnect.codelists.cl650"
               },
-              "measuredValue" : {
+              "measureValue" : {
                 "content" : 10,
                 "unitCode" : {
                   "content" : "%",
@@ -2833,7 +2833,7 @@
                 "content" : "P2O5",
                 "listId" : "nl.agroconnect.codelists.cl650"
               },
-              "measuredValue" : {
+              "measureValue" : {
                 "content" : 12,
                 "unitCode" : {
                   "content" : "%",
@@ -2845,7 +2845,7 @@
                 "content" : "K2O",
                 "listId" : "nl.agroconnect.codelists.cl650"
               },
-              "measuredValue" : {
+              "measureValue" : {
                 "content" : 18,
                 "unitCode" : {
                   "content" : "%",
@@ -2933,7 +2933,7 @@
                 "content" : "N",
                 "listId" : "nl.agroconnect.codelists.cl650"
               },
-              "measuredValue" : {
+              "measureValue" : {
                 "content" : 10,
                 "unitCode" : {
                   "content" : "%",
@@ -2945,7 +2945,7 @@
                 "content" : "P2O5",
                 "listId" : "nl.agroconnect.codelists.cl650"
               },
-              "measuredValue" : {
+              "measureValue" : {
                 "content" : 12,
                 "unitCode" : {
                   "content" : "%",
@@ -2957,7 +2957,7 @@
                 "content" : "K2O",
                 "listId" : "nl.agroconnect.codelists.cl650"
               },
-              "measuredValue" : {
+              "measureValue" : {
                 "content" : 18,
                 "unitCode" : {
                   "content" : "%",
