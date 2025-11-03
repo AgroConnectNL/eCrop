@@ -1278,7 +1278,7 @@
         "type" : "string",
         "pattern" : "^[a-zA-Z]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+(\\.[a-zA-Z]([a-zA-Z0-9]{0,62})?)$",
         "description" : "Namespaced Identifier (NSID)",
-        "example" : "2025"
+        "example" : "nl.agroconnect.codelist.cl020"
       },
       "PrimaryIdContentType" : {
         "title" : "Primary Id Content Type",
