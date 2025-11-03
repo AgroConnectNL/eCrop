@@ -1284,12 +1284,12 @@
         "title" : "Primary Id Content Type",
         "type" : "string",
         "format" : "uuid",
-        "description" : "The type for the content-part of primary ids of resouces"
+        "description" : "The type for the content-part of primary ids of resources"
       },
       "PrimaryIdSchemeIdType" : {
         "title" : "PrimaryIdSchemeIdType",
         "type" : "string",
-        "description" : "The type for the schemeId part of primary ids of resouces"
+        "description" : "The type for the schemeId part of primary ids of resources"
       },
       "PrimaryIdType" : {
         "title" : "Primary Id Type",
