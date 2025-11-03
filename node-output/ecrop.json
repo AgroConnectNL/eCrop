@@ -1289,7 +1289,7 @@
       "PrimaryIdSchemeIdType" : {
         "title" : "PrimaryIdSchemeIdType",
         "type" : "string",
-        "description" : "The type for the schemaeId part of primary ids of resouces"
+        "description" : "The type for the schemeId part of primary ids of resouces"
       },
       "PrimaryIdType" : {
         "title" : "Primary Id Type",
