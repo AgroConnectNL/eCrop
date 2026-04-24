@@ -5,7 +5,7 @@
     "description" : "Agroconnect Virtual API server"
   } ],
   "info" : {
-    "description" : "## eCrop API based on **AgroConnect eCrop standard version 1.0.0** \r\n\r\nThis API concerns registration of crop related activities like application of crop protection products and fertilizers and energy and water consumption.\r\n\r\nThis API is based on the Agroconnect eCrop class model\r\n\r\n## Conformation\r\n- [API Design Rules version 2.1.0](https://gitdocumentatie.logius.nl/publicatie/api/adr/) of the NL API Strategie (Dutch API Strategy)\r\n- [IETF RFC 2119](https://www.rfc-editor.org/rfc/rfc2119) Key words for use in RFCs to Indicate Requirement Levels. S. Bradner. IETF. March 1997. Best Current Practice.\r\n- [IETF RFC 3986](https://www.rfc-editor.org/rfc/rfc3986) Uniform Resource Identifier (URI): Generic Syntax. T. Berners-Lee; R. Fielding; L. Masinter. IETF. January 2005. Internet Standard. \r\n- [IETF RFC 9110](https://www.rfc-editor.org/rfc/rfc9110) HTTP Semantics. R. Fielding; M. Nottingham; J. Reschke, IETF. June 2022. Standards Track. \r\n- [IETF RFC 8174](https://www.rfc-editor.org/rfc/rfc8174) Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words. B. Leiba. IETF. May 2017. Best Current Practice. \r\n- [IETF RFC 6902](https://www.rfc-editor.org/rfc/rfc6902): JavaScript Object Notation (JSON) Patch. P. Bryan; Nottingham, IETF. April 2013. Proposed Standard.\r\n- [IETF RFC 9457](https://www.rfc-editor.org/rfc/rfc9457): Problem Details for HTTP APIs M. Nottingham; E. Wilde; S. Dalal. IETF. July 2023. Proposed Standard.\r\n- [IETF Draft: Health Check Response Format for HTTP APIs](https://datatracker.ietf.org/doc/draft-inadarei-api-health-check/). I. Nadareishvili. IETF. April 19th 2022. (Unknown)\r\n- [IETF Draft: JSON Hypertext Application Language](https://www.ietf.org/archive/id/draft-kelly-json-hal-11.html). M. Kelly. IETF.  April 21th, 2024 Informational (Draft)\r\n- ISO-3166 country codes\r\n- ISO-8601 Date and time format\r\n- [IETF RFC 9557](https://www.rfc-editor.org/rfc/rfc9557): Date and Time on the Internet: Timestamps with Additional Information. U. Sharma;Igalia, S.L.; C. Bormann. IETF. July 2023. Proposed Standard.\r\n- [SemVer](https://semver.org) Semantic Versioning 2.0.0. T. Preston-Werner. June 2013.\r\n- [OpenAPI Specification](https://www.openapis.org/). Darrell Miller; Jason Harmon; Jeremy Whitlock; Marsh Gardiner; Mike Ralphson; Ron Ratovsky; Tony Tam; Uri Sarid. OpenAPI Initiative.\r\n\r\n\r\n## Design decisions\r\n- super/subtypes (UML generalisations): subtypes are allOf with $ref to supertype and subtype-object with subtype atributes\r\n- UML compositions: hierachy in URI (should be aggegrations in eCrop class model) or array in master-object\r\n- each **resource** which has operations defined on it, has a server side assiged identification named {**id**} (type idType (content+schemeId))\r\n- each **schema** has a a list of client side assiged identifications named **{thirdPartyIds}** (array type with content+schemeId attributes)\r\n\r\n## Default responses\r\nGET on collection resource (with or without query parameters)\r\n- 200: successful response returning list with 0 of more items. When no items are found an empty list is returned\r\n- 400: bad request (f.i. malformed query parameters)\r\n- 401: (token) authentication failed\r\n- 500: internal server error\r\n\r\nGET on singleton resource\r\n- 200: successful response one item\r\n- 400: bad request (f.i. malformed query parameters)\r\n- 401: (token) authentication failed\r\n- 404: resource indicated is not found (does not exist or client has no access to the resource)\r\n- 500: internal server error\r\n\r\nPOST\r\n- 202: resource accepted (asynchonously processed)\r\n- 400: bad request (f.i. malformed payload)\r\n- 401: (token) authentication failed\r\n- 403: forbidden (f.i. when posting sub resources to a resource on which the client is not allowed to\r\n- 500: internal server error\r\n\r\nPUT\r\n- 202: resource accepted (asynchonously processed)\r\n- 400: bad request (f.i. malformed payload)\r\n- 401: (token) authentication failed\r\n- 403: forbidden (f.i. when posting sub resources to a resource on which the client is not allowed to\r\n- 404: resource indicated is not found (does not exist or client has no access to the resource)\r\n- 500: internal server error\r\n\r\nDEL:\r\n- 204: no content: resource successfully deleted (could also be 202 when processing asynchonously)\r\n- 400: bad request (f.i. malformed payload)\r\n- 401: (token) authentication failed\r\n- 403: forbidden (f.i. when posting sub resources to a resource on which the client is not allowed to\r\n- 404: resource indicated is not found (does not exist or client has no access to the resource)\r\n- 500: internal server error\r\n\r\n## Release Notes V1.0.0\r\nReleased for implementation of inbound-deliveries\r\n\r\n## Release Notes V1.0.1\r\n- Changed reference to eCrop class model in the *externalDocs* section to version 1.0.0\r\n- Renamed schema *MeasurementType* to *MeasureType*\r\n- MeasureType Schema: Added unitCode to required section\r\n- Added reusable type-schemas *Year* and *Time*\r\n- Changed format of DateTime**Type type from *datetime* to *date-time* (OpenAPI 3.0 standard)\r\n- Changed titles of Type schemas to correct English (separate words)\r\n- Party Schema: typo: renamed property name *visitorsAdress* to *visitorsAddress*\r\n- Party Schema: typo: renamed property name *emailAdress* scheme to *emailAddress*\r\n- Grower Schema: fixed typo *visitorsAdress* and *emailAdress* in example\r\n- Supplier Schema: fixed typo *visitorsAdress* and *emailAdress* in example\r\n- ProductionLocationDetails Schema: fixed typos *visitorsAdress* and *emailAdress* in example\r\n- PlantSpecies Schema: typo: renamed property name *plantSpecies* to *species*\r\n- Tasks Schema: removed property *referenceId* (also in examples where applicable)\r\n- Operations Schema: removed property *referenceId* (also in examples where applicable)\r\n- Operations Schema: removed property *culturalPractice* (also in examples where applicable)\r\n- Operations Schema: added missing property *type* \r\n- Operations Schema: renamed property *operationTechnique* to *technique* (q: which codelist?)\r\n- AllocationDetails Schema: replaced *quantityAbsolute*  and *quantityRate* with *quantity* \r\n- AllocationDetails Schema: removed property *resourceId* (redundant with product-relation)\r\n- CharacteristicsType Schema: modified definition of *characteristicsType* (separate value properties per type)\r\n- Changed description of all *thirdPartyids* properties\r\n- Added *additionalProperties: false* to pdt and udt schematypes\r\n- Added reusable examples in the *components* section and checked them all with openapi-exmaples-validator\r\n\r\n## Release Notes V1.0.2\r\n- Added HalLinks and HalLink schemas.\r\n- Added NsidType schema.\r\n- Changed codeList schema to use NsidType for listId\r\n- Removed erroneous '//' from paths from operations post-growers-plot-tasks and put-growers-plot-tasks\r\n\r\n## Release Notes V1.0.3\r\n\r\n\r\nCopyright (c) AgroConnect 2025",
+    "description" : "## eCrop API based on **AgroConnect eCrop standard version 1.0.0\r\n\r\nThis API concerns registration of crop related activities like application of crop protection products and fertilizers and energy and water consumption.\r\n\r\nThis API is based on the Agroconnect eCrop class model\r\n\r\n## Conformation\r\nThis API definition follows the tules of the Agrconnect AGRI API Style Guide\r\n## Design decisions\r\n- super/subtypes (UML generalisations): subtypes are allOf with $ref to supertype and subtype-object with subtype atributes\r\n- UML compositions: hierachy in URI (should be aggegrations in eCrop class model) or array in master-object\r\n- each **resource** which has operations defined on it, has a server side assiged identification named {**id**} (type idType (content+schemeId))\r\n- each **schema** has a a list of client side assiged identifications named **{thirdPartyIds}** (array type with content+schemeId attributes)\r\n\r\n### Release Notes V1.0.0\r\nReleased for implementation of inbound-deliveries\r\n\r\n## Release Notes V1.0.1\r\n- Changed reference to eCrop class model in the *externalDocs* section to version 1.0.0\r\n- Renamed schema *MeasurementType* to *MeasureType*\r\n- MeasureType Schema: Added unitCode to required section\r\n- Added reusable type-schemas *Year* and *Time*\r\n- Changed format of DateTime**Type type from *datetime* to *date-time* (OpenAPI 3.0 standard)\r\n- Changed titles of Type schemas to correct English (separate words)\r\n- Party Schema: typo: renamed property name *visitorsAdress* to *visitorsAddress*\r\n- Party Schema: typo: renamed property name *emailAdress* scheme to *emailAddress*\r\n- Grower Schema: fixed typo *visitorsAdress* and *emailAdress* in example\r\n- Supplier Schema: fixed typo *visitorsAdress* and *emailAdress* in example\r\n- ProductionLocationDetails Schema: fixed typos *visitorsAdress* and *emailAdress* in example\r\n- PlantSpecies Schema: typo: renamed property name *plantSpecies* to *species*\r\n- Tasks Schema: removed property *referenceId* (also in examples where applicable)\r\n- Operations Schema: removed property *referenceId* (also in examples where applicable)\r\n- Operations Schema: removed property *culturalPractice* (also in examples where applicable)\r\n- Operations Schema: added missing property *type* \r\n- Operations Schema: renamed property *operationTechnique* to *technique* (q: which codelist?)\r\n- AllocationDetails Schema: replaced *quantityAbsolute*  and *quantityRate* with *quantity* \r\n- AllocationDetails Schema: removed property *resourceId* (redundant with product-relation)\r\n- CharacteristicsType Schema: modified definition of *characteristicsType* (separate value properties per type)\r\n- Changed description of all *thirdPartyids* properties\r\n- Added *additionalProperties: false* to pdt and udt schematypes\r\n- Added reusable examples in the *components* section and checked them all with openapi-exmaples-validator\r\n\r\n## Release Notes V1.0.2\r\n- Added HalLinks and HalLink schemas.\r\n- Added NsidType schema.\r\n- Changed codeList schema to use NsidType for listId\r\n- Removed erroneous '//' from paths from operations post-growers-plot-tasks and put-growers-plot-tasks\r\n\r\n## Release Notes V1.0.3\r\n- Changed description of *Date* and DateTime schemas (format, RFC compliancy)\r\n- Changed description of *dateOfDelivery* in *InboundDeliveryDetails* schema (format, RFC compliancy)\r\n- Changed content of unit-examples to Agroconnect cl020 codes\r\n- Changed *unitcode* into *unitCode* in schema *MeasureType*\r\n- Changed example of *inboundDeliveryId* parameter to be compliant with uuid format\r\n- Changed *measuredValue* into *measureValue* in examples\r\n- Added *codeValue* property to *CharacteristicsType*\r\n- Fixed typos in descriptions of tags\r\n- Removed conformance references infr info section and added reference to AGRI API Style Guide\r\n- Removed Standard responses from info section (now part of the AGRI API Style Guide)\r\n\r\nCopyright (c) AgroConnect 2026",
     "version" : "1.0.3",
     "title" : "AgroConnect eCrop API",
     "contact" : {
@@ -34,10 +34,10 @@
     "description" : "**Inbound Delivery Operations**\r\n\r\nThese operations can be used for registering products which have been delivered to a grower by a supplier. Suppliers can only register deliveries for growers they are granted for, which they can check with the GET operations in this section (optional). Alternatively growers can register their inboud-deliveries themselves"
   }, {
     "name" : "farm level registration",
-    "description" : "**Farm level registration Operations**\r\n\r\n Growers can use these operations to register non-crop related-) tasks and operations on **farm** level"
+    "description" : "**Farm level registration Operations**\r\n\r\n Growers can use these operations to register (non-crop related-) tasks and operations on **farm** level"
   }, {
     "name" : "plot level registration",
-    "description" : "**Plot level registration Operations**\r\n\r\n Growers can use these operations to register non-crop related-) tasks and operations on **plot** level"
+    "description" : "**Plot level registration Operations**\r\n\r\n Growers can use these operations to register (non-crop related-) tasks and operations on **plot** level"
   }, {
     "name" : "crop level registration",
     "description" : "**Crop level registration Operations**\r\n\r\n Growers can use these operations to register **crop related** tasks and operations"
@@ -347,7 +347,7 @@
         "$ref" : "#/components/parameters/supplierId"
       } ],
       "get" : {
-        "summary" : "Get all growers for a supplier",
+        "summary" : "Get all growers for a suppliers",
         "operationId" : "get-suppliers-growers",
         "description" : "Returns all growers for which a supplier is autorised",
         "tags" : [ "delivery" ],
@@ -1242,12 +1242,22 @@
   },
   "components" : {
     "schemas" : {
+      "PosInt32Type" : {
+        "type" : "number",
+        "format" : "int32",
+        "minimum" : 0
+      },
+      "PosInt64Type" : {
+        "type" : "number",
+        "format" : "int64",
+        "minimum" : 0
+      },
       "DateType" : {
         "title" : "Date Type",
         "type" : "string",
         "format" : "date",
         "pattern" : "^\\d{4}-\\d{2}-\\d{2}$",
-        "description" : "Date with ISO-8601 standard date format \"YYYY-MM-DD\"",
+        "description" : "Date with RFC 9557 (prev. RFC 3339)/ISO-8601 standard date format standard date format \"YYYY-MM-DD\"",
         "example" : "2025-03-12"
       },
       "DateTimeType" : {
@@ -1255,7 +1265,7 @@
         "type" : "string",
         "format" : "date-time",
         "pattern" : "^(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$",
-        "description" : "Datetime with ISO-8601 standard date format \"YYYY-MM-DDThh:mm:ss+/-hh:mm\"",
+        "description" : "Datetime with RFC 9557 (prev. RFC 3339)/ISO-8601 standard (local) datetime format \"YYYY-MM-DDThh:mm:ssZ\" or \"YYYY-MM-DDThh:mm:ss±hh:mm\"",
         "example" : "2025-03-12T15:31:21+01:00"
       },
       "TimeType" : {
@@ -1263,21 +1273,29 @@
         "type" : "string",
         "format" : "time",
         "pattern" : "^(\\d{2}):(\\d{2}):(\\d{2})(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$",
-        "description" : "Time with ISO-8601 standard date format \"hh:mm:ss+/-hh:mm\"",
+        "description" : "Time with RFC 9557 (prev. RFC 3339) full-time format \"hh:mm:ss+/-hh:mm\"",
+        "example" : "15:31:21+01:00"
+      },
+      "TimeLocalType" : {
+        "title" : "Time Type",
+        "type" : "string",
+        "format" : "time-local",
+        "pattern" : "^(\\d{2}):(\\d{2}):(\\d{2})$",
+        "description" : "Time with RFC 9557 (prev. RFC 3339) partial-time format \"hh:mm:ss\"",
         "example" : "15:31:21+01:00"
       },
       "YearType" : {
         "title" : "Year Type",
         "type" : "string",
         "pattern" : "^\\d{4}$",
-        "description" : "Year with ISO-8601 standard date format \"YYYY\"",
+        "description" : "Year with RFC 9557 (prev. RFC 3339)/ISO-8601 standard date format \"YYYY\"",
         "example" : "2025"
       },
       "NsidType" : {
-        "title" : "Namespaced Identifier (NSID) Type",
+        "title" : "Namespace Identifier (NSID) Type used in the AT Protocol for decentralized identities, structured using reverse domain name syntax",
         "type" : "string",
         "pattern" : "^[a-zA-Z]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+(\\.[a-zA-Z]([a-zA-Z0-9]{0,62})?)$",
-        "description" : "Namespaced Identifier (NSID)",
+        "description" : "Namespace Identifier (NSID)",
         "example" : "nl.agroconnect.codelist.cl020"
       },
       "PrimaryIdContentType" : {
@@ -1371,7 +1389,7 @@
             "format" : "float",
             "description" : "Expresses the measured value of the measurement."
           },
-          "unitcode" : {
+          "unitCode" : {
             "allOf" : [ {
               "$ref" : "#/components/schemas/CodeType"
             } ],
@@ -1396,7 +1414,7 @@
               "allOf" : [ {
                 "$ref" : "#/components/schemas/DateType"
               } ],
-              "description" : "The data the characteristic was captured."
+              "description" : "The date the characteristic was captured."
             },
             "startDate" : {
               "allOf" : [ {
@@ -1432,21 +1450,40 @@
             "required" : [ "dateValue" ],
             "properties" : {
               "dateValue" : {
-                "$ref" : "#/components/schemas/DateType"
+                "allOf" : [ {
+                  "$ref" : "#/components/schemas/DateType"
+                } ],
+                "description" : "Date value of the characteristic"
               }
             }
           }, {
             "required" : [ "dateTimeValue" ],
             "properties" : {
               "dateTimeValue" : {
-                "$ref" : "#/components/schemas/DateTimeType"
+                "allOf" : [ {
+                  "$ref" : "#/components/schemas/DateTimeType"
+                } ],
+                "description" : "Date value of the characteristic"
+              }
+            }
+          }, {
+            "required" : [ "codeValue" ],
+            "properties" : {
+              "codeValue" : {
+                "allOf" : [ {
+                  "$ref" : "#/components/schemas/CodeType"
+                } ],
+                "description" : "Code value and code listid of the characteristic"
               }
             }
           }, {
             "required" : [ "measureValue" ],
             "properties" : {
               "measureValue" : {
-                "$ref" : "#/components/schemas/MeasureType"
+                "allOf" : [ {
+                  "$ref" : "#/components/schemas/MeasureType"
+                } ],
+                "description" : "Numeric value and unit code/listid of the characteristic"
               }
             }
           } ]
@@ -2000,7 +2037,7 @@
           "netArea" : {
             "content" : 6000,
             "unitCode" : {
-              "content" : "m2",
+              "content" : "MTK",
               "listId" : "nl.agroconnect.codelist.cl020"
             }
           },
@@ -2029,7 +2066,7 @@
             "area" : {
               "content" : 2500,
               "unitCode" : {
-                "content" : "m2",
+                "content" : "MTK",
                 "listId" : "nl.agroconnectcodelists.cl020"
               }
             },
@@ -2048,7 +2085,7 @@
             "area" : {
               "content" : 3500,
               "unitCode" : {
-                "content" : "m2",
+                "content" : "MTK",
                 "listId" : "nl.agroconnectcodelists.cl020"
               }
             },
@@ -2144,7 +2181,7 @@
           "area" : {
             "content" : 6000,
             "unitCode" : {
-              "content" : "m2",
+              "content" : "MTK",
               "listId" : "nl.agroconnectcodelists.cl020"
             }
           },
@@ -2280,7 +2317,7 @@
             "area" : {
               "content" : 25000,
               "unitCode" : {
-                "content" : "m2",
+                "content" : "MTK",
                 "listId" : "nl.agroconnect.codelist.cl020"
               }
             },
@@ -2297,7 +2334,7 @@
               "quantity" : {
                 "content" : 1200,
                 "unitCode" : {
-                  "content" : "kg",
+                  "content" : "KGM",
                   "listId" : "nl.agroconnect.codelist.cl020"
                 }
               },
@@ -2317,7 +2354,7 @@
                 "area" : {
                   "content" : 23500,
                   "unitCode" : {
-                    "content" : "m2",
+                    "content" : "MTK",
                     "listId" : "nl.agroconnect.codelist.cl020"
                   }
                 }
@@ -2558,7 +2595,7 @@
             "allOf" : [ {
               "$ref" : "#/components/schemas/DateType"
             } ],
-            "description" : "Date at which the product is delivered at the location of the grower (ISO-8601 standard date format \"YYYY-MM-DD\")"
+            "description" : "Date at which the product is delivered at the location of the grower (\"YYYY-MM-DD\")"
           },
           "quantity" : {
             "allOf" : [ {
@@ -2628,7 +2665,7 @@
           "quantity" : {
             "content" : 1200,
             "unitCode" : {
-              "content" : "kg",
+              "content" : "KGM",
               "listId" : "nl.agroconnect.codelist.cl020"
             }
           },
@@ -2643,37 +2680,37 @@
             "name" : "Peters professional 10-12-18, Blossom Booster",
             "additionalProductProperties" : [ {
               "code" : {
-                "content" : "N",
-                "listId" : "nl.agroconnect.codelist.cl650"
+                "content" : "1",
+                "listId" : "nl.agroconnect.codelist.cl363"
               },
               "measureValue" : {
                 "content" : 10,
                 "unitCode" : {
-                  "content" : "%",
+                  "content" : "P1",
                   "listId" : "nl.agroconnect.codelist.cl020"
                 }
               }
             }, {
               "code" : {
-                "content" : "P2O5",
-                "listId" : "nl.agroconnect.codelist.cl650"
+                "content" : "14",
+                "listId" : "nl.agroconnect.codelist.cl363"
               },
               "measureValue" : {
                 "content" : 12,
                 "unitCode" : {
-                  "content" : "%",
+                  "content" : "P1",
                   "listId" : "nl.agroconnect.codelist.cl020"
                 }
               }
             }, {
               "code" : {
-                "content" : "K2O",
-                "listId" : "nl.agroconnect.codelist.cl650"
+                "content" : "19",
+                "listId" : "nl.agroconnect.codelist.cl363"
               },
               "measureValue" : {
                 "content" : 18,
                 "unitCode" : {
-                  "content" : "%",
+                  "content" : "P1",
                   "listId" : "nl.agroconnect.codelist.cl020"
                 }
               }
@@ -2769,37 +2806,37 @@
             "name" : "Peters professional 10-12-18, Blossom Booster",
             "additionalProductProperties" : [ {
               "code" : {
-                "content" : "N",
-                "listId" : "nl.agroconnect.codelist.cl650"
+                "content" : "1",
+                "listId" : "nl.agroconnect.codelist.cl363"
               },
               "measureValue" : {
                 "content" : 10,
                 "unitCode" : {
-                  "content" : "%",
+                  "content" : "P1",
                   "listId" : "nl.agroconnect.codelist.cl020"
                 }
               }
             }, {
               "code" : {
-                "content" : "P2O5",
-                "listId" : "nl.agroconnect.codelist.cl650"
+                "content" : "14",
+                "listId" : "nl.agroconnect.codelist.cl363"
               },
               "measureValue" : {
                 "content" : 12,
                 "unitCode" : {
-                  "content" : "%",
+                  "content" : "P1",
                   "listId" : "nl.agroconnect.codelist.cl020"
                 }
               }
             }, {
               "code" : {
-                "content" : "K2O",
-                "listId" : "nl.agroconnect.codelist.cl650"
+                "content" : "19",
+                "listId" : "nl.agroconnect.codelist.cl363"
               },
               "measureValue" : {
                 "content" : 18,
                 "unitCode" : {
-                  "content" : "%",
+                  "content" : "P1",
                   "listId" : "nl.agroconnect.codelist.cl020"
                 }
               }
@@ -2836,7 +2873,7 @@
           "quantity" : {
             "content" : 1,
             "unitCode" : {
-              "content" : "l",
+              "content" : "LTR",
               "listId" : "nl.agroconnect.codelist.cl020"
             }
           },
@@ -2880,7 +2917,7 @@
           "quantity" : {
             "content" : 1200,
             "unitCode" : {
-              "content" : "kg",
+              "content" : "KGM",
               "listId" : "nl.agroconnect.codelist.cl020"
             }
           },
@@ -2895,37 +2932,37 @@
             "name" : "Peters professional 10-12-18, Blossom Booster",
             "additionalProductProperties" : [ {
               "code" : {
-                "content" : "N",
-                "listId" : "nl.agroconnect.codelist.cl650"
+                "content" : "1",
+                "listId" : "nl.agroconnect.codelist.cl363"
               },
               "measureValue" : {
                 "content" : 10,
                 "unitCode" : {
-                  "content" : "%",
+                  "content" : "P1",
                   "listId" : "nl.agroconnect.codelist.cl020"
                 }
               }
             }, {
               "code" : {
-                "content" : "P2O5",
-                "listId" : "nl.agroconnect.codelist.cl650"
+                "content" : "14",
+                "listId" : "nl.agroconnect.codelist.cl363"
               },
               "measureValue" : {
                 "content" : 12,
                 "unitCode" : {
-                  "content" : "%",
+                  "content" : "P1",
                   "listId" : "nl.agroconnect.codelist.cl020"
                 }
               }
             }, {
               "code" : {
-                "content" : "K2O",
-                "listId" : "nl.agroconnect.codelist.cl650"
+                "content" : "19",
+                "listId" : "nl.agroconnect.codelist.cl363"
               },
               "measureValue" : {
                 "content" : 18,
                 "unitCode" : {
-                  "content" : "%",
+                  "content" : "P1",
                   "listId" : "nl.agroconnect.codelist.cl020"
                 }
               }
@@ -2951,7 +2988,7 @@
           "quantity" : {
             "content" : 1,
             "unitCode" : {
-              "content" : "l",
+              "content" : "LTR",
               "listId" : "nl.agroconnect.codelist.cl020"
             }
           },
@@ -2992,7 +3029,7 @@
           "quantity" : {
             "content" : 1200,
             "unitCode" : {
-              "content" : "kg",
+              "content" : "KGM",
               "listId" : "nl.agroconnect.codelist.cl020"
             }
           },
@@ -3007,37 +3044,37 @@
             "name" : "Peters professional 10-12-18, Blossom Booster",
             "additionalProductProperties" : [ {
               "code" : {
-                "content" : "N",
-                "listId" : "nl.agroconnect.codelist.cl650"
+                "content" : "1",
+                "listId" : "nl.agroconnect.codelist.cl363"
               },
               "measureValue" : {
                 "content" : 10,
                 "unitCode" : {
-                  "content" : "%",
+                  "content" : "P1",
                   "listId" : "nl.agroconnect.codelist.cl020"
                 }
               }
             }, {
               "code" : {
-                "content" : "P2O5",
-                "listId" : "nl.agroconnect.codelist.cl650"
+                "content" : "14",
+                "listId" : "nl.agroconnect.codelist.cl363"
               },
               "measureValue" : {
                 "content" : 12,
                 "unitCode" : {
-                  "content" : "%",
+                  "content" : "P1",
                   "listId" : "nl.agroconnect.codelist.cl020"
                 }
               }
             }, {
               "code" : {
-                "content" : "K2O",
-                "listId" : "nl.agroconnect.codelist.cl650"
+                "content" : "19",
+                "listId" : "nl.agroconnect.codelist.cl363"
               },
               "measureValue" : {
                 "content" : 18,
                 "unitCode" : {
-                  "content" : "%",
+                  "content" : "P1",
                   "listId" : "nl.agroconnect.codelist.cl020"
                 }
               }
@@ -3067,7 +3104,7 @@
           "quantity" : {
             "content" : 1,
             "unitCode" : {
-              "content" : "l",
+              "content" : "LTR",
               "listId" : "nl.agroconnect.codelist.cl020"
             }
           },
@@ -3160,7 +3197,7 @@
         }
       },
       "default_401" : {
-        "description" : "Not authorized (authenticated)",
+        "description" : "Not authorized (not authenticated)",
         "content" : {
           "application/problem+json" : {
             "schema" : {
@@ -3172,7 +3209,8 @@
                   "title" : "Unauthorized",
                   "detail" : "Your authentication validation failed"
                 }
-              } ]
+              } ],
+              "description" : "Not authorized (not authenticated)"
             }
           }
         },
@@ -3679,6 +3717,84 @@
           "application/json" : {
             "schema" : {
               "$ref" : "#/components/schemas/TaskDetails"
+            },
+            "examples" : {
+              "Example 1" : {
+                "value" : {
+                  "thirdPartyIds" : [ {
+                    "content" : "27575",
+                    "schemeId" : "com.my-mps.codelist.registratienummer"
+                  } ],
+                  "name" : "Spraying task",
+                  "startDateTime" : "2025-03-12T15:51:00+01:00",
+                  "endDateTime" : "2025-03-12T16:45:00+01:00",
+                  "status" : "PROPOSED",
+                  "operations" : [ {
+                    "thirdPartyIds" : [ {
+                      "content" : "27575-1",
+                      "schemeId" : "MPS"
+                    } ],
+                    "name" : "Spraying operation",
+                    "startDateTime" : "2025-03-12T15:51:00+01:00",
+                    "endDateTime" : "2025-03-12T16:45:00+01:00",
+                    "type" : {
+                      "content" : "SPRAYING",
+                      "listId" : "nl.agroconnect.codelist.cl127"
+                    },
+                    "technique" : {
+                      "content" : "SPRAYING",
+                      "listId" : "nl.agroconnect.codelist.cl302"
+                    },
+                    "status" : "PROPOSED",
+                    "area" : {
+                      "content" : 25000,
+                      "unitCode" : {
+                        "content" : "MTK",
+                        "listId" : "nl.agroconnect.codelist.cl020"
+                      }
+                    },
+                    "inputAllocations" : [ {
+                      "thirdPartyIds" : [ {
+                        "content" : "52521785",
+                        "schemeId" : "com.my-mps.codelist.registratienummer"
+                      } ],
+                      "name" : "Movento",
+                      "type" : {
+                        "content" : "PROTEC",
+                        "listId" : "nl.agroconnect.codelist.cl127"
+                      },
+                      "quantity" : {
+                        "content" : 1200,
+                        "unitCode" : {
+                          "content" : "KGM",
+                          "listId" : "nl.agroconnect.codelist.cl020"
+                        }
+                      },
+                      "reason" : "Bladluis",
+                      "product" : {
+                        "thirdPartyIds" : [ {
+                          "content" : "838439 N",
+                          "schemeId" : "nl.ctgb.codelist.toelatingsnummer"
+                        } ],
+                        "name" : "Movento 100 SC – 1L – spirotetramat"
+                      },
+                      "treatmentzone" : {
+                        "thirdPartyIds" : [ {
+                          "content" : "PAD-1-99",
+                          "schemeId" : "com.my-mps.codelist.padnummers"
+                        } ],
+                        "area" : {
+                          "content" : 23500,
+                          "unitCode" : {
+                            "content" : "MTK",
+                            "listId" : "nl.agroconnect.codelist.cl020"
+                          }
+                        }
+                      }
+                    } ]
+                  } ]
+                }
+              }
             }
           }
         }
@@ -3689,7 +3805,7 @@
         "name" : "Major-Version",
         "in" : "header",
         "required" : true,
-        "description" : "Major version of the API (like V1)",
+        "description" : "Major version of the API (like v1)",
         "schema" : {
           "type" : "string"
         },
@@ -3794,7 +3910,7 @@
         "schema" : {
           "$ref" : "#/components/schemas/PrimaryIdContentType"
         },
-        "example" : "6f6d3b8c-2e7a-4a1d-9b2c-0e1f2a3b4c5d"
+        "example" : "6f6db8c-2e7a-4a1d-9b2c-0e1f2a3b4c5d"
       },
       "productionLocationSchemeId" : {
         "name" : "productionLocationSchemeId",
