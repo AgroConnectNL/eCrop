@@ -3,7 +3,7 @@ servers:
   - url: 'https://standard-api.agroconnect.nl/ecrop/v1'
     description: Agroconnect Virtual API server
 info:
-  description: "## eCrop API based on **AgroConnect eCrop standard version 1.0.0**\r\n\r\nThis API concerns registration of crop related activities like application of crop protection products and fertilizers and energy and water consumption.\r\n\r\nThis API is based on the [AgroConnect eCrop class model]()\r\n\r\n## Conformation\r\nThis API definition follows the rules of the [AgroConnect AGRI API Style Guide](https://github.com/AgroConnectNL/API-Style-Guide/blob/main/API%20Style%20Guide%20Documentation/AGRI%20API%20Style%20Guide.md)\r\n\r\n## Design decisions\r\n- super/subtypes (UML generalisations): subtypes are allOf with $ref to supertype and subtype-object with subtype atributes\r\n- UML compositions: hierachy in URI (should be aggegrations in eCrop class model) or array in master-object\r\n- each **resource** which has operations defined on it, has a server side assiged identification named {**id**} (type idType (content+schemeId))\r\n- each **schema** has a a list of client side assiged identifications named **{thirdPartyIds}** (array type with content+schemeId attributes)\r\n\r\n## Release Notes V1.1.0\r\n- Added OGC API Features (Part 1: Core) and JSON-FG 1.0 support for plot geo-information: geometry schemas (Point/LineString/Polygon/MultiPolygon), PlotFeature/PlotFeatureCollection schemas with shared reusable properties, and the landing page/conformance/collections/items operations with profile (rfc7946/jsonfg), crs, bbox and datetime query parameters\r\n- Replaced *Hallink* and *Hallinks* schemas with RFC 8288 compliant *Link* and *Links* schemas\r\n- Fixed type *agroconnectcodelists* in examples (must be *agroconnect.codelist*)\r\n- Fixed typo *thirdPartydIds* in examples (must be *thirdPartyIds*)\r\n- Added tags *plots* and *crops* and added plots and crop operations to these sections \r\n- Changed description of *Date* and *DateTime* schemas (format, RFC compliancy)\r\n- Changed description of *dateOfDelivery* in *InboundDeliveryDetails* schema (format, RFC compliancy)\r\n- Changed content of unit-examples to Agroconnect cl020 codes\r\n- Changed *unitcode* into *unitCode* in schema *MeasureType*\r\n- Changed example of *inboundDeliveryId* parameter to be compliant with uuid format\r\n- Changed *measuredValue* into *measureValue* in examples\r\n- Added *codeValue* property to *CharacteristicsType*\r\n- Fixed typos in descriptions of tags\r\n- Removed conformance references info section and added reference to AGRI API Style Guide\r\n- Removed Standard responses from info section (now part of the AGRI API Style Guide)\r\n- Fixed typo in plot example (*conent* -> *content*)\r\n- Fixed *ProblemDetails* schema and example to include an *errors* array (field/message) for reporting multiple validation errors, per AASG rule H007\r\n- Fixed missing H004-required response codes (400/401/404) on several OGC and business operations\r\n- Aligned *country* and *thirdPartyIds* examples with their schemas (object instead of plain string, content/schemeId instead of id/type) across Grower, Supplier and ProductionLocation examples\r\n- Fixed required-but-nullable inconsistencies in address examples (removed invalid nulls, corrected streetNumber/postalBoxId to string type)\r\n- Filled in placeholder *listId* values in the CropDetails example with actual AgroConnect codelist NSIDs (cl412/cl255/cl251/cl015/cl299/cl300)\r\n- Added missing *id* to the nested *plots* in the CropDetails example, reusing the same identifiers as used in the GET /.../plots examples\r\n- Changed *regularOrOrganic*, *localSoilType* and *regulatorySoilType* in the *Plot* schema from plain string to *CodeType* (content+listId), consistent with the same properties in *Crop*; updated all affected examples accordingly\r\n- Renamed tag *geo* to *plot-geometry* for clarity\r\n- Made *streetName*, *streetNumber* and *countryName* optional in *AddressType* (only *postalCode*, *cityName* and *country* remain required); added new property *streetNumberExtension* (string)\r\n- Changed the *postalAddress* example in Grower to a PO box address (street properties omitted, *postalBoxId* populated), illustrating the now-optional street properties\r\n- Removed the schema-level *example* from *ProblemDetails* (it caused the same 400-style example to appear on every error response); added a status-specific *example* to *default_error* instead, so each reusable error response (400/401/403/404/500/default) now shows its own matching example\r\n- Replaced all occurrences of the en dash (U+2013, \u201c\u2013\u201d) in examples with a regular hyphen-minus (U+002D, \u201c-\u201d), per OpenAPI validator recommendation\r\n\r\n## Release Notes V1.0.2\r\n- Added HalLinks and HalLink schemas.\r\n- Added NsidType schema.\r\n- Changed codeList schema to use NsidType for listId\r\n- Removed erroneous '//' from paths from operations post-growers-plot-tasks and put-growers-plot-tasks\r\n\r\n## Release Notes V1.0.1\r\n- Changed reference to eCrop class model in the *externalDocs* section to version 1.0.0\r\n- Renamed schema *MeasurementType* to *MeasureType*\r\n- MeasureType Schema: Added unitCode to required section\r\n- Added reusable type-schemas *Year* and *Time*\r\n- Changed format of DateTime**Type type from *datetime* to *date-time* (OpenAPI 3.0 standard)\r\n- Changed titles of Type schemas to correct English (separate words)\r\n- Party Schema: typo: renamed property name *visitorsAdress* to *visitorsAddress*\r\n- Party Schema: typo: renamed property name *emailAdress* scheme to *emailAddress*\r\n- Grower Schema: fixed typo *visitorsAdress* and *emailAdress* in example\r\n- Supplier Schema: fixed typo *visitorsAdress* and *emailAdress* in example\r\n- ProductionLocationDetails Schema: fixed typos *visitorsAdress* and *emailAdress* in example\r\n- PlantSpecies Schema: typo: renamed property name *plantSpecies* to *species*\r\n- Tasks Schema: removed property *referenceId* (also in examples where applicable)\r\n- Operations Schema: removed property *referenceId* (also in examples where applicable)\r\n- Operations Schema: removed property *culturalPractice* (also in examples where applicable)\r\n- Operations Schema: added missing property *type* \r\n- Operations Schema: renamed property *operationTechnique* to *technique* (q: which codelist?)\r\n- AllocationDetails Schema: replaced *quantityAbsolute*  and *quantityRate* with *quantity* \r\n- AllocationDetails Schema: removed property *resourceId* (redundant with product-relation)\r\n- CharacteristicsType Schema: modified definition of *characteristicsType* (separate value properties per type)\r\n- Changed description of all *thirdPartyids* properties\r\n- Added *additionalProperties: false* to pdt and udt schematypes\r\n- Added reusable examples in the *components* section and checked them all with openapi-exmaples-validator\r\n\r\n### Release Notes V1.0.0\r\nReleased for implementation of inbound-deliveries\r\n\r\nCopyright (c) AgroConnect 2026"
+  description: "## eCrop API based on **AgroConnect eCrop standard version 1.0.0**\r\n\r\nThis API concerns registration of crop related activities like application of crop protection products and fertilizers and energy and water consumption.\r\n\r\nThis API is based on the [AgroConnect eCrop class model]()\r\n\r\n## Conformation\r\nThis API definition follows the rules of the [AgroConnect AGRI API Style Guide](https://github.com/AgroConnectNL/API-Style-Guide/blob/main/API%20Style%20Guide%20Documentation/AGRI%20API%20Style%20Guide.md)\r\n\r\n## Design decisions\r\n- super/subtypes (UML generalisations): subtypes are allOf with $ref to supertype and subtype-object with subtype atributes\r\n- UML compositions: hierachy in URI (should be aggegrations in eCrop class model) or array in master-object\r\n- each **resource** which has operations defined on it, has a server side assiged identification named {**id**} (type idType (content+schemeId))\r\n- each **schema** has a a list of client side assiged identifications named **{thirdPartyIds}** (array type with content+schemeId attributes)\r\n\r\n## Release Notes V1.1.0\r\n- Added OGC API Features (Part 1: Core) and JSON-FG 1.0 support for plot geo-information: geometry schemas (Point/LineString/Polygon/MultiPolygon), PlotFeature/PlotFeatureCollection schemas with shared reusable properties, and the landing page/conformance/collections/items operations with profile (rfc7946/jsonfg), crs, bbox and datetime query parameters\r\n- Replaced *Hallink* and *Hallinks* schemas with RFC 8288 compliant *Link* and *Links* schemas\r\n- Fixed type *agroconnectcodelists* in examples (must be *agroconnect.codelist*)\r\n- Fixed typo *thirdPartydIds* in examples (must be *thirdPartyIds*)\r\n- Added tags *plots* and *crops* and added plots and crop operations to these sections \r\n- Changed description of *Date* and *DateTime* schemas (format, RFC compliancy)\r\n- Changed description of *dateOfDelivery* in *InboundDeliveryDetails* schema (format, RFC compliancy)\r\n- Changed content of unit-examples to Agroconnect cl020 codes\r\n- Changed *unitcode* into *unitCode* in schema *MeasureType*\r\n- Changed example of *inboundDeliveryId* parameter to be compliant with uuid format\r\n- Changed *measuredValue* into *measureValue* in examples\r\n- Added *codeValue* property to *CharacteristicsType*\r\n- Fixed typos in descriptions of tags\r\n- Removed conformance references info section and added reference to AGRI API Style Guide\r\n- Removed Standard responses from info section (now part of the AGRI API Style Guide)\r\n- Fixed typo in plot example (*conent* -> *content*)\r\n- Fixed *ProblemDetails* schema and example to include an *errors* array (field/message) for reporting multiple validation errors, per AASG rule H007\r\n- Fixed missing H004-required response codes (400/401/404) on several OGC and business operations\r\n- Aligned *country* and *thirdPartyIds* examples with their schemas (object instead of plain string, content/schemeId instead of id/type) across Grower, Supplier and ProductionLocation examples\r\n- Fixed required-but-nullable inconsistencies in address examples (removed invalid nulls, corrected streetNumber/postalBoxId to string type)\r\n- Filled in placeholder *listId* values in the CropDetails example with actual AgroConnect codelist NSIDs (cl412/cl255/cl251/cl015/cl299/cl300)\r\n- Added missing *id* to the nested *plots* in the CropDetails example, reusing the same identifiers as used in the GET /.../plots examples\r\n- Changed *regularOrOrganic*, *localSoilType* and *regulatorySoilType* in the *Plot* schema from plain string to *CodeType* (content+listId), consistent with the same properties in *Crop*; updated all affected examples accordingly\r\n- Renamed tag *geo* to *plot-geometry* for clarity\r\n- Made *streetName*, *streetNumber* and *countryName* optional in *AddressType* (only *postalCode*, *cityName* and *country* remain required); added new property *streetNumberExtension* (string)\r\n- Changed the *postalAddress* example in Grower to a PO box address (street properties omitted, *postalBoxId* populated), illustrating the now-optional street properties\r\n- Removed the schema-level *example* from *ProblemDetails* (it caused the same 400-style example to appear on every error response); added a status-specific *example* to *default_error* instead, so each reusable error response (400/401/403/404/500/default) now shows its own matching example\r\n- Replaced all occurrences of the en dash (U+2013, \u201c\u2013\u201d) in examples with a regular hyphen-minus (U+002D, \u201c-\u201d), per OpenAPI validator recommendation\r\n- Added a dedicated *servers* override (*https://api.agroconnect.nl/plot-features*) to the *plot-geometry* operations, separating the OGC API Features/JSON-FG geo endpoints from the main eCrop business API server\r\n- Added new schemas *EquipmentDetail*, *EquipmentAssignment*, *Worker* and *WorkAssignment*, to register equipment and workers used in an operation\r\n- Extended *OperationDetails* schema with new optional properties *equipmentAssignments* (list of *EquipmentAssignment*) and *workerAssignments* (list of *WorkAssignment*); added missing descriptions to its *inputAllocations* and *outputAllocations* properties\r\n\r\n## Release Notes V1.0.2\r\n- Added HalLinks and HalLink schemas.\r\n- Added NsidType schema.\r\n- Changed codeList schema to use NsidType for listId\r\n- Removed erroneous '//' from paths from operations post-growers-plot-tasks and put-growers-plot-tasks\r\n\r\n## Release Notes V1.0.1\r\n- Changed reference to eCrop class model in the *externalDocs* section to version 1.0.0\r\n- Renamed schema *MeasurementType* to *MeasureType*\r\n- MeasureType Schema: Added unitCode to required section\r\n- Added reusable type-schemas *Year* and *Time*\r\n- Changed format of DateTime**Type type from *datetime* to *date-time* (OpenAPI 3.0 standard)\r\n- Changed titles of Type schemas to correct English (separate words)\r\n- Party Schema: typo: renamed property name *visitorsAdress* to *visitorsAddress*\r\n- Party Schema: typo: renamed property name *emailAdress* scheme to *emailAddress*\r\n- Grower Schema: fixed typo *visitorsAdress* and *emailAdress* in example\r\n- Supplier Schema: fixed typo *visitorsAdress* and *emailAdress* in example\r\n- ProductionLocationDetails Schema: fixed typos *visitorsAdress* and *emailAdress* in example\r\n- PlantSpecies Schema: typo: renamed property name *plantSpecies* to *species*\r\n- Tasks Schema: removed property *referenceId* (also in examples where applicable)\r\n- Operations Schema: removed property *referenceId* (also in examples where applicable)\r\n- Operations Schema: removed property *culturalPractice* (also in examples where applicable)\r\n- Operations Schema: added missing property *type* \r\n- Operations Schema: renamed property *operationTechnique* to *technique* (q: which codelist?)\r\n- AllocationDetails Schema: replaced *quantityAbsolute*  and *quantityRate* with *quantity* \r\n- AllocationDetails Schema: removed property *resourceId* (redundant with product-relation)\r\n- CharacteristicsType Schema: modified definition of *characteristicsType* (separate value properties per type)\r\n- Changed description of all *thirdPartyids* properties\r\n- Added *additionalProperties: false* to pdt and udt schematypes\r\n- Added reusable examples in the *components* section and checked them all with openapi-exmaples-validator\r\n\r\n### Release Notes V1.0.0\r\nReleased for implementation of inbound-deliveries\r\n\r\nCopyright (c) AgroConnect 2026"
   version: 1.1.0
   title: AgroConnect eCrop API
   contact:
@@ -882,6 +882,9 @@ paths:
   # OGC API Features / JSON-FG paths (Plot geo-information)                #
   ##########################################################################
   /:
+    servers:
+      - url: https://standard-api.agroconnect.nl/plot-features/v1
+        description: eCrop Geo API (OGC API Features)
     parameters:
       - $ref: '#/components/parameters/Major-Version'
       - $ref: '#/components/parameters/User-Agent'
@@ -903,6 +906,9 @@ paths:
         default:
           $ref: '#/components/responses/default_error'
   /conformance:
+    servers:
+      - url: https://standard-api.agroconnect.nl/plot-features/v1
+        description: eCrop Geo API (OGC API Features)
     parameters:
       - $ref: '#/components/parameters/Major-Version'
       - $ref: '#/components/parameters/User-Agent'
@@ -924,6 +930,9 @@ paths:
         default:
           $ref: '#/components/responses/default_error'
   /collections:
+    servers:
+      - url: https://standard-api.agroconnect.nl/plot-features/v1
+        description: eCrop Geo API (OGC API Features)
     parameters:
       - $ref: '#/components/parameters/Major-Version'
       - $ref: '#/components/parameters/User-Agent'
@@ -945,6 +954,9 @@ paths:
         default:
           $ref: '#/components/responses/default_error'
   /collections/plots:
+    servers:
+      - url: https://standard-api.agroconnect.nl/plot-features/v1
+        description: eCrop Geo API (OGC API Features)
     parameters:
       - $ref: '#/components/parameters/Major-Version'
       - $ref: '#/components/parameters/User-Agent'
@@ -968,6 +980,9 @@ paths:
         default:
           $ref: '#/components/responses/default_error'
   /collections/plots/items:
+    servers:
+      - url: https://standard-api.agroconnect.nl/plot-features/v1
+        description: eCrop Geo API (OGC API Features)
     parameters:
       - $ref: '#/components/parameters/Major-Version'
       - $ref: '#/components/parameters/User-Agent'
@@ -999,6 +1014,9 @@ paths:
         default:
           $ref: '#/components/responses/default_error'
   '/collections/plots/items/{featureId}':
+    servers:
+      - url: https://standard-api.agroconnect.nl/plot-features/v1
+        description: eCrop Geo API (OGC API Features)
     parameters:
       - $ref: '#/components/parameters/Major-Version'
       - $ref: '#/components/parameters/User-Agent'
@@ -1625,16 +1643,16 @@ components:
         description: 'OGC API Features / JSON-FG publication of plot geo-information (boundary, entryPoint, abLine).'
         links:
           - rel: self
-            href: 'https://standard-api.agroconnect.nl/ecrop/v1/'
+            href: 'https://standard-api.agroconnect.nl/plot-features/v1/'
             type: application/json
           - rel: service-desc
-            href: 'https://standard-api.agroconnect.nl/ecrop/v1/api'
+            href: 'https://standard-api.agroconnect.nl/plot-features/v1/api'
             type: application/vnd.oai.openapi+json;version=3.0
           - rel: conformance
-            href: 'https://standard-api.agroconnect.nl/ecrop/v1/conformance'
+            href: 'https://standard-api.agroconnect.nl/plot-features/v1/conformance'
             type: application/json
           - rel: data
-            href: 'https://standard-api.agroconnect.nl/ecrop/v1/collections'
+            href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections'
             type: application/json
     ConformanceDeclaration:
       type: object
@@ -2506,7 +2524,7 @@ components:
           allOf:
             - $ref: '#/components/schemas/CodeType'
         technique:
-          description: 'Examples for Crop Production: The CulturalPractise \"weed control\"can be realized by one of various OperationTechniques like spraying, row cultivation, manual hoeing, etc. \r\nCode list Id for arable farming: nl.cl127 (or nl.cl293)'
+          description: 'Examples for Crop Production: The CulturalPractise \"weed control\" can be realized by one of various OperationTechniques like spraying, row cultivation, manual hoeing, etc. \r\nCode list Id for arable farming: nl.cl127 (or nl.cl293)'
           allOf:
             - $ref: '#/components/schemas/CodeType'
         status:
@@ -2522,12 +2540,24 @@ components:
             - $ref: '#/components/schemas/MeasureType'
         inputAllocations:
           type: array
+          description: The option to attach one or more inputs used to execute this operation, such as crop protection products, fertilizer, water, energy, or labor.
           items:
             $ref: '#/components/schemas/InputAllocationDetails'
         outputAllocations:
           type: array
+          description: The option to attach one or more outputs resulting from the execution of this operation, such as harvested produce or energy.
           items:
             $ref: '#/components/schemas/OutputAllocationDetails'
+        equipmentAssignments:
+          type: array
+          description: The option to attach one or more pieces of equipment used to execute this operation.
+          items:
+            $ref: '#/components/schemas/EquipmentAssignment'
+        workerAssignments:
+          type: array
+          description: The option to attach one or more workers assigned to execute this operation.
+          items:
+            $ref: '#/components/schemas/WorkAssignment'
     AllocationDetails:
       title: Allocation details
       type: object
@@ -2721,6 +2751,155 @@ components:
           - content: 13404 N
             schemeId: nl.ctgb.codelist.toelatingsnummer
         name: Movento 100 SC - 1L - spirotetramat
+    EquipmentDetail:
+      title: Equipment detail
+      type: object
+      description: 'Details of equipment used to support farming activities, such as tractors, implements, sensor systems, installations, or hand tools.'
+      required:
+        - thirdPartyIds
+        - type
+      properties:
+        thirdPartyIds:
+          allOf:
+            - $ref: '#/components/schemas/ThirdPartyIdsType'
+          description: 'List of alternative identifiers (\"AKA, also-know-as\") with which the equipment is identified by third parties, e.g. GS1 GTIN, CGTB authorisation number, article code'''
+        name:
+          type: string
+          description: Name of the equipment
+        type:
+          type: string
+          description: Type of equipment
+          enum:
+            - Tractor
+            - Implement
+            - Sensorsystem
+            - Installation
+            - Handtool
+      example:
+        thirdPartyIds:
+          - content: '8922'
+            schemeId: com.iperen.codelist.artikelnummer
+        name: John Deere 6120M
+        type: Tractor
+    EquipmentAssignment:
+      title: Equipment assignment
+      type: object
+      description: Identifies a piece of equipment that is used in a certain operation, and the period and usage figures of that use.
+      required:
+        - equipment
+        - startDateTime
+        - endDateTime
+      properties:
+        equipment:
+          description: The equipment assigned to and used in the operation.
+          allOf:
+            - $ref: '#/components/schemas/EquipmentDetail'
+        startDateTime:
+          description: The date/timestamp the equipment started being used in the operation.
+          allOf:
+            - $ref: '#/components/schemas/DateTimeType'
+        endDateTime:
+          description: The date/timestamp the equipment stopped being used in the operation.
+          allOf:
+            - $ref: '#/components/schemas/DateTimeType'
+        time:
+          description: The total time the equipment was in use during the operation (e.g. working hours or engine hours).
+          allOf:
+            - $ref: '#/components/schemas/MeasureType'
+        coveredDistance:
+          description: The total distance covered by the equipment during the operation.
+          allOf:
+            - $ref: '#/components/schemas/MeasureType'
+      example:
+        equipment:
+          thirdPartyIds:
+            - content: '1234'
+              schemeId: com.my-mps.codelist.registratienummer
+          name: John Deere 6120M
+          type: Tractor
+        startDateTime: '2025-03-12T15:51:00+01:00'
+        endDateTime: '2025-03-12T16:45:00+01:00'
+        time:
+          content: 0.9
+          unitCode:
+            content: HUR
+            listId: nl.agroconnect.codelist.cl020
+        coveredDistance:
+          content: 3.2
+          unitCode:
+            content: KMT
+            listId: nl.agroconnect.codelist.cl020
+    Worker:
+      title: Worker
+      type: object
+      description: A person that performs (part of) an operation, e.g. a farm employee or contractor.
+      required:
+        - id
+        - name
+      properties:
+        id:
+          allOf:
+            - $ref: '#/components/schemas/IdType'
+          description: Identifier of the worker.
+        name:
+          type: string
+          description: Name of the worker.
+        phoneNumber:
+          type: string
+          description: Phone number of the worker.
+        email:
+          type: string
+          description: E-mail address of the worker.
+        jobTitle:
+          type: string
+          description: Job title of the worker.
+      example:
+        id:
+          content: '4821'
+          schemeId: com.my-mps.codelist.medewerkernummer
+        name: Jan Jansen
+        phoneNumber: +31(0)6 12345678
+        email: jan.jansen@example.com
+        jobTitle: Machine operator
+    WorkAssignment:
+      title: Work assignment
+      type: object
+      description: Identifies a worker that is assigned to a certain operation, and the period and execution time of that assignment.
+      required:
+        - worker
+        - startDateTime
+        - endDateTime
+      properties:
+        worker:
+          description: The worker assigned to the operation.
+          allOf:
+            - $ref: '#/components/schemas/Worker'
+        startDateTime:
+          description: The date/timestamp the worker started working on the operation.
+          allOf:
+            - $ref: '#/components/schemas/DateTimeType'
+        endDateTime:
+          description: The date/timestamp the worker stopped working on the operation.
+          allOf:
+            - $ref: '#/components/schemas/DateTimeType'
+        executionTime:
+          description: The total time the worker spent executing the operation.
+          allOf:
+            - $ref: '#/components/schemas/MeasureType'
+      example:
+        worker:
+          id:
+            content: '4821'
+            schemeId: com.my-mps.codelist.medewerkernummer
+          name: Jan Jansen
+          jobTitle: Machine operator
+        startDateTime: '2025-03-12T15:51:00+01:00'
+        endDateTime: '2025-03-12T16:45:00+01:00'
+        executionTime:
+          content: 0.9
+          unitCode:
+            content: HUR
+            listId: nl.agroconnect.codelist.cl020
   ##########################################################################
   # Reusable examples                                                      #
   ##########################################################################
@@ -3346,7 +3525,7 @@ components:
               listId: nl.agroconnect.codelist.cl405
             links:
               - rel: 'https://ecrop.agroconnect.nl/rel/plot-features'
-                href: 'https://standard-api.agroconnect.nl/ecrop/v1/collections/plots/items/384912567'
+                href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items/384912567'
                 type: application/geo+json
                 title: 'Geo-information (boundary, entryPoint, abLine) as OGC feature'
       headers:
@@ -3393,7 +3572,7 @@ components:
                 listId: nl.agroconnect.codelist.cl405
               links:
                 - rel: 'https://ecrop.agroconnect.nl/rel/plot-features'
-                  href: 'https://standard-api.agroconnect.nl/ecrop/v1/collections/plots/items/384912567'
+                  href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items/384912567'
                   type: application/geo+json
                   title: 'Geo-information (boundary, entryPoint, abLine) as OGC feature'
       headers:
@@ -3532,14 +3711,14 @@ components:
                     crs: 'http://www.opengis.net/def/crs/OGC/1.3/CRS84'
                 links:
                   - rel: self
-                    href: 'https://standard-api.agroconnect.nl/ecrop/v1/collections/plots'
+                    href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots'
                     type: application/json
                   - rel: items
-                    href: 'https://standard-api.agroconnect.nl/ecrop/v1/collections/plots/items'
+                    href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items'
                     type: application/geo+json
             links:
               - rel: self
-                href: 'https://standard-api.agroconnect.nl/ecrop/v1/collections'
+                href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections'
                 type: application/json
       headers:
         API-Version:
@@ -3573,10 +3752,10 @@ components:
                 crs: 'http://www.opengis.net/def/crs/OGC/1.3/CRS84'
             links:
               - rel: self
-                href: 'https://standard-api.agroconnect.nl/ecrop/v1/collections/plots'
+                href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots'
                 type: application/json
               - rel: items
-                href: 'https://standard-api.agroconnect.nl/ecrop/v1/collections/plots/items'
+                href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items'
                 type: application/geo+json
       headers:
         API-Version:
@@ -3675,10 +3854,10 @@ components:
                         type: application/json
                 links:
                   - rel: self
-                    href: 'https://standard-api.agroconnect.nl/ecrop/v1/collections/plots/items?profile=jsonfg'
+                    href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items?profile=jsonfg'
                     type: application/geo+json
                   - rel: collection
-                    href: 'https://standard-api.agroconnect.nl/ecrop/v1/collections/plots'
+                    href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots'
                     type: application/json
             rfc7946:
               summary: profile=rfc7946 (default)
@@ -3747,7 +3926,7 @@ components:
                         type: application/json
                 links:
                   - rel: self
-                    href: 'https://standard-api.agroconnect.nl/ecrop/v1/collections/plots/items'
+                    href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items'
                     type: application/geo+json
       headers:
         API-Version:
@@ -3819,10 +3998,10 @@ components:
                         - 441900
                 links:
                   - rel: self
-                    href: 'https://standard-api.agroconnect.nl/ecrop/v1/collections/plots/items/384912567?profile=jsonfg'
+                    href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items/384912567?profile=jsonfg'
                     type: application/geo+json
                   - rel: collection
-                    href: 'https://standard-api.agroconnect.nl/ecrop/v1/collections/plots'
+                    href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots'
                     type: application/json
                   - rel: 'https://ecrop.agroconnect.nl/rel/plot'
                     href: 'https://standard-api.agroconnect.nl/ecrop/v1/plots/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b'
@@ -3870,7 +4049,7 @@ components:
                         - 51.9655
                 links:
                   - rel: self
-                    href: 'https://standard-api.agroconnect.nl/ecrop/v1/collections/plots/items/384912567'
+                    href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items/384912567'
                     type: application/geo+json
                   - rel: 'https://ecrop.agroconnect.nl/rel/plot'
                     href: 'https://standard-api.agroconnect.nl/ecrop/v1/plots/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b'
