@@ -1,0 +1,15 @@
+openapi: 3.0.3
+info:
+  title: eCrop
+  description: eCrop standard for exchanging crop-related data.
+  version: 0.1.0
+servers:
+  - url: https://api.example.com/v1
+    description: Placeholder server — update once a reference implementation exists.
+tags: []
+paths: {}
+components:
+  schemas: {}
+  parameters: {}
+  responses: {}
+  examples: {}
