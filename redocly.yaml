@@ -1,0 +1,11 @@
+extends:
+  - recommended
+
+rules:
+  # Security is intentionally out of scope of this spec (handled outside
+  # the document, per the AgroConnect AGRI API Style Guide) — every
+  # operation lacking `security` is expected, not a defect.
+  security-defined: off
+  # `allOf: [$ref] + nullable: true` without a sibling `type` is valid
+  # OAS 3.0 and used deliberately throughout this spec.
+  nullable-type-sibling: off
