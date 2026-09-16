@@ -2408,7 +2408,7 @@ components:
           listId: nl.agroconnect.codelist.cl300
         trackTillage: false
         plantSpecies:
-          - species: '1010101'
+          - plantSpecies: '1010101'
             variety: '01201'
         #   precentageMix: 0
         plots:
@@ -2467,7 +2467,7 @@ components:
         Crop type at the level of potato, sugar beet, onion, winter wheat, etc.
         For mixed crops more then one type of crop can be grown in the same period at the same plot.
       required:
-        - species
+        - plantSpecies
         - variety
       properties:
         species:
@@ -3619,7 +3619,8 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Supplier'
+            allOf:
+              - $ref: '#/components/schemas/Supplier'
       headers:
         API-Version:
           $ref: '#/components/headers/API-Version'
@@ -3634,7 +3635,8 @@ components:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/Supplier'
+              allOf:
+                - $ref: '#/components/schemas/Supplier'
       headers:
         API-Version:
           $ref: '#/components/headers/API-Version'
@@ -3647,7 +3649,8 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Contractor'
+            allOf:
+              - $ref: '#/components/schemas/Contractor'
       headers:
         API-Version:
           $ref: '#/components/headers/API-Version'
@@ -3662,7 +3665,8 @@ components:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/Contractor'
+              allOf:
+                - $ref: '#/components/schemas/Contractor'
       headers:
         API-Version:
           $ref: '#/components/headers/API-Version'
@@ -3675,7 +3679,8 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/InboundDeliveryByGrower'
+            allOf:
+              - $ref: '#/components/schemas/InboundDeliveryByGrower'
           examples:
             fertilizer:
               $ref: '#/components/examples/inboundDeliveryFertilizerByGrower_202'
@@ -3693,7 +3698,8 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/InboundDeliveryBySupplier'
+            allOf:
+              - $ref: '#/components/schemas/InboundDeliveryBySupplier'
           examples:
             fertilizer:
               $ref: '#/components/examples/inboundDeliveryFertilizerBySupplier_202'
@@ -3803,7 +3809,8 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Plot'
+            allOf:
+              - $ref: '#/components/schemas/Plot'
       headers:
         API-Version:
           $ref: '#/components/headers/API-Version'
@@ -3818,7 +3825,8 @@ components:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/ProductionLocation'
+              allOf:
+                - $ref: '#/components/schemas/ProductionLocation'
       headers:
         API-Version:
           $ref: '#/components/headers/API-Version'
@@ -3833,7 +3841,8 @@ components:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/Crop'
+              allOf:
+                - $ref: '#/components/schemas/Crop'
       headers:
         API-Version:
           $ref: '#/components/headers/API-Version'
@@ -3846,7 +3855,8 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Crop'
+            allOf:
+              - $ref: '#/components/schemas/Crop'
       headers:
         API-Version:
           $ref: '#/components/headers/API-Version'
@@ -3859,7 +3869,8 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Task'
+            allOf:
+              - $ref: '#/components/schemas/Task'
       headers:
         API-Version:
           $ref: '#/components/headers/API-Version'
@@ -4580,7 +4591,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/PrimaryIdContentType'
-      example: 6f6db8ac-2e7a-4a1d-9b2c-0e1f2a3b4c5d
+      example: 6f6db8c-2e7a-4a1d-9b2c-0e1f2a3b4c5d
     productionLocationSchemeId:
       name: productionLocationSchemeId
       in: path
