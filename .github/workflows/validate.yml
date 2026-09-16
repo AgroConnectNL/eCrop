@@ -5,9 +5,14 @@ on:
     branches: [main]
     paths:
       - "openapi/**"
+      - "redocly.yaml"
+      - ".github/workflows/validate.yml"
   pull_request:
     paths:
       - "openapi/**"
+      - "redocly.yaml"
+      - ".github/workflows/validate.yml"
+  workflow_dispatch:
 
 jobs:
   lint:
