@@ -9,3 +9,11 @@ rules:
   # `allOf: [$ref] + nullable: true` without a sibling `type` is valid
   # OAS 3.0 and used deliberately throughout this spec.
   nullable-type-sibling: off
+
+  # Elevated from warn to error: these were silently reintroduced by an
+  # external sync (SwaggerHub) overwriting the spec, without failing CI
+  # since they were only warnings. Failing the build makes that loud.
+  no-illogical-composition-keywords: error
+  no-required-schema-properties-undefined: error
+  no-invalid-schema-examples: error
+  no-invalid-parameter-examples: error
