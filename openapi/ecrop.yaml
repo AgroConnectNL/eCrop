@@ -3794,6 +3794,35 @@ components:
                   href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items/384912567'
                   type: application/geo+json
                   title: 'Geo-information (boundary, entryPoint, abLine) as OGC feature'
+            - id:
+                content: b3c4d5e6-7f8a-9b0c-1d2e-3f4a5b6c7d8e
+                schemeId: com.my-mps.codelist.guid
+              thirdPartyIds:
+                - content: A342_1_7
+                  schemeId: com.my-mps.codelist.kasnummer
+              name: 'Tuin1, perceel7'
+              startDate: '2024-02-01'
+              endDate: '2024-11-30'
+              type: CROPFIELD
+              area:
+                content: 4200
+                unitCode:
+                  content: MTK
+                  listId: nl.agroconnect.codelist.cl020
+              regularOrOrganic:
+                content: REGULAR
+                listId: nl.agroconnect.codelist.cl015
+              localSoilType:
+                content: CLAY
+                listId: nl.agroconnect.codelist.cl405
+              regulatorySoilType:
+                content: CLAY
+                listId: nl.agroconnect.codelist.cl405
+              links:
+                - rel: 'https://ecrop.agroconnect.nl/rel/plot-features'
+                  href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items/271846930'
+                  type: application/geo+json
+                  title: 'Geo-information (boundary, entryPoint, abLine) as OGC feature'
       headers:
         API-Version:
           $ref: '#/components/headers/API-Version'
