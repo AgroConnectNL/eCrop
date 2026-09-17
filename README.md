@@ -48,7 +48,7 @@ In addition to these functional operations, the API provides generic, consistent
 
 eCrop is deliberately not a final destination: the standard is being actively developed further. Geographic information on plots (boundary, entry point, AB line), based on the OGC JSON-FG standard, has already been added to the draft version 1.1.0 of the eCrop OpenAPI spec, exposed via the `plot-geometry` category above, with possible additional support for the OGC API standard to follow. The roadmap also includes, among other things:
 
-- **Footprint and sustainability data**: extending eCrop to exchange Footprint data (FeFCR) and Footprint scores, as a basis for a broader set of sustainability calculations to be added in later versions.
+- **Footprint and sustainability data**: extending eCrop to exchange Footprint data (PEFCR) and Footprint scores, as a basis for a broader set of sustainability calculations to be added in later versions.
 - **Exchange of crop-related data** between growers' farm management systems and contractors' management systems.
 
 ### Acknowledgements
