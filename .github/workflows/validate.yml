@@ -6,11 +6,13 @@ on:
     paths:
       - "openapi/**"
       - "redocly.yaml"
+      - "nlgov-adr-ruleset.yaml"
       - ".github/workflows/validate.yml"
   pull_request:
     paths:
       - "openapi/**"
       - "redocly.yaml"
+      - "nlgov-adr-ruleset.yaml"
       - ".github/workflows/validate.yml"
   workflow_dispatch:
 
@@ -24,3 +26,13 @@ jobs:
           node-version: "20"
       - name: Lint with Redocly CLI
         run: npx --yes @redocly/cli lint openapi/ecrop.yaml
+
+  lint-nlgov-adr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Lint with the NLGov API Design Rules (Spectral) ruleset
+        run: npx --yes @stoplight/spectral-cli lint -r nlgov-adr-ruleset.yaml openapi/ecrop.yaml

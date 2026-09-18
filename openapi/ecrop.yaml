@@ -69,6 +69,23 @@ paths:
           $ref: '#/components/responses/health_503'
         default:
           $ref: '#/components/responses/default_error'
+  /openapi.json:
+    get:
+      summary: Retrieve this OpenAPI Specification document
+      operationId: get-openapi-json
+      description: |-
+        Returns this OpenAPI Specification document (this file, in JSON form), per the NLGov API Design Rules `/core/publish-openapi` requirement. Intended for automated discovery and API catalog tooling, so unlike other operations in this API it does not require the `Major-Version`/`User-Agent` headers, and CORS is enabled so it can be fetched directly from a browser.
+      tags:
+        - general
+      responses:
+        '200':
+          $ref: '#/components/responses/openApiJson_200'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
   /growers:
     parameters:
       - $ref: '#/components/parameters/Major-Version'
@@ -3583,6 +3600,22 @@ components:
           $ref: '#/components/headers/Request-Id'
         Request-Date-Time:
           $ref: '#/components/headers/Request-Date-Time'
+    openApiJson_200:
+      description: This OpenAPI Specification document, as a JSON object.
+      content:
+        application/json:
+          schema:
+            type: object
+            description: This OpenAPI Specification document (this file), converted to JSON.
+      headers:
+        access-control-allow-origin:
+          $ref: '#/components/headers/Access-Control-Allow-Origin'
+        API-Version:
+          $ref: '#/components/headers/API-Version'
+        Request-Id:
+          $ref: '#/components/headers/Request-Id'
+        Request-Date-Time:
+          $ref: '#/components/headers/Request-Date-Time'
     grower_200:
       description: Single grower
       content:
@@ -4739,6 +4772,11 @@ components:
         type: string
       description: 'URI, in angle brackets, of the CRS used for the geometry in the response body, per OGC API - Features - Part 2: CRS by Reference.'
       example: '<http://www.opengis.net/def/crs/EPSG/0/28992>'
+    Access-Control-Allow-Origin:
+      schema:
+        type: string
+        example: '*'
+      description: 'Allows this response to be fetched cross-origin from any origin, per the NLGov API Design Rules `/core/publish-openapi` requirement.'
     Link:
       schema:
         type: string

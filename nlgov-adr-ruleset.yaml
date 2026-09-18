@@ -1,0 +1,217 @@
+# Vendored copy of the NLGov API Design Rules (ADR) Spectral ruleset, published by
+# Logius-standaarden. The eCrop API follows the AgroConnect AGRI API Style Guide
+# (AASG), which in turn conforms to the NLGov ADR, so this ruleset is run in CI
+# (see .github/workflows/validate.yml) in addition to redocly.yaml.
+#
+# Source: https://static.developer.overheid.nl/adr/ruleset.yaml
+# Repository: https://github.com/Logius-standaarden/API-Design-Rules
+# Vendored on: 2026-09-18
+#
+# To refresh this file to the latest published version:
+#   curl -L https://static.developer.overheid.nl/adr/ruleset.yaml -o nlgov-adr-ruleset.yaml
+# then review the diff before committing, since upstream rule changes can change
+# what passes/fails here.
+#
+# One local fix on top of the upstream file: the `missing-version-header` rule
+# below uses `function: schema` with an `anyOf` (matching the pattern already used
+# by `use-problem-schema` further down), instead of upstream's `function: or`.
+# Spectral 6.14.3 has no built-in `or` function (only `xor`), so the rule as
+# published errors out with "Function is not defined" rather than actually
+# linting. Re-check this against upstream on refresh — if Logius fixes it, this
+# local rewrite can be dropped.
+#
+# Two local overrides of base `spectral:oas` rules (which this ruleset extends,
+# not NLGov-specific rules): both are turned off here because they only
+# duplicate findings redocly.yaml already reports for this spec, one of which
+# (oas3-valid-media-example) flags a pattern (`nullable: true` without a sibling
+# `type`) that redocly.yaml deliberately allows via `nullable-type-sibling: off`
+# as valid OAS 3.0, used throughout the JSON-FG schemas.
+
+extends: spectral:oas
+
+rules:
+  oas3-unused-component: "off" # duplicates redocly.yaml's no-unused-components
+  oas3-valid-media-example: "off" # duplicates redocly.yaml's own example validation; flags the deliberate nullable-without-type pattern as an error
+
+  oas3-api-servers: error
+
+  #/core/doc-openapi
+  openapi3:
+    severity: error
+    given:
+      - "$.['openapi']"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^3.0.*$"
+    message: "Use OpenAPI Specification for documentation"
+
+  #/core/version-header
+  missing-version-header:
+    severity: error
+    given: $..[responses][?(@property && @property.match(/(2|3)\d\d/))][headers]
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          anyOf:
+            - required: ["API-Version"]
+            - required: ["Api-Version"]
+            - required: ["Api-version"]
+            - required: ["api-version"]
+            - required: ["API-version"]
+    message: "Return the full version number in a response header"
+
+  missing-header:
+    severity: error
+    given: $..[responses][?(@property && @property.match(/(2|3)\d\d/))]
+    then:
+      field: headers
+      function: truthy
+    message: "/core/version-header: Return the full version number in a response header: https://logius-standaarden.github.io/API-Design-Rules/#/core/version-header"
+
+  #/core/uri-version
+  include-major-version-in-uri:
+    severity: error
+    given:
+      - "$.servers[*]"
+    then:
+      function: pattern
+      functionOptions:
+        match: "\\/v[\\d+]"
+      field: url
+    message: "/core/uri-version: Include the major version number in the URI: https://logius-standaarden.github.io/API-Design-Rules/#/core/uri-version"
+
+  #/core/no-trailing-slash
+  paths-no-trailing-slash:
+    severity: error
+    given:
+      - "$.paths"
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: ".+ \\/$"
+      field: "@key"
+    message: "/core/no-trailing-slash: Leave off trailing slashes from URIs: https://logius-standaarden.github.io/API-Design-Rules/#/core/no-trailing-slash"
+
+  #/core/publish-openapi
+  paths-open-api-json-resource-exists:
+    severity: error
+    given:
+      - "$.paths"
+    then:
+      function: truthy
+      field: "/openapi.json"
+    message: "There does not exist a resource `/openapi.json` that returns the OpenAPI specification document"
+
+  paths-open-api-json-resource-has-get:
+    severity: error
+    given:
+      - "$.paths[/openapi.json]"
+    then:
+      function: pattern
+      functionOptions:
+        match: "get"
+      field: "@key"
+    message: "There does not exist a GET method (and no other methods) for the `/openapi.json` resource"
+
+  paths-open-api-json-specify-cors-header:
+    severity: error
+    given:
+      - $.paths[/openapi.json].get.responses[?(@property && @property.match(/(2|3)\d\d/))].headers
+    then:
+      function: truthy
+      field: "access-control-allow-origin"
+    message: "The response of the `/openapi.json` resource should set the `access-control-allow-origin` header with value `*`"
+
+  #/core/doc-openapi-contact
+  # This rule exists in the base oas spectral linter set
+  info-contact: error
+
+  info-contact-fields-exist:
+    severity: error
+    given:
+      - "$.info.contact"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          required:
+            - email
+            - name
+            - url
+    message: "Missing fields in `info.contact` field. Must specify email, name and url."
+
+  #/core/http-methods
+  http-methods:
+    severity: error
+    given:
+      - "$.paths[?(@property && @property.match(/(description|summary)/i))]"
+    then:
+      function: pattern
+      functionOptions:
+        match: "post|put|get|delete|patch|parameters"
+      field: "@key"
+    message: "/core/http-methods: Only apply standard HTTP methods: https://logius-standaarden.github.io/API-Design-Rules/#http-methods"
+
+  paths-kebab-case:
+    severity: warn
+    message: "{{property}} is not kebab-case."
+    given: $.paths[?(@property && !@property.match(/\/openapi\.json/))]~
+    then:
+      function: pattern
+      functionOptions:
+        # Deze regex bestaat uit meerdere delen. Ter toelichting:
+        # - `\/` staat toe dat een pad enkel een `/` is (de landingspagina)
+        # - `\/_[a-z0-9]+` staat toe dat het laatste stuk van een pad mag beginnen met een `_`
+        # - ([a-z0-9\-]+|{[^}]+}) zijn kebab-case paden of met variabele notatie (`{id}`)
+        # - Paden mogen nesten, waardoor de twee groep genest wordt, gescheiden met een `/`
+        # - Een pad mag eindigen met een `/`. Dat is volgens een andere regel niet toegestaan, maar we willen niet twee errors genereren
+        match: ^(\/|(\/_[a-z0-9]+|\/(([a-z0-9\-]+|{[^}]+})(\/([a-z0-9\-\.]+|{[^}]+}))*)(\/_[a-z]+)?)\/?)$
+
+  schema-camel-case:
+    severity: warn
+    message: "Schema name should be CamelCase in {{path}}"
+    given: >-
+      $.components.schemas[*]~
+    then:
+      function: casing
+      functionOptions:
+        type: pascal
+        separator:
+          char: ""
+
+  servers-use-https:
+    severity: warn
+    message: "Server URL {{value}} {{error}}."
+    given:
+      - $.servers[*]
+      - $.paths..servers[*]
+    then:
+      field: url
+      function: pattern
+      functionOptions:
+        match: ^https://.*
+
+  use-problem-schema:
+    severity: warn
+    message: "The content type of an error response should be application/problem+json or application/problem+xml to match RFC 9457."
+    given: $..[responses][?(@property && @property.match(/(4|5)\d\d/))].content
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          anyOf:
+            - required: ["application/problem+json"]
+            - required: ["application/problem+xml"]
+
+  property-casing:
+    severity: warn
+    given:
+      - "$.*.schemas[*].properties.[?(@property && @property.match(/_links/i))]"
+    then:
+      function: casing
+      functionOptions:
+        type: camel
+      field: "@key"
+    message: Properties must be lowerCamelCase.
