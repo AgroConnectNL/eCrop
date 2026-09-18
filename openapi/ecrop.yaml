@@ -519,7 +519,7 @@ paths:
         - $ref: '#/components/parameters/pageSize'
       responses:
         '200':
-          $ref: '#/components/responses/productionlocations_200'
+          $ref: '#/components/responses/productionLocations_200'
         '400':
           $ref: '#/components/responses/default_400'
         '401':
@@ -3878,7 +3878,7 @@ components:
           $ref: '#/components/headers/Request-Id'
         Request-Date-Time:
           $ref: '#/components/headers/Request-Date-Time'
-    productionlocations_200:
+    productionLocations_200:
       description: OK
       content:
         application/json:
