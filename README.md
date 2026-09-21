@@ -20,7 +20,7 @@ This transition is more than a technical choice: functionally, a REST API offers
 
 ### Set-up as a REST API and conformance to standards
 
-eCrop is fully specified as an OpenAPI 3.0 document (current version 1.0.3) and published as a ready-to-use specification that platforms can start working with directly. The API conforms to AgroConnect's AGRI API Style Guide (AASG), which prescribes unambiguous rules for, among other things, version management, security, URL and resource naming, RESTful principles, payload conventions and HTTP status codes — with the aim that all APIs in the agri and food sector feel as though they were designed by a single team.
+eCrop is fully specified as an OpenAPI 3.0 document (current draft version 1.1.0) and published as a ready-to-use specification that platforms can start working with directly. The API conforms to AgroConnect's AGRI API Style Guide (AASG), which prescribes unambiguous rules for, among other things, version management, security, URL and resource naming, RESTful principles, payload conventions and HTTP status codes — with the aim that all APIs in the agri and food sector feel as though they were designed by a single team.
 
 The AASG itself is deliberately not detached from national standards: it builds on the NL API Strategy and the REST API Design Rules (ADR) of the Knowledge Platform APIs / Forum Standaardisatie (the Dutch Standardisation Forum). This means eCrop aligns not only with the agrifood sector but also with the broader Dutch government standard for APIs.
 
@@ -68,7 +68,8 @@ More information: [www.agroconnect.nl](https://www.agroconnect.nl) | [github.com
 - [`openapi/ecrop.yaml`](openapi/ecrop.yaml) — the OpenAPI specification, source of truth for the standard.
 - [`docs/`](docs/) — Swagger UI docs site, published via GitHub Pages ([getting started](docs/getting-started.md), [enabling Pages](docs/enabling-pages.md)).
 - [`docs/guides/`](docs/guides/) — use-case-specific implementation guides for particular integrations (e.g. [Loonwerkportaal](docs/guides/implementatie-instructie-loonwerkportaal.md)).
-- [`examples/`](examples/) — sample requests and responses.
+- [`examples/`](examples/) — business case examples (actors, scope, operations used, an example flow with a sequence diagram, and open questions) for specific implementations of the standard; see [`examples/README.md`](examples/README.md) for the current list.
+- [`scripts/`](scripts/) — repo tooling, e.g. [`check-examples-structure.js`](scripts/check-examples-structure.js), which checks every business case in `examples/` has the required sections.
 - [`CHANGELOG.md`](CHANGELOG.md) — notable changes to the standard.
 
-Pushes to `main` that touch `openapi/**` are linted (`.github/workflows/validate.yml`); pushes touching `docs/**` or `openapi/**` rebuild and publish the docs site (`.github/workflows/publish.yml`).
+Pushes to `main` that touch `openapi/**` are linted (`.github/workflows/validate.yml`); pushes touching `docs/**` or `openapi/**` rebuild and publish the docs site (`.github/workflows/publish.yml`); pushes touching `examples/**` are checked for the required structure (`.github/workflows/check-examples.yml`).
