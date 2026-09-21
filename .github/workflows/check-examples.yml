@@ -1,0 +1,26 @@
+name: Check examples structure
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "examples/**"
+      - "scripts/check-examples-structure.js"
+      - ".github/workflows/check-examples.yml"
+  pull_request:
+    paths:
+      - "examples/**"
+      - "scripts/check-examples-structure.js"
+      - ".github/workflows/check-examples.yml"
+  workflow_dispatch:
+
+jobs:
+  check-structure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Check required section headings
+        run: node scripts/check-examples-structure.js
