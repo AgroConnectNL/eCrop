@@ -4535,6 +4535,7 @@ components:
       name: crs
       in: query
       required: false
+      allowReserved: true
       description: |
         CRS URI in which the response geometry ("place" under profile=jsonfg, or "geometry" under profile=rfc7946 subject to prior arrangement) should be returned, per OGC API - Features - Part 2: CRS by Reference. Defaults to CRS84 (WGS84, longitude/latitude) if not specified.
       schema:
@@ -4548,6 +4549,7 @@ components:
       name: bbox-crs
       in: query
       required: false
+      allowReserved: true
       description: 'CRS URI in which the bbox parameter values are expressed, per OGC API - Features - Part 2: CRS by Reference. Defaults to CRS84.'
       schema:
         type: string
@@ -4576,6 +4578,7 @@ components:
       name: datetime
       in: query
       required: false
+      allowReserved: true
       description: |
         Only features whose temporal properties (the JSON-FG "time" member) intersect this instant or interval are selected. A single RFC 3339 date/timestamp denotes an instant; two values separated by "/" denote an interval, where an open start/end is denoted by "..".
       schema:
