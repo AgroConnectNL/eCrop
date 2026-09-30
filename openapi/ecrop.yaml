@@ -942,7 +942,7 @@ paths:
       tags:
         - plot level registration
       requestBody:
-        $ref: '#/components/requestBodies/taskPatchRequest'
+        $ref: '#/components/requestBodies/patchRequest'
       responses:
         '202':
           $ref: '#/components/responses/task_202'
@@ -4633,7 +4633,7 @@ components:
                             unitCode:
                               content: MTK
                               listId: nl.agroconnect.codelist.cl020
-    taskPatchRequest:
+    patchRequest:
       required: true
       content:
         application/json-patch+json:
