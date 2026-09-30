@@ -2737,7 +2737,7 @@ components:
         name: Spraying task
         startDateTime: '2025-03-12T15:51:00+01:00'
         endDateTime: '2025-03-12T16:45:00+01:00'
-        status: PROPOSED
+        status: COMPLETED
         operations:
           - thirdPartyIds:
               - content: 27575-1
@@ -2751,7 +2751,7 @@ components:
             technique:
               content: SPRAYING
               listId: nl.agroconnect.codelist.cl302
-            status: PROPOSED
+            status: COMPLETED
             area:
               content: 25000
               unitCode:
@@ -4483,7 +4483,7 @@ components:
                 name: Spraying task
                 startDateTime: '2025-03-12T15:51:00+01:00'
                 endDateTime: '2025-03-12T16:45:00+01:00'
-                status: PROPOSED
+                status: COMPLETED
                 operations:
                   - thirdPartyIds:
                       - content: 27575-1
@@ -4497,7 +4497,7 @@ components:
                     technique:
                       content: SPRAYING
                       listId: nl.agroconnect.codelist.cl302
-                    status: PROPOSED
+                    status: COMPLETED
                     area:
                       content: 25000
                       unitCode:
