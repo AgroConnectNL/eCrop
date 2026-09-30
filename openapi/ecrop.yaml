@@ -1732,293 +1732,6 @@ components:
         mapping:
           Polygon: '#/components/schemas/PolygonType'
           MultiPolygon: '#/components/schemas/MultiPolygonType'
-    # Plotfeature and PlotFeatureCollection schemas to be used in an OGC API Features API
-    PlotFeatureProperties:
-      type: object
-      description: |
-        The "properties" member shared by PlotFeatureTopLevel and PlotFeature: essential plot business attributes (plotId, name, area) plus the flat entryPoint and abLine geometries (no place/geometry wrapper, since properties is opaque to JSON-FG-only readers).
-      properties:
-        plotId:
-          $ref: '#/components/schemas/PrimaryIdType'
-        name:
-          type: string
-          description: The name of the plot.
-          example: 'Tuin1, perceel6'
-        area:
-          description: 'The surface (measured in for instance square meters, hectare) of this production plot.'
-          allOf:
-            - $ref: '#/components/schemas/MeasureType'
-        entryPoint:
-          description: 'Flat GeoJSON geometry (no place/geometry wrapper) describing the entry point of the plot. Coordinates follow the coordRefSys of this feature under profile=jsonfg, or WGS84 under profile=rfc7946.'
-          allOf:
-            - $ref: '#/components/schemas/PointType'
-        abLine:
-          description: 'Flat GeoJSON geometry (no place/geometry wrapper) describing the AB reference line of the plot. Coordinates follow the coordRefSys of this feature under profile=jsonfg, or WGS84 under profile=rfc7946.'
-          allOf:
-            - $ref: '#/components/schemas/LineStringType'
-    PlotFeatureTopLevel:
-      allOf:
-        - type: object
-          description: 'A single plot encoded as a top-level JSON-FG Feature, returned as part of an OGC API Feature endpoint.'
-          required:
-            - type
-            - geometry
-            - properties
-          properties:
-            type:
-              type: string
-              enum:
-                - Feature
-            id:
-              description: 'Unique identifier of the feature. String or number. Under OGC API Features this corresponds to the {featureId} in the resource URI.'
-              oneOf:
-                - type: string
-                - type: number
-            conformsTo:
-              type: array
-              description: JSON-FG conformance classes implemented by this document. Required when profile=jsonfg is used
-              items:
-                type: string
-                format: uri
-              example:
-                - 'http://www.opengis.net/spec/json-fg-1/1.0/conf/core'
-                - 'http://www.opengis.net/spec/json-fg-1/1.0/conf/types-schemas'
-            coordRefSys:
-              $ref: '#/components/schemas/CoordRefSysType'
-            time:
-              $ref: '#/components/schemas/JsonFgTimeType'
-            place:
-              description: |
-                Geometry (JSON FG) of the plot (Polygon or MultiPolygon) using the CRS described in coordRefSys. Only applicable for profile=jsonfg. Should not be used for WGS84 coordinates (use geometry in stead)
-              allOf:
-                - $ref: '#/components/schemas/PlotGeometryType'
-              nullable: true
-            geometry:
-              description: |
-                Optional WGS84 fallback geometry (plain GeoJSON) for consumers that support GeoJSON but not JSON-FG. Null when not provided. Constrained to the same geometry types as "place" in this schema. Since this field is required, it is nullable in case WGS84 is nog relevant
-              allOf:
-                - $ref: '#/components/schemas/PlotGeometryType'
-              nullable: true
-            featureType:
-              description: The type(s) of this feature. Value(s) should be a CURIE or absolute URI referencing an agreed vocabulary (to be determined for AASG).
-              oneOf:
-                - type: string
-                - type: array
-                  items:
-                    type: string
-              example: 'agroconnect:ecrop:plot'
-            properties:
-              $ref: '#/components/schemas/PlotFeatureProperties'
-        - $ref: '#/components/schemas/Links'
-    PlotFeature:
-      allOf:
-        - type: object
-          description: 'A single plot encoded as a JSON-FG Feature, returned as part of an OGC API FeatureCollection endpoint.'
-          required:
-            - type
-            - geometry
-            - properties
-          properties:
-            type:
-              type: string
-              enum:
-                - Feature
-            id:
-              description: 'Unique identifier of the feature. String or number. Under OGC API Features this corresponds to the {featureId} in the resource URI.'
-              oneOf:
-                - type: string
-                - type: number
-            time:
-              $ref: '#/components/schemas/JsonFgTimeType'
-            place:
-              description: |
-                Geometry (JSON FG) of the plot (Polygon or MultiPolygon) using the CRS described in coordRefSys. Only applicable for profile=jsonfg. Should not be used for WGS84 coordinates (use geometry in stead)
-              allOf:
-                - $ref: '#/components/schemas/PlotGeometryType'
-              nullable: true
-            geometry:
-              description: |
-                Optional WGS84 fallback geometry (plain GeoJSON) for consumers that support GeoJSON but not JSON-FG. Null when not provided. Constrained to the same geometry types as "place" in this schema. Since this field is required, it is nullable in case WGS84 is nog relevant
-              allOf:
-                - $ref: '#/components/schemas/PlotGeometryType'
-              nullable: true
-            properties:
-              $ref: '#/components/schemas/PlotFeatureProperties'
-        - $ref: '#/components/schemas/Links'
-    PlotFeatureCollection:
-      allOf:
-        - type: object
-          description: A collection of plots encoded as a JSON-FG FeatureCollection.
-          required:
-            - type
-            - features
-          properties:
-            type:
-              type: string
-              enum:
-                - FeatureCollection
-            conformsTo:
-              description: JSON-FG conformance classes implemented by this document. Required when profile=jsonfg is used
-              type: array
-              items:
-                type: string
-                format: uri
-              example:
-                - 'http://www.opengis.net/spec/json-fg-1/1.0/conf/core'
-                - 'http://www.opengis.net/spec/json-fg-1/1.0/conf/types-schemas'
-            coordRefSys:
-              $ref: '#/components/schemas/CoordRefSysType'
-            features:
-              type: array
-              items:
-                $ref: '#/components/schemas/PlotFeature'
-            numberMatched:
-              type: integer
-            numberReturned:
-              type: integer
-            featureType:
-              description: The type(s) of this feature. Value(s) should be a CURIE or absolute URI referencing an agreed vocabulary (to be determined for AASG).
-              oneOf:
-                - type: string
-                - type: array
-                  items:
-                    type: string
-              example: 'agroconnect:ecrop:plot'
-        - $ref: '#/components/schemas/Links'
-      # ── OGC API Features - Part 1: Core resource schemas ─────────────────────
-    LandingPage:
-      allOf:
-        - type: object
-          description: 'Landing page of an OGC API Features-compliant API, per OGC API - Features - Part 1: Core, Requirement /req/core/root-op.'
-          properties:
-            title:
-              type: string
-              example: AgroConnect eCrop Plot Features API
-            description:
-              type: string
-              example: 'OGC API Features / JSON-FG publication of plot geo-information (boundary, entryPoint, abLine).'
-        - $ref: '#/components/schemas/Links'
-      example:
-        title: AgroConnect eCrop Plot Features API
-        description: 'OGC API Features / JSON-FG publication of plot geo-information (boundary, entryPoint, abLine).'
-        links:
-          - rel: self
-            href: 'https://standard-api.agroconnect.nl/plot-features/v1/'
-            type: application/json
-          - rel: service-desc
-            href: 'https://standard-api.agroconnect.nl/plot-features/v1/api'
-            type: application/vnd.oai.openapi+json;version=3.0
-          - rel: conformance
-            href: 'https://standard-api.agroconnect.nl/plot-features/v1/conformance'
-            type: application/json
-          - rel: data
-            href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections'
-            type: application/json
-    ConformanceDeclaration:
-      type: object
-      description: 'List of conformance classes implemented by this API, per OGC API - Features - Part 1: Core, Requirement /req/core/conformance-success.'
-      required:
-        - conformsTo
-      properties:
-        conformsTo:
-          type: array
-          items:
-            type: string
-            format: uri
-      example:
-        conformsTo:
-          - 'http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/core'
-          - 'http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/oas30'
-          - 'http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/geojson'
-          - 'http://www.opengis.net/spec/ogcapi-features-2/1.0/conf/crs'
-          - 'http://www.opengis.net/spec/json-fg-1/1.0/conf/core'
-          - 'http://www.opengis.net/spec/json-fg-1/1.0/conf/types-schemas'
-          - 'http://www.opengis.net/spec/json-fg-1/1.0/conf/profiles'
-          - 'http://www.opengis.net/spec/json-fg-1/1.0/conf/api'
-    CollectionExtentType:
-      type: object
-      description: Spatial and temporal extent of a feature collection.
-      properties:
-        spatial:
-          type: object
-          properties:
-            bbox:
-              type: array
-              items:
-                type: array
-                items:
-                  type: number
-                minItems: 4
-                maxItems: 6
-            crs:
-              type: string
-              format: uri
-              default: 'http://www.opengis.net/def/crs/OGC/1.3/CRS84'
-        temporal:
-          type: object
-          properties:
-            interval:
-              type: array
-              items:
-                type: array
-                items:
-                  type: string
-                  nullable: true
-                minItems: 2
-                maxItems: 2
-            trs:
-              type: string
-              format: uri
-              default: 'http://www.opengis.net/def/crs/OGC/0/GregorianDateTime'
-    Collection:
-      allOf:
-        - type: object
-          description: 'Metadata about a single feature collection, per OGC API - Features - Part 1: Core, Requirement /req/core/collection-success.'
-          required:
-            - id
-          properties:
-            id:
-              type: string
-              example: plots
-            title:
-              type: string
-              example: Plots
-            description:
-              type: string
-              example: 'Geo-information (boundary, entryPoint, abLine) of AgroConnect eCrop plots.'
-            itemType:
-              type: string
-              default: feature
-              example: feature
-            crs:
-              type: array
-              description: CRSs supported for this collection when requested via the crs query parameter.
-              items:
-                type: string
-                format: uri
-              example:
-                - 'http://www.opengis.net/def/crs/OGC/1.3/CRS84'
-                - 'http://www.opengis.net/def/crs/EPSG/0/28992'
-            storageCrs:
-              description: The native CRS in which the geometry of this collection is stored.
-              allOf:
-                - $ref: '#/components/schemas/CoordRefSysType'
-              example: 'http://www.opengis.net/def/crs/EPSG/0/28992'
-            extent:
-              $ref: '#/components/schemas/CollectionExtentType'
-        - $ref: '#/components/schemas/Links'
-    Collections:
-      allOf:
-        - type: object
-          description: 'List of feature collections available in this API, per OGC API - Features - Part 1: Core, Requirement /req/core/collections-success.'
-          required:
-            - collections
-          properties:
-            collections:
-              type: array
-              items:
-                $ref: '#/components/schemas/Collection'
-        - $ref: '#/components/schemas/Links'
       ##########################################################################
       # Business data Types (schemas)                                          #
       ##########################################################################
@@ -2760,6 +2473,293 @@ components:
         xyzReferenceToHotivationPoint:
           type: string
           description: The xyz-position to the standard Hortivationpoint of this block within a greenhouse
+    LandingPage:
+      allOf:
+        - type: object
+          description: 'Landing page of an OGC API Features-compliant API, per OGC API - Features - Part 1: Core, Requirement /req/core/root-op.'
+          properties:
+            title:
+              type: string
+              example: AgroConnect eCrop Plot Features API
+            description:
+              type: string
+              example: 'OGC API Features / JSON-FG publication of plot geo-information (boundary, entryPoint, abLine).'
+        - $ref: '#/components/schemas/Links'
+      example:
+        title: AgroConnect eCrop Plot Features API
+        description: 'OGC API Features / JSON-FG publication of plot geo-information (boundary, entryPoint, abLine).'
+        links:
+          - rel: self
+            href: 'https://standard-api.agroconnect.nl/plot-features/v1/'
+            type: application/json
+          - rel: service-desc
+            href: 'https://standard-api.agroconnect.nl/plot-features/v1/api'
+            type: application/vnd.oai.openapi+json;version=3.0
+          - rel: conformance
+            href: 'https://standard-api.agroconnect.nl/plot-features/v1/conformance'
+            type: application/json
+          - rel: data
+            href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections'
+            type: application/json
+    ConformanceDeclaration:
+      type: object
+      description: 'List of conformance classes implemented by this API, per OGC API - Features - Part 1: Core, Requirement /req/core/conformance-success.'
+      required:
+        - conformsTo
+      properties:
+        conformsTo:
+          type: array
+          items:
+            type: string
+            format: uri
+      example:
+        conformsTo:
+          - 'http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/core'
+          - 'http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/oas30'
+          - 'http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/geojson'
+          - 'http://www.opengis.net/spec/ogcapi-features-2/1.0/conf/crs'
+          - 'http://www.opengis.net/spec/json-fg-1/1.0/conf/core'
+          - 'http://www.opengis.net/spec/json-fg-1/1.0/conf/types-schemas'
+          - 'http://www.opengis.net/spec/json-fg-1/1.0/conf/profiles'
+          - 'http://www.opengis.net/spec/json-fg-1/1.0/conf/api'
+    CollectionExtentType:
+      type: object
+      description: Spatial and temporal extent of a feature collection.
+      properties:
+        spatial:
+          type: object
+          properties:
+            bbox:
+              type: array
+              items:
+                type: array
+                items:
+                  type: number
+                minItems: 4
+                maxItems: 6
+            crs:
+              type: string
+              format: uri
+              default: 'http://www.opengis.net/def/crs/OGC/1.3/CRS84'
+        temporal:
+          type: object
+          properties:
+            interval:
+              type: array
+              items:
+                type: array
+                items:
+                  type: string
+                  nullable: true
+                minItems: 2
+                maxItems: 2
+            trs:
+              type: string
+              format: uri
+              default: 'http://www.opengis.net/def/crs/OGC/0/GregorianDateTime'
+    Collection:
+      allOf:
+        - type: object
+          description: 'Metadata about a single feature collection, per OGC API - Features - Part 1: Core, Requirement /req/core/collection-success.'
+          required:
+            - id
+          properties:
+            id:
+              type: string
+              example: plots
+            title:
+              type: string
+              example: Plots
+            description:
+              type: string
+              example: 'Geo-information (boundary, entryPoint, abLine) of AgroConnect eCrop plots.'
+            itemType:
+              type: string
+              default: feature
+              example: feature
+            crs:
+              type: array
+              description: CRSs supported for this collection when requested via the crs query parameter.
+              items:
+                type: string
+                format: uri
+              example:
+                - 'http://www.opengis.net/def/crs/OGC/1.3/CRS84'
+                - 'http://www.opengis.net/def/crs/EPSG/0/28992'
+            storageCrs:
+              description: The native CRS in which the geometry of this collection is stored.
+              allOf:
+                - $ref: '#/components/schemas/CoordRefSysType'
+              example: 'http://www.opengis.net/def/crs/EPSG/0/28992'
+            extent:
+              $ref: '#/components/schemas/CollectionExtentType'
+        - $ref: '#/components/schemas/Links'
+    Collections:
+      allOf:
+        - type: object
+          description: 'List of feature collections available in this API, per OGC API - Features - Part 1: Core, Requirement /req/core/collections-success.'
+          required:
+            - collections
+          properties:
+            collections:
+              type: array
+              items:
+                $ref: '#/components/schemas/Collection'
+        - $ref: '#/components/schemas/Links'
+    # Plotfeature and PlotFeatureCollection schemas to be used in an OGC API Features API
+    PlotFeatureProperties:
+      type: object
+      description: |
+        The "properties" member shared by PlotFeatureTopLevel and PlotFeature: essential plot business attributes (plotId, name, area) plus the flat entryPoint and abLine geometries (no place/geometry wrapper, since properties is opaque to JSON-FG-only readers).
+      properties:
+        plotId:
+          $ref: '#/components/schemas/PrimaryIdType'
+        name:
+          type: string
+          description: The name of the plot.
+          example: 'Tuin1, perceel6'
+        area:
+          description: 'The surface (measured in for instance square meters, hectare) of this production plot.'
+          allOf:
+            - $ref: '#/components/schemas/MeasureType'
+        entryPoint:
+          description: 'Flat GeoJSON geometry (no place/geometry wrapper) describing the entry point of the plot. Coordinates follow the coordRefSys of this feature under profile=jsonfg, or WGS84 under profile=rfc7946.'
+          allOf:
+            - $ref: '#/components/schemas/PointType'
+        abLine:
+          description: 'Flat GeoJSON geometry (no place/geometry wrapper) describing the AB reference line of the plot. Coordinates follow the coordRefSys of this feature under profile=jsonfg, or WGS84 under profile=rfc7946.'
+          allOf:
+            - $ref: '#/components/schemas/LineStringType'
+    PlotFeatureTopLevel:
+      allOf:
+        - type: object
+          description: 'A single plot encoded as a top-level JSON-FG Feature, returned as part of an OGC API Feature endpoint.'
+          required:
+            - type
+            - geometry
+            - properties
+          properties:
+            type:
+              type: string
+              enum:
+                - Feature
+            id:
+              description: 'Unique identifier of the feature. String or number. Under OGC API Features this corresponds to the {featureId} in the resource URI.'
+              oneOf:
+                - type: string
+                - type: number
+            conformsTo:
+              type: array
+              description: JSON-FG conformance classes implemented by this document. Required when profile=jsonfg is used
+              items:
+                type: string
+                format: uri
+              example:
+                - 'http://www.opengis.net/spec/json-fg-1/1.0/conf/core'
+                - 'http://www.opengis.net/spec/json-fg-1/1.0/conf/types-schemas'
+            coordRefSys:
+              $ref: '#/components/schemas/CoordRefSysType'
+            time:
+              $ref: '#/components/schemas/JsonFgTimeType'
+            place:
+              description: |
+                Geometry (JSON FG) of the plot (Polygon or MultiPolygon) using the CRS described in coordRefSys. Only applicable for profile=jsonfg. Should not be used for WGS84 coordinates (use geometry in stead)
+              allOf:
+                - $ref: '#/components/schemas/PlotGeometryType'
+              nullable: true
+            geometry:
+              description: |
+                Optional WGS84 fallback geometry (plain GeoJSON) for consumers that support GeoJSON but not JSON-FG. Null when not provided. Constrained to the same geometry types as "place" in this schema. Since this field is required, it is nullable in case WGS84 is nog relevant
+              allOf:
+                - $ref: '#/components/schemas/PlotGeometryType'
+              nullable: true
+            featureType:
+              description: The type(s) of this feature. Value(s) should be a CURIE or absolute URI referencing an agreed vocabulary (to be determined for AASG).
+              oneOf:
+                - type: string
+                - type: array
+                  items:
+                    type: string
+              example: 'agroconnect:ecrop:plot'
+            properties:
+              $ref: '#/components/schemas/PlotFeatureProperties'
+        - $ref: '#/components/schemas/Links'
+    PlotFeature:
+      allOf:
+        - type: object
+          description: 'A single plot encoded as a JSON-FG Feature, returned as part of an OGC API FeatureCollection endpoint.'
+          required:
+            - type
+            - geometry
+            - properties
+          properties:
+            type:
+              type: string
+              enum:
+                - Feature
+            id:
+              description: 'Unique identifier of the feature. String or number. Under OGC API Features this corresponds to the {featureId} in the resource URI.'
+              oneOf:
+                - type: string
+                - type: number
+            time:
+              $ref: '#/components/schemas/JsonFgTimeType'
+            place:
+              description: |
+                Geometry (JSON FG) of the plot (Polygon or MultiPolygon) using the CRS described in coordRefSys. Only applicable for profile=jsonfg. Should not be used for WGS84 coordinates (use geometry in stead)
+              allOf:
+                - $ref: '#/components/schemas/PlotGeometryType'
+              nullable: true
+            geometry:
+              description: |
+                Optional WGS84 fallback geometry (plain GeoJSON) for consumers that support GeoJSON but not JSON-FG. Null when not provided. Constrained to the same geometry types as "place" in this schema. Since this field is required, it is nullable in case WGS84 is nog relevant
+              allOf:
+                - $ref: '#/components/schemas/PlotGeometryType'
+              nullable: true
+            properties:
+              $ref: '#/components/schemas/PlotFeatureProperties'
+        - $ref: '#/components/schemas/Links'
+    PlotFeatureCollection:
+      allOf:
+        - type: object
+          description: A collection of plots encoded as a JSON-FG FeatureCollection.
+          required:
+            - type
+            - features
+          properties:
+            type:
+              type: string
+              enum:
+                - FeatureCollection
+            conformsTo:
+              description: JSON-FG conformance classes implemented by this document. Required when profile=jsonfg is used
+              type: array
+              items:
+                type: string
+                format: uri
+              example:
+                - 'http://www.opengis.net/spec/json-fg-1/1.0/conf/core'
+                - 'http://www.opengis.net/spec/json-fg-1/1.0/conf/types-schemas'
+            coordRefSys:
+              $ref: '#/components/schemas/CoordRefSysType'
+            features:
+              type: array
+              items:
+                $ref: '#/components/schemas/PlotFeature'
+            numberMatched:
+              type: integer
+            numberReturned:
+              type: integer
+            featureType:
+              description: The type(s) of this feature. Value(s) should be a CURIE or absolute URI referencing an agreed vocabulary (to be determined for AASG).
+              oneOf:
+                - type: string
+                - type: array
+                  items:
+                    type: string
+              example: 'agroconnect:ecrop:plot'
+        - $ref: '#/components/schemas/Links'
+      # ── OGC API Features - Part 1: Core resource schemas ─────────────────────
     Task:
       title: Task
       description: |-
