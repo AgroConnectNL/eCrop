@@ -40,8 +40,8 @@ has been granted access to
 | Operation | Purpose | Why needed |
 | --- | --- | --- |
 | `POST .../plots/{plotSchemeId}/{plotId}/tasks` | Register a (non crop-specific) task, with its operations, performed on the plot | **Action 3.** The primary way to report work done. Re-posting a task with the same external id (`thirdPartyIds`) updates the previously posted task instead of creating a duplicate |
-| `PUT .../tasks/{taskSchemeId}/{taskId}` | Replace a previously registered task as a whole | Preferred over re-posting when the CPS holds the complete, corrected task |
-| `PATCH .../tasks/{taskSchemeId}/{taskId}` | Partially update a previously registered task using a JSON Patch document (RFC 6902, media type `application/json-patch+json`) | Efficient for small corrections, e.g. changing the treated area of an operation from 25000 to 24500 m2 |
+| `PUT .../tasks/{taskSchemeId}/{taskId}` | Update a previously registered task by replacing it as a whole; covers all updates of existing tasks | Preferred over re-posting when the CPS holds the complete, corrected task |
+| `PATCH .../tasks/{taskSchemeId}/{taskId}` *(optional)* | Partially update a previously registered task using a JSON Patch document (RFC 6902, media type `application/json-patch+json`) | Optional, because PUT already covers all updates of existing tasks. Efficient for small corrections, e.g. changing the treated area of an operation from 25000 to 24500 m2 |
 | `DELETE .../tasks/{taskSchemeId}/{taskId}` | Delete a previously registered task | For tasks registered by mistake or cancelled afterwards |
 
 **Design note on "2 actions":** as of this spec version, `plot_200`/`plots_200` responses embed a
@@ -110,9 +110,9 @@ sequenceDiagram
 
     opt Correction needed afterwards
         Employee->>CPS: Correct the registered task
-        alt Small correction
-            CPS->>eCrop: PATCH .../tasks/{taskSchemeId}/{taskId} (JSON Patch)
-        else Complete replacement
+        alt Optional: small correction
+            CPS->>eCrop: PATCH .../tasks/{taskSchemeId}/{taskId} (JSON Patch, optional)
+        else Update (replace the whole task)
             CPS->>eCrop: PUT .../tasks/{taskSchemeId}/{taskId} (full TaskDetails)
         end
         eCrop-->>CPS: 202 Accepted (Task)
@@ -310,7 +310,7 @@ The CPS keeps this `id` to address the task in the calls below. The `inputAlloca
 `equipmentAssignments` and `workerAssignments` properties of an operation (see the OpenAPI
 specification) can be used to register the products, equipment and workers used.
 
-### 3.5 Correct part of the task — PATCH
+### 3.5 Correct part of the task — PATCH (optional)
 
 When only a small detail was wrong, the CPS sends a JSON Patch document (RFC 6902, per AASG rule
 P012). Here the treated area of the first operation is changed from 25000 to 24500 m2. The `test`
