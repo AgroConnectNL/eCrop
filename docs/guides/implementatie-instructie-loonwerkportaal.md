@@ -1,12 +1,14 @@
 # Implementatie-instructie: eCrop OpenAPI voor het Loonwerkportaal
 
-*eCrop API v1.1.0 — use-case-scope voor een platform waarmee een loonwerker de percelen en bijbehorende geo-informatie van een boer kan raadplegen.*
+*eCrop API v1.1.0 — use-case-scope voor een platform waarmee een loonwerker de percelen en bijbehorende geo-informatie van een boer kan raadplegen en de door hem uitgevoerde taken kan registreren.*
 
 ## 1. Use case en uitgangspunten
 
-Een boer (akkerbouwer, melkveehouder) heeft in zijn bedrijfsmanagementsysteem (bms) percelen (plots, met geo-informatie) en (in geval akkerbouwers) teelten (crops) vastgelegd. Hij deelt deze gegevens met een loonwerker, die een taak (task + operation) voor hem moet uitvoeren. Voor de huidige implementatiefase is precies één use case geïdentificeerd:
+Een boer (akkerbouwer, melkveehouder) heeft in zijn bedrijfsmanagementsysteem (bms) percelen (plots, met geo-informatie) en (in geval akkerbouwers) teelten (crops) vastgelegd. Hij deelt deze gegevens met een loonwerker, die een taak (task + operation) voor hem moet uitvoeren. Voor de huidige implementatiefase is één use case geïdentificeerd, bestaande uit twee onderdelen:
 
-**Een loonwerker moet als client (via zijn bms-loonwerker) de percelen van een teler (grower) kunnen ophalen. Bij deze percelen moet de client de bijbehorende geo-informatie (als Feature) kunnen ophalen — in willekeurige volgorde: eerst het Plot-object en van daaruit de Plot-geometrie, óf eerst de Plot-geometrie en van daaruit het Plot-object.**
+**1. Percelen raadplegen (plannen). Een loonwerker moet als client (via zijn bms-loonwerker) de percelen van een teler (grower) kunnen ophalen. Bij deze percelen moet de client de bijbehorende geo-informatie (als Feature) kunnen ophalen — in willekeurige volgorde: eerst het Plot-object en van daaruit de Plot-geometrie, óf eerst de Plot-geometrie en van daaruit het Plot-object.**
+
+**2. Uitgevoerde taken registreren. Nadat het werk is uitgevoerd, moet de loonwerker (via zijn bms-loonwerker) de taak (task, met operations) die hij op een perceel van de teler heeft uitgevoerd kunnen registreren, en deze achteraf kunnen corrigeren (gedeeltelijk via PATCH, of geheel via PUT) of verwijderen.**
 
 Deze instructie beschrijft welke operaties uit de eCrop OpenAPI-specificatie voor deze use case gebouwd moeten worden, waarom de geo-operaties als geheel geïmplementeerd moeten worden, en welke zaken nog buiten de specificatie zelf geregeld moeten worden voordat dit in productie kan.
 
@@ -24,6 +26,19 @@ De volgende operaties zijn direct nodig om de use case te realiseren, in beide n
 | `GET /contractors/{...}/{..}/growers/{...}/{..}`                  | Basisgegevens van één specifieke teler ophalen                                                       | Optioneel: nuttig om bijv. de naam van de teler te tonen voordat de loonwerker diens percelen opvraagt |
 | `GET /contractors/{...}/{..}/growers/{...}/{..}/plots`            | Volledige details van alle percelen van een teler ophalen (een lijst van Plot-objecten, elk met dezelfde details als de single-item-operatie), beperkt tot telers waarvoor de loonwerker toegang heeft | Startpunt van de flow wanneer de loonwerker nog geen specifiek plotId kent en wil zien welke percelen een teler heeft |
 | `GET /contractors/{...}/{..}/growers/{...}/{..}/plots/{...}/{..}` | Volledige details van één specifiek perceel ophalen (zelfde detailniveau als een item uit de lijst hierboven) | Nodig zodra de loonwerker al een specifiek plotId kent (bijv. via een eerdere koppeling of via de link vanuit een Feature) en niet de volledige lijst wil ophalen |
+
+**Contractor-operaties voor taakregistratie (business API, via /contractors)**
+
+Alle taakoperaties zijn gescoped naar een perceel van een teler waarvoor de loonwerker toegang heeft: `/contractors/{...}/{..}/growers/{...}/{..}/plots/{plotSchemeId}/{plotId}/tasks`.
+
+| Operatie                                  | Doel                                                                                                 | Waarom nodig                                                                                         |
+| ----------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `POST .../plots/{...}/{..}/tasks`         | Een (niet gewasspecifieke) taak, met bijbehorende operations, registreren die op het perceel is uitgevoerd | Hoofdoperatie om uitgevoerd werk te melden. De server kent het task-id toe; het eigen kenmerk van de loonwerker reist mee in `thirdPartyIds`. Opnieuw posten van een taak met hetzelfde externe id werkt de eerder geposte taak bij (geen duplicaten) |
+| `PUT .../tasks/{taskSchemeId}/{taskId}`   | Een eerder geregistreerde taak als geheel vervangen                                                  | Te verkiezen boven opnieuw posten wanneer de client de volledige, gecorrigeerde taak heeft           |
+| `PATCH .../tasks/{taskSchemeId}/{taskId}` | Een eerder geregistreerde taak gedeeltelijk wijzigen met een JSON Patch-document (RFC 6902, mediatype `application/json-patch+json`, conform AASG-regel P012) | Efficiënt voor kleine correcties, bijv. het gewijzigde oppervlak van een operation (`/operations/0/area/content`) van 25000 naar 24500 m2. Een `test`-operation in het patch-document beschermt tegen gelijktijdige wijzigingen |
+| `DELETE .../tasks/{taskSchemeId}/{taskId}` | Een eerder geregistreerde taak verwijderen                                                          | Voor taken die per ongeluk zijn geregistreerd of waarvan het werk is geannuleerd                     |
+
+De taakoperaties antwoorden met `202 Accepted` (POST, PUT, PATCH, met de geregistreerde taak in de respons) of `204 No Content` (DELETE). Zie ook het uitgewerkte voorbeeld in `examples/contractor-task-planning`.
 
 **OGC API Features-operaties (plot-geometrie)**
 
@@ -52,14 +67,15 @@ De volgende operaties uit de specificatie zijn voor de huidige use case niet nod
 
 | Domein                                            | Operaties                                                                                         | Waarom buiten scope                                                                                  |
 | ------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| Schrijfoperaties op plots                         | `POST`/`PUT`/`DELETE .../plots(/{plotId})`                                                        | De use case is uitsluitend lezend; het vastleggen en wijzigen van percelen blijft de verantwoordelijkheid van de teler via zijn bms-teler |
+| Schrijfoperaties op plots                         | `POST`/`PUT`/`DELETE .../plots(/{plotId})`                                                        | Ten aanzien van percelen is de use case uitsluitend lezend; het vastleggen en wijzigen van percelen blijft de verantwoordelijkheid van de teler via zijn bms-teler |
 | Directe, niet-contractor-gescopeerde plot-toegang | `GET /growers/{...}/{..}/plots(/{plotId})`                                                        | Dit is de toegangsroute voor de teler zelf (bms-teler); de loonwerker gebruikt uitsluitend de contractor-gescopeerde variant onder `/contractors/.../growers/.../plots`, zodat de toegang beperkt blijft tot telers waarvoor hij is geautoriseerd |
 | Generieke contractor-lookup                       | `GET /contractors`, `/contractors/{id}`                                                           | Niet nodig voor deze use case: de loonwerker kent zijn eigen contractorSchemeId/contractorId al via zijn eigen configuratie/credentials en hoeft zichzelf of andere contractors niet op te zoeken |
 | Parties (growers/suppliers lookup)                | `GET /growers`, `/growers/{id}`, `/suppliers`, `/suppliers/{id}`, `/suppliers/.../growers(/{id})` | Generieke, niet-gescopeerde partij-lookup blijft buiten scope; het ontdekken van "welke telers mag ik als loonwerker zien" verloopt voortaan via `GET /contractors/.../growers` (zie §2.1), niet via deze generieke endpoints |
 | Delivery                                          | Alle `/inbound-deliveries`-operaties                                                              | Andere procesdomein (leveringen van/naar suppliers), niet gerelateerd aan percelen of geo-informatie |
 | Production locations                              | `GET .../production-locations`, tasks op dit niveau                                               | Niet nodig voor het ophalen van percelen en geo-informatie                                           |
 | Crops                                             | `GET`/`POST`/`PUT`/`DELETE .../crops(/{cropId})`                                                  | Teeltgegevens zijn in de huidige use case niet vereist; kan in een latere fase relevant worden zodra taken crop-specifieke context nodig hebben |
-| Tasks/operations                                  | Alle `.../tasks`-operaties (grower/plot/crop-niveau)                                              | De daadwerkelijke taakuitvoering door de loonwerker is context voor het geheel, maar geen onderdeel van de nu geïdentificeerde use case; te scopen zodra taakuitvoering zelf als use case wordt uitgewerkt |
+| Directe, niet-contractor-gescopeerde taakregistratie | `POST`/`PUT`/`PATCH`/`DELETE /growers/{...}/{..}/plots/{...}/{..}/tasks(...)`                  | Dit is de route voor de teler zelf (bms-teler); de loonwerker gebruikt uitsluitend de contractor-gescopeerde taakoperaties (zie §2.1) |
+| Taken op andere niveaus                           | `.../production-locations/.../tasks`, `.../growers/{...}/{..}/tasks`, taken op crop-niveau        | De contractor-gescopeerde taakoperaties bestaan alleen op perceelniveau; taken op andere niveaus zijn niet nodig voor deze use case |
 
 *Dit is een bewuste, expliciete scope-afbakening: deze operaties bestaan in de specificatie en kunnen in een volgende fase alsnog nodig zijn, maar horen niet bij de nu vastgestelde use case.*
 
@@ -75,7 +91,7 @@ De huidige specificatie bevat geen enkele security-definitie (geen securitySchem
 - Autorisatiemodel: het datamodel voor het mandaat is inmiddels aanwezig — de `/contractors/{...}/{..}/growers`-operaties laten expliciet zien voor welke telers een contractor (loonwerker) is geautoriseerd, en die scoping wordt consequent doorgevoerd naar de onderliggende percelen. Wat nog wel open staat, is de daadwerkelijke verificatie: hoe wordt gegarandeerd dat de authenticatie van de aanroepende client (zie hierboven) daadwerkelijk overeenkomt met de contractorId waarvoor autorisatie wordt geclaimd, en hoe en door wie het onderliggende mandaat (welke teler welke loonwerker toegang geeft, voor welke periode) wordt vastgelegd en beheerd.
 - CORS-beleid, indien het bms-loonwerker-platform (deels) browser-based is.
 - Rate limiting/throttling, mede ter bescherming tegen misbruik van de ongeauthenticeerde `/health`-endpoint en tegen zware bbox/FeatureCollection-bevragingen.
-- Logging en auditing van welke loonwerker welke telergegevens heeft opgevraagd, gezien de gevoeligheid van perceelslocaties.
+- Logging en auditing van welke loonwerker welke telergegevens heeft opgevraagd, gezien de gevoeligheid van perceelslocaties, en van welke loonwerker welke taken heeft geregistreerd, gewijzigd of verwijderd.
 
 ### 3.2 Identifier-schemes (schemeId-waarden)
 
@@ -133,6 +149,14 @@ Voor de loonwerkportaal-praktijk is het aan te bevelen om `profile=jsonfg` met `
 
 Daarnaast moet nog worden bepaald welke geo-profielen de API daadwerkelijk gaat ondersteunen — en daarmee welke CRS'en: alleen `rfc7946` (kale GeoJSON, altijd WGS84), alleen `jsonfg` (met RD New als native CRS), of beide naast elkaar. Deze keuze bepaalt mede hoeveel van de in §2 beschreven contentnegotiatie daadwerkelijk relevant is voor de loonwerkportaal-doelgroep.
 
-### 3.9 Synchronisatie tussen Plot en Feature
+### 3.9 Taakregistratie: verwerking en eigenaarschap
+
+De taakoperaties (POST, PUT, PATCH) antwoorden met `202 Accepted`: de server heeft de taak aangenomen, maar de specificatie definieert geen statusresource of callback waarmee de loonwerker kan nagaan of de (eventueel asynchrone) verwerking is geslaagd of dat het systeem van de teler de taak later heeft afgewezen. Daarnaast moet nog worden vastgesteld:
+
+- Hoe de teler de door een loonwerker op zijn percelen geregistreerde taken kan inzien, accepteren of betwisten.
+- Of een loonwerker uitsluitend zijn eigen taken mag wijzigen of verwijderen. De contractor-gescopeerde URI suggereert dit, maar de specificatie dwingt het niet af; de implementatie moet dit expliciet controleren.
+- Hoe met gelijktijdige wijzigingen wordt omgegaan. Bij PATCH kan de client een `test`-operation in het patch-document opnemen; voor PUT en POST is nog geen optimistic-concurrency-mechanisme (bijv. ETag) gedefinieerd. Een JSON Patch-document wordt als geheel toegepast of als geheel afgewezen (RFC 6902, §5): als één operation faalt, mag geen enkele wijziging doorgevoerd worden.
+
+### 3.10 Synchronisatie tussen Plot en Feature
 
 Deze instructie gaat ervan uit dat de Plot API en de Plot Features API beide uit dezelfde onderliggende datastore putten. Daardoor is er geen aparte synchronisatie tussen twee gescheiden databronnen nodig: een wijziging die de teler in zijn bms-teler doorvoert, is voor beide API's onmiddellijk en consistent zichtbaar, zonder replicatie- of cache-vertraging. Mocht in een latere fase alsnog voor gescheiden datastores gekozen worden, dan moet dit punt opnieuw expliciet uitgewerkt worden.
