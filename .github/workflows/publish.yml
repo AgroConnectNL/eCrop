@@ -1,45 +1,91 @@
-name: Publish docs
+name: Publish docs and distributions
 
+# Builds the business-case distributions of openapi/ecrop.yaml (scripts/build-distribution.py,
+# which also lints each of them) and assembles the docs site from them.
+#   - pull requests:        build + lint only
+#   - pushes to main:       build, then publish the site on GitHub Pages
+#   - tags v*:              build, then attach the specification and distributions to the GitHub release
 on:
-  # GitHub Pages isn't enabled for this repo yet (Settings → Pages → Source:
-  # GitHub Actions). Once it is, uncomment the push trigger below so docs
-  # publish automatically again.
-  # push:
-  #   branches: [main]
-  #   paths:
-  #     - "docs/**"
-  #     - "openapi/**"
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+    paths:
+      - "docs/**"
+      - "openapi/**"
+      - "usecases/**"
+      - "scripts/**"
+      - "redocly.yaml"
+      - ".github/workflows/publish.yml"
   workflow_dispatch:
 
 permissions:
-  pages: write
-  id-token: write
+  contents: read
 
 concurrency:
-  group: pages
-  cancel-in-progress: true
+  group: publish-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pyyaml
+      - name: Build and lint the business-case distributions
+        run: python scripts/build-distribution.py
       - name: Assemble site
-        run: |
-          mkdir -p site/docs site/openapi
-          cp -r docs/. site/docs/
-          cp -r openapi/. site/openapi/
-          printf '<meta http-equiv="refresh" content="0; url=docs/index.html">' > site/index.html
+        run: python scripts/assemble-site.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: distributions
+          path: dist/ecrop-*.yaml
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
 
   deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: false
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: distributions
+          path: dist
+      - name: Attach to the GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          files="openapi/ecrop.yaml dist/ecrop-*.yaml"
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" $files --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" $files --title "$GITHUB_REF_NAME" --generate-notes
+          fi

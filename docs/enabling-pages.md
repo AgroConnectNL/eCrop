@@ -1,22 +1,24 @@
-# Enabling GitHub Pages
+# GitHub Pages
 
-GitHub Pages is not enabled for this repository yet. The docs site (Swagger UI over `openapi/ecrop.yaml`) can be published once it is.
+GitHub Pages is enabled for this repository, with **GitHub Actions** as source (Settings → Pages). The site is
+published at <https://agroconnectnl.github.io/eCrop/>: a Swagger UI page over `openapi/ecrop.yaml` and over the
+business-case distributions, plus the specification files themselves under `/openapi/`.
 
-## Steps
+## How it is published
 
-1. Repo **Settings → Pages → Source: GitHub Actions**.
-2. In [`.github/workflows/publish.yml`](../.github/workflows/publish.yml), uncomment the `push` trigger block so it fires automatically on changes to `docs/**` or `openapi/**`:
+[`.github/workflows/publish.yml`](../.github/workflows/publish.yml):
 
-   ```yaml
-   on:
-     push:
-       branches: [main]
-       paths:
-         - "docs/**"
-         - "openapi/**"
-     workflow_dispatch:
-   ```
+1. builds and lints the business-case distributions (`scripts/build-distribution.py`);
+2. assembles the site (`scripts/assemble-site.py`): `docs/`, `openapi/` and the distributions;
+3. on pushes to `main` (and manual runs from `main`), deploys the site with `actions/deploy-pages`;
+4. on tags `v*`, attaches `ecrop.yaml` and the distributions to the GitHub release.
 
-Until then, the workflow only runs manually (`workflow_dispatch`, via the Actions tab) — this avoids failing CI runs on every push, since `actions/deploy-pages` errors if no Pages site exists yet.
+Pull requests only run steps 1 and 2, so a broken override or distribution is caught before it reaches `main`.
 
-`validate.yml` (OpenAPI linting) is unaffected by any of this and runs on every push/PR touching `openapi/**` regardless of Pages status.
+`validate.yml` (OpenAPI linting of the complete specification) is independent of this and runs on every push/PR
+touching `openapi/**`.
+
+## If Pages needs to be set up again
+
+Repo **Settings → Pages → Source: GitHub Actions**, then run the workflow once from the Actions tab
+(`workflow_dispatch`).

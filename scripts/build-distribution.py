@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
 """Build a business-case specific distribution of openapi/ecrop.yaml.
 
-Usage: python scripts/build-distribution.py <name> [<name> ...]
+Usage: python scripts/build-distribution.py [<name> ...]
 
 <name> is one of the `apis:` entries in redocly.yaml (without the "@v1" suffix),
-e.g. contractor-task-planning. Steps:
+e.g. contractor-task-planning. Without names, all business cases are built.
+Steps:
 
   1. redocly bundle <name>@v1                 (filter the operations on x-usecases)
   2. drop path items without operations and unused tags, strip the x-usecases markers
   3. redocly bundle --remove-unused-components (prune what no operation references)
   4. apply the example overrides in usecases/<name>/examples.yaml, if present
-  5. write dist/<name>.yaml and lint it
+  5. write dist/ecrop-<name>.yaml and lint it
 """
 import os
 import shutil
@@ -46,7 +47,7 @@ def write(path, spec):
 def build(name):
     os.makedirs('dist', exist_ok=True)
     step1, step2 = f'dist/.{name}.1.yaml', f'dist/.{name}.2.yaml'
-    out = f'dist/{name}.yaml'
+    out = f'dist/ecrop-{name}.yaml'
 
     # 1. filter the operations on x-usecases
     run('bundle', f'{name}@v1', '-o', step1)
@@ -85,8 +86,10 @@ def build(name):
     run('lint', out)
 
 
+def all_names():
+    return [api.rsplit('@', 1)[0] for api in load('redocly.yaml')['apis']]
+
+
 if __name__ == '__main__':
-    if len(sys.argv) < 2:
-        sys.exit(__doc__)
-    for n in sys.argv[1:]:
+    for n in sys.argv[1:] or all_names():
         build(n)

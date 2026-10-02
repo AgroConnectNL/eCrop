@@ -12,12 +12,27 @@ The eCrop OpenAPI spec can also be viewed online on SwaggerHub: [app.swaggerhub.
 operations of its business case, and only the request bodies, responses, parameters, schemas and examples
 those operations need.
 
-Build one (or more) into `dist/` (requires Node.js and Python with PyYAML):
+Build them into `dist/ecrop-<name>.yaml` (requires Node.js and Python with PyYAML):
 
 ```bash
-python scripts/build-distribution.py contractor-task-planning
+python scripts/build-distribution.py                          # all business cases
+python scripts/build-distribution.py contractor-task-planning  # one business case
 ```
 
 Examples that must differ per business case (e.g. identifier schemes) are overridden in
 [`usecases/<name>/examples.yaml`](../usecases/): whole entries of `components/examples`, plus the `example` of
 named `components/schemas` and `components/parameters`.
+
+### Where the distributions are published
+
+[`.github/workflows/publish.yml`](../.github/workflows/publish.yml) builds and lints all distributions:
+
+- on every pull request that touches the specification, a use case or the scripts (build and lint only);
+- on every push to `main`: published on GitHub Pages at <https://agroconnectnl.github.io/eCrop/>, where the
+  documentation page has a selector for the complete specification and each business case, and the files are
+  available at `https://agroconnectnl.github.io/eCrop/openapi/ecrop.yaml` and
+  `https://agroconnectnl.github.io/eCrop/openapi/ecrop-<name>.yaml`;
+- on every tag `v*` (e.g. `v1.1.0`): attached, together with `ecrop.yaml`, to the GitHub release of that tag,
+  so implementers can pin a fixed version.
+
+The generated files are not committed (`dist/` and `site/` are git-ignored).

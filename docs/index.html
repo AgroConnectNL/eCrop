@@ -11,12 +11,31 @@
 <body>
   <div id="swagger-ui"></div>
   <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js"></script>
+  <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-standalone-preset.js"></script>
   <script>
-    window.onload = () => {
+    // The complete specification, plus (when published) one distribution per business case,
+    // listed in ../openapi/distributions.json by scripts/assemble-site.py.
+    const complete = { name: 'eCrop - complete specification', url: '../openapi/ecrop.yaml' };
+
+    async function specs() {
+      try {
+        const response = await fetch('../openapi/distributions.json');
+        if (!response.ok) return [complete];
+        const list = await response.json();
+        return [complete, ...list.map((d) => ({ name: 'eCrop - ' + d.name, url: '../openapi/' + d.url }))];
+      } catch (e) {
+        return [complete]; // e.g. opened locally without the published distributions
+      }
+    }
+
+    window.onload = async () => {
+      const urls = await specs();
       window.ui = SwaggerUIBundle({
-        url: '../openapi/ecrop.yaml',
+        urls,
+        'urls.primaryName': urls[0].name,
         dom_id: '#swagger-ui',
-        presets: [SwaggerUIBundle.presets.apis],
+        presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+        layout: 'StandaloneLayout',
       });
     };
   </script>
