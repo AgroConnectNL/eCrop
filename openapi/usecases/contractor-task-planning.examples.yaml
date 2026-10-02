@@ -1,0 +1,675 @@
+# Example overrides for the contractor-task-planning distribution.
+#
+# Replaces (as a whole, by key) the generic examples in components/examples, and the
+# `example` of the listed components/schemas and components/parameters, of
+# openapi/ecrop.yaml when this business case is built with
+# scripts/build-distribution.py. Every component listed must exist in that distribution.
+#
+# Identifier schemes used in this business case:
+#   nl.loonwerkportaal.*  ids assigned by the Loonwerkportaal (primary ids: id, plotId, taskId, ...)
+#   nl.my-cps.*           ids assigned by the contractor's own planning system (thirdPartyIds of
+#                         tasks/operations, equipment and workers)
+
+components:
+  examples:
+    grower_200:
+      value:
+        id:
+          content: e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b
+          schemeId: nl.loonwerkportaal.codelist.guid
+        thirdPartyIds:
+          - content: '09123559'
+            schemeId: nl.kvk.codelist.kvknummer
+          - content: '870012388392'
+            schemeId: com.gs1.codelist.gln
+        name: Kwekerij De Lier
+        personName: J. de Lier
+        phoneNumber: +31(0)74 26653244
+        emailAddress: info@delier.nl
+        iban: NL04ABNA0667352669
+        websiteUrl: www.delier.nl
+        postalAddress:
+          postalCode: 3521 AA
+          cityName: Naaldwijk
+          country:
+            content: NL
+            listId: iso.3166-1.alpha2
+          countryName: Netherlands
+          postalBoxId: '4411'
+        visitorsAddress:
+          postalCode: 3521 AN
+          cityName: Naaldwijk
+          streetName: Broekweg
+          streetNumber: '12'
+          country:
+            content: NL
+            listId: iso.3166-1.alpha2
+          countryName: Netherlands
+    growers_200:
+      value:
+        - id:
+            content: e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b
+            schemeId: nl.loonwerkportaal.codelist.guid
+          thirdPartyIds:
+            - content: '09123559'
+              schemeId: nl.kvk.codelist.kvknummer
+            - content: '870012388392'
+              schemeId: com.gs1.codelist.gln
+          name: Kwekerij De Lier
+          personName: J. de Lier
+          phoneNumber: +31(0)74 26653244
+          emailAddress: info@delier.nl
+          iban: NL04ABNA0667352669
+          websiteUrl: www.delier.nl
+          postalAddress:
+            postalCode: 3521 AA
+            cityName: Naaldwijk
+            country:
+              content: NL
+              listId: iso.3166-1.alpha2
+            countryName: Netherlands
+            postalBoxId: '4411'
+          visitorsAddress:
+            postalCode: 3521 AN
+            cityName: Naaldwijk
+            streetName: Broekweg
+            streetNumber: '12'
+            country:
+              content: NL
+              listId: iso.3166-1.alpha2
+            countryName: Netherlands
+    plot_200:
+      value:
+        id:
+          content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+          schemeId: nl.loonwerkportaal.codelist.guid
+        thirdPartyIds:
+          - content: APD03-AD-4094
+            schemeId: nl.rvo.codelist.perceelsnummer
+        name: Tuin1, perceel6
+        startDate: '2024-01-12'
+        endDate: '2024-12-14'
+        type: CROPFIELD
+        area:
+          content: 6000
+          unitCode:
+            content: MTK
+            listId: nl.agroconnect.codelist.cl020
+        regularOrOrganic:
+          content: REGULAR
+          listId: nl.agroconnect.codelist.cl015
+        localSoilType:
+          content: CLAY
+          listId: nl.agroconnect.codelist.cl405
+        regulatorySoilType:
+          content: CLAY
+          listId: nl.agroconnect.codelist.cl405
+        links:
+          - rel: https://ecrop.agroconnect.nl/rel/plot-features
+            href: https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items/384912567
+            type: application/geo+json
+            title: Geo-information (boundary, entryPoint, abLine) as OGC feature
+    plots_200:
+      value:
+        - id:
+            content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+            schemeId: nl.loonwerkportaal.codelist.guid
+          thirdPartyIds:
+            - content: APD03-AD-4094
+              schemeId: nl.rvo.codelist.perceelsnummer
+          name: Tuin1, perceel6
+          startDate: '2024-01-12'
+          endDate: '2024-12-14'
+          type: CROPFIELD
+          area:
+            content: 6000
+            unitCode:
+              content: MTK
+              listId: nl.agroconnect.codelist.cl020
+          regularOrOrganic:
+            content: REGULAR
+            listId: nl.agroconnect.codelist.cl015
+          localSoilType:
+            content: CLAY
+            listId: nl.agroconnect.codelist.cl405
+          regulatorySoilType:
+            content: CLAY
+            listId: nl.agroconnect.codelist.cl405
+          links:
+            - rel: https://ecrop.agroconnect.nl/rel/plot-features
+              href: https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items/384912567
+              type: application/geo+json
+              title: Geo-information (boundary, entryPoint, abLine) as OGC feature
+        - id:
+            content: b3c4d5e6-7f8a-9b0c-1d2e-3f4a5b6c7d8e
+            schemeId: nl.loonwerkportaal.codelist.guid
+          thirdPartyIds:
+            - content: A342_1_7
+              schemeId: nl.rvo.codelist.perceelsnummer
+          name: Tuin1, perceel7
+          startDate: '2024-02-01'
+          endDate: '2024-11-30'
+          type: CROPFIELD
+          area:
+            content: 4200
+            unitCode:
+              content: MTK
+              listId: nl.agroconnect.codelist.cl020
+          regularOrOrganic:
+            content: REGULAR
+            listId: nl.agroconnect.codelist.cl015
+          localSoilType:
+            content: CLAY
+            listId: nl.agroconnect.codelist.cl405
+          regulatorySoilType:
+            content: CLAY
+            listId: nl.agroconnect.codelist.cl405
+          links:
+            - rel: https://ecrop.agroconnect.nl/rel/plot-features
+              href: https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items/271846930
+              type: application/geo+json
+              title: Geo-information (boundary, entryPoint, abLine) as OGC feature
+    plotFeatureCollection_200_jsonfg:
+      summary: profile=jsonfg
+      value:
+        type: FeatureCollection
+        conformsTo:
+          - http://www.opengis.net/spec/json-fg-1/1.0/conf/core
+          - http://www.opengis.net/spec/json-fg-1/1.0/conf/types-schemas
+        coordRefSys: http://www.opengis.net/def/crs/EPSG/0/28992
+        featureType: agroconnect:ecrop:plot
+        geometryDimension: 2
+        numberMatched: 2
+        numberReturned: 2
+        features:
+          - type: Feature
+            id: 384912567
+            time:
+              interval:
+                - '2024-01-12'
+                - '2024-12-14'
+            place:
+              type: Polygon
+              coordinates:
+                - - - 180000
+                    - 440000
+                  - - 182000
+                    - 440000
+                  - - 182000
+                    - 442000
+                  - - 180000
+                    - 442000
+                  - - 180000
+                    - 440000
+            geometry: null
+            properties:
+              plotId:
+                content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+                schemeId: nl.loonwerkportaal.codelist.guid
+              name: Tuin1, perceel6
+              area:
+                content: 6000
+                unitCode:
+                  content: MTK
+                  listId: nl.agroconnect.codelist.cl020
+            links:
+              - rel: https://ecrop.agroconnect.nl/rel/plot
+                href: https://standard-api.agroconnect.nl/ecrop/v1/plots/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+                type: application/json
+          - type: Feature
+            id: 271846930
+            time:
+              interval:
+                - '2024-02-01'
+                - '2024-11-30'
+            place:
+              type: Polygon
+              coordinates:
+                - - - 182000
+                    - 440000
+                  - - 183200
+                    - 440000
+                  - - 183200
+                    - 441500
+                  - - 182000
+                    - 441500
+                  - - 182000
+                    - 440000
+            geometry: null
+            properties:
+              plotId:
+                content: b3c4d5e6-7f8a-9b0c-1d2e-3f4a5b6c7d8e
+                schemeId: nl.loonwerkportaal.codelist.guid
+              name: Tuin1, perceel7
+              area:
+                content: 4200
+                unitCode:
+                  content: MTK
+                  listId: nl.agroconnect.codelist.cl020
+            links:
+              - rel: https://ecrop.agroconnect.nl/rel/plot
+                href: https://standard-api.agroconnect.nl/ecrop/v1/plots/b3c4d5e6-7f8a-9b0c-1d2e-3f4a5b6c7d8e
+                type: application/json
+        links:
+          - rel: self
+            href: https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items?profile=jsonfg
+            type: application/geo+json
+          - rel: collection
+            href: https://standard-api.agroconnect.nl/plot-features/v1/collections/plots
+            type: application/json
+    plotFeatureCollection_200_rfc7946:
+      summary: profile=rfc7946 (default)
+      value:
+        type: FeatureCollection
+        numberMatched: 2
+        numberReturned: 2
+        features:
+          - type: Feature
+            id: 384912567
+            geometry:
+              type: Polygon
+              coordinates:
+                - - - 5.7519
+                    - 51.9485
+                  - - 5.7811
+                    - 51.9485
+                  - - 5.7811
+                    - 51.9665
+                  - - 5.7519
+                    - 51.9665
+                  - - 5.7519
+                    - 51.9485
+            properties:
+              plotId:
+                content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+                schemeId: nl.loonwerkportaal.codelist.guid
+              name: Tuin1, perceel6
+              area:
+                content: 6000
+                unitCode:
+                  content: MTK
+                  listId: nl.agroconnect.codelist.cl020
+            links:
+              - rel: https://ecrop.agroconnect.nl/rel/plot
+                href: https://standard-api.agroconnect.nl/ecrop/v1/plots/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+                type: application/json
+          - type: Feature
+            id: 271846930
+            geometry:
+              type: Polygon
+              coordinates:
+                - - - 5.7811
+                    - 51.9485
+                  - - 5.792
+                    - 51.9485
+                  - - 5.792
+                    - 51.9605
+                  - - 5.7811
+                    - 51.9605
+                  - - 5.7811
+                    - 51.9485
+            properties:
+              plotId:
+                content: b3c4d5e6-7f8a-9b0c-1d2e-3f4a5b6c7d8e
+                schemeId: nl.loonwerkportaal.codelist.guid
+              name: Tuin1, perceel7
+              area:
+                content: 4200
+                unitCode:
+                  content: MTK
+                  listId: nl.agroconnect.codelist.cl020
+            links:
+              - rel: https://ecrop.agroconnect.nl/rel/plot
+                href: https://standard-api.agroconnect.nl/ecrop/v1/plots/b3c4d5e6-7f8a-9b0c-1d2e-3f4a5b6c7d8e
+                type: application/json
+        links:
+          - rel: self
+            href: https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items
+            type: application/geo+json
+    plotFeatureTopLevel_200_jsonfg:
+      summary: profile=jsonfg
+      value:
+        type: Feature
+        id: 384912567
+        conformsTo:
+          - http://www.opengis.net/spec/json-fg-1/1.0/conf/core
+          - http://www.opengis.net/spec/json-fg-1/1.0/conf/types-schemas
+        coordRefSys: http://www.opengis.net/def/crs/EPSG/0/28992
+        time:
+          interval:
+            - '2024-01-12'
+            - '2024-12-14'
+        place:
+          type: Polygon
+          coordinates:
+            - - - 180000
+                - 440000
+              - - 182000
+                - 440000
+              - - 182000
+                - 442000
+              - - 180000
+                - 442000
+              - - 180000
+                - 440000
+        geometry: null
+        featureType: agroconnect:ecrop:plot
+        properties:
+          plotId:
+            content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+            schemeId: nl.loonwerkportaal.codelist.guid
+          name: Tuin1, perceel6
+          area:
+            content: 6000
+            unitCode:
+              content: MTK
+              listId: nl.agroconnect.codelist.cl020
+          entryPoint:
+            type: Point
+            coordinates:
+              - 180050
+              - 440020
+          abLine:
+            type: LineString
+            coordinates:
+              - - 180200
+                - 440100
+              - - 181800
+                - 441900
+        links:
+          - rel: self
+            href: https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items/384912567?profile=jsonfg
+            type: application/geo+json
+          - rel: collection
+            href: https://standard-api.agroconnect.nl/plot-features/v1/collections/plots
+            type: application/json
+          - rel: https://ecrop.agroconnect.nl/rel/plot
+            href: https://standard-api.agroconnect.nl/ecrop/v1/plots/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+            type: application/json
+            title: Bijbehorend Plot business-object
+    plotFeatureTopLevel_200_rfc7946:
+      summary: profile=rfc7946 (default)
+      value:
+        type: Feature
+        id: 384912567
+        geometry:
+          type: Polygon
+          coordinates:
+            - - - 5.7519
+                - 51.9485
+              - - 5.7811
+                - 51.9485
+              - - 5.7811
+                - 51.9665
+              - - 5.7519
+                - 51.9665
+              - - 5.7519
+                - 51.9485
+        properties:
+          plotId:
+            content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+            schemeId: nl.loonwerkportaal.codelist.guid
+          name: Tuin1, perceel6
+          area:
+            content: 6000
+            unitCode:
+              content: MTK
+              listId: nl.agroconnect.codelist.cl020
+          entryPoint:
+            type: Point
+            coordinates:
+              - 5.7527
+              - 51.9487
+          abLine:
+            type: LineString
+            coordinates:
+              - - 5.7548
+                - 51.9494
+              - - 5.7782
+                - 51.9655
+        links:
+          - rel: self
+            href: https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items/384912567
+            type: application/geo+json
+          - rel: https://ecrop.agroconnect.nl/rel/plot
+            href: https://standard-api.agroconnect.nl/ecrop/v1/plots/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+            type: application/json
+    taskRequest:
+      value:
+        thirdPartyIds:
+          - content: '27575'
+            schemeId: nl.my-cps.codelist.registratienummer
+          - content: WB-2025-0412
+            schemeId: nl.my-cps.codelist.werkbonnummer
+        name: Spraying task
+        startDateTime: '2025-03-12T15:51:00+01:00'
+        endDateTime: '2025-03-12T16:45:00+01:00'
+        status: COMPLETED
+        operations:
+          - thirdPartyIds:
+              - content: '27575-1'
+                schemeId: nl.my-cps.codelist.operatienummer
+            name: Spraying operation
+            startDateTime: '2025-03-12T15:51:00+01:00'
+            endDateTime: '2025-03-12T16:45:00+01:00'
+            type:
+              content: SPRAYING
+              listId: nl.agroconnect.codelist.cl127
+            technique:
+              content: SPRAYING
+              listId: nl.agroconnect.codelist.cl302
+            status: COMPLETED
+            area:
+              content: 25000
+              unitCode:
+                content: MTK
+                listId: nl.agroconnect.codelist.cl020
+            inputAllocations:
+              - thirdPartyIds:
+                  - content: '52521785'
+                    schemeId: nl.my-cps.codelist.registratienummer
+                name: Movento
+                type:
+                  content: PROTEC
+                  listId: nl.agroconnect.codelist.cl127
+                quantity:
+                  content: 1200
+                  unitCode:
+                    content: KGM
+                    listId: nl.agroconnect.codelist.cl020
+                reason: Bladluis
+                product:
+                  thirdPartyIds:
+                    - content: 838439 N
+                      schemeId: nl.ctgb.codelist.toelatingsnummer
+                  name: Movento 100 SC - 1L - spirotetramat
+                treatmentzone:
+                  thirdPartyIds:
+                    - content: PAD-1-99
+                      schemeId: nl.my-cps.codelist.padnummers
+                  area:
+                    content: 23500
+                    unitCode:
+                      content: MTK
+                      listId: nl.agroconnect.codelist.cl020
+            equipmentAssignments:
+              - equipment:
+                  thirdPartyIds:
+                    - content: '1234'
+                      schemeId: nl.my-cps.codelist.materieelnummer
+                  name: John Deere 6120M
+                  type: Tractor
+                startDateTime: '2025-03-12T15:51:00+01:00'
+                endDateTime: '2025-03-12T16:45:00+01:00'
+                time:
+                  content: 0.9
+                  unitCode:
+                    content: HUR
+                    listId: nl.agroconnect.codelist.cl020
+                coveredDistance:
+                  content: 3.2
+                  unitCode:
+                    content: KMT
+                    listId: nl.agroconnect.codelist.cl020
+            workerAssignments:
+              - worker:
+                  id:
+                    content: '4821'
+                    schemeId: nl.my-cps.codelist.medewerkernummer
+                  name: Jan Jansen
+                  jobTitle: Machine operator
+                startDateTime: '2025-03-12T15:51:00+01:00'
+                endDateTime: '2025-03-12T16:45:00+01:00'
+                executionTime:
+                  content: 0.9
+                  unitCode:
+                    content: HUR
+                    listId: nl.agroconnect.codelist.cl020
+    task_202:
+      value:
+        id:
+          content: 2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e
+          schemeId: nl.loonwerkportaal.codelist.guid
+        thirdPartyIds:
+          - content: '27575'
+            schemeId: nl.my-cps.codelist.registratienummer
+          - content: WB-2025-0412
+            schemeId: nl.my-cps.codelist.werkbonnummer
+        name: Spraying task
+        startDateTime: '2025-03-12T15:51:00+01:00'
+        endDateTime: '2025-03-12T16:45:00+01:00'
+        status: COMPLETED
+        operations:
+          - thirdPartyIds:
+              - content: '27575-1'
+                schemeId: nl.my-cps.codelist.operatienummer
+            name: Spraying operation
+            startDateTime: '2025-03-12T15:51:00+01:00'
+            endDateTime: '2025-03-12T16:45:00+01:00'
+            type:
+              content: SPRAYING
+              listId: nl.agroconnect.codelist.cl127
+            technique:
+              content: SPRAYING
+              listId: nl.agroconnect.codelist.cl302
+            status: COMPLETED
+            area:
+              content: 25000
+              unitCode:
+                content: MTK
+                listId: nl.agroconnect.codelist.cl020
+            inputAllocations:
+              - thirdPartyIds:
+                  - content: '52521785'
+                    schemeId: nl.my-cps.codelist.registratienummer
+                name: Movento
+                type:
+                  content: PROTEC
+                  listId: nl.agroconnect.codelist.cl127
+                quantity:
+                  content: 1200
+                  unitCode:
+                    content: KGM
+                    listId: nl.agroconnect.codelist.cl020
+                reason: Bladluis
+                product:
+                  thirdPartyIds:
+                    - content: 838439 N
+                      schemeId: nl.ctgb.codelist.toelatingsnummer
+                  name: Movento 100 SC - 1L - spirotetramat
+                treatmentzone:
+                  thirdPartyIds:
+                    - content: PAD-1-99
+                      schemeId: nl.my-cps.codelist.padnummers
+                  area:
+                    content: 23500
+                    unitCode:
+                      content: MTK
+                      listId: nl.agroconnect.codelist.cl020
+            equipmentAssignments:
+              - equipment:
+                  thirdPartyIds:
+                    - content: '1234'
+                      schemeId: nl.my-cps.codelist.materieelnummer
+                  name: John Deere 6120M
+                  type: Tractor
+                startDateTime: '2025-03-12T15:51:00+01:00'
+                endDateTime: '2025-03-12T16:45:00+01:00'
+                time:
+                  content: 0.9
+                  unitCode:
+                    content: HUR
+                    listId: nl.agroconnect.codelist.cl020
+                coveredDistance:
+                  content: 3.2
+                  unitCode:
+                    content: KMT
+                    listId: nl.agroconnect.codelist.cl020
+            workerAssignments:
+              - worker:
+                  id:
+                    content: '4821'
+                    schemeId: nl.my-cps.codelist.medewerkernummer
+                  name: Jan Jansen
+                  jobTitle: Machine operator
+                startDateTime: '2025-03-12T15:51:00+01:00'
+                endDateTime: '2025-03-12T16:45:00+01:00'
+                executionTime:
+                  content: 0.9
+                  unitCode:
+                    content: HUR
+                    listId: nl.agroconnect.codelist.cl020
+  schemas:
+    EquipmentAssignment:
+      example:
+        equipment:
+          thirdPartyIds:
+            - content: '1234'
+              schemeId: nl.my-cps.codelist.materieelnummer
+          name: John Deere 6120M
+          type: Tractor
+        startDateTime: '2025-03-12T15:51:00+01:00'
+        endDateTime: '2025-03-12T16:45:00+01:00'
+        time:
+          content: 0.9
+          unitCode:
+            content: HUR
+            listId: nl.agroconnect.codelist.cl020
+        coveredDistance:
+          content: 3.2
+          unitCode:
+            content: KMT
+            listId: nl.agroconnect.codelist.cl020
+    Worker:
+      example:
+        id:
+          content: '4821'
+          schemeId: nl.my-cps.codelist.medewerkernummer
+        name: Jan Jansen
+        phoneNumber: +31(0)6 12345678
+        email: jan.jansen@example.com
+        jobTitle: Machine operator
+    WorkAssignment:
+      example:
+        worker:
+          id:
+            content: '4821'
+            schemeId: nl.my-cps.codelist.medewerkernummer
+          name: Jan Jansen
+          jobTitle: Machine operator
+        startDateTime: '2025-03-12T15:51:00+01:00'
+        endDateTime: '2025-03-12T16:45:00+01:00'
+        executionTime:
+          content: 0.9
+          unitCode:
+            content: HUR
+            listId: nl.agroconnect.codelist.cl020
+  parameters:
+    contractorSchemeId:
+      example: nl.loonwerkportaal.codelist.guid
+    growerSchemeId:
+      example: nl.loonwerkportaal.codelist.guid
+    plotSchemeId:
+      example: nl.loonwerkportaal.codelist.guid
+    taskSchemeId:
+      example: nl.loonwerkportaal.codelist.guid
