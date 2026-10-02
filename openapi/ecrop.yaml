@@ -44,6 +44,7 @@ paths:
     get:
       summary: Returns health check of this API
       operationId: get-health
+      x-usecases: [all]
       description: |-
         This endpoint provides health status information about the API service, its dependencies, and overall operational condition. It is designed to be used by monitoring tools, load balancers, and orchestration systems to determine if the service is available and ready to process requests.
 
@@ -73,6 +74,7 @@ paths:
     get:
       summary: Retrieve this OpenAPI Specification document
       operationId: get-openapi-json
+      x-usecases: [all]
       description: |-
         Returns this OpenAPI Specification document (this file, in JSON form), per the NLGov API Design Rules `/core/publish-openapi` requirement. Intended for automated discovery and API catalog tooling, so unlike other operations in this API it does not require the `Major-Version`/`User-Agent` headers, and CORS is enabled so it can be fetched directly from a browser.
       tags:
@@ -95,6 +97,7 @@ paths:
         - parties
       summary: Get all growers for which the client is authorized
       operationId: get-growers
+      x-usecases: [unassigned]
       description: |
         Returns a list with all growers which the requesting client has access to. When called by a grower, his own data will be returned
       parameters:
@@ -122,6 +125,7 @@ paths:
         - parties
       summary: Get a specific grower
       operationId: get-growers-by-growerId
+      x-usecases: [unassigned]
       description: Returns the data of a specific grower with the requested schemeId and growerId when the requesting client has access to these.
       responses:
         '200':
@@ -145,6 +149,7 @@ paths:
         - parties
       summary: Get all supliers for which the client is authorized
       operationId: get-suppliers
+      x-usecases: [unassigned]
       description: Returns a list with all suppliers which the requesting client has access to.
       parameters:
         - $ref: '#/components/parameters/page'
@@ -170,6 +175,7 @@ paths:
       tags:
         - parties
       operationId: get-suppliers-by-supplierId
+      x-usecases: [unassigned]
       summary: Get a specific supplier
       description: Returns the data of a specific supplier with the requested idType and id when the requesting client has access to these.
       responses:
@@ -194,6 +200,7 @@ paths:
         - parties
       summary: Get all contractors for which the client is authorized
       operationId: get-contractors
+      x-usecases: [unassigned]
       description: Returns a list with all contractors which the requesting client has access to.
       parameters:
         - $ref: '#/components/parameters/page'
@@ -219,6 +226,7 @@ paths:
       tags:
         - parties
       operationId: get-contractors-by-contractorId
+      x-usecases: [unassigned]
       summary: Get a specific contractor
       description: Returns the data of a specific contractor with the requested idType and id when the requesting client has access to these.
       responses:
@@ -245,6 +253,7 @@ paths:
         - parties
       summary: Get all growers for a contractor
       operationId: get-contractors-growers
+      x-usecases: [contractor-task-planning]
       description: Returns all growers for which a contractor is granted access
       parameters:
         - $ref: '#/components/parameters/page'
@@ -273,6 +282,7 @@ paths:
         - parties
       summary: Get a specific grower for a contractor
       operationId: get-contractors-growers-by-growerId
+      x-usecases: [contractor-task-planning]
       description: Returns a specific grower if the contractor is granted access
       responses:
         '200':
@@ -296,6 +306,7 @@ paths:
     post:
       summary: Register an inbound delivery by a grower
       operationId: post-grower-inbound-deliveries
+      x-usecases: [unassigned]
       description: Register an inbound delivery of a product by grower
       tags:
         - delivery
@@ -325,6 +336,7 @@ paths:
     put:
       summary: Update a previously registered inbound delivery by a grower
       operationId: put-growers-inbound-deliveries
+      x-usecases: [unassigned]
       description: Update a previously registered inbound delivery by a grower
       tags:
         - delivery
@@ -348,6 +360,7 @@ paths:
     delete:
       summary: Delete a previously registered inbound delivery by a grower
       operationId: del-grower-inbound-deliveries
+      x-usecases: [unassigned]
       description: Delete a previously registered inbound delivery by a grower
       tags:
         - delivery
@@ -375,6 +388,7 @@ paths:
     get:
       summary: Get all growers for a suppliers
       operationId: get-suppliers-growers
+      x-usecases: [supplier-inbound-delivery-registration]
       description: Returns all growers for which a supplier is autorised
       tags:
         - delivery
@@ -403,6 +417,7 @@ paths:
     get:
       summary: Get a specific grower for a supplier
       operationId: get-suppliers-growers-by-growerId
+      x-usecases: [supplier-inbound-delivery-registration]
       description: Returns a specific grower if the supplier is autorised
       tags:
         - delivery
@@ -430,6 +445,7 @@ paths:
     post:
       summary: Register an inbound delivery for a grower by a supplier
       operationId: post-suppliers-growers-inbound-deliveries
+      x-usecases: [supplier-inbound-delivery-registration]
       description: Register an inbound delivery of a product for a grower by a supplier.
       tags:
         - delivery
@@ -461,6 +477,7 @@ paths:
     put:
       summary: Update a previously registered inbound delivery for a grower by a supplier
       operationId: put-suppliers-growers-inbound-deliveries
+      x-usecases: [supplier-inbound-delivery-registration]
       description: Update a previously registered inbound delivery for a grower by a supplier
       tags:
         - delivery
@@ -484,6 +501,7 @@ paths:
     delete:
       summary: Delete a previously registered inbound delivery for a grower by a supplier
       operationId: del-suppliers-growers-inbound-deliveries
+      x-usecases: [supplier-inbound-delivery-registration]
       description: Delete a previously registered inbound delivery for a grower by a supplier
       tags:
         - delivery
@@ -511,6 +529,7 @@ paths:
     get:
       summary: Returns all productionlocations of a grower
       operationId: get-growers-production-locations
+      x-usecases: [unassigned]
       description: Returns all productionlocations of a grower
       tags:
         - farm level registration
@@ -539,6 +558,7 @@ paths:
     post:
       summary: Register a non crop-specific task with operations on a production location by a grower
       operationId: post-growers-production-locations-tasks
+      x-usecases: [unassigned]
       description: "Register a non crop-specific task with operations on a production location by a grower\r\n\r\nRemarks: repeatingly posting tasks with the same exterenal id will lead to updating the previously posted task (so no duplicates will be generated). \r\nPreferrable, clients should use the PUT operation to update previously POSTed tasks in stead of re-posting them."
       tags:
         - farm level registration
@@ -570,6 +590,7 @@ paths:
     put:
       summary: Update a previously registered non crop-specific task with operations on a production location by a grower
       operationId: put-growers-production-locations-tasks
+      x-usecases: [unassigned]
       description: Update a previously registered non crop-specific task with operations on a production location by a grower
       tags:
         - farm level registration
@@ -593,6 +614,7 @@ paths:
     delete:
       summary: Delete a previously registered non crop-specific task with operations on a production location by a grower
       operationId: del-growers-production-location-tasks
+      x-usecases: [unassigned]
       description: Delete a previously registered non crop-specific task with operations on a production location by a grower
       tags:
         - farm level registration
@@ -620,6 +642,7 @@ paths:
     get:
       summary: Returns all plots of a grower
       operationId: get-growers-plots
+      x-usecases: [fms-crop-operations-sync]
       description: Returns all plots of a grower
       tags:
         - plots
@@ -640,6 +663,7 @@ paths:
     post:
       summary: Register a new plot by a grower
       operationId: post-growers-plots
+      x-usecases: [unassigned]
       description: "Register a new plot by a grower\r\n\r\nRemarks: repeatingly posting plots with the same exterenal id will lead to updating the previously posted plot (so no duplicates will be generated). \r\nPreferrable, clients should use the PUT operation to update previously POSTed plots in stead of re-posting them."
       tags:
         - plots
@@ -669,6 +693,7 @@ paths:
     get:
       summary: Returns a specific plot of a grower
       operationId: get-growers-plots-by-plotid
+      x-usecases: [fms-crop-operations-sync]
       description: Returns a specific plot of a grower
       tags:
         - plots
@@ -688,6 +713,7 @@ paths:
     put:
       summary: Update a previously registered plot by a grower
       operationId: put-growers-plots
+      x-usecases: [unassigned]
       description: Update a previously registered plot by a grower
       tags:
         - plots
@@ -711,6 +737,7 @@ paths:
     delete:
       summary: Delete a plot by a grower
       operationId: del-growers-plots
+      x-usecases: [unassigned]
       description: Delete a plot by a grower
       tags:
         - plots
@@ -740,6 +767,7 @@ paths:
     get:
       summary: Get all plots of a grower for a contractor
       operationId: get-contractors-growers-plots
+      x-usecases: [contractor-task-planning]
       description: Returns all plots of a grower for which the contractor is granted access.
       tags:
         - plots
@@ -770,6 +798,7 @@ paths:
     get:
       summary: Get a specific plot of a grower for a contractor
       operationId: get-contractors-growers-plots-by-plotid
+      x-usecases: [contractor-task-planning]
       description: Returns a specific plot of a grower for which the contractor is granted access.
       tags:
         - plots
@@ -797,6 +826,7 @@ paths:
     post:
       summary: Register a non crop-specific task with operations on a plot by a grower
       operationId: post-growers-plot-tasks
+      x-usecases: [fms-crop-operations-sync]
       description: "Register a non crop-specific task with operations on a plot by a grower\r\n\r\nRemarks: repeatingly posting tasks with the same exterenal id will lead to updating the previously posted task (so no duplicates will be generated). \r\nPreferrable, clients should use the PUT operation to update previously POSTed tasks in stead of re-posting them."
       tags:
         - plot level registration
@@ -828,6 +858,7 @@ paths:
     put:
       summary: Update a previously registered non crop-specific task with operations on a plot by a grower
       operationId: put-growers-plot-tasks
+      x-usecases: [fms-crop-operations-sync]
       description: Update a previously registered non crop-specific task with operations on a plot by a grower
       tags:
         - plot level registration
@@ -851,6 +882,7 @@ paths:
     delete:
       summary: Delete a non crop-specific task with operations on a plot by a grower
       operationId: del-growers-plot-tasks
+      x-usecases: [fms-crop-operations-sync]
       description: Delete a non crop-specific task with operations on a plot by a grower
       tags:
         - plot level registration
@@ -882,6 +914,7 @@ paths:
     post:
       summary: Register a non crop-specific task with operations on a plot for a grower by a contractor
       operationId: post-contractors-growers-plot-tasks
+      x-usecases: [contractor-task-planning]
       description: "Register a non crop-specific task with operations on a plot of a grower for which the contractor is granted access.\r\n\r\nRemarks: repeatingly posting tasks with the same exterenal id will lead to updating the previously posted task (so no duplicates will be generated). \r\nPreferrable, clients should use the PUT operation to update previously POSTed tasks in stead of re-posting them."
       tags:
         - plot level registration
@@ -915,6 +948,7 @@ paths:
     put:
       summary: Update a previously registered non crop-specific task with operations on a plot for a grower by a contractor
       operationId: put-contractors-growers-plot-tasks
+      x-usecases: [contractor-task-planning]
       description: Update a previously registered non crop-specific task with operations on a plot of a grower for which the contractor is granted access.
       tags:
         - plot level registration
@@ -938,6 +972,7 @@ paths:
     patch:
       summary: Partially update a previously registered non crop-specific task with operations on a plot for a grower by a contractor
       operationId: patch-contractors-growers-plot-tasks
+      x-usecases: [contractor-task-planning]
       description: "Partially update a previously registered non crop-specific task with operations on a plot of a grower for which the contractor is granted access, using a JSON Patch document (RFC 6902) as request payload (AASG rule P012).\r\n\r\nExample: the request body below changes the treated area of the first operation from 25000 to 24500 m2. The *test* operation guards against concurrent changes: if the current value is not 25000, the whole patch is rejected."
       tags:
         - plot level registration
@@ -961,6 +996,7 @@ paths:
     delete:
       summary: Delete a non crop-specific task with operations on a plot for a grower by a contractor
       operationId: del-contractors-growers-plot-tasks
+      x-usecases: [contractor-task-planning]
       description: Delete a previously registered non crop-specific task with operations on a plot of a grower for which the contractor is granted access.
       tags:
         - plot level registration
@@ -988,6 +1024,7 @@ paths:
     get:
       summary: Return the crops of a grower
       operationId: get-growers-crops
+      x-usecases: [unassigned]
       description: Returns all crops of a grower
       tags:
         - crops
@@ -1008,6 +1045,7 @@ paths:
     post:
       summary: Register a new crop for a grower
       operationId: post-growers-crops
+      x-usecases: [unassigned]
       description: "Register a new crop for a grower\r\n\r\nRemarks: repeatingly posting multiple crops with the same exterenal id will lead to updating the previously posted crop (so no duplicates will be generated). \r\nPreferrable, clients should use the PUT operation to update previously POSTed crops in stead of re-posting them."
       tags:
         - crops
@@ -1039,6 +1077,7 @@ paths:
     put:
       summary: Update a previously registered crop by a grower
       operationId: put-growers-crops
+      x-usecases: [unassigned]
       description: Update a previously registered crop by a grower
       tags:
         - crops
@@ -1062,6 +1101,7 @@ paths:
     delete:
       summary: Delete a crop by a grower
       operationId: del-growers-crop
+      x-usecases: [unassigned]
       description: Delete a crop by a grower
       tags:
         - crops
@@ -1089,6 +1129,7 @@ paths:
     post:
       summary: Register a task with operations on a specific crop by a grower
       operationId: post-growers-tasks
+      x-usecases: [fms-crop-operations-sync]
       description: "Register a task with operations on a specific crop by a grower\r\n\r\nRemarks: repeatingly posting multiple tasks with the same exterenal id will lead to updating the previously posted task (so no duplicates will be generated). \r\nPreferrable, clients should use the PUT operation to update previously POSTed tasks in stead of re-posting them."
       tags:
         - crop level registration
@@ -1120,6 +1161,7 @@ paths:
     put:
       summary: Update a previously registered task with operations on a specific crop by a grower
       operationId: put-growers-tasks
+      x-usecases: [fms-crop-operations-sync]
       description: Update a previously registered task with operations on a specific crop by a grower
       tags:
         - crop level registration
@@ -1143,6 +1185,7 @@ paths:
     delete:
       summary: Delete a previously registered task with operations on a specific crop by a grower
       operationId: del-growers-tasks
+      x-usecases: [fms-crop-operations-sync]
       description: Delete a previously registered task with operations on a specific crop by a grower
       tags:
         - crop level registration
@@ -1174,6 +1217,7 @@ paths:
     get:
       summary: Landing page of the Plot Features API
       operationId: get-landing-page
+      x-usecases: [contractor-task-planning]
       description: 'Landing page of this OGC API Features-compliant API, with links to the API definition, the conformance declaration, and the feature collections. Per OGC API - Features - Part 1: Core, Requirement /req/core/root-op.'
       tags:
         - plot-geometry
@@ -1198,6 +1242,7 @@ paths:
     get:
       summary: Conformance declaration
       operationId: get-conformance
+      x-usecases: [contractor-task-planning]
       description: 'Returns the OGC API Features and JSON-FG conformance classes implemented by this API. Per OGC API - Features - Part 1: Core, Requirement /req/core/conformance-op.'
       tags:
         - plot-geometry
@@ -1222,6 +1267,7 @@ paths:
     get:
       summary: Describe the feature collections available in this API
       operationId: get-collections
+      x-usecases: [contractor-task-planning]
       description: 'Returns metadata about the feature collections available in this API (currently the "plots" collection). Per OGC API - Features - Part 1: Core, Requirement /req/core/collections-op.'
       tags:
         - plot-geometry
@@ -1246,6 +1292,7 @@ paths:
     get:
       summary: Describe the "plots" feature collection
       operationId: get-collection-plots
+      x-usecases: [contractor-task-planning]
       description: 'Returns metadata about the "plots" feature collection: its spatial/temporal extent, supported CRSs, and native (storage) CRS. Per OGC API - Features - Part 1: Core, Requirement /req/core/collection-op.'
       tags:
         - plot-geometry
@@ -1272,6 +1319,7 @@ paths:
     get:
       summary: Fetch plots as an OGC API Features / JSON-FG FeatureCollection
       operationId: get-plot-features
+      x-usecases: [contractor-task-planning]
       description: |
         Returns the geo-information (boundary, entryPoint, abLine) of plots as a FeatureCollection. boundary is the primary geometry of each feature.
 
@@ -1307,6 +1355,7 @@ paths:
     get:
       summary: Fetch a single plot Feature
       operationId: get-plot-feature-by-id
+      x-usecases: [contractor-task-planning]
       description: |
         Returns the geo-information (boundary, entryPoint, abLine) of a single plot as a Feature. boundary is the primary geometry.
 
@@ -2046,145 +2095,46 @@ components:
       title: Grower
       description: The grower (e.g. the farmer) that is responsible for the cultivation of the crop.
       allOf:
-        - allOf:
-            - $ref: '#/components/schemas/PrimaryId'
-            - example:
-                id:
-                  content: e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b
-                  schemeId: com.my-mps.codelist.guid
+        - $ref: '#/components/schemas/PrimaryId'
         - $ref: '#/components/schemas/GrowerDetails'
     GrowerDetails:
       title: Grower details
       description: The details of the grower (e.g. the farmer) that is responsible for the cultivation of the crop.
       allOf:
         - $ref: '#/components/schemas/PartyDetails'
-      example:
-        thirdPartyIds:
-          - content: '09123559'
-            schemeId: nl.kvk.codelist.kvknummer
-          - content: '870012388392'
-            schemeId: com.gs1.codelist.gln
-        name: Kwekerij De Lier
-        personName: J. de Lier
-        phoneNumber: +31(0)74 26653244
-        emailAddress: info@delier.nl
-        iban: NL04ABNA0667352669
-        websiteUrl: www.delier.nl
-        postalAddress:
-          postalCode: 3521 AA
-          cityName: Naaldwijk
-          country:
-            content: NL
-            listId: iso.3166-1.alpha2
-          countryName: Netherlands
-          postalBoxId: '4411'
-        visitorsAddress:
-          postalCode: 3521 AN
-          cityName: Naaldwijk
-          streetName: Broekweg
-          streetNumber: '12'
-          country:
-            content: NL
-            listId: iso.3166-1.alpha2
-          countryName: Netherlands
     Supplier:
       title: Supplier
       description: The supplier who delivers goods to a grower
       allOf:
-        - allOf:
-            - $ref: '#/components/schemas/PrimaryId'
-            - example:
-                id:
-                  content: 7a2e4c3d-9b8f-1a2c-3e4d-5f6a7b8c9d0e
-                  schemeId: com.my-mps.codelist.guid
+        - $ref: '#/components/schemas/PrimaryId'
         - $ref: '#/components/schemas/SupplierDetails'
     SupplierDetails:
       title: Supplier details
       description: The details of the supplier who delivers goods to a grower
       allOf:
         - $ref: '#/components/schemas/PartyDetails'
-      example:
-        thirdPartyIds:
-          - content: '06448281'
-            schemeId: nl.kvk.codelist.kvknummer
-          - content: '870066561253'
-            schemeId: com.gs1.codelist.gln
-        name: Van Iperen
-        phoneNumber: +31(0)74 6521300
-        emailAddress: info@iperen.com
-        websiteUrl: www.iperen.com
-        visitorsAddress:
-          postalCode: 3273 LK
-          cityName: Westmaas
-          streetName: Smidsweg
-          streetNumber: '24'
-          country:
-            content: NL
-            listId: iso.3166-1.alpha2
-          countryName: Netherlands
     Contractor:
       title: Contractor
       description: The contractor who performs tasks and operations on behalf of a grower, for the growers he is granted access to
       allOf:
-        - allOf:
-            - $ref: '#/components/schemas/PrimaryId'
-            - example:
-                id:
-                  content: 5d4e3f2a-1b0c-9d8e-7f6a-5b4c3d2e1f0a
-                  schemeId: com.my-mps.codelist.guid
+        - $ref: '#/components/schemas/PrimaryId'
         - $ref: '#/components/schemas/ContractorDetails'
     ContractorDetails:
       title: Contractor details
       description: The details of the contractor who performs tasks and operations on behalf of a grower
       allOf:
         - $ref: '#/components/schemas/PartyDetails'
-      example:
-        thirdPartyIds:
-          - content: '24138967'
-            schemeId: nl.kvk.codelist.kvknummer
-        name: Loonbedrijf De Groot
-        phoneNumber: +31(0)168 412233
-        emailAddress: info@loonbedrijfdegroot.nl
-        websiteUrl: www.loonbedrijfdegroot.nl
-        visitorsAddress:
-          postalCode: 4691 CB
-          cityName: Terneuzen
-          streetName: Industrieweg
-          streetNumber: '8'
-          country:
-            content: NL
-            listId: iso.3166-1.alpha2
-          countryName: Netherlands
     ProductionLocation:
       title: ProductionLocation
       description: The the entity that is responsible for cultivation the crops.
       allOf:
-        - allOf:
-            - $ref: '#/components/schemas/PrimaryId'
-            - example:
-                id:
-                  content: 8b2c1a7e-4f3d-4e9c-a1b2-3c4d5e6f7a8b
-                  schemeId: com.my-mps.codelist.guid
+        - $ref: '#/components/schemas/PrimaryId'
         - $ref: '#/components/schemas/ProductionLocationDetails'
     ProductionLocationDetails:
       title: Production location details
       description: The details of the entity that is responsible for cultivation the crops.
       allOf:
         - $ref: '#/components/schemas/PartyDetails'
-      example:
-        thirdPartyIds:
-          - content: '8700778121125'
-            schemeId: com.gs1.codelist.gln
-        name: Kas 1
-        visitorsAddress:
-          postalCode: 2675 SJ
-          cityName: Honselersdijk
-          streetName: Gantellaan
-          streetNumber: '8'
-          country:
-            content: NL
-            listId: iso.3166-1.alpha2
-          countryName: Netherlands
     AssetDetails:
       title: Asset details
       type: object
@@ -2217,12 +2167,7 @@ components:
       title: Crop
       description: 'The cultivation of a specific crop type (e.g. potato, wheat, rice,. etc.) on one or more plots during a specific period of time, specified by startDateTime and endDateTime.'
       allOf:
-        - allOf:
-            - $ref: '#/components/schemas/PrimaryId'
-            - example:
-                id:
-                  content: c9a7b8e2-3d4f-5e6a-7b8c-9d0e1f2a3b4c
-                  schemeId: com.my-mps.codelist.guid
+        - $ref: '#/components/schemas/PrimaryId'
         - $ref: '#/components/schemas/CropDetails'
     CropDetails:
       title: Crop details
@@ -2286,96 +2231,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/Plot'
-      example:
-        thirdPartyIds:
-          - content: '12345'
-            schemeId: com.my-mps.codelist.teeltnummer
-        name: string
-        startDate: '2025-03-12'
-        endDate: '2025-11-30'
-        year: 2025
-        country:
-          content: NL
-          listId: iso.3166-1.alpha2
-        region: string
-        useTitle:
-          content: string
-          listId: nl.agroconnect.codelist.cl412
-        productionType:
-          content: string
-          listId: nl.agroconnect.codelist.cl255
-        productionPurpose:
-          content: string
-          listId: nl.agroconnect.codelist.cl251
-        productionSequence: MAIN_CROP
-        regularOrOrganic:
-          content: string
-          listId: nl.agroconnect.codelist.cl015
-        netArea:
-          content: 6000
-          unitCode:
-            content: MTK
-            listId: nl.agroconnect.codelist.cl020
-        growEnvironment:
-          content: string
-          listId: nl.agroconnect.codelist.cl299
-        growMedium:
-          content: string
-          listId: nl.agroconnect.codelist.cl300
-        trackTillage: false
-        plantSpecies:
-          - species: '1010101'
-            variety: '01201'
-        #   precentageMix: 0
-        plots:
-          - id:
-              content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
-              schemeId: com.my-mps.codelist.guid
-            thirdPartyIds:
-              - content: A342_1_6
-                schemeId: com.my-mps.codelist.kasnummer
-            name: 'Tuin1, afdeling6'
-            startDate: '2024-01-12'
-            endDate: '2024-12-14'
-            type: CROPFIELD
-            area:
-              content: 2500
-              unitCode:
-                content: MTK
-                listId: nl.agroconnect.codelist.cl020
-            regularOrOrganic:
-              content: REGULAR
-              listId: nl.agroconnect.codelist.cl015
-            localSoilType:
-              content: CLAY
-              listId: nl.agroconnect.codelist.cl405
-            regulatorySoilType:
-              content: CLAY
-              listId: nl.agroconnect.codelist.cl405
-          - id:
-              content: b3c4d5e6-7f8a-9b0c-1d2e-3f4a5b6c7d8e
-              schemeId: com.my-mps.codelist.guid
-            thirdPartyIds:
-              - content: A342_1_7
-                schemeId: com.my-mps.codelist.kasnummer
-            name: 'Tuin1, afdeling7'
-            startDate: '2024-01-12'
-            endDate: '2024-12-14'
-            type: CROPFIELD
-            area:
-              content: 3500
-              unitCode:
-                content: MTK
-                listId: nl.agroconnect.codelist.cl020
-            regularOrOrganic:
-              content: REGULAR
-              listId: nl.agroconnect.codelist.cl015
-            localSoilType:
-              content: CLAY
-              listId: nl.agroconnect.codelist.cl405
-            regulatorySoilType:
-              content: CLAY
-              listId: nl.agroconnect.codelist.cl405
     PlantSpecies:
       title: Plantspecies
       type: object
@@ -2402,12 +2257,7 @@ components:
         Surface (area) that is used to grow plants.
         The exact location of this surface is specified by either, a greenhouse-location a point location or a border location (using outer and inner polygons).
       allOf:
-        - allOf:
-            - $ref: '#/components/schemas/PrimaryId'
-            - example:
-                id:
-                  content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
-                  schemeId: com.my-mps.codelist.guid
+        - $ref: '#/components/schemas/PrimaryId'
         - $ref: '#/components/schemas/PlotDetails'
     PlotDetails:
       title: Plot details
@@ -2441,28 +2291,6 @@ components:
                 - $ref: '#/components/schemas/CodeType'
             greenhouseLocation:
               $ref: '#/components/schemas/GreenhouseLocationDetails'
-      example:
-        thirdPartyIds:
-          - content: A342_1_6
-            schemeId: com.my-mps.codelist.kasnummer
-        name: 'Tuin1, perceel6'
-        startDate: '2024-01-12'
-        endDate: '2024-12-14'
-        type: CROPFIELD
-        area:
-          content: 6000
-          unitCode:
-            content: MTK
-            listId: nl.agroconnect.codelist.cl020
-        regularOrOrganic:
-          content: REGULAR
-          listId: nl.agroconnect.codelist.cl015
-        localSoilType:
-          content: CLAY
-          listId: nl.agroconnect.codelist.cl405
-        regulatorySoilType:
-          content: CLAY
-          listId: nl.agroconnect.codelist.cl405
     GreenhouseLocationDetails:
       title: Greenhouselocation details
       description: Structure with transparent walls and roof designed to regulate temperature and humidity for growing plants.
@@ -2790,12 +2618,7 @@ components:
         A 'task' consists of one ore more 'operations' that are closely related but involve different assents and resources. All combined operations need to be carried out well coordinated, to execute the task.
         For instance, the task potato harvesting involves: one tractor pulling the potato harvester, 2 units to take care of the transport of the harvested potatoes to the barn, equipment at the barn to unload the transport units and to bring the produce in the storing place.
       allOf:
-        - allOf:
-            - $ref: '#/components/schemas/PrimaryId'
-            - example:
-                id:
-                  content: 2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e
-                  schemeId: com.my-mps.codelist.guid
+        - $ref: '#/components/schemas/PrimaryId'
         - $ref: '#/components/schemas/TaskDetails'
     TaskDetails:
       title: Task details
@@ -2832,61 +2655,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/OperationDetails'
-      example:
-        thirdPartyIds:
-          - content: '27575'
-            schemeId: com.my-mps.codelist.registratienummer
-        name: Spraying task
-        startDateTime: '2025-03-12T15:51:00+01:00'
-        endDateTime: '2025-03-12T16:45:00+01:00'
-        status: COMPLETED
-        operations:
-          - thirdPartyIds:
-              - content: 27575-1
-                schemeId: MPS
-            name: Spraying operation
-            startDateTime: '2025-03-12T15:51:00+01:00'
-            endDateTime: '2025-03-12T16:45:00+01:00'
-            type:
-              content: SPRAYING
-              listId: nl.agroconnect.codelist.cl127
-            technique:
-              content: SPRAYING
-              listId: nl.agroconnect.codelist.cl302
-            status: COMPLETED
-            area:
-              content: 25000
-              unitCode:
-                content: MTK
-                listId: nl.agroconnect.codelist.cl020
-            inputAllocations:
-              - thirdPartyIds:
-                  - content: '52521785'
-                    schemeId: com.my-mps.codelist.registratienummer
-                name: Movento
-                type:
-                  content: PROTEC
-                  listId: nl.agroconnect.codelist.cl127
-                quantity:
-                  content: 1200
-                  unitCode:
-                    content: KGM
-                    listId: nl.agroconnect.codelist.cl020
-                reason: Bladluis
-                product:
-                  thirdPartyIds:
-                    - content: 838439 N
-                      schemeId: nl.ctgb.codelist.toelatingsnummer
-                  name: Movento 100 SC - 1L - spirotetramat
-                treatmentzone:
-                  thirdPartyIds:
-                    - content: PAD-1-99
-                      schemeId: com.my-mps.codelist.padnummers
-                  area:
-                    content: 23500
-                    unitCode:
-                      content: MTK
-                      listId: nl.agroconnect.codelist.cl020
     OperationDetails:
       title: Operation details
       type: object
@@ -3631,6 +3399,983 @@ components:
             - content: '1'
               schemeId: com.iperen.codelist.cl030
           name: De Tuinderij Honselersdijk
+    taskRequest:
+      value:
+        thirdPartyIds:
+          - content: '27575'
+            schemeId: com.my-mps.codelist.registratienummer
+        name: Spraying task
+        startDateTime: '2025-03-12T15:51:00+01:00'
+        endDateTime: '2025-03-12T16:45:00+01:00'
+        status: COMPLETED
+        operations:
+          - thirdPartyIds:
+              - content: 27575-1
+                schemeId: MPS
+            name: Spraying operation
+            startDateTime: '2025-03-12T15:51:00+01:00'
+            endDateTime: '2025-03-12T16:45:00+01:00'
+            type:
+              content: SPRAYING
+              listId: nl.agroconnect.codelist.cl127
+            technique:
+              content: SPRAYING
+              listId: nl.agroconnect.codelist.cl302
+            status: COMPLETED
+            area:
+              content: 25000
+              unitCode:
+                content: MTK
+                listId: nl.agroconnect.codelist.cl020
+            inputAllocations:
+              - thirdPartyIds:
+                  - content: '52521785'
+                    schemeId: com.my-mps.codelist.registratienummer
+                name: Movento
+                type:
+                  content: PROTEC
+                  listId: nl.agroconnect.codelist.cl127
+                quantity:
+                  content: 1200
+                  unitCode:
+                    content: KGM
+                    listId: nl.agroconnect.codelist.cl020
+                reason: Bladluis
+                product:
+                  thirdPartyIds:
+                    - content: 838439 N
+                      schemeId: nl.ctgb.codelist.toelatingsnummer
+                  name: Movento 100 SC - 1L - spirotetramat
+                treatmentzone:
+                  thirdPartyIds:
+                    - content: PAD-1-99
+                      schemeId: com.my-mps.codelist.padnummers
+                  area:
+                    content: 23500
+                    unitCode:
+                      content: MTK
+                      listId: nl.agroconnect.codelist.cl020
+    patchRequest:
+      summary: Change the treated area of the first operation from 25000 to 24500
+      value:
+        - op: test
+          path: /operations/0/area/content
+          value: 25000
+        - op: replace
+          path: /operations/0/area/content
+          value: 24500
+    plot_200:
+      value:
+        id:
+          content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+          schemeId: com.my-mps.codelist.guid
+        thirdPartyIds:
+          - content: A342_1_6
+            schemeId: com.my-mps.codelist.kasnummer
+        name: 'Tuin1, perceel6'
+        startDate: '2024-01-12'
+        endDate: '2024-12-14'
+        type: CROPFIELD
+        area:
+          content: 6000
+          unitCode:
+            content: MTK
+            listId: nl.agroconnect.codelist.cl020
+        regularOrOrganic:
+          content: REGULAR
+          listId: nl.agroconnect.codelist.cl015
+        localSoilType:
+          content: CLAY
+          listId: nl.agroconnect.codelist.cl405
+        regulatorySoilType:
+          content: CLAY
+          listId: nl.agroconnect.codelist.cl405
+        links:
+          - rel: 'https://ecrop.agroconnect.nl/rel/plot-features'
+            href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items/384912567'
+            type: application/geo+json
+            title: 'Geo-information (boundary, entryPoint, abLine) as OGC feature'
+    plots_200:
+      value:
+        - id:
+            content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+            schemeId: com.my-mps.codelist.guid
+          thirdPartyIds:
+            - content: A342_1_6
+              schemeId: com.my-mps.codelist.kasnummer
+          name: 'Tuin1, perceel6'
+          startDate: '2024-01-12'
+          endDate: '2024-12-14'
+          type: CROPFIELD
+          area:
+            content: 6000
+            unitCode:
+              content: MTK
+              listId: nl.agroconnect.codelist.cl020
+          regularOrOrganic:
+            content: REGULAR
+            listId: nl.agroconnect.codelist.cl015
+          localSoilType:
+            content: CLAY
+            listId: nl.agroconnect.codelist.cl405
+          regulatorySoilType:
+            content: CLAY
+            listId: nl.agroconnect.codelist.cl405
+          links:
+            - rel: 'https://ecrop.agroconnect.nl/rel/plot-features'
+              href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items/384912567'
+              type: application/geo+json
+              title: 'Geo-information (boundary, entryPoint, abLine) as OGC feature'
+        - id:
+            content: b3c4d5e6-7f8a-9b0c-1d2e-3f4a5b6c7d8e
+            schemeId: com.my-mps.codelist.guid
+          thirdPartyIds:
+            - content: A342_1_7
+              schemeId: com.my-mps.codelist.kasnummer
+          name: 'Tuin1, perceel7'
+          startDate: '2024-02-01'
+          endDate: '2024-11-30'
+          type: CROPFIELD
+          area:
+            content: 4200
+            unitCode:
+              content: MTK
+              listId: nl.agroconnect.codelist.cl020
+          regularOrOrganic:
+            content: REGULAR
+            listId: nl.agroconnect.codelist.cl015
+          localSoilType:
+            content: CLAY
+            listId: nl.agroconnect.codelist.cl405
+          regulatorySoilType:
+            content: CLAY
+            listId: nl.agroconnect.codelist.cl405
+          links:
+            - rel: 'https://ecrop.agroconnect.nl/rel/plot-features'
+              href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items/271846930'
+              type: application/geo+json
+              title: 'Geo-information (boundary, entryPoint, abLine) as OGC feature'
+    plotFeatureCollection_200_jsonfg:
+      summary: profile=jsonfg
+      value:
+        type: FeatureCollection
+        conformsTo:
+          - 'http://www.opengis.net/spec/json-fg-1/1.0/conf/core'
+          - 'http://www.opengis.net/spec/json-fg-1/1.0/conf/types-schemas'
+        coordRefSys: 'http://www.opengis.net/def/crs/EPSG/0/28992'
+        featureType: 'agroconnect:ecrop:plot'
+        geometryDimension: 2
+        numberMatched: 2
+        numberReturned: 2
+        features:
+          - type: Feature
+            id: 384912567
+            time:
+              interval:
+                - '2024-01-12'
+                - '2024-12-14'
+            place:
+              type: Polygon
+              coordinates:
+                - - - 180000
+                    - 440000
+                  - - 182000
+                    - 440000
+                  - - 182000
+                    - 442000
+                  - - 180000
+                    - 442000
+                  - - 180000
+                    - 440000
+            geometry: null
+            properties:
+              plotId:
+                content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+                schemeId: com.my-mps.codelist.guid
+              name: 'Tuin1, perceel6'
+              area:
+                content: 6000
+                unitCode:
+                  content: MTK
+                  listId: nl.agroconnect.codelist.cl020
+            links:
+              - rel: 'https://ecrop.agroconnect.nl/rel/plot'
+                href: 'https://standard-api.agroconnect.nl/ecrop/v1/plots/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b'
+                type: application/json
+          - type: Feature
+            id: 271846930
+            time:
+              interval:
+                - '2024-02-01'
+                - '2024-11-30'
+            place:
+              type: Polygon
+              coordinates:
+                - - - 182000
+                    - 440000
+                  - - 183200
+                    - 440000
+                  - - 183200
+                    - 441500
+                  - - 182000
+                    - 441500
+                  - - 182000
+                    - 440000
+            geometry: null
+            properties:
+              plotId:
+                content: b3c4d5e6-7f8a-9b0c-1d2e-3f4a5b6c7d8e
+                schemeId: com.my-mps.codelist.guid
+              name: 'Tuin1, perceel7'
+              area:
+                content: 4200
+                unitCode:
+                  content: MTK
+                  listId: nl.agroconnect.codelist.cl020
+            links:
+              - rel: 'https://ecrop.agroconnect.nl/rel/plot'
+                href: 'https://standard-api.agroconnect.nl/ecrop/v1/plots/b3c4d5e6-7f8a-9b0c-1d2e-3f4a5b6c7d8e'
+                type: application/json
+        links:
+          - rel: self
+            href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items?profile=jsonfg'
+            type: application/geo+json
+          - rel: collection
+            href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots'
+            type: application/json
+    plotFeatureCollection_200_rfc7946:
+      summary: profile=rfc7946 (default)
+      value:
+        type: FeatureCollection
+        numberMatched: 2
+        numberReturned: 2
+        features:
+          - type: Feature
+            id: 384912567
+            geometry:
+              type: Polygon
+              coordinates:
+                - - - 5.7519
+                    - 51.9485
+                  - - 5.7811
+                    - 51.9485
+                  - - 5.7811
+                    - 51.9665
+                  - - 5.7519
+                    - 51.9665
+                  - - 5.7519
+                    - 51.9485
+            properties:
+              plotId:
+                content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+                schemeId: com.my-mps.codelist.guid
+              name: 'Tuin1, perceel6'
+              area:
+                content: 6000
+                unitCode:
+                  content: MTK
+                  listId: nl.agroconnect.codelist.cl020
+            links:
+              - rel: 'https://ecrop.agroconnect.nl/rel/plot'
+                href: 'https://standard-api.agroconnect.nl/ecrop/v1/plots/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b'
+                type: application/json
+          - type: Feature
+            id: 271846930
+            geometry:
+              type: Polygon
+              coordinates:
+                - - - 5.7811
+                    - 51.9485
+                  - - 5.792
+                    - 51.9485
+                  - - 5.792
+                    - 51.9605
+                  - - 5.7811
+                    - 51.9605
+                  - - 5.7811
+                    - 51.9485
+            properties:
+              plotId:
+                content: b3c4d5e6-7f8a-9b0c-1d2e-3f4a5b6c7d8e
+                schemeId: com.my-mps.codelist.guid
+              name: 'Tuin1, perceel7'
+              area:
+                content: 4200
+                unitCode:
+                  content: MTK
+                  listId: nl.agroconnect.codelist.cl020
+            links:
+              - rel: 'https://ecrop.agroconnect.nl/rel/plot'
+                href: 'https://standard-api.agroconnect.nl/ecrop/v1/plots/b3c4d5e6-7f8a-9b0c-1d2e-3f4a5b6c7d8e'
+                type: application/json
+        links:
+          - rel: self
+            href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items'
+            type: application/geo+json
+    plotFeatureTopLevel_200_jsonfg:
+      summary: profile=jsonfg
+      value:
+        type: Feature
+        id: 384912567
+        conformsTo:
+          - 'http://www.opengis.net/spec/json-fg-1/1.0/conf/core'
+          - 'http://www.opengis.net/spec/json-fg-1/1.0/conf/types-schemas'
+        coordRefSys: 'http://www.opengis.net/def/crs/EPSG/0/28992'
+        time:
+          interval:
+            - '2024-01-12'
+            - '2024-12-14'
+        place:
+          type: Polygon
+          coordinates:
+            - - - 180000
+                - 440000
+              - - 182000
+                - 440000
+              - - 182000
+                - 442000
+              - - 180000
+                - 442000
+              - - 180000
+                - 440000
+        geometry: null
+        featureType: 'agroconnect:ecrop:plot'
+        properties:
+          plotId:
+            content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+            schemeId: com.my-mps.codelist.guid
+          name: 'Tuin1, perceel6'
+          area:
+            content: 6000
+            unitCode:
+              content: MTK
+              listId: nl.agroconnect.codelist.cl020
+          entryPoint:
+            type: Point
+            coordinates:
+              - 180050
+              - 440020
+          abLine:
+            type: LineString
+            coordinates:
+              - - 180200
+                - 440100
+              - - 181800
+                - 441900
+        links:
+          - rel: self
+            href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items/384912567?profile=jsonfg'
+            type: application/geo+json
+          - rel: collection
+            href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots'
+            type: application/json
+          - rel: 'https://ecrop.agroconnect.nl/rel/plot'
+            href: 'https://standard-api.agroconnect.nl/ecrop/v1/plots/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b'
+            type: application/json
+            title: Bijbehorend Plot business-object
+    plotFeatureTopLevel_200_rfc7946:
+      summary: profile=rfc7946 (default)
+      value:
+        type: Feature
+        id: 384912567
+        geometry:
+          type: Polygon
+          coordinates:
+            - - - 5.7519
+                - 51.9485
+              - - 5.7811
+                - 51.9485
+              - - 5.7811
+                - 51.9665
+              - - 5.7519
+                - 51.9665
+              - - 5.7519
+                - 51.9485
+        properties:
+          plotId:
+            content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+            schemeId: com.my-mps.codelist.guid
+          name: 'Tuin1, perceel6'
+          area:
+            content: 6000
+            unitCode:
+              content: MTK
+              listId: nl.agroconnect.codelist.cl020
+          entryPoint:
+            type: Point
+            coordinates:
+              - 5.7527
+              - 51.9487
+          abLine:
+            type: LineString
+            coordinates:
+              - - 5.7548
+                - 51.9494
+              - - 5.7782
+                - 51.9655
+        links:
+          - rel: self
+            href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items/384912567'
+            type: application/geo+json
+          - rel: 'https://ecrop.agroconnect.nl/rel/plot'
+            href: 'https://standard-api.agroconnect.nl/ecrop/v1/plots/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b'
+            type: application/json
+    grower_200:
+      value:
+        id:
+          content: e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b
+          schemeId: com.my-mps.codelist.guid
+        thirdPartyIds:
+          - content: '09123559'
+            schemeId: nl.kvk.codelist.kvknummer
+          - content: '870012388392'
+            schemeId: com.gs1.codelist.gln
+        name: Kwekerij De Lier
+        personName: J. de Lier
+        phoneNumber: +31(0)74 26653244
+        emailAddress: info@delier.nl
+        iban: NL04ABNA0667352669
+        websiteUrl: www.delier.nl
+        postalAddress:
+          postalCode: 3521 AA
+          cityName: Naaldwijk
+          country:
+            content: NL
+            listId: iso.3166-1.alpha2
+          countryName: Netherlands
+          postalBoxId: '4411'
+        visitorsAddress:
+          postalCode: 3521 AN
+          cityName: Naaldwijk
+          streetName: Broekweg
+          streetNumber: '12'
+          country:
+            content: NL
+            listId: iso.3166-1.alpha2
+          countryName: Netherlands
+    growers_200:
+      value:
+        - id:
+            content: e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b
+            schemeId: com.my-mps.codelist.guid
+          thirdPartyIds:
+            - content: '09123559'
+              schemeId: nl.kvk.codelist.kvknummer
+            - content: '870012388392'
+              schemeId: com.gs1.codelist.gln
+          name: Kwekerij De Lier
+          personName: J. de Lier
+          phoneNumber: +31(0)74 26653244
+          emailAddress: info@delier.nl
+          iban: NL04ABNA0667352669
+          websiteUrl: www.delier.nl
+          postalAddress:
+            postalCode: 3521 AA
+            cityName: Naaldwijk
+            country:
+              content: NL
+              listId: iso.3166-1.alpha2
+            countryName: Netherlands
+            postalBoxId: '4411'
+          visitorsAddress:
+            postalCode: 3521 AN
+            cityName: Naaldwijk
+            streetName: Broekweg
+            streetNumber: '12'
+            country:
+              content: NL
+              listId: iso.3166-1.alpha2
+            countryName: Netherlands
+    supplier_200:
+      value:
+        id:
+          content: 7a2e4c3d-9b8f-1a2c-3e4d-5f6a7b8c9d0e
+          schemeId: com.my-mps.codelist.guid
+        thirdPartyIds:
+          - content: '06448281'
+            schemeId: nl.kvk.codelist.kvknummer
+          - content: '870066561253'
+            schemeId: com.gs1.codelist.gln
+        name: Van Iperen
+        phoneNumber: +31(0)74 6521300
+        emailAddress: info@iperen.com
+        websiteUrl: www.iperen.com
+        visitorsAddress:
+          postalCode: 3273 LK
+          cityName: Westmaas
+          streetName: Smidsweg
+          streetNumber: '24'
+          country:
+            content: NL
+            listId: iso.3166-1.alpha2
+          countryName: Netherlands
+    suppliers_200:
+      value:
+        - id:
+            content: 7a2e4c3d-9b8f-1a2c-3e4d-5f6a7b8c9d0e
+            schemeId: com.my-mps.codelist.guid
+          thirdPartyIds:
+            - content: '06448281'
+              schemeId: nl.kvk.codelist.kvknummer
+            - content: '870066561253'
+              schemeId: com.gs1.codelist.gln
+          name: Van Iperen
+          phoneNumber: +31(0)74 6521300
+          emailAddress: info@iperen.com
+          websiteUrl: www.iperen.com
+          visitorsAddress:
+            postalCode: 3273 LK
+            cityName: Westmaas
+            streetName: Smidsweg
+            streetNumber: '24'
+            country:
+              content: NL
+              listId: iso.3166-1.alpha2
+            countryName: Netherlands
+    contractor_200:
+      value:
+        id:
+          content: 5d4e3f2a-1b0c-9d8e-7f6a-5b4c3d2e1f0a
+          schemeId: com.my-mps.codelist.guid
+        thirdPartyIds:
+          - content: '24138967'
+            schemeId: nl.kvk.codelist.kvknummer
+        name: Loonbedrijf De Groot
+        phoneNumber: +31(0)168 412233
+        emailAddress: info@loonbedrijfdegroot.nl
+        websiteUrl: www.loonbedrijfdegroot.nl
+        visitorsAddress:
+          postalCode: 4691 CB
+          cityName: Terneuzen
+          streetName: Industrieweg
+          streetNumber: '8'
+          country:
+            content: NL
+            listId: iso.3166-1.alpha2
+          countryName: Netherlands
+    contractors_200:
+      value:
+        - id:
+            content: 5d4e3f2a-1b0c-9d8e-7f6a-5b4c3d2e1f0a
+            schemeId: com.my-mps.codelist.guid
+          thirdPartyIds:
+            - content: '24138967'
+              schemeId: nl.kvk.codelist.kvknummer
+          name: Loonbedrijf De Groot
+          phoneNumber: +31(0)168 412233
+          emailAddress: info@loonbedrijfdegroot.nl
+          websiteUrl: www.loonbedrijfdegroot.nl
+          visitorsAddress:
+            postalCode: 4691 CB
+            cityName: Terneuzen
+            streetName: Industrieweg
+            streetNumber: '8'
+            country:
+              content: NL
+              listId: iso.3166-1.alpha2
+            countryName: Netherlands
+    plot_202:
+      value:
+        id:
+          content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+          schemeId: com.my-mps.codelist.guid
+        thirdPartyIds:
+          - content: A342_1_6
+            schemeId: com.my-mps.codelist.kasnummer
+        name: Tuin1, perceel6
+        startDate: '2024-01-12'
+        endDate: '2024-12-14'
+        type: CROPFIELD
+        area:
+          content: 6000
+          unitCode:
+            content: MTK
+            listId: nl.agroconnect.codelist.cl020
+        regularOrOrganic:
+          content: REGULAR
+          listId: nl.agroconnect.codelist.cl015
+        localSoilType:
+          content: CLAY
+          listId: nl.agroconnect.codelist.cl405
+        regulatorySoilType:
+          content: CLAY
+          listId: nl.agroconnect.codelist.cl405
+    productionLocations_200:
+      value:
+        - id:
+            content: 8b2c1a7e-4f3d-4e9c-a1b2-3c4d5e6f7a8b
+            schemeId: com.my-mps.codelist.guid
+          thirdPartyIds:
+            - content: '8700778121125'
+              schemeId: com.gs1.codelist.gln
+          name: Kas 1
+          visitorsAddress:
+            postalCode: 2675 SJ
+            cityName: Honselersdijk
+            streetName: Gantellaan
+            streetNumber: '8'
+            country:
+              content: NL
+              listId: iso.3166-1.alpha2
+            countryName: Netherlands
+    crops_200:
+      value:
+        - id:
+            content: c9a7b8e2-3d4f-5e6a-7b8c-9d0e1f2a3b4c
+            schemeId: com.my-mps.codelist.guid
+          thirdPartyIds:
+            - content: '12345'
+              schemeId: com.my-mps.codelist.teeltnummer
+          name: string
+          startDate: '2025-03-12'
+          endDate: '2025-11-30'
+          year: 2025
+          country:
+            content: NL
+            listId: iso.3166-1.alpha2
+          region: string
+          useTitle:
+            content: string
+            listId: nl.agroconnect.codelist.cl412
+          productionType:
+            content: string
+            listId: nl.agroconnect.codelist.cl255
+          productionPurpose:
+            content: string
+            listId: nl.agroconnect.codelist.cl251
+          productionSequence: MAIN_CROP
+          regularOrOrganic:
+            content: string
+            listId: nl.agroconnect.codelist.cl015
+          netArea:
+            content: 6000
+            unitCode:
+              content: MTK
+              listId: nl.agroconnect.codelist.cl020
+          growEnvironment:
+            content: string
+            listId: nl.agroconnect.codelist.cl299
+          growMedium:
+            content: string
+            listId: nl.agroconnect.codelist.cl300
+          trackTillage: false
+          plantSpecies:
+            - species: '1010101'
+              variety: '01201'
+          plots:
+            - id:
+                content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+                schemeId: com.my-mps.codelist.guid
+              thirdPartyIds:
+                - content: A342_1_6
+                  schemeId: com.my-mps.codelist.kasnummer
+              name: Tuin1, afdeling6
+              startDate: '2024-01-12'
+              endDate: '2024-12-14'
+              type: CROPFIELD
+              area:
+                content: 2500
+                unitCode:
+                  content: MTK
+                  listId: nl.agroconnect.codelist.cl020
+              regularOrOrganic:
+                content: REGULAR
+                listId: nl.agroconnect.codelist.cl015
+              localSoilType:
+                content: CLAY
+                listId: nl.agroconnect.codelist.cl405
+              regulatorySoilType:
+                content: CLAY
+                listId: nl.agroconnect.codelist.cl405
+            - id:
+                content: b3c4d5e6-7f8a-9b0c-1d2e-3f4a5b6c7d8e
+                schemeId: com.my-mps.codelist.guid
+              thirdPartyIds:
+                - content: A342_1_7
+                  schemeId: com.my-mps.codelist.kasnummer
+              name: Tuin1, afdeling7
+              startDate: '2024-01-12'
+              endDate: '2024-12-14'
+              type: CROPFIELD
+              area:
+                content: 3500
+                unitCode:
+                  content: MTK
+                  listId: nl.agroconnect.codelist.cl020
+              regularOrOrganic:
+                content: REGULAR
+                listId: nl.agroconnect.codelist.cl015
+              localSoilType:
+                content: CLAY
+                listId: nl.agroconnect.codelist.cl405
+              regulatorySoilType:
+                content: CLAY
+                listId: nl.agroconnect.codelist.cl405
+    crop_202:
+      value:
+        id:
+          content: c9a7b8e2-3d4f-5e6a-7b8c-9d0e1f2a3b4c
+          schemeId: com.my-mps.codelist.guid
+        thirdPartyIds:
+          - content: '12345'
+            schemeId: com.my-mps.codelist.teeltnummer
+        name: string
+        startDate: '2025-03-12'
+        endDate: '2025-11-30'
+        year: 2025
+        country:
+          content: NL
+          listId: iso.3166-1.alpha2
+        region: string
+        useTitle:
+          content: string
+          listId: nl.agroconnect.codelist.cl412
+        productionType:
+          content: string
+          listId: nl.agroconnect.codelist.cl255
+        productionPurpose:
+          content: string
+          listId: nl.agroconnect.codelist.cl251
+        productionSequence: MAIN_CROP
+        regularOrOrganic:
+          content: string
+          listId: nl.agroconnect.codelist.cl015
+        netArea:
+          content: 6000
+          unitCode:
+            content: MTK
+            listId: nl.agroconnect.codelist.cl020
+        growEnvironment:
+          content: string
+          listId: nl.agroconnect.codelist.cl299
+        growMedium:
+          content: string
+          listId: nl.agroconnect.codelist.cl300
+        trackTillage: false
+        plantSpecies:
+          - species: '1010101'
+            variety: '01201'
+        plots:
+          - id:
+              content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+              schemeId: com.my-mps.codelist.guid
+            thirdPartyIds:
+              - content: A342_1_6
+                schemeId: com.my-mps.codelist.kasnummer
+            name: Tuin1, afdeling6
+            startDate: '2024-01-12'
+            endDate: '2024-12-14'
+            type: CROPFIELD
+            area:
+              content: 2500
+              unitCode:
+                content: MTK
+                listId: nl.agroconnect.codelist.cl020
+            regularOrOrganic:
+              content: REGULAR
+              listId: nl.agroconnect.codelist.cl015
+            localSoilType:
+              content: CLAY
+              listId: nl.agroconnect.codelist.cl405
+            regulatorySoilType:
+              content: CLAY
+              listId: nl.agroconnect.codelist.cl405
+          - id:
+              content: b3c4d5e6-7f8a-9b0c-1d2e-3f4a5b6c7d8e
+              schemeId: com.my-mps.codelist.guid
+            thirdPartyIds:
+              - content: A342_1_7
+                schemeId: com.my-mps.codelist.kasnummer
+            name: Tuin1, afdeling7
+            startDate: '2024-01-12'
+            endDate: '2024-12-14'
+            type: CROPFIELD
+            area:
+              content: 3500
+              unitCode:
+                content: MTK
+                listId: nl.agroconnect.codelist.cl020
+            regularOrOrganic:
+              content: REGULAR
+              listId: nl.agroconnect.codelist.cl015
+            localSoilType:
+              content: CLAY
+              listId: nl.agroconnect.codelist.cl405
+            regulatorySoilType:
+              content: CLAY
+              listId: nl.agroconnect.codelist.cl405
+    task_202:
+      value:
+        id:
+          content: 2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e
+          schemeId: com.my-mps.codelist.guid
+        thirdPartyIds:
+          - content: '27575'
+            schemeId: com.my-mps.codelist.registratienummer
+        name: Spraying task
+        startDateTime: '2025-03-12T15:51:00+01:00'
+        endDateTime: '2025-03-12T16:45:00+01:00'
+        status: COMPLETED
+        operations:
+          - thirdPartyIds:
+              - content: '27575-1'
+                schemeId: MPS
+            name: Spraying operation
+            startDateTime: '2025-03-12T15:51:00+01:00'
+            endDateTime: '2025-03-12T16:45:00+01:00'
+            type:
+              content: SPRAYING
+              listId: nl.agroconnect.codelist.cl127
+            technique:
+              content: SPRAYING
+              listId: nl.agroconnect.codelist.cl302
+            status: COMPLETED
+            area:
+              content: 25000
+              unitCode:
+                content: MTK
+                listId: nl.agroconnect.codelist.cl020
+            inputAllocations:
+              - thirdPartyIds:
+                  - content: '52521785'
+                    schemeId: com.my-mps.codelist.registratienummer
+                name: Movento
+                type:
+                  content: PROTEC
+                  listId: nl.agroconnect.codelist.cl127
+                quantity:
+                  content: 1200
+                  unitCode:
+                    content: KGM
+                    listId: nl.agroconnect.codelist.cl020
+                reason: Bladluis
+                product:
+                  thirdPartyIds:
+                    - content: 838439 N
+                      schemeId: nl.ctgb.codelist.toelatingsnummer
+                  name: Movento 100 SC - 1L - spirotetramat
+                treatmentzone:
+                  thirdPartyIds:
+                    - content: PAD-1-99
+                      schemeId: com.my-mps.codelist.padnummers
+                  area:
+                    content: 23500
+                    unitCode:
+                      content: MTK
+                      listId: nl.agroconnect.codelist.cl020
+    cropRequest:
+      value:
+        thirdPartyIds:
+          - content: '12345'
+            schemeId: com.my-mps.codelist.teeltnummer
+        name: string
+        startDate: '2025-03-12'
+        endDate: '2025-11-30'
+        year: 2025
+        country:
+          content: NL
+          listId: iso.3166-1.alpha2
+        region: string
+        useTitle:
+          content: string
+          listId: nl.agroconnect.codelist.cl412
+        productionType:
+          content: string
+          listId: nl.agroconnect.codelist.cl255
+        productionPurpose:
+          content: string
+          listId: nl.agroconnect.codelist.cl251
+        productionSequence: MAIN_CROP
+        regularOrOrganic:
+          content: string
+          listId: nl.agroconnect.codelist.cl015
+        netArea:
+          content: 6000
+          unitCode:
+            content: MTK
+            listId: nl.agroconnect.codelist.cl020
+        growEnvironment:
+          content: string
+          listId: nl.agroconnect.codelist.cl299
+        growMedium:
+          content: string
+          listId: nl.agroconnect.codelist.cl300
+        trackTillage: false
+        plantSpecies:
+          - species: '1010101'
+            variety: '01201'
+        plots:
+          - id:
+              content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+              schemeId: com.my-mps.codelist.guid
+            thirdPartyIds:
+              - content: A342_1_6
+                schemeId: com.my-mps.codelist.kasnummer
+            name: Tuin1, afdeling6
+            startDate: '2024-01-12'
+            endDate: '2024-12-14'
+            type: CROPFIELD
+            area:
+              content: 2500
+              unitCode:
+                content: MTK
+                listId: nl.agroconnect.codelist.cl020
+            regularOrOrganic:
+              content: REGULAR
+              listId: nl.agroconnect.codelist.cl015
+            localSoilType:
+              content: CLAY
+              listId: nl.agroconnect.codelist.cl405
+            regulatorySoilType:
+              content: CLAY
+              listId: nl.agroconnect.codelist.cl405
+          - id:
+              content: b3c4d5e6-7f8a-9b0c-1d2e-3f4a5b6c7d8e
+              schemeId: com.my-mps.codelist.guid
+            thirdPartyIds:
+              - content: A342_1_7
+                schemeId: com.my-mps.codelist.kasnummer
+            name: Tuin1, afdeling7
+            startDate: '2024-01-12'
+            endDate: '2024-12-14'
+            type: CROPFIELD
+            area:
+              content: 3500
+              unitCode:
+                content: MTK
+                listId: nl.agroconnect.codelist.cl020
+            regularOrOrganic:
+              content: REGULAR
+              listId: nl.agroconnect.codelist.cl015
+            localSoilType:
+              content: CLAY
+              listId: nl.agroconnect.codelist.cl405
+            regulatorySoilType:
+              content: CLAY
+              listId: nl.agroconnect.codelist.cl405
+    plotRequest:
+      value:
+        thirdPartyIds:
+          - content: A342_1_6
+            schemeId: com.my-mps.codelist.kasnummer
+        name: Tuin1, perceel6
+        startDate: '2024-01-12'
+        endDate: '2024-12-14'
+        type: CROPFIELD
+        area:
+          content: 6000
+          unitCode:
+            content: MTK
+            listId: nl.agroconnect.codelist.cl020
+        regularOrOrganic:
+          content: REGULAR
+          listId: nl.agroconnect.codelist.cl015
+        localSoilType:
+          content: CLAY
+          listId: nl.agroconnect.codelist.cl405
+        regulatorySoilType:
+          content: CLAY
+          listId: nl.agroconnect.codelist.cl405
   responses:
     ##########################################################################
     # default error responses                                                #
@@ -3811,6 +4556,9 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Grower'
+          examples:
+            default:
+              $ref: '#/components/examples/grower_200'
       headers:
         API-Version:
           $ref: '#/components/headers/API-Version'
@@ -3826,6 +4574,9 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/Grower'
+          examples:
+            default:
+              $ref: '#/components/examples/growers_200'
       headers:
         API-Version:
           $ref: '#/components/headers/API-Version'
@@ -3841,6 +4592,9 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Supplier'
+          examples:
+            default:
+              $ref: '#/components/examples/supplier_200'
       headers:
         API-Version:
           $ref: '#/components/headers/API-Version'
@@ -3856,6 +4610,9 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/Supplier'
+          examples:
+            default:
+              $ref: '#/components/examples/suppliers_200'
       headers:
         API-Version:
           $ref: '#/components/headers/API-Version'
@@ -3871,6 +4628,9 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Contractor'
+          examples:
+            default:
+              $ref: '#/components/examples/contractor_200'
       headers:
         API-Version:
           $ref: '#/components/headers/API-Version'
@@ -3886,6 +4646,9 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/Contractor'
+          examples:
+            default:
+              $ref: '#/components/examples/contractors_200'
       headers:
         API-Version:
           $ref: '#/components/headers/API-Version'
@@ -3939,36 +4702,9 @@ components:
             allOf:
               - $ref: '#/components/schemas/Plot'
               - $ref: '#/components/schemas/Links'
-          example:
-            id:
-              content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
-              schemeId: com.my-mps.codelist.guid
-            thirdPartyIds:
-              - content: A342_1_6
-                schemeId: com.my-mps.codelist.kasnummer
-            name: 'Tuin1, perceel6'
-            startDate: '2024-01-12'
-            endDate: '2024-12-14'
-            type: CROPFIELD
-            area:
-              content: 6000
-              unitCode:
-                content: MTK
-                listId: nl.agroconnect.codelist.cl020
-            regularOrOrganic:
-              content: REGULAR
-              listId: nl.agroconnect.codelist.cl015
-            localSoilType:
-              content: CLAY
-              listId: nl.agroconnect.codelist.cl405
-            regulatorySoilType:
-              content: CLAY
-              listId: nl.agroconnect.codelist.cl405
-            links:
-              - rel: 'https://ecrop.agroconnect.nl/rel/plot-features'
-                href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items/384912567'
-                type: application/geo+json
-                title: 'Geo-information (boundary, entryPoint, abLine) as OGC feature'
+          examples:
+            default:
+              $ref: '#/components/examples/plot_200'
       headers:
         API-Version:
           $ref: '#/components/headers/API-Version'
@@ -3986,65 +4722,9 @@ components:
               allOf:
                 - $ref: '#/components/schemas/Plot'
                 - $ref: '#/components/schemas/Links'
-          example:
-            - id:
-                content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
-                schemeId: com.my-mps.codelist.guid
-              thirdPartyIds:
-                - content: A342_1_6
-                  schemeId: com.my-mps.codelist.kasnummer
-              name: 'Tuin1, perceel6'
-              startDate: '2024-01-12'
-              endDate: '2024-12-14'
-              type: CROPFIELD
-              area:
-                content: 6000
-                unitCode:
-                  content: MTK
-                  listId: nl.agroconnect.codelist.cl020
-              regularOrOrganic:
-                content: REGULAR
-                listId: nl.agroconnect.codelist.cl015
-              localSoilType:
-                content: CLAY
-                listId: nl.agroconnect.codelist.cl405
-              regulatorySoilType:
-                content: CLAY
-                listId: nl.agroconnect.codelist.cl405
-              links:
-                - rel: 'https://ecrop.agroconnect.nl/rel/plot-features'
-                  href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items/384912567'
-                  type: application/geo+json
-                  title: 'Geo-information (boundary, entryPoint, abLine) as OGC feature'
-            - id:
-                content: b3c4d5e6-7f8a-9b0c-1d2e-3f4a5b6c7d8e
-                schemeId: com.my-mps.codelist.guid
-              thirdPartyIds:
-                - content: A342_1_7
-                  schemeId: com.my-mps.codelist.kasnummer
-              name: 'Tuin1, perceel7'
-              startDate: '2024-02-01'
-              endDate: '2024-11-30'
-              type: CROPFIELD
-              area:
-                content: 4200
-                unitCode:
-                  content: MTK
-                  listId: nl.agroconnect.codelist.cl020
-              regularOrOrganic:
-                content: REGULAR
-                listId: nl.agroconnect.codelist.cl015
-              localSoilType:
-                content: CLAY
-                listId: nl.agroconnect.codelist.cl405
-              regulatorySoilType:
-                content: CLAY
-                listId: nl.agroconnect.codelist.cl405
-              links:
-                - rel: 'https://ecrop.agroconnect.nl/rel/plot-features'
-                  href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items/271846930'
-                  type: application/geo+json
-                  title: 'Geo-information (boundary, entryPoint, abLine) as OGC feature'
+          examples:
+            default:
+              $ref: '#/components/examples/plots_200'
       headers:
         API-Version:
           $ref: '#/components/headers/API-Version'
@@ -4060,6 +4740,9 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Plot'
+          examples:
+            default:
+              $ref: '#/components/examples/plot_202'
       headers:
         API-Version:
           $ref: '#/components/headers/API-Version'
@@ -4075,6 +4758,9 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/ProductionLocation'
+          examples:
+            default:
+              $ref: '#/components/examples/productionLocations_200'
       headers:
         API-Version:
           $ref: '#/components/headers/API-Version'
@@ -4092,6 +4778,9 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/Crop'
+          examples:
+            default:
+              $ref: '#/components/examples/crops_200'
       headers:
         API-Version:
           $ref: '#/components/headers/API-Version'
@@ -4107,6 +4796,9 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Crop'
+          examples:
+            default:
+              $ref: '#/components/examples/crop_202'
       headers:
         API-Version:
           $ref: '#/components/headers/API-Version'
@@ -4120,6 +4812,9 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Task'
+          examples:
+            default:
+              $ref: '#/components/examples/task_202'
       headers:
         API-Version:
           $ref: '#/components/headers/API-Version'
@@ -4243,162 +4938,9 @@ components:
             $ref: '#/components/schemas/PlotFeatureCollection'
           examples:
             jsonfg:
-              summary: profile=jsonfg
-              value:
-                type: FeatureCollection
-                conformsTo:
-                  - 'http://www.opengis.net/spec/json-fg-1/1.0/conf/core'
-                  - 'http://www.opengis.net/spec/json-fg-1/1.0/conf/types-schemas'
-                coordRefSys: 'http://www.opengis.net/def/crs/EPSG/0/28992'
-                featureType: 'agroconnect:ecrop:plot'
-                geometryDimension: 2
-                numberMatched: 2
-                numberReturned: 2
-                features:
-                  - type: Feature
-                    id: 384912567
-                    time:
-                      interval:
-                        - '2024-01-12'
-                        - '2024-12-14'
-                    place:
-                      type: Polygon
-                      coordinates:
-                        - - - 180000
-                            - 440000
-                          - - 182000
-                            - 440000
-                          - - 182000
-                            - 442000
-                          - - 180000
-                            - 442000
-                          - - 180000
-                            - 440000
-                    geometry: null
-                    properties:
-                      plotId:
-                        content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
-                        schemeId: com.my-mps.codelist.guid
-                      name: 'Tuin1, perceel6'
-                      area:
-                        content: 6000
-                        unitCode:
-                          content: MTK
-                          listId: nl.agroconnect.codelist.cl020
-                    links:
-                      - rel: 'https://ecrop.agroconnect.nl/rel/plot'
-                        href: 'https://standard-api.agroconnect.nl/ecrop/v1/plots/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b'
-                        type: application/json
-                  - type: Feature
-                    id: 271846930
-                    time:
-                      interval:
-                        - '2024-02-01'
-                        - '2024-11-30'
-                    place:
-                      type: Polygon
-                      coordinates:
-                        - - - 182000
-                            - 440000
-                          - - 183200
-                            - 440000
-                          - - 183200
-                            - 441500
-                          - - 182000
-                            - 441500
-                          - - 182000
-                            - 440000
-                    geometry: null
-                    properties:
-                      plotId:
-                        content: b3c4d5e6-7f8a-9b0c-1d2e-3f4a5b6c7d8e
-                        schemeId: com.my-mps.codelist.guid
-                      name: 'Tuin1, perceel7'
-                      area:
-                        content: 4200
-                        unitCode:
-                          content: MTK
-                          listId: nl.agroconnect.codelist.cl020
-                    links:
-                      - rel: 'https://ecrop.agroconnect.nl/rel/plot'
-                        href: 'https://standard-api.agroconnect.nl/ecrop/v1/plots/b3c4d5e6-7f8a-9b0c-1d2e-3f4a5b6c7d8e'
-                        type: application/json
-                links:
-                  - rel: self
-                    href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items?profile=jsonfg'
-                    type: application/geo+json
-                  - rel: collection
-                    href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots'
-                    type: application/json
+              $ref: '#/components/examples/plotFeatureCollection_200_jsonfg'
             rfc7946:
-              summary: profile=rfc7946 (default)
-              value:
-                type: FeatureCollection
-                numberMatched: 2
-                numberReturned: 2
-                features:
-                  - type: Feature
-                    id: 384912567
-                    geometry:
-                      type: Polygon
-                      coordinates:
-                        - - - 5.7519
-                            - 51.9485
-                          - - 5.7811
-                            - 51.9485
-                          - - 5.7811
-                            - 51.9665
-                          - - 5.7519
-                            - 51.9665
-                          - - 5.7519
-                            - 51.9485
-                    properties:
-                      plotId:
-                        content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
-                        schemeId: com.my-mps.codelist.guid
-                      name: 'Tuin1, perceel6'
-                      area:
-                        content: 6000
-                        unitCode:
-                          content: MTK
-                          listId: nl.agroconnect.codelist.cl020
-                    links:
-                      - rel: 'https://ecrop.agroconnect.nl/rel/plot'
-                        href: 'https://standard-api.agroconnect.nl/ecrop/v1/plots/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b'
-                        type: application/json
-                  - type: Feature
-                    id: 271846930
-                    geometry:
-                      type: Polygon
-                      coordinates:
-                        - - - 5.7811
-                            - 51.9485
-                          - - 5.792
-                            - 51.9485
-                          - - 5.792
-                            - 51.9605
-                          - - 5.7811
-                            - 51.9605
-                          - - 5.7811
-                            - 51.9485
-                    properties:
-                      plotId:
-                        content: b3c4d5e6-7f8a-9b0c-1d2e-3f4a5b6c7d8e
-                        schemeId: com.my-mps.codelist.guid
-                      name: 'Tuin1, perceel7'
-                      area:
-                        content: 4200
-                        unitCode:
-                          content: MTK
-                          listId: nl.agroconnect.codelist.cl020
-                    links:
-                      - rel: 'https://ecrop.agroconnect.nl/rel/plot'
-                        href: 'https://standard-api.agroconnect.nl/ecrop/v1/plots/b3c4d5e6-7f8a-9b0c-1d2e-3f4a5b6c7d8e'
-                        type: application/json
-                links:
-                  - rel: self
-                    href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items'
-                    type: application/geo+json
+              $ref: '#/components/examples/plotFeatureCollection_200_rfc7946'
       headers:
         API-Version:
           $ref: '#/components/headers/API-Version'
@@ -4418,113 +4960,9 @@ components:
             $ref: '#/components/schemas/PlotFeatureTopLevel'
           examples:
             jsonfg:
-              summary: profile=jsonfg
-              value:
-                type: Feature
-                id: 384912567
-                conformsTo:
-                  - 'http://www.opengis.net/spec/json-fg-1/1.0/conf/core'
-                  - 'http://www.opengis.net/spec/json-fg-1/1.0/conf/types-schemas'
-                coordRefSys: 'http://www.opengis.net/def/crs/EPSG/0/28992'
-                time:
-                  interval:
-                    - '2024-01-12'
-                    - '2024-12-14'
-                place:
-                  type: Polygon
-                  coordinates:
-                    - - - 180000
-                        - 440000
-                      - - 182000
-                        - 440000
-                      - - 182000
-                        - 442000
-                      - - 180000
-                        - 442000
-                      - - 180000
-                        - 440000
-                geometry: null
-                featureType: 'agroconnect:ecrop:plot'
-                properties:
-                  plotId:
-                    content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
-                    schemeId: com.my-mps.codelist.guid
-                  name: 'Tuin1, perceel6'
-                  area:
-                    content: 6000
-                    unitCode:
-                      content: MTK
-                      listId: nl.agroconnect.codelist.cl020
-                  entryPoint:
-                    type: Point
-                    coordinates:
-                      - 180050
-                      - 440020
-                  abLine:
-                    type: LineString
-                    coordinates:
-                      - - 180200
-                        - 440100
-                      - - 181800
-                        - 441900
-                links:
-                  - rel: self
-                    href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items/384912567?profile=jsonfg'
-                    type: application/geo+json
-                  - rel: collection
-                    href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots'
-                    type: application/json
-                  - rel: 'https://ecrop.agroconnect.nl/rel/plot'
-                    href: 'https://standard-api.agroconnect.nl/ecrop/v1/plots/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b'
-                    type: application/json
-                    title: Bijbehorend Plot business-object
+              $ref: '#/components/examples/plotFeatureTopLevel_200_jsonfg'
             rfc7946:
-              summary: profile=rfc7946 (default)
-              value:
-                type: Feature
-                id: 384912567
-                geometry:
-                  type: Polygon
-                  coordinates:
-                    - - - 5.7519
-                        - 51.9485
-                      - - 5.7811
-                        - 51.9485
-                      - - 5.7811
-                        - 51.9665
-                      - - 5.7519
-                        - 51.9665
-                      - - 5.7519
-                        - 51.9485
-                properties:
-                  plotId:
-                    content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
-                    schemeId: com.my-mps.codelist.guid
-                  name: 'Tuin1, perceel6'
-                  area:
-                    content: 6000
-                    unitCode:
-                      content: MTK
-                      listId: nl.agroconnect.codelist.cl020
-                  entryPoint:
-                    type: Point
-                    coordinates:
-                      - 5.7527
-                      - 51.9487
-                  abLine:
-                    type: LineString
-                    coordinates:
-                      - - 5.7548
-                        - 51.9494
-                      - - 5.7782
-                        - 51.9655
-                links:
-                  - rel: self
-                    href: 'https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items/384912567'
-                    type: application/geo+json
-                  - rel: 'https://ecrop.agroconnect.nl/rel/plot'
-                    href: 'https://standard-api.agroconnect.nl/ecrop/v1/plots/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b'
-                    type: application/json
+              $ref: '#/components/examples/plotFeatureTopLevel_200_rfc7946'
       headers:
         API-Version:
           $ref: '#/components/headers/API-Version'
@@ -4566,11 +5004,17 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/CropDetails'
+          examples:
+            default:
+              $ref: '#/components/examples/cropRequest'
     plotRequest:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/PlotDetails'
+          examples:
+            default:
+              $ref: '#/components/examples/plotRequest'
     taskRequest:
       content:
         application/json:
@@ -4578,61 +5022,7 @@ components:
             $ref: '#/components/schemas/TaskDetails'
           examples:
             Example 1:
-              value:
-                thirdPartyIds:
-                  - content: '27575'
-                    schemeId: com.my-mps.codelist.registratienummer
-                name: Spraying task
-                startDateTime: '2025-03-12T15:51:00+01:00'
-                endDateTime: '2025-03-12T16:45:00+01:00'
-                status: COMPLETED
-                operations:
-                  - thirdPartyIds:
-                      - content: 27575-1
-                        schemeId: MPS
-                    name: Spraying operation
-                    startDateTime: '2025-03-12T15:51:00+01:00'
-                    endDateTime: '2025-03-12T16:45:00+01:00'
-                    type:
-                      content: SPRAYING
-                      listId: nl.agroconnect.codelist.cl127
-                    technique:
-                      content: SPRAYING
-                      listId: nl.agroconnect.codelist.cl302
-                    status: COMPLETED
-                    area:
-                      content: 25000
-                      unitCode:
-                        content: MTK
-                        listId: nl.agroconnect.codelist.cl020
-                    inputAllocations:
-                      - thirdPartyIds:
-                          - content: '52521785'
-                            schemeId: com.my-mps.codelist.registratienummer
-                        name: Movento
-                        type:
-                          content: PROTEC
-                          listId: nl.agroconnect.codelist.cl127
-                        quantity:
-                          content: 1200
-                          unitCode:
-                            content: KGM
-                            listId: nl.agroconnect.codelist.cl020
-                        reason: Bladluis
-                        product:
-                          thirdPartyIds:
-                            - content: 838439 N
-                              schemeId: nl.ctgb.codelist.toelatingsnummer
-                          name: Movento 100 SC - 1L - spirotetramat
-                        treatmentzone:
-                          thirdPartyIds:
-                            - content: PAD-1-99
-                              schemeId: com.my-mps.codelist.padnummers
-                          area:
-                            content: 23500
-                            unitCode:
-                              content: MTK
-                              listId: nl.agroconnect.codelist.cl020
+              $ref: '#/components/examples/taskRequest'
     patchRequest:
       required: true
       content:
@@ -4641,14 +5031,7 @@ components:
             $ref: '#/components/schemas/JsonPatch'
           examples:
             Change area of an operation:
-              summary: Change the treated area of the first operation from 25000 to 24500
-              value:
-                - op: test
-                  path: /operations/0/area/content
-                  value: 25000
-                - op: replace
-                  path: /operations/0/area/content
-                  value: 24500
+              $ref: '#/components/examples/patchRequest'
   parameters:
     ##########################################################################
     # default HTTP request header parameters                                 #

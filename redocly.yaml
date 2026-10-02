@@ -17,3 +17,30 @@ rules:
   no-required-schema-properties-undefined: error
   no-invalid-schema-examples: error
   no-invalid-parameter-examples: error
+
+# Business-case specific distributions of ecrop.yaml. Each operation in
+# openapi/ecrop.yaml carries an `x-usecases` list; `all` marks operations that
+# belong in every distribution (e.g. /health, /openapi.json). Build one with:
+#   npx @redocly/cli bundle <name>@v1 --remove-unused-components -o dist/<name>.yaml
+apis:
+  contractor-task-planning@v1:
+    root: openapi/ecrop.yaml
+    decorators:
+      filter-in:
+        property: x-usecases
+        value: [contractor-task-planning, all]
+        matchStrategy: any
+  fms-crop-operations-sync@v1:
+    root: openapi/ecrop.yaml
+    decorators:
+      filter-in:
+        property: x-usecases
+        value: [fms-crop-operations-sync, all]
+        matchStrategy: any
+  supplier-inbound-delivery-registration@v1:
+    root: openapi/ecrop.yaml
+    decorators:
+      filter-in:
+        property: x-usecases
+        value: [supplier-inbound-delivery-registration, all]
+        matchStrategy: any
