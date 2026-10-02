@@ -5,6 +5,7 @@ name: Publish docs and distributions
 #   - pull requests:        build + lint only
 #   - pushes to main:       build, then publish the site on GitHub Pages
 #   - tags v*:              build, then attach the specification and distributions to the GitHub release
+#                           (tags with a suffix, e.g. v1.1.0-rc.1, are created as pre-releases)
 on:
   push:
     branches: [main]
@@ -84,8 +85,11 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           files="openapi/ecrop.yaml dist/ecrop-*.yaml"
+          # tags with a pre-release suffix (v1.1.0-rc.1, v1.2.0-beta.2, ...) are not final
+          flags=""
+          case "$GITHUB_REF_NAME" in *-*) flags="--prerelease" ;; esac
           if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
             gh release upload "$GITHUB_REF_NAME" $files --clobber
           else
-            gh release create "$GITHUB_REF_NAME" $files --title "$GITHUB_REF_NAME" --generate-notes
+            gh release create "$GITHUB_REF_NAME" $files --title "$GITHUB_REF_NAME" --generate-notes $flags
           fi
