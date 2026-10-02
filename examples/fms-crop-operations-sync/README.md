@@ -110,7 +110,7 @@ A non-crop-specific task, e.g. ditch maintenance on plot `e7f8a9b0-1c2d-3e4f-5a6
 ("Tuin1, perceel6" — already registered on the platform):
 
 ```http
-POST /growers/com.my-mps.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/plots/com.my-mps.codelist.guid/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b/tasks
+POST /growers/com.greenlinqdata.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/plots/com.greenlinqdata.codelist.guid/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b/tasks
 Major-Version: v1
 User-Agent: fms-sync-job/1.0
 Content-Type: application/json
@@ -119,7 +119,7 @@ Content-Type: application/json
 ```json
 {
   "thirdPartyIds": [
-    { "content": "31820", "schemeId": "com.my-mps.codelist.registratienummer" }
+    { "content": "31820", "schemeId": "nl.my-fms.codelist.registratienummer" }
   ],
   "name": "Slootkant maaien",
   "startDateTime": "2025-04-02T08:00:00+02:00",
@@ -128,7 +128,7 @@ Content-Type: application/json
   "operations": [
     {
       "thirdPartyIds": [
-        { "content": "31820-1", "schemeId": "MPS" }
+        { "content": "31820-1", "schemeId": "nl.my-fms.codelist.operatienummer" }
       ],
       "name": "Maaien slootkant",
       "startDateTime": "2025-04-02T08:00:00+02:00",
@@ -151,10 +151,10 @@ Response — `202 Accepted`, with the server-assigned `id` the FMS caches locall
 {
   "id": {
     "content": "6d7e8f9a-0b1c-2d3e-4f5a-6b7c8d9e0f1a",
-    "schemeId": "com.my-mps.codelist.guid"
+    "schemeId": "com.greenlinqdata.codelist.guid"
   },
   "thirdPartyIds": [
-    { "content": "31820", "schemeId": "com.my-mps.codelist.registratienummer" }
+    { "content": "31820", "schemeId": "nl.my-fms.codelist.registratienummer" }
   ],
   "name": "Slootkant maaien",
   "startDateTime": "2025-04-02T08:00:00+02:00",
@@ -163,7 +163,7 @@ Response — `202 Accepted`, with the server-assigned `id` the FMS caches locall
   "operations": [
     {
       "thirdPartyIds": [
-        { "content": "31820-1", "schemeId": "MPS" }
+        { "content": "31820-1", "schemeId": "nl.my-fms.codelist.operatienummer" }
       ],
       "name": "Maaien slootkant",
       "startDateTime": "2025-04-02T08:00:00+02:00",
@@ -186,13 +186,13 @@ A crop-specific task, e.g. spraying on crop `c9a7b8e2-3d4f-5e6a-7b8c-9d0e1f2a3b4
 ("Tomaat 2025" — already registered on the platform):
 
 ```http
-POST /growers/com.my-mps.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/crops/com.my-mps.codelist.guid/c9a7b8e2-3d4f-5e6a-7b8c-9d0e1f2a3b4c/tasks
+POST /growers/com.greenlinqdata.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/crops/com.greenlinqdata.codelist.guid/c9a7b8e2-3d4f-5e6a-7b8c-9d0e1f2a3b4c/tasks
 ```
 
 ```json
 {
   "thirdPartyIds": [
-    { "content": "27575", "schemeId": "com.my-mps.codelist.registratienummer" }
+    { "content": "27575", "schemeId": "nl.my-fms.codelist.registratienummer" }
   ],
   "name": "Spraying task",
   "startDateTime": "2025-03-12T15:51:00+01:00",
@@ -201,7 +201,7 @@ POST /growers/com.my-mps.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/crop
   "operations": [
     {
       "thirdPartyIds": [
-        { "content": "27575-1", "schemeId": "MPS" }
+        { "content": "27575-1", "schemeId": "nl.my-fms.codelist.operatienummer" }
       ],
       "name": "Spraying operation",
       "startDateTime": "2025-03-12T15:51:00+01:00",
@@ -212,7 +212,7 @@ POST /growers/com.my-mps.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/crop
       "inputAllocations": [
         {
           "thirdPartyIds": [
-            { "content": "52521785", "schemeId": "com.my-mps.codelist.registratienummer" }
+            { "content": "52521785", "schemeId": "nl.my-fms.codelist.registratienummer" }
           ],
           "name": "Movento",
           "type": { "content": "PROTEC", "listId": "nl.agroconnect.codelist.cl127" },
@@ -229,7 +229,7 @@ POST /growers/com.my-mps.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/crop
           },
           "treatmentzone": {
             "thirdPartyIds": [
-              { "content": "PAD-1-99", "schemeId": "com.my-mps.codelist.padnummers" }
+              { "content": "PAD-1-99", "schemeId": "nl.my-fms.codelist.padnummers" }
             ],
             "area": {
               "content": 23500,
@@ -250,7 +250,7 @@ POST /growers/com.my-mps.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/crop
 Same body as §3.2, `status` changed from `"PROPOSED"` to `"COMPLETED"`:
 
 ```http
-PUT /growers/com.my-mps.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/crops/com.my-mps.codelist.guid/c9a7b8e2-3d4f-5e6a-7b8c-9d0e1f2a3b4c/tasks/com.my-mps.codelist.guid/2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e
+PUT /growers/com.greenlinqdata.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/crops/com.greenlinqdata.codelist.guid/c9a7b8e2-3d4f-5e6a-7b8c-9d0e1f2a3b4c/tasks/com.greenlinqdata.codelist.guid/2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e
 ```
 
 → `202 Accepted` with the updated task. Plot-level tasks are updated the same way, at
@@ -259,7 +259,7 @@ PUT /growers/com.my-mps.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/crops
 ### 3.4 Sync a deletion (plot-level task)
 
 ```http
-DELETE /growers/com.my-mps.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/plots/com.my-mps.codelist.guid/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b/tasks/com.my-mps.codelist.guid/6d7e8f9a-0b1c-2d3e-4f5a-6b7c8d9e0f1a
+DELETE /growers/com.greenlinqdata.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/plots/com.greenlinqdata.codelist.guid/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b/tasks/com.greenlinqdata.codelist.guid/6d7e8f9a-0b1c-2d3e-4f5a-6b7c8d9e0f1a
 ```
 
 → `204 No Content`. Crop-level tasks are removed the same way, at
@@ -301,7 +301,11 @@ instance is provisioned for a specific `growerId`, still needs to be designed.
 
 ### 4.5 Identifier schemes and code lists
 
-The example payloads above reuse the spec's own placeholder `schemeId`/`listId` values (e.g.
+The example payloads above use `com.greenlinqdata.codelist.guid` for the primary ids assigned by the
+platform (and `com.greenlinqdata.codelist.kasnummer` for a plot's own number), and `nl.my-fms.codelist.*`
+(`registratienummer`, `operatienummer`, `padnummers`) for the ids the FMS assigns itself — the same
+schemes as in the `fms-crop-operations-sync` distribution of the OpenAPI specification. They also reuse
+the spec's own placeholder `schemeId`/`listId` values (e.g.
 `nl.agroconnect.codelist.cl127` for operation types, `nl.agroconnect.codelist.cl302` for
 techniques), plus an invented `MOWING` code for the ditch-maintenance example. These need to be
 confirmed as definitive, published schemes/code lists before production use — and, specific to

@@ -234,6 +234,9 @@ designed.
 
 ### 4.5 Identifier schemes and code lists
 
-The example payloads above reuse the spec's own placeholder `schemeId`/`listId` values (e.g.
+The example payloads above use `com.my-mps.codelist.guid` for the primary ids assigned by the platform
+and `com.iperen.codelist.*` for the ids the supplier's delivery system assigns itself (the same
+schemes as in the `supplier-inbound-delivery-registration` distribution of the OpenAPI specification).
+They also reuse the spec's own placeholder `schemeId`/`listId` values (e.g.
 `com.iperen.codelist.orderregelnummer`, `nl.gs1.gtin`, `nl.agroconnect.codelist.cl020` for units).
 These need to be confirmed as definitive, published schemes/code lists before production use.
