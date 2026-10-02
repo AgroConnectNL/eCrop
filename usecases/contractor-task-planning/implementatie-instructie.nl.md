@@ -95,14 +95,21 @@ De huidige specificatie bevat geen enkele security-definitie (geen securitySchem
 
 ### 3.2 Identifier-schemes (schemeId-waarden)
 
-Alle idType-achtige properties (top-level id, thirdPartyIds) gebruiken momenteel placeholder-schemeId-waarden uit de voorbeelden (bijv. `com.my-mps.codelist.guid`, `nl.kvk.codelist.kvknummer`, `com.gs1.codelist.gln`). Voor productie moet per identifier-soort een definitief, beheerd schemeId worden vastgesteld en gepubliceerd:
+Alle idType-achtige properties (top-level id, thirdPartyIds) hebben een `schemeId` die aangeeft door wie en binnen welk register de identifier is uitgegeven. De voorbeelden in de distributie voor deze use case (`ecrop-contractor-task-planning.yaml`, zie `examples.yaml` in deze map) gebruiken de volgende schemes. Voor productie moet per identifier-soort een definitief, beheerd schemeId worden vastgesteld en gepubliceerd:
 
-| Resource                                                 | Huidige voorbeeld-schemeId                      | Te besluiten                                                                                         |
-| -------------------------------------------------------- | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| Plot / Grower / Supplier / ProductionLocation (eigen id) | `com.my-mps.codelist.guid`                      | Welk eCrop-eigen ID-schema wordt de bron van waarheid: een GUID uitgegeven door het platform zelf, of een ander scheme? |
-| thirdPartyIds (KVK-nummer)                               | `nl.kvk.codelist.kvknummer`                     | Bevestigen als definitief scheme, inclusief validatieregels (lengte/formaat)                         |
-| thirdPartyIds (GLN)                                      | `com.gs1.codelist.gln`                          | Bevestigen als definitief scheme; vaststellen of GLN verplicht of optioneel is per resource          |
-| thirdPartyIds (kasnummer/teeltnummer)                    | `com.my-mps.codelist.kasnummer` / `teeltnummer` | Vaststellen of dit een eCrop-breed erkend scheme wordt, of een deelnemer-specifiek scheme blijft     |
+| Identifier-soort                                  | Voorbeeld-schemeId                                 | Uitgegeven door                          | Te besluiten                                                                                         |
+| ------------------------------------------------- | -------------------------------------------------- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Primaire id's (`id` van grower, plot, task, ...)  | `nl.loonwerkportaal.codelist.guid`                 | Het Loonwerkportaal                      | Bevestigen als definitief scheme (GUID-formaat); ook gebruikt als `*SchemeId` in de URI's (`growerSchemeId`, `plotSchemeId`, `taskSchemeId`, ...) |
+| Taak (`thirdPartyIds`)                            | `nl.my-cps.codelist.registratienummer`, `nl.my-cps.codelist.werkbonnummer` | Planningssysteem van de loonwerker (CPS) | Welke taak-identifiers de loonwerker minimaal meestuurt (bijv. verplicht werkbonnummer) |
+| Operation (`thirdPartyIds`)                       | `nl.my-cps.codelist.operatienummer`                | Planningssysteem van de loonwerker       | Idem                                                                                                 |
+| Behandelzone en invoerallocatie (`thirdPartyIds`) | `nl.my-cps.codelist.padnummers`, `nl.my-cps.codelist.registratienummer` | Planningssysteem van de loonwerker | Idem                                                                                          |
+| Materieel (equipment)                             | `nl.my-cps.codelist.materieelnummer`               | Planningssysteem van de loonwerker       | Idem                                                                                                 |
+| Medewerker (worker)                               | `nl.my-cps.codelist.medewerkernummer`              | Planningssysteem van de loonwerker       | Idem                                                                                                 |
+| Perceelsnummer (plot, `thirdPartyIds`)            | `nl.rvo.codelist.perceelsnummer`                   | RVO                                      | Bevestigen als definitief scheme, inclusief validatieregels (formaat, bijv. `APD03-AD-4094`)         |
+| thirdPartyIds van de teler (KVK-nummer)           | `nl.kvk.codelist.kvknummer`                        | Kamer van Koophandel                     | Bevestigen als definitief scheme, inclusief validatieregels (lengte/formaat)                         |
+| thirdPartyIds van de teler (GLN)                  | `com.gs1.codelist.gln`                             | GS1                                      | Bevestigen als definitief scheme; vaststellen of GLN verplicht of optioneel is per resource          |
+
+*Het voorvoegsel `nl.my-cps.*` is een voorbeeld voor het eigen planningssysteem van een loonwerker. Elke leverancier van loonwerksoftware gebruikt in de praktijk zijn eigen, unieke scheme-namespace.* Daarom moet nog worden vastgesteld hoe schemes van verschillende CPS-leveranciers worden geregistreerd en herkend door het Loonwerkportaal, en of een onbekend `schemeId` wordt geweigerd of alleen als vrije herkomstaanduiding wordt opgeslagen.
 
 ### 3.3 Querymogelijkheden voor GET .../plots
 
