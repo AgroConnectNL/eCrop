@@ -1,0 +1,274 @@
+# Example overrides for the fms-crop-operations-sync distribution.
+#
+# Replaces (as a whole, by key) the generic examples in components/examples, and the
+# `example` of the listed components/schemas and components/parameters, of
+# openapi/ecrop.yaml when this business case is built with
+# scripts/build-distribution.py. Every component listed must exist in that distribution.
+#
+# Identifier schemes used in this business case:
+#   com.greenlinqdata.*  primary ids assigned by the crop registration platform, and the plot number (kasnummer)
+#   nl.my-fms.*       ids assigned by the grower's own Farm Management System (thirdPartyIds of
+#                     tasks/operations, equipment and workers)
+
+components:
+  examples:
+    plot_200:
+      value:
+        id:
+          content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+          schemeId: com.greenlinqdata.codelist.guid
+        thirdPartyIds:
+          - content: A342_1_6
+            schemeId: com.greenlinqdata.codelist.kasnummer
+        name: Tuin1, perceel6
+        startDate: '2024-01-12'
+        endDate: '2024-12-14'
+        type: CROPFIELD
+        area:
+          content: 6000
+          unitCode:
+            content: MTK
+            listId: nl.agroconnect.codelist.cl020
+        regularOrOrganic:
+          content: REGULAR
+          listId: nl.agroconnect.codelist.cl015
+        localSoilType:
+          content: CLAY
+          listId: nl.agroconnect.codelist.cl405
+        regulatorySoilType:
+          content: CLAY
+          listId: nl.agroconnect.codelist.cl405
+        links:
+          - rel: https://ecrop.agroconnect.nl/rel/plot-features
+            href: https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items/384912567
+            type: application/geo+json
+            title: Geo-information (boundary, entryPoint, abLine) as OGC feature
+    plots_200:
+      value:
+        - id:
+            content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+            schemeId: com.greenlinqdata.codelist.guid
+          thirdPartyIds:
+            - content: A342_1_6
+              schemeId: com.greenlinqdata.codelist.kasnummer
+          name: Tuin1, perceel6
+          startDate: '2024-01-12'
+          endDate: '2024-12-14'
+          type: CROPFIELD
+          area:
+            content: 6000
+            unitCode:
+              content: MTK
+              listId: nl.agroconnect.codelist.cl020
+          regularOrOrganic:
+            content: REGULAR
+            listId: nl.agroconnect.codelist.cl015
+          localSoilType:
+            content: CLAY
+            listId: nl.agroconnect.codelist.cl405
+          regulatorySoilType:
+            content: CLAY
+            listId: nl.agroconnect.codelist.cl405
+          links:
+            - rel: https://ecrop.agroconnect.nl/rel/plot-features
+              href: https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items/384912567
+              type: application/geo+json
+              title: Geo-information (boundary, entryPoint, abLine) as OGC feature
+        - id:
+            content: b3c4d5e6-7f8a-9b0c-1d2e-3f4a5b6c7d8e
+            schemeId: com.greenlinqdata.codelist.guid
+          thirdPartyIds:
+            - content: A342_1_7
+              schemeId: com.greenlinqdata.codelist.kasnummer
+          name: Tuin1, perceel7
+          startDate: '2024-02-01'
+          endDate: '2024-11-30'
+          type: CROPFIELD
+          area:
+            content: 4200
+            unitCode:
+              content: MTK
+              listId: nl.agroconnect.codelist.cl020
+          regularOrOrganic:
+            content: REGULAR
+            listId: nl.agroconnect.codelist.cl015
+          localSoilType:
+            content: CLAY
+            listId: nl.agroconnect.codelist.cl405
+          regulatorySoilType:
+            content: CLAY
+            listId: nl.agroconnect.codelist.cl405
+          links:
+            - rel: https://ecrop.agroconnect.nl/rel/plot-features
+              href: https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items/271846930
+              type: application/geo+json
+              title: Geo-information (boundary, entryPoint, abLine) as OGC feature
+    taskRequest:
+      value:
+        thirdPartyIds:
+          - content: '27575'
+            schemeId: nl.my-fms.codelist.registratienummer
+        name: Spraying task
+        startDateTime: '2025-03-12T15:51:00+01:00'
+        endDateTime: '2025-03-12T16:45:00+01:00'
+        status: COMPLETED
+        operations:
+          - thirdPartyIds:
+              - content: '27575-1'
+                schemeId: nl.my-fms.codelist.operatienummer
+            name: Spraying operation
+            startDateTime: '2025-03-12T15:51:00+01:00'
+            endDateTime: '2025-03-12T16:45:00+01:00'
+            type:
+              content: SPRAYING
+              listId: nl.agroconnect.codelist.cl127
+            technique:
+              content: SPRAYING
+              listId: nl.agroconnect.codelist.cl302
+            status: COMPLETED
+            area:
+              content: 25000
+              unitCode:
+                content: MTK
+                listId: nl.agroconnect.codelist.cl020
+            inputAllocations:
+              - thirdPartyIds:
+                  - content: '52521785'
+                    schemeId: nl.my-fms.codelist.registratienummer
+                name: Movento
+                type:
+                  content: PROTEC
+                  listId: nl.agroconnect.codelist.cl127
+                quantity:
+                  content: 1200
+                  unitCode:
+                    content: KGM
+                    listId: nl.agroconnect.codelist.cl020
+                reason: Bladluis
+                product:
+                  thirdPartyIds:
+                    - content: 838439 N
+                      schemeId: nl.ctgb.codelist.toelatingsnummer
+                  name: Movento 100 SC - 1L - spirotetramat
+                treatmentzone:
+                  thirdPartyIds:
+                    - content: PAD-1-99
+                      schemeId: nl.my-fms.codelist.padnummers
+                  area:
+                    content: 23500
+                    unitCode:
+                      content: MTK
+                      listId: nl.agroconnect.codelist.cl020
+    task_202:
+      value:
+        id:
+          content: 2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e
+          schemeId: com.greenlinqdata.codelist.guid
+        thirdPartyIds:
+          - content: '27575'
+            schemeId: nl.my-fms.codelist.registratienummer
+        name: Spraying task
+        startDateTime: '2025-03-12T15:51:00+01:00'
+        endDateTime: '2025-03-12T16:45:00+01:00'
+        status: COMPLETED
+        operations:
+          - thirdPartyIds:
+              - content: '27575-1'
+                schemeId: nl.my-fms.codelist.operatienummer
+            name: Spraying operation
+            startDateTime: '2025-03-12T15:51:00+01:00'
+            endDateTime: '2025-03-12T16:45:00+01:00'
+            type:
+              content: SPRAYING
+              listId: nl.agroconnect.codelist.cl127
+            technique:
+              content: SPRAYING
+              listId: nl.agroconnect.codelist.cl302
+            status: COMPLETED
+            area:
+              content: 25000
+              unitCode:
+                content: MTK
+                listId: nl.agroconnect.codelist.cl020
+            inputAllocations:
+              - thirdPartyIds:
+                  - content: '52521785'
+                    schemeId: nl.my-fms.codelist.registratienummer
+                name: Movento
+                type:
+                  content: PROTEC
+                  listId: nl.agroconnect.codelist.cl127
+                quantity:
+                  content: 1200
+                  unitCode:
+                    content: KGM
+                    listId: nl.agroconnect.codelist.cl020
+                reason: Bladluis
+                product:
+                  thirdPartyIds:
+                    - content: 838439 N
+                      schemeId: nl.ctgb.codelist.toelatingsnummer
+                  name: Movento 100 SC - 1L - spirotetramat
+                treatmentzone:
+                  thirdPartyIds:
+                    - content: PAD-1-99
+                      schemeId: nl.my-fms.codelist.padnummers
+                  area:
+                    content: 23500
+                    unitCode:
+                      content: MTK
+                      listId: nl.agroconnect.codelist.cl020
+  schemas:
+    EquipmentAssignment:
+      example:
+        equipment:
+          thirdPartyIds:
+            - content: '1234'
+              schemeId: nl.my-fms.codelist.materieelnummer
+          name: John Deere 6120M
+          type: Tractor
+        startDateTime: '2025-03-12T15:51:00+01:00'
+        endDateTime: '2025-03-12T16:45:00+01:00'
+        time:
+          content: 0.9
+          unitCode:
+            content: HUR
+            listId: nl.agroconnect.codelist.cl020
+        coveredDistance:
+          content: 3.2
+          unitCode:
+            content: KMT
+            listId: nl.agroconnect.codelist.cl020
+    Worker:
+      example:
+        id:
+          content: '4821'
+          schemeId: nl.my-fms.codelist.medewerkernummer
+        name: Jan Jansen
+        phoneNumber: +31(0)6 12345678
+        email: jan.jansen@example.com
+        jobTitle: Machine operator
+    WorkAssignment:
+      example:
+        worker:
+          id:
+            content: '4821'
+            schemeId: nl.my-fms.codelist.medewerkernummer
+          name: Jan Jansen
+          jobTitle: Machine operator
+        startDateTime: '2025-03-12T15:51:00+01:00'
+        endDateTime: '2025-03-12T16:45:00+01:00'
+        executionTime:
+          content: 0.9
+          unitCode:
+            content: HUR
+            listId: nl.agroconnect.codelist.cl020
+  parameters:
+    growerSchemeId:
+      example: com.greenlinqdata.codelist.guid
+    cropSchemeId:
+      example: com.greenlinqdata.codelist.guid
+    plotSchemeId:
+      example: com.greenlinqdata.codelist.guid
+    taskSchemeId:
+      example: com.greenlinqdata.codelist.guid

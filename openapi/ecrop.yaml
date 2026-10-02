@@ -2805,12 +2805,7 @@ components:
         delivery describes a certain amount of a certain product acquired by a grower through an order to
         a supplier.
       allOf:
-        - allOf:
-            - $ref: '#/components/schemas/PrimaryId'
-            - example:
-                id:
-                  content: 6f6d3b8c4-2e7a-4a1d-9b2c-0e1f2a3b4c5d
-                  schemeId: com.my-mps.codelist.guid
+        - $ref: '#/components/schemas/PrimaryId'
         - $ref: '#/components/schemas/InboundDeliveryDetailsGrower'
     InboundDeliveryBySupplier:
       title: Inbound Delivery by Supplier
@@ -2819,12 +2814,7 @@ components:
         delivery describes a certain amount of a certain product acquired by a grower through an order to
         a supplier.
       allOf:
-        - allOf:
-            - $ref: '#/components/schemas/PrimaryId'
-            - example:
-                id:
-                  content: 6f6d3b8c4-2e7a-4a1d-9b2c-0e1f2a3b4c5d
-                  schemeId: com.my-mps.codelist.guid
+        - $ref: '#/components/schemas/PrimaryId'
         - $ref: '#/components/schemas/InboundDeliveryDetails'
     InboundDeliveryDetailsGrower:
       title: Inbound Delivery details by a Grower

@@ -1,0 +1,168 @@
+# Example overrides for the supplier-inbound-delivery-registration distribution.
+#
+# Replaces (as a whole, by key) the generic examples in components/examples, and the
+# `example` of the listed components/schemas and components/parameters, of
+# openapi/ecrop.yaml when this business case is built with
+# scripts/build-distribution.py. Every component listed must exist in that distribution.
+#
+# Identifier schemes used in this business case:
+#   com.my-mps.*      primary ids assigned by the crop registration platform
+#   com.iperen.*      ids assigned by the supplier's own delivery system (order line, article, ...);
+#                     these are already used in the generic examples and are kept as they are
+
+components:
+  examples:
+    inboundDeliveryFertilizerBySupplier_202:
+      summary: Inbound delivery of a fertilizer product
+      value:
+        id:
+          content: 6f6d3b8c-2e7a-4a1d-9b2c-0e1f2a3b4c5d
+          schemeId: com.my-mps.codelist.guid
+        thirdPartyIds:
+          - content: '84037601'
+            schemeId: com.iperen.codelist.orderregelnummer
+        dateOfDelivery: '2025-01-23'
+        quantity:
+          content: 1200
+          unitCode:
+            content: KGM
+            listId: nl.agroconnect.codelist.cl020
+        product:
+          thirdPartyIds:
+            - content: '1928'
+              schemeId: com.iperen.codelist.artikelnummer
+            - content: '8700127724892'
+              schemeId: nl.gs1.gtin
+          name: Peters professional 10-12-18, Blossom Booster
+          additionalProductProperties:
+            - code:
+                content: '1'
+                listId: nl.agroconnect.codelist.cl363
+              measureValue:
+                content: 10
+                unitCode:
+                  content: P1
+                  listId: nl.agroconnect.codelist.cl020
+            - code:
+                content: '14'
+                listId: nl.agroconnect.codelist.cl363
+              measureValue:
+                content: 12
+                unitCode:
+                  content: P1
+                  listId: nl.agroconnect.codelist.cl020
+            - code:
+                content: '19'
+                listId: nl.agroconnect.codelist.cl363
+              measureValue:
+                content: 18
+                unitCode:
+                  content: P1
+                  listId: nl.agroconnect.codelist.cl020
+        location:
+          thirdPartyIds:
+            - content: '1'
+              schemeId: com.iperen.codelist.cl030
+          name: De Tuinderij Honselersdijk
+    inboundDeliveryCropProtectionBySupplier_202:
+      summary: Inbound delivery of a crop protection product
+      value:
+        id:
+          content: 6f6d3b8c-2e7a-4a1d-9b2c-0e1f2a3b4c5d
+          schemeId: com.my-mps.codelist.guid
+        thirdPartyIds:
+          - content: '73882921'
+            schemeId: com.iperen.codelist.orderregelnummer
+        dateOfDelivery: '2025-03-08'
+        quantity:
+          content: 1
+          unitCode:
+            content: LTR
+            listId: nl.agroconnect.codelist.cl020
+        product:
+          thirdPartyIds:
+            - content: '2435'
+              schemeId: com.iperen.codelist.artikelnummer
+            - content: '8700991172001'
+              schemeId: nl.gs1.gtin
+            - content: 838439 N
+              schemeId: nl.ctgb.codelist.toelatingsnummer
+          name: Movento 100 SC - 1L - spirotetramat
+        location:
+          thirdPartyIds:
+            - content: '1'
+              schemeId: com.iperen.codelist.cl030
+          name: De Tuinderij Honselersdijk
+    grower_200:
+      value:
+        id:
+          content: e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b
+          schemeId: com.my-mps.codelist.guid
+        thirdPartyIds:
+          - content: '09123559'
+            schemeId: nl.kvk.codelist.kvknummer
+          - content: '870012388392'
+            schemeId: com.gs1.codelist.gln
+        name: Kwekerij De Lier
+        personName: J. de Lier
+        phoneNumber: +31(0)74 26653244
+        emailAddress: info@delier.nl
+        iban: NL04ABNA0667352669
+        websiteUrl: www.delier.nl
+        postalAddress:
+          postalCode: 3521 AA
+          cityName: Naaldwijk
+          country:
+            content: NL
+            listId: iso.3166-1.alpha2
+          countryName: Netherlands
+          postalBoxId: '4411'
+        visitorsAddress:
+          postalCode: 3521 AN
+          cityName: Naaldwijk
+          streetName: Broekweg
+          streetNumber: '12'
+          country:
+            content: NL
+            listId: iso.3166-1.alpha2
+          countryName: Netherlands
+    growers_200:
+      value:
+        - id:
+            content: e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b
+            schemeId: com.my-mps.codelist.guid
+          thirdPartyIds:
+            - content: '09123559'
+              schemeId: nl.kvk.codelist.kvknummer
+            - content: '870012388392'
+              schemeId: com.gs1.codelist.gln
+          name: Kwekerij De Lier
+          personName: J. de Lier
+          phoneNumber: +31(0)74 26653244
+          emailAddress: info@delier.nl
+          iban: NL04ABNA0667352669
+          websiteUrl: www.delier.nl
+          postalAddress:
+            postalCode: 3521 AA
+            cityName: Naaldwijk
+            country:
+              content: NL
+              listId: iso.3166-1.alpha2
+            countryName: Netherlands
+            postalBoxId: '4411'
+          visitorsAddress:
+            postalCode: 3521 AN
+            cityName: Naaldwijk
+            streetName: Broekweg
+            streetNumber: '12'
+            country:
+              content: NL
+              listId: iso.3166-1.alpha2
+            countryName: Netherlands
+  parameters:
+    growerSchemeId:
+      example: com.my-mps.codelist.guid
+    supplierSchemeId:
+      example: com.my-mps.codelist.guid
+    inboundDeliverySchemeId:
+      example: com.my-mps.codelist.guid
