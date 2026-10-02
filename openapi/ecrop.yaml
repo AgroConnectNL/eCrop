@@ -15,8 +15,8 @@ info:
     url: 'https://creativecommons.org/licenses/by/4.0/'
   termsOfService: ''
 externalDocs:
-  description: Agroconnect eCrop class model version 1.0.0.
-  url: 'https://www.agroconnect.nl/Portals/10/EnterpriseArchitect/eCrop_json/eCrop_v1.0.0/index.html'
+  description: Agroconnect eCrop class model version 1.0.2.
+  url: 'https://www.agroconnect.nl/Portals/10/EnterpriseArchitect/eCrop_json/eCrop_v1.0.2/index.html'
 tags:
   - name: general
     description: General Operations
