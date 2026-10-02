@@ -6,7 +6,7 @@ This page introduces the eCrop standard and how to work with the OpenAPI specifi
 
 - [`openapi/ecrop.yaml`](../openapi/ecrop.yaml) — the OpenAPI specification, the source of truth for the standard.
 - [`docs/index.html`](index.html) — a Swagger UI page that renders the specification.
-- [`examples/`](../examples/) — sample requests and responses.
+- [`usecases/`](../usecases/) — business cases: descriptions, sample requests and responses, example overrides and implementation guides.
 
 ## Viewing the docs locally
 

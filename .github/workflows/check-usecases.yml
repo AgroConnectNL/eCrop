@@ -1,17 +1,17 @@
-name: Check examples structure
+name: Check use case structure
 
 on:
   push:
     branches: [main]
     paths:
-      - "examples/**"
-      - "scripts/check-examples-structure.js"
-      - ".github/workflows/check-examples.yml"
+      - "usecases/**"
+      - "scripts/check-usecases-structure.js"
+      - ".github/workflows/check-usecases.yml"
   pull_request:
     paths:
-      - "examples/**"
-      - "scripts/check-examples-structure.js"
-      - ".github/workflows/check-examples.yml"
+      - "usecases/**"
+      - "scripts/check-usecases-structure.js"
+      - ".github/workflows/check-usecases.yml"
   workflow_dispatch:
 
 jobs:
@@ -23,4 +23,4 @@ jobs:
         with:
           node-version: "20"
       - name: Check required section headings
-        run: node scripts/check-examples-structure.js
+        run: node scripts/check-usecases-structure.js

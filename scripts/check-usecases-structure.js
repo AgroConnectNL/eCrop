@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-// Checks that every examples/<business-case>/README.md (all case folders
+// Checks that every usecases/<business-case>/README.md (all case folders
 // except _template) contains the required section headings, per the
-// skeleton in examples/_template/README.md.
+// skeleton in usecases/_template/README.md.
 
 const fs = require('fs');
 const path = require('path');
 
-const EXAMPLES_DIR = path.join(__dirname, '..', 'examples');
+const USECASES_DIR = path.join(__dirname, '..', 'usecases');
 
 const REQUIRED_HEADINGS = [
   'Use case and starting points',
@@ -29,7 +29,7 @@ function headingsOf(markdown) {
 }
 
 function main() {
-  const entries = fs.readdirSync(EXAMPLES_DIR, { withFileTypes: true });
+  const entries = fs.readdirSync(USECASES_DIR, { withFileTypes: true });
   const caseDirs = entries
     .filter((e) => e.isDirectory() && e.name !== '_template')
     .map((e) => e.name)
@@ -38,9 +38,9 @@ function main() {
   let failed = false;
 
   for (const dir of caseDirs) {
-    const readmePath = path.join(EXAMPLES_DIR, dir, 'README.md');
+    const readmePath = path.join(USECASES_DIR, dir, 'README.md');
     if (!fs.existsSync(readmePath)) {
-      console.error(`examples/${dir}: missing README.md`);
+      console.error(`usecases/${dir}: missing README.md`);
       failed = true;
       continue;
     }
@@ -49,17 +49,17 @@ function main() {
       (required) => !headings.includes(required.toLowerCase())
     );
     if (missing.length > 0) {
-      console.error(`examples/${dir}/README.md: missing required section(s): ${missing.join(', ')}`);
+      console.error(`usecases/${dir}/README.md: missing required section(s): ${missing.join(', ')}`);
       failed = true;
     }
   }
 
   if (failed) {
-    console.error('\nSee examples/_template/README.md for the expected structure.');
+    console.error('\nSee usecases/_template/README.md for the expected structure.');
     process.exit(1);
   }
 
-  console.log(`OK: checked ${caseDirs.length} business case(s) in examples/.`);
+  console.log(`OK: checked ${caseDirs.length} business case(s) in usecases/.`);
 }
 
 main();

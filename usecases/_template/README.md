@@ -37,5 +37,5 @@ for larger or reused ones, put them in `payloads/` next to this file and link to
 
 <Anything outside the OpenAPI spec itself that still needs deciding for this case: security,
 identifier schemes, code lists, etc. See
-[`docs/guides/implementatie-instructie-loonwerkportaal.md`](../../docs/guides/implementatie-instructie-loonwerkportaal.md)
+[`contractor-task-planning/implementatie-instructie.nl.md`](../contractor-task-planning/implementatie-instructie.nl.md)
 for the level of detail expected here.>

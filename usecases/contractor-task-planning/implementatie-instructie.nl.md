@@ -38,7 +38,7 @@ Alle taakoperaties zijn gescoped naar een perceel van een teler waarvoor de loon
 | `PATCH .../tasks/{taskSchemeId}/{taskId}` *(optioneel)* | Een eerder geregistreerde taak gedeeltelijk wijzigen met een JSON Patch-document (RFC 6902, mediatype `application/json-patch+json`, conform AASG-regel P012) | Optioneel, want PUT dekt alle wijzigingen van bestaande taken al af. Efficiënt voor kleine correcties, bijv. het gewijzigde oppervlak van een operation (`/operations/0/area/content`) van 25000 naar 24500 m2. Een `test`-operation in het patch-document beschermt tegen gelijktijdige wijzigingen |
 | `DELETE .../tasks/{taskSchemeId}/{taskId}` | Een eerder geregistreerde taak verwijderen                                                          | Voor taken die per ongeluk zijn geregistreerd of waarvan het werk is geannuleerd                     |
 
-De taakoperaties antwoorden met `202 Accepted` (POST, PUT, PATCH, met de geregistreerde taak in de respons) of `204 No Content` (DELETE). Zie ook het uitgewerkte voorbeeld in `examples/contractor-task-planning`.
+De taakoperaties antwoorden met `202 Accepted` (POST, PUT, PATCH, met de geregistreerde taak in de respons) of `204 No Content` (DELETE). Zie ook het uitgewerkte voorbeeld in [README van deze use case](README.md).
 
 **OGC API Features-operaties (plot-geometrie)**
 

@@ -9,7 +9,7 @@ e.g. contractor-task-planning. Steps:
   1. redocly bundle <name>@v1                 (filter the operations on x-usecases)
   2. drop path items without operations and unused tags, strip the x-usecases markers
   3. redocly bundle --remove-unused-components (prune what no operation references)
-  4. apply the example overrides in openapi/usecases/<name>.examples.yaml, if present
+  4. apply the example overrides in usecases/<name>/examples.yaml, if present
   5. write dist/<name>.yaml and lint it
 """
 import os
@@ -68,7 +68,7 @@ def build(name):
     os.remove(step2)
 
     # 4. business-case specific examples
-    override = f'openapi/usecases/{name}.examples.yaml'
+    override = f'usecases/{name}/examples.yaml'
     if os.path.exists(override):
         for section, patches in load(override)['components'].items():
             components = spec['components'].setdefault(section, {})

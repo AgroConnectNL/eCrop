@@ -67,9 +67,8 @@ More information: [www.agroconnect.nl](https://www.agroconnect.nl) | [github.com
 
 - [`openapi/ecrop.yaml`](openapi/ecrop.yaml) — the OpenAPI specification, source of truth for the standard.
 - [`docs/`](docs/) — Swagger UI docs site, published via GitHub Pages ([getting started](docs/getting-started.md), [enabling Pages](docs/enabling-pages.md)).
-- [`docs/guides/`](docs/guides/) — use-case-specific implementation guides for particular integrations (e.g. [Loonwerkportaal](docs/guides/implementatie-instructie-loonwerkportaal.md)).
-- [`examples/`](examples/) — business case examples (actors, scope, operations used, an example flow with a sequence diagram, and open questions) for specific implementations of the standard; see [`examples/README.md`](examples/README.md) for the current list.
-- [`scripts/`](scripts/) — repo tooling, e.g. [`check-examples-structure.js`](scripts/check-examples-structure.js), which checks every business case in `examples/` has the required sections.
+- [`usecases/`](usecases/) — one folder per business case, holding everything for that case: the description (actors, scope, operations used, an example flow with a sequence diagram, and open questions), the example overrides for its distribution of the specification (`examples.yaml`) and, where available, an implementation guide (e.g. [Loonwerkportaal](usecases/contractor-task-planning/implementatie-instructie.nl.md)); see [`usecases/README.md`](usecases/README.md) for the current list.
+- [`scripts/`](scripts/) — repo tooling, e.g. [`build-distribution.py`](scripts/build-distribution.py), which builds a business-case specific distribution of the specification, and [`check-usecases-structure.js`](scripts/check-usecases-structure.js), which checks every business case in `usecases/` has the required sections.
 - [`CHANGELOG.md`](CHANGELOG.md) — notable changes to the standard.
 
-Pushes to `main` that touch `openapi/**` are linted (`.github/workflows/validate.yml`); pushes touching `docs/**` or `openapi/**` rebuild and publish the docs site (`.github/workflows/publish.yml`); pushes touching `examples/**` are checked for the required structure (`.github/workflows/check-examples.yml`).
+Pushes to `main` that touch `openapi/**` are linted (`.github/workflows/validate.yml`); pushes touching `docs/**` or `openapi/**` rebuild and publish the docs site (`.github/workflows/publish.yml`); pushes touching `usecases/**` are checked for the required structure (`.github/workflows/check-usecases.yml`).
