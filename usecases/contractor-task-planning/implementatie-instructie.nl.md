@@ -16,7 +16,7 @@ Deze instructie beschrijft welke operaties uit de eCrop OpenAPI-specificatie voo
 
 ### 2.1 Kernoperaties voor deze use case
 
-De volgende operaties zijn direct nodig om de use case te realiseren, in beide navigatierichtingen (Plot → Feature en Feature → Plot). Sinds de introductie van het /contractors-toegangsmodel verloopt de teler-/perceeltoegang voor een loonwerker expliciet via de contractor-gescopeerde operaties, niet meer via de directe /growers-operaties (die zijn voorbehouden aan de teler zelf, via zijn bms-teler):
+De volgende operaties zijn direct nodig om de use case te realiseren, in beide navigatierichtingen (Plot → Feature en Feature → Plot). De richtingen zijn niet gelijkwaardig: alleen Feature → Plot is als verwijzing opgeslagen, Plot → Feature is een zoekvraag (*backlink*, zie §3.11). Sinds de introductie van het /contractors-toegangsmodel verloopt de teler-/perceeltoegang voor een loonwerker expliciet via de contractor-gescopeerde operaties, niet meer via de directe /growers-operaties (die zijn voorbehouden aan de teler zelf, via zijn bms-teler):
 
 **Contractor-operaties (business API, via /contractors)**
 
@@ -48,8 +48,8 @@ De taakoperaties antwoorden met `202 Accepted` (POST, PUT, PATCH, met de geregis
 | `GET /conformance`                         | Conformance-declaratie                               | Verplicht: clients gebruiken dit om te bepalen welke profielen/functionaliteit de server ondersteunt |
 | `GET /collections`                         | Lijst van beschikbare feature-collecties             | Verplicht discovery-stappunt, ook als er (nu) maar één collectie (plots) bestaat                     |
 | `GET /collections/plots`                   | Metadata van de plots-collectie (extent, CRS-opties) | Nodig zodat een client weet in welke CRS'en en met welke profielen de collectie bevraagd kan worden  |
-| `GET /collections/plots/items`             | FeatureCollection van percelen ophalen               | Nodig voor de "eerst Feature, dan Plot"-richting: de loonwerker kan features doorzoeken/filteren (bijv. op bbox) en van daaruit terugverwijzen naar het Plot-object |
-| `GET /collections/plots/items/{featureId}` | Één Feature (geo-informatie van één perceel) ophalen | De kern van de use case: de geo-informatie behorend bij een specifiek perceel, met de terugverwijzing naar het Plot-object via links |
+| `GET /collections/plots/items`             | FeatureCollection van percelen ophalen               | Nodig voor de "eerst Feature, dan Plot"-richting: de loonwerker kan features doorzoeken/filteren (bijv. op bbox) en van daaruit terugverwijzen naar het Plot-object. Met de queryparameters `plotSchemeId` en `plotId` (altijd samen) selecteert dezelfde operatie de Feature(s) van één perceel: dit is de zoekvraag achter de `plot-features`-link in een Plot-respons (de backlink, zie §3.11) |
+| `GET /collections/plots/items/{featureId}` | Één Feature (geo-informatie van één perceel) ophalen | De geo-informatie van één Feature, bijv. als de featureId al bekend is uit een eerdere FeatureCollection-respons; de Feature verwijst terug naar het Plot-object via `properties.plotId` en de `plot`-link |
 
 De twee operatiegroepen zijn in de specificatie voorzien van verschillende toegangspaden: de contractor-/business-operaties onder `https://standard-api.agroconnect.nl/ecrop/v1`, de plot-geometry-operaties onder `https://standard-api.agroconnect.nl/plot-features/v1`. Dit hoeft niet te betekenen dat deze twee ook daadwerkelijk op gescheiden (virtual) servers gebouwd moeten worden — beide toegangspaden kunnen prima door dezelfde onderliggende implementatie bediend worden, zolang ze beide putten uit dezelfde databron met perceelsgegevens. In dat geval is er tussen de twee toegangspaden ook geen aparte synchronisatie nodig: een wijziging die de teler doorvoert, is via beide paden meteen consistent zichtbaar.
 
@@ -148,7 +148,7 @@ De waarde `agroconnect:ecrop:plot` voor featureType is een voorbeeldwaarde. Een 
 
 ### 3.7 Custom link relations
 
-De custom rel-URI's (`https://ecrop.agroconnect.nl/rel/plot` en `.../rel/plot-features`) moeten daadwerkelijk dereferentieerbaar gemaakt worden: een pagina die de betekenis van de relatie documenteert, conform de aanbevolen praktijk voor eigen link relation types.
+De custom rel-URI's (`https://ecrop.agroconnect.nl/rel/plot` en `.../rel/plot-features`) moeten daadwerkelijk dereferentieerbaar gemaakt worden: een pagina die de betekenis van de relatie documenteert, conform de aanbevolen praktijk voor eigen link relation types. Let op: `.../rel/plot` is de opgeslagen verwijzing van een Feature naar zijn Plot, `.../rel/plot-features` is een zoekvraag (backlink) in de Plot-respons naar de Feature(s) van dat perceel (zie §3.11).
 
 ### 3.8 CRS en mod-geo-compliance
 
@@ -167,3 +167,36 @@ De taakoperaties (POST, PUT, PATCH) antwoorden met `202 Accepted`: de server hee
 ### 3.10 Synchronisatie tussen Plot en Feature
 
 Deze instructie gaat ervan uit dat de Plot API en de Plot Features API beide uit dezelfde onderliggende datastore putten. Daardoor is er geen aparte synchronisatie tussen twee gescheiden databronnen nodig: een wijziging die de teler in zijn bms-teler doorvoert, is voor beide API's onmiddellijk en consistent zichtbaar, zonder replicatie- of cache-vertraging. Mocht in een latere fase alsnog voor gescheiden datastores gekozen worden, dan moet dit punt opnieuw expliciet uitgewerkt worden.
+
+### 3.11 Verwijzing tussen Plot en Feature: backlinks
+
+**Het probleem.** Een Plot en zijn Feature verwezen oorspronkelijk naar elkaar: de Plot bevatte een link naar één specifieke Feature (`/collections/plots/items/384912567`), en de Feature bevatte het id van de Plot (`properties.plotId`) en een link terug naar de Plot. Elke kant bewaart dus een identifier van de andere kant. Zodra identifiers van de inhoud worden afgeleid (content identifiers, bijv. een hash die verandert als de inhoud verandert), ontstaat daardoor een kringverwijzing: het id van de Plot hangt af van zijn inhoud en dus van het Feature-id, en het id van de Feature hangt af van zijn inhoud en dus van het Plot-id. Geen van beide kan als eerste worden berekend, en een wijziging aan de ene kant verandert het id van de andere kant, waardoor de eerste weer verandert. Wederzijdse verwijzingen met id's blokkeren het gebruik van content identifiers dus.
+
+**De oplossing: backlinks vanaf de Feature-kant.** Er wordt maar één richting opgeslagen; de andere richting wordt afgeleid op het moment dat ze nodig is.
+
+1. **De Feature bewaart de verwijzing naar de Plot** (`properties.plotId` en de link met `rel=https://ecrop.agroconnect.nl/rel/plot`). Een Feature bestaat alleen voor een Plot, dus deze afhankelijkheid is natuurlijk.
+2. **De Plot bewaart geen Feature-id.** Zijn inhoud hangt daardoor niet van een Feature af, en zijn id is stabiel.
+3. **De link van de Plot naar zijn geometrie wordt bij het lezen berekend.** De server beantwoordt de vraag "welke Features verwijzen naar dit Plot?" en geeft het antwoord als link terug. Die zoekvraag is de backlink.
+
+De afhankelijkheid loopt nu in één richting (Feature hangt af van Plot), zodat er geen kringverwijzing meer is en id's op beide kanten van hun inhoud afgeleid kunnen worden.
+
+**Hoe dit in de API werkt.** De `plot-features`-link in een Plot-respons wijst niet meer naar één Feature, maar is een zoekopdracht op de Features-collectie:
+
+```json
+{
+  "rel": "https://ecrop.agroconnect.nl/rel/plot-features",
+  "href": "https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items?plotSchemeId=nl.loonwerkportaal.codelist.guid&plotId=e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b",
+  "type": "application/geo+json"
+}
+```
+
+`GET /collections/plots/items` heeft hiervoor de queryparameters `plotSchemeId` en `plotId` (altijd samen te gebruiken, samen vormen ze het id van de Plot). De respons is een FeatureCollection met de Features waarvan `properties.plotId` gelijk is aan dat id.
+
+**Gevolgen en aandachtspunten voor de implementatie.**
+
+- **Een Plot kan meerdere Features hebben.** Bijvoorbeeld een in de tijd gewijzigde geometrie, of meerdere varianten. Omdat de backlink een zoekvraag is, is dit zonder extra voorzieningen mogelijk. De respons is daarom altijd een FeatureCollection, ook als er normaal gesproken één Feature in zit; de client kiest de actuele.
+- **De server heeft een index op `properties.plotId` nodig,** zodat de omgekeerde zoekactie snel blijft. In de specificatie is `plotId` nu alleen een eenvoudige queryparameter; een formele definitie als OGC API Features *queryable* (Part 3) is niet opgenomen.
+- **Eén stap meer voor de client.** De client haalt eerst de Plot op en volgt daarna de backlink, en krijgt een lijst terug in plaats van één Feature. De "2 acties per perceel" blijven bestaan.
+- **Verwijderen van een Plot.** Features die naar een verwijderde Plot verwijzen, blijven achter zonder doel. De implementatie moet bepalen of die Features dan mee worden verwijderd of als vervallen worden gemarkeerd.
+- **Beide kanten blijven consistent doordat ze uit dezelfde datastore putten** (zie §3.10); er is geen apart bijhouden van een tweede verwijzing nodig.
+- **Compatibiliteit.** Clients die de link uit een eerdere versie als verwijzing naar één Feature gebruikten (`.../items/{featureId}`), moeten de nieuwe link als zoekvraag behandelen. De href kan altijd gewoon gevolgd worden, zoals in de voorbeelden, zodat clients die de link niet zelf opbouwen niet hoeven te veranderen, behalve in het verwerken van de FeatureCollection-respons.

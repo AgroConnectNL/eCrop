@@ -29,9 +29,9 @@ corrects or deletes them later.**
 | Operation | Purpose | Why needed |
 | --- | --- | --- |
 | `GET /contractors/{contractorSchemeId}/{contractorId}/growers` | Discover which growers have granted this contractor access | Discovery start point — the CPS doesn't need to know a grower's id in advance |
-| `GET /contractors/{...}/{..}/growers/{growerSchemeId}/{growerId}/plots` | List a grower's plots (business attributes) — each item already includes a `links` entry pointing at its geometry Feature | **Action 1.** The response carries everything needed for Action 2, so no separate geo-discovery step is needed per plot (see the design note below) |
+| `GET /contractors/{...}/{..}/growers/{growerSchemeId}/{growerId}/plots` | List a grower's plots (business attributes) — each item already includes a `links` entry with a query for its geometry (a *backlink*, see the design note below) | **Action 1.** The response carries everything needed for Action 2, so no separate geo-discovery step is needed per plot (see the design note below) |
 | `GET /contractors/{...}/{..}/growers/{...}/{..}/plots/{plotSchemeId}/{plotId}` | Retrieve one specific plot, e.g. once the CPS already knows its id from an earlier sync | Same shape (and `links`) as a list item, just scoped to one plot |
-| `GET {the plot's `links[rel=".../rel/plot-features"]`.href}` — i.e. `GET /collections/plots/items/{featureId}` on the plot-features server | Retrieve that plot's geometry (boundary, entryPoint, abLine) as a Feature | **Action 2.** The CPS follows the link it was just given — it never computes or guesses a `featureId` itself |
+| `GET {the plot's `links[rel=".../rel/plot-features"]`.href}` — i.e. `GET /collections/plots/items?plotSchemeId={plotSchemeId}&plotId={plotId}` on the plot-features server | Retrieve that plot's geometry (boundary, entryPoint, abLine): a FeatureCollection with the Feature(s) that refer to the plot | **Action 2.** The CPS follows the link it was just given — it never computes or guesses a feature id itself |
 
 **Phase 2 — registering the performed tasks (write)**, all scoped to a plot of a grower the contractor
 has been granted access to
@@ -44,12 +44,18 @@ has been granted access to
 | `PATCH .../tasks/{taskSchemeId}/{taskId}` *(optional)* | Partially update a previously registered task using a JSON Patch document (RFC 6902, media type `application/json-patch+json`) | Optional, because PUT already covers all updates of existing tasks. Efficient for small corrections, e.g. changing the treated area of an operation from 25000 to 24500 m2 |
 | `DELETE .../tasks/{taskSchemeId}/{taskId}` | Delete a previously registered task | For tasks registered by mistake or cancelled afterwards |
 
-**Design note on "2 actions":** as of this spec version, `plot_200`/`plots_200` responses embed a
-`links` array with a custom `rel="https://ecrop.agroconnect.nl/rel/plot-features"` entry pointing
-straight at that plot's Feature — and the Feature links back the same way
-(`rel="https://ecrop.agroconnect.nl/rel/plot"`), plus carries the originating `plotId` in
-`properties`. That's what makes this a clean 2-call flow per plot: get the plot, follow its link.
-See §2.2 for why the fuller OGC API Features discovery chain isn't part of this core flow.
+**Design note on "2 actions" and backlinks:** `plot_200`/`plots_200` responses embed a `links` array
+with a custom `rel="https://ecrop.agroconnect.nl/rel/plot-features"` entry. That link is a *query*
+(`GET /collections/plots/items?plotSchemeId=...&plotId=...`) for the Feature(s) that refer to the
+plot, not a link to one specific Feature. The only reference that is stored runs from the Feature to
+the Plot: the Feature carries the originating `plotId` in `properties` and a link with
+`rel="https://ecrop.agroconnect.nl/rel/plot"`. The Plot itself stores no Feature id and finds its
+geometry through this *backlink*. Because the references run in one direction only, neither
+representation contains an identifier of the other, which is a precondition for content-based
+identifiers (otherwise a Plot id would depend on a Feature id and vice versa). It still makes this a
+clean 2-call flow per plot: get the plot, follow its link. The response of the second call is a
+FeatureCollection, normally with one Feature. See §2.2 for why the fuller OGC API Features discovery
+chain isn't part of this core flow.
 
 ### 2.2 Recommended (not required)
 
@@ -90,13 +96,13 @@ sequenceDiagram
 
     CPS->>eCrop: GET .../growers/{growerSchemeId}/{growerId}/plots
     activate eCrop
-    eCrop-->>CPS: 200 OK (plots, each incl. a link to its geometry Feature)
+    eCrop-->>CPS: 200 OK (plots, each incl. a backlink query for its geometry)
     deactivate eCrop
 
     loop For each plot the employee wants to plan around
         Note over CPS,eCrop: Action 1 already done above (or via a single-plot GET)
         CPS->>eCrop: Action 2 - GET the plot's own links[rel=".../rel/plot-features"].href
-        eCrop-->>CPS: 200 OK (Feature: boundary, entryPoint, abLine)
+        eCrop-->>CPS: 200 OK (FeatureCollection: the plot's Feature with boundary, entryPoint, abLine)
         CPS-->>CPS: Combine plot attributes + geometry for planning (e.g. on a map)
     end
 
@@ -176,75 +182,92 @@ GET /contractors/nl.loonwerkportaal.codelist.guid/5d4e3f2a-1b0c-9d8e-7f6a-5b4c3d
   "links": [
     {
       "rel": "https://ecrop.agroconnect.nl/rel/plot-features",
-      "href": "https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items/384912567",
+      "href": "https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items?plotSchemeId=nl.loonwerkportaal.codelist.guid&plotId=e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b",
       "type": "application/geo+json",
-      "title": "Geo-information (boundary, entryPoint, abLine) as OGC feature"
+      "title": "Features (boundary, entryPoint, abLine) that refer to this plot, as OGC features"
     }
   ]
 }
 ```
 
-### 3.3 Action 2 — follow the link to the plot's geometry
+### 3.3 Action 2 — follow the backlink to the plot's geometry
 
 Note this is on the separate plot-geometry server (`.../plot-features/v1`, not `.../ecrop/v1`) —
 the `href` above already points there, so the CPS just follows it as given:
 
 ```http
-GET https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items/384912567
+GET https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items?plotSchemeId=nl.loonwerkportaal.codelist.guid&plotId=e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
 ```
+
+The response is a FeatureCollection with the Feature(s) that refer to this plot (normally one):
 
 ```json
 {
-  "type": "Feature",
-  "id": 384912567,
-  "geometry": {
-    "type": "Polygon",
-    "coordinates": [
-      [
-        [5.7519, 51.9485],
-        [5.7811, 51.9485],
-        [5.7811, 51.9665],
-        [5.7519, 51.9665],
-        [5.7519, 51.9485]
-      ]
-    ]
-  },
-  "properties": {
-    "plotId": {
-      "content": "e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b",
-      "schemeId": "nl.loonwerkportaal.codelist.guid"
-    },
-    "name": "Tuin1, perceel6",
-    "area": {
-      "content": 6000,
-      "unitCode": { "content": "MTK", "listId": "nl.agroconnect.codelist.cl020" }
-    },
-    "entryPoint": { "type": "Point", "coordinates": [5.7527, 51.9487] },
-    "abLine": {
-      "type": "LineString",
-      "coordinates": [
-        [5.7548, 51.9494],
-        [5.7782, 51.9655]
+  "type": "FeatureCollection",
+  "numberMatched": 1,
+  "numberReturned": 1,
+  "features": [
+    {
+      "type": "Feature",
+      "id": 384912567,
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [5.7519, 51.9485],
+            [5.7811, 51.9485],
+            [5.7811, 51.9665],
+            [5.7519, 51.9665],
+            [5.7519, 51.9485]
+          ]
+        ]
+      },
+      "properties": {
+        "plotId": {
+          "content": "e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b",
+          "schemeId": "nl.loonwerkportaal.codelist.guid"
+        },
+        "name": "Tuin1, perceel6",
+        "area": {
+          "content": 6000,
+          "unitCode": { "content": "MTK", "listId": "nl.agroconnect.codelist.cl020" }
+        },
+        "entryPoint": { "type": "Point", "coordinates": [5.7527, 51.9487] },
+        "abLine": {
+          "type": "LineString",
+          "coordinates": [
+            [5.7548, 51.9494],
+            [5.7782, 51.9655]
+          ]
+        }
+      },
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items/384912567",
+          "type": "application/geo+json"
+        },
+        {
+          "rel": "https://ecrop.agroconnect.nl/rel/plot",
+          "href": "https://standard-api.agroconnect.nl/ecrop/v1/growers/nl.loonwerkportaal.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/plots/nl.loonwerkportaal.codelist.guid/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b",
+          "type": "application/json"
+        }
       ]
     }
-  },
+  ],
   "links": [
     {
       "rel": "self",
-      "href": "https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items/384912567",
+      "href": "https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items?plotSchemeId=nl.loonwerkportaal.codelist.guid&plotId=e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b",
       "type": "application/geo+json"
-    },
-    {
-      "rel": "https://ecrop.agroconnect.nl/rel/plot",
-      "href": "https://standard-api.agroconnect.nl/ecrop/v1/growers/nl.loonwerkportaal.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/plots/nl.loonwerkportaal.codelist.guid/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b",
-      "type": "application/json"
     }
   ]
 }
 ```
 
 The CPS now has both the plot's attributes (from §3.2) and its shape/location (from this
-response) to plan the field work.
+response) to plan the field work. The Feature's own `rel=".../rel/plot"` link and `properties.plotId`
+are the stored reference back to the plot (see the design note in §2.1).
 
 ### 3.4 Action 3 — register the task performed on the plot
 
@@ -394,7 +417,7 @@ the individual employee using it.
 
 ### 4.2 CRS choice for the planning UI
 
-`GET .../collections/plots/items/{featureId}` defaults to `profile=rfc7946` (plain GeoJSON,
+`GET .../collections/plots/items` (and `.../items/{featureId}`) default to `profile=rfc7946` (plain GeoJSON,
 always WGS84), as used in §3.3. Since this CPS is meant to show a field on a map for planning,
 it's worth deciding whether `profile=jsonfg` with `crs=EPSG:28992` (RD New) is a better default —
 agricultural GPS/steering systems in the Netherlands typically work in RD New rather than WGS84.
