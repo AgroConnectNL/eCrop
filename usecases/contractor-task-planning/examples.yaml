@@ -673,3 +673,7 @@ components:
       example: nl.loonwerkportaal.codelist.guid
     taskSchemeId:
       example: nl.loonwerkportaal.codelist.guid
+    plotSchemeIdQuery:
+      example: nl.loonwerkportaal.codelist.guid
+    plotIdQuery:
+      example: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b

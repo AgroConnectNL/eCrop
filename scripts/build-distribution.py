@@ -11,7 +11,8 @@ Steps:
   2. drop path items without operations and unused tags, strip the x-usecases markers
   3. redocly bundle --remove-unused-components (prune what no operation references)
   4. apply the example overrides in usecases/<name>/examples.yaml, if present
-  5. write dist/ecrop-<name>.yaml and lint it
+  5. check that the plot/feature examples agree (scripts/check_consistency.py)
+  6. write dist/ecrop-<name>.yaml and lint it
 """
 import os
 import shutil
@@ -19,6 +20,7 @@ import subprocess
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from check_consistency import check  # noqa: E402
 from yamlio import dump, load  # noqa: E402
 
 HTTP_METHODS = {'get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace'}
@@ -81,6 +83,9 @@ def build(name):
                 else:
                     components[key].update(value)  # e.g. replace the `example` of a schema/parameter
 
+    # 5. the overridden examples must still describe the same plots
+    check(spec, out)
+
     write(out, spec)
     print(f'{out}: {sum(1 for i in spec["paths"].values() for m in i if m in HTTP_METHODS)} operations')
     run('lint', out)
@@ -91,5 +96,7 @@ def all_names():
 
 
 if __name__ == '__main__':
+    if len(sys.argv) < 2:
+        check(load('openapi/ecrop.yaml'), 'openapi/ecrop.yaml')  # the complete specification
     for n in sys.argv[1:] or all_names():
         build(n)
