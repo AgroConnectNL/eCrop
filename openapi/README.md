@@ -2,7 +2,7 @@
 
 - [`ecrop.yaml`](ecrop.yaml) — the AgroConnect eCrop OpenAPI 3.0 specification, source of truth for the standard.
 
-The eCrop OpenAPI spec can also be viewed online on Github Pages: [agroconnectnl.github.io/ecrop](https://agroconnectnl.github.io/eCrop)
+The general and business case specific releases of the eCrop OpenAPI spefication can be viewed online on Github Pages: [agroconnectnl.github.io/ecrop](https://agroconnectnl.github.io/eCrop)
 
 ## Business-case distributions
 
