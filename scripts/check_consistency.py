@@ -8,7 +8,7 @@ but they describe the same plots. This checks that they agree:
   2. when the Feature examples are part of the specification: every backlinked plot, and the
      examples of the plotSchemeId/plotId query parameters, refer to a plot that a Feature
      example refers to (properties.plotId);
-  3. the `plot` link of every Feature example contains the id of the plot in its own properties.plotId.
+  3. the `plot` link of every Feature example ends with /plots/{schemeId}/{id} of the plot in its own properties.plotId.
 
 Usage: python scripts/check_consistency.py [<file.yaml> ...]   (default: openapi/ecrop.yaml)
 """
@@ -55,9 +55,9 @@ def check(spec, label):
                 feature_plots.add(plot)
                 # 3. the Feature's link back to the plot
                 for link in d.get('links', []) or []:
-                    if link.get('rel') == REL_PLOT and plot[1] not in link['href']:
-                        errors.append(f'example {name}: feature link rel=plot ({link["href"]}) does not contain the '
-                                      f'id {plot[1]} of its properties.plotId')
+                    if link.get('rel') == REL_PLOT and not link['href'].endswith(f'/plots/{plot[0]}/{plot[1]}'):
+                        errors.append(f'example {name}: feature link rel=plot ({link["href"]}) does not end with '
+                                      f'/plots/{plot[0]}/{plot[1]} of its properties.plotId')
 
     backlinked = set()
     for name, value in examples.items():

@@ -249,7 +249,7 @@ The response is a FeatureCollection with the Feature(s) that refer to this plot 
         },
         {
           "rel": "https://ecrop.agroconnect.nl/rel/plot",
-          "href": "https://standard-api.agroconnect.nl/ecrop/v1/growers/nl.loonwerkportaal.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/plots/nl.loonwerkportaal.codelist.guid/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b",
+          "href": "https://standard-api.agroconnect.nl/ecrop/v1/contractors/nl.loonwerkportaal.codelist.guid/5d4e3f2a-1b0c-9d8e-7f6a-5b4c3d2e1f0a/growers/nl.loonwerkportaal.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/plots/nl.loonwerkportaal.codelist.guid/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b",
           "type": "application/json"
         }
       ]

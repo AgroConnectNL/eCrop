@@ -26,7 +26,7 @@ named `components/schemas` and `components/parameters`.
 The build also checks that the plot/feature examples still agree after the overrides are applied
 (`scripts/check_consistency.py`): the `plot-features` link of a plot queries that plot's own id, the
 `plotSchemeId`/`plotId` parameter examples match a plot that the Feature examples refer to, and the `plot`
-link of a Feature contains its plot's id. A mismatch fails the build.
+link of a Feature ends with `/plots/{schemeId}/{id}` of its plot. A mismatch fails the build.
 
 ### Where the distributions are published
 

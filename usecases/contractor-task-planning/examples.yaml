@@ -214,7 +214,7 @@ components:
                   listId: nl.agroconnect.codelist.cl020
             links:
               - rel: https://ecrop.agroconnect.nl/rel/plot
-                href: https://standard-api.agroconnect.nl/ecrop/v1/plots/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+                href: https://standard-api.agroconnect.nl/ecrop/v1/contractors/nl.loonwerkportaal.codelist.guid/5d4e3f2a-1b0c-9d8e-7f6a-5b4c3d2e1f0a/growers/nl.loonwerkportaal.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/plots/nl.loonwerkportaal.codelist.guid/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
                 type: application/json
           - type: Feature
             id: 271846930
@@ -248,7 +248,7 @@ components:
                   listId: nl.agroconnect.codelist.cl020
             links:
               - rel: https://ecrop.agroconnect.nl/rel/plot
-                href: https://standard-api.agroconnect.nl/ecrop/v1/plots/b3c4d5e6-7f8a-9b0c-1d2e-3f4a5b6c7d8e
+                href: https://standard-api.agroconnect.nl/ecrop/v1/contractors/nl.loonwerkportaal.codelist.guid/5d4e3f2a-1b0c-9d8e-7f6a-5b4c3d2e1f0a/growers/nl.loonwerkportaal.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/plots/nl.loonwerkportaal.codelist.guid/b3c4d5e6-7f8a-9b0c-1d2e-3f4a5b6c7d8e
                 type: application/json
         links:
           - rel: self
@@ -291,7 +291,7 @@ components:
                   listId: nl.agroconnect.codelist.cl020
             links:
               - rel: https://ecrop.agroconnect.nl/rel/plot
-                href: https://standard-api.agroconnect.nl/ecrop/v1/plots/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+                href: https://standard-api.agroconnect.nl/ecrop/v1/contractors/nl.loonwerkportaal.codelist.guid/5d4e3f2a-1b0c-9d8e-7f6a-5b4c3d2e1f0a/growers/nl.loonwerkportaal.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/plots/nl.loonwerkportaal.codelist.guid/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
                 type: application/json
           - type: Feature
             id: 271846930
@@ -320,7 +320,7 @@ components:
                   listId: nl.agroconnect.codelist.cl020
             links:
               - rel: https://ecrop.agroconnect.nl/rel/plot
-                href: https://standard-api.agroconnect.nl/ecrop/v1/plots/b3c4d5e6-7f8a-9b0c-1d2e-3f4a5b6c7d8e
+                href: https://standard-api.agroconnect.nl/ecrop/v1/contractors/nl.loonwerkportaal.codelist.guid/5d4e3f2a-1b0c-9d8e-7f6a-5b4c3d2e1f0a/growers/nl.loonwerkportaal.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/plots/nl.loonwerkportaal.codelist.guid/b3c4d5e6-7f8a-9b0c-1d2e-3f4a5b6c7d8e
                 type: application/json
         links:
           - rel: self
@@ -384,7 +384,7 @@ components:
             href: https://standard-api.agroconnect.nl/plot-features/v1/collections/plots
             type: application/json
           - rel: https://ecrop.agroconnect.nl/rel/plot
-            href: https://standard-api.agroconnect.nl/ecrop/v1/plots/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+            href: https://standard-api.agroconnect.nl/ecrop/v1/contractors/nl.loonwerkportaal.codelist.guid/5d4e3f2a-1b0c-9d8e-7f6a-5b4c3d2e1f0a/growers/nl.loonwerkportaal.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/plots/nl.loonwerkportaal.codelist.guid/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
             type: application/json
             title: Bijbehorend Plot business-object
     plotFeatureTopLevel_200_rfc7946:
@@ -432,7 +432,7 @@ components:
             href: https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items/384912567
             type: application/geo+json
           - rel: https://ecrop.agroconnect.nl/rel/plot
-            href: https://standard-api.agroconnect.nl/ecrop/v1/plots/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+            href: https://standard-api.agroconnect.nl/ecrop/v1/contractors/nl.loonwerkportaal.codelist.guid/5d4e3f2a-1b0c-9d8e-7f6a-5b4c3d2e1f0a/growers/nl.loonwerkportaal.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/plots/nl.loonwerkportaal.codelist.guid/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
             type: application/json
     taskRequest:
       value:
