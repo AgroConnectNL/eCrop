@@ -5,7 +5,8 @@ name: Publish docs and distributions
 #   - pull requests:        build + lint only
 #   - pushes to main:       build, then publish the site on GitHub Pages
 #   - tags v*:              build, then attach the specification and distributions to the GitHub release
-#                           (tags with a suffix, e.g. v1.1.0-rc.1, are created as pre-releases)
+#                           (tags with a suffix, e.g. v1.1.0-rc.1, are created as pre-releases); the release
+#                           notes are the CHANGELOG.md section of the version (scripts/release-notes.py)
 on:
   push:
     branches: [main]
@@ -89,7 +90,14 @@ jobs:
           flags=""
           case "$GITHUB_REF_NAME" in *-*) flags="--prerelease" ;; esac
           if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            # an existing release keeps its notes, only the files are (re)uploaded
             gh release upload "$GITHUB_REF_NAME" $files --clobber
           else
-            gh release create "$GITHUB_REF_NAME" $files --title "$GITHUB_REF_NAME" --generate-notes $flags
+            # the release notes are the CHANGELOG.md section of this version; without one GitHub generates them
+            if python3 scripts/release-notes.py "$GITHUB_REF_NAME" > release-notes.md; then
+              notes="--notes-file release-notes.md"
+            else
+              notes="--generate-notes"
+            fi
+            gh release create "$GITHUB_REF_NAME" $files --title "$GITHUB_REF_NAME" $notes $flags
           fi

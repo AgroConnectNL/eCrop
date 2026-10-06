@@ -41,3 +41,13 @@ link of a Feature ends with `/plots/{schemeId}/{id}` of its plot. A mismatch fai
   so implementers can pin a fixed version.
 
 The generated files are not committed (`dist/` and `site/` are git-ignored).
+
+### Release notes
+
+The release notes are not part of the specification (`info.description` only links to them), but are kept in
+[`CHANGELOG.md`](../CHANGELOG.md), one section per version (`## [1.1.0]`, in the *Keep a Changelog* format).
+Add changes to the section of the version in preparation. When a tag `v<version>` is pushed, the release job
+uses the section of that version as the body of the GitHub release
+([`scripts/release-notes.py`](../scripts/release-notes.py)); a pre-release tag such as `v1.1.0-rc.1` uses the section of
+`1.1.0`. Without a section for the tag, GitHub generates the release notes. The notes of an existing release are
+not overwritten.
