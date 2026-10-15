@@ -45,7 +45,7 @@ We would appreciate it if you let us know when you implement the standards. This
 
 ## Samenvatting licentievoorwaarden
 
-De eCropstandaarden, inclusief de OpenAPI-definities, worden door AgroConnect gepubliceerd onder de [Creative Commons Naamsvermelding 4.0 Internationaal-licentie (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/deed.nl).
+De eCrop standaarden, inclusief de OpenAPI-definities, worden door AgroConnect gepubliceerd onder de [Creative Commons Naamsvermelding 4.0 Internationaal-licentie (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/deed.nl).
 
 Deze samenvatting is alleen bedoeld als hulpmiddel en is juridisch niet bindend. Bij verschillen geldt de volledige licentietekst.
 
