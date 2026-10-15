@@ -41,7 +41,7 @@ Purely internal use, without sharing or publishing, does not require attribution
 - The standards may change. Always state which version you have implemented.
 
 ### Let us know
-We would appreciate it if you let us know when you implement the standards. This is not a request for permission. It helps us keep an overview of implementations and inform you about upcoming changes. Contact: [email / link to issue form]
+We would appreciate it if you let us know when you implement the standards. This is not a request for permission. It helps us keep an overview of implementations and inform you about upcoming changes. Contact: info@agroconnect.nl
 
 ## Samenvatting licentievoorwaarden
 
@@ -82,7 +82,7 @@ Voor puur intern gebruik, zonder delen of publiceren, is naamsvermelding niet no
 - De standaarden kunnen wijzigen. Vermeld altijd welke versie je hebt geïmplementeerd.
 
 ### Laat het ons weten
-We stellen het op prijs als je meldt dat je de standaarden implementeert. Dit is geen verzoek om toestemming. Het helpt ons overzicht te houden van implementaties en je te informeren over komende wijzigingen. Contact: [e-mail / link naar issueformulier]
+We stellen het op prijs als je meldt dat je de standaarden implementeert. Dit is geen verzoek om toestemming. Het helpt ons overzicht te houden van implementaties en je te informeren over komende wijzigingen. Contact: info@agroconnect.nl
 
 ## About eCrop
 
