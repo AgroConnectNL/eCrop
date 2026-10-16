@@ -322,7 +322,7 @@ Content-Type: application/json
       "workerAssignments": [
         {
           "worker": {
-            "id": { "content": "4821", "schemeId": "nl.my-cps.codelist.medewerkernummer" },
+            "thirdPartyIds": [{ "content": "4821", "schemeId": "nl.my-cps.codelist.medewerkernummer" }],
             "name": "Jan Jansen",
             "jobTitle": "Machine operator"
           },

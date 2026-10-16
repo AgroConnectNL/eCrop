@@ -513,9 +513,9 @@ components:
                     listId: nl.agroconnect.codelist.cl020
             workerAssignments:
               - worker:
-                  id:
-                    content: '4821'
-                    schemeId: nl.my-cps.codelist.medewerkernummer
+                  thirdPartyIds:
+                    - content: '4821'
+                      schemeId: nl.my-cps.codelist.medewerkernummer
                   name: Jan Jansen
                   jobTitle: Machine operator
                 startDateTime: '2025-03-12T15:51:00+01:00'
@@ -607,9 +607,9 @@ components:
                     listId: nl.agroconnect.codelist.cl020
             workerAssignments:
               - worker:
-                  id:
-                    content: '4821'
-                    schemeId: nl.my-cps.codelist.medewerkernummer
+                  thirdPartyIds:
+                    - content: '4821'
+                      schemeId: nl.my-cps.codelist.medewerkernummer
                   name: Jan Jansen
                   jobTitle: Machine operator
                 startDateTime: '2025-03-12T15:51:00+01:00'
@@ -640,21 +640,21 @@ components:
           unitCode:
             content: KMT
             listId: nl.agroconnect.codelist.cl020
-    Worker:
+    WorkerDetails:
       example:
-        id:
-          content: '4821'
-          schemeId: nl.my-cps.codelist.medewerkernummer
+        thirdPartyIds:
+          - content: '4821'
+            schemeId: nl.my-cps.codelist.medewerkernummer
         name: Jan Jansen
         phoneNumber: +31(0)6 12345678
         email: jan.jansen@example.com
         jobTitle: Machine operator
-    WorkAssignment:
+    WorkerAssignment:
       example:
         worker:
-          id:
-            content: '4821'
-            schemeId: nl.my-cps.codelist.medewerkernummer
+          thirdPartyIds:
+            - content: '4821'
+              schemeId: nl.my-cps.codelist.medewerkernummer
           name: Jan Jansen
           jobTitle: Machine operator
         startDateTime: '2025-03-12T15:51:00+01:00'
