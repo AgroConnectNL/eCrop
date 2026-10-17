@@ -138,7 +138,7 @@ Alle CodeType-velden (content + listId) verwijzen naar codelijsten die als NSID 
 | Crop.productionPurpose                  | `nl.agroconnect.codelist.cl251` | Idem                                                                                                 |
 | Crop.growEnvironment                    | `nl.agroconnect.codelist.cl299` | Idem                                                                                                 |
 | Crop.growMedium                         | `nl.agroconnect.codelist.cl300` | Idem                                                                                                 |
-| AddressType.country / Crop.country      | `iso.3166-1.alpha2`             | Vaststellen of de ISO 3166-1-lijst rechtstreeks gebruikt wordt, of via een eigen AgroConnect-NSID ontsloten wordt |
+| AddressType.country / Crop.country      | `com.iso.3166-1.alpha2`         | Vaststellen of de ISO 3166-1-lijst rechtstreeks gebruikt wordt, of via een eigen AgroConnect-NSID ontsloten wordt |
 
 *Voor elke lijst moet worden vastgesteld: waar deze gepubliceerd wordt (bijv. een AgroConnect-codelijstenregister), wie beheerder is, en hoe wijzigingen/nieuwe codes worden gecommuniceerd naar implementerende partijen.*
 

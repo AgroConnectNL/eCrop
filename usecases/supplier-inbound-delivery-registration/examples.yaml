@@ -114,7 +114,7 @@ components:
           cityName: Naaldwijk
           country:
             content: NL
-            listId: iso.3166-1.alpha2
+            listId: com.iso.3166-1.alpha2
           countryName: Netherlands
           postalBoxId: '4411'
         visitorsAddress:
@@ -124,7 +124,7 @@ components:
           streetNumber: '12'
           country:
             content: NL
-            listId: iso.3166-1.alpha2
+            listId: com.iso.3166-1.alpha2
           countryName: Netherlands
     growers_200:
       value:
@@ -147,7 +147,7 @@ components:
             cityName: Naaldwijk
             country:
               content: NL
-              listId: iso.3166-1.alpha2
+              listId: com.iso.3166-1.alpha2
             countryName: Netherlands
             postalBoxId: '4411'
           visitorsAddress:
@@ -157,7 +157,7 @@ components:
             streetNumber: '12'
             country:
               content: NL
-              listId: iso.3166-1.alpha2
+              listId: com.iso.3166-1.alpha2
             countryName: Netherlands
   parameters:
     growerSchemeId:
