@@ -83,13 +83,13 @@ OpenAPI specification; the full example is in [`examples.yaml`](examples.yaml)):
   {
     "id": {
       "content": "4f1d2c3b-5a6e-4b7f-8c9d-0e1f2a3b4c5d",
-      "schemeId": "com.greenlinqdata.codelist.guid"
+      "schemeId": "nl.greenlinqdata.codelist.guid"
     },
     "sequenceNumber": 1,
     "versionNumber": 2,
     "versionDateTime": "2026-02-03T09:30:00+01:00",
     "thirdPartyIds": [
-      { "content": "FD-2025-0001", "schemeId": "com.greenlinqdata.codelist.footprintnummer" }
+      { "content": "FD-2025-0001", "schemeId": "nl.greenlinqdata.codelist.footprintnummer" }
     ],
     "startDate": "2025-01-01",
     "endDate": "2025-12-31",
@@ -151,7 +151,7 @@ be added if the list grows large.
 
 ### 4.4 Identifier schemes and code lists
 
-The example payloads use `com.greenlinqdata.*` identifier schemes for the ids assigned by the platform
+The example payloads use `nl.greenlinqdata.*` identifier schemes for the ids assigned by the platform
 (the example platform), and reuse the placeholder `listId` values of the specification for the coded
 values (e.g. `nl.agroconnect.codelist.cl265` for the additional questions, `cl020` for units). The code
 values for the PefCR questions, and for the energy, water and product types, are illustrative. These

@@ -6,7 +6,7 @@
 # scripts/build-distribution.py. Every component listed must exist in that distribution.
 #
 # Identifier schemes used in this business case:
-#   com.greenlinqdata.*  primary ids assigned by the crop registration platform, and the plot number (kasnummer)
+#   nl.greenlinqdata.*  primary ids assigned by the crop registration platform, and the plot number (kasnummer)
 #   nl.my-fms.*       ids assigned by the grower's own Farm Management System (thirdPartyIds of
 #                     tasks/operations, equipment and workers)
 
@@ -16,10 +16,10 @@ components:
       value:
         id:
           content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
-          schemeId: com.greenlinqdata.codelist.guid
+          schemeId: nl.greenlinqdata.codelist.guid
         thirdPartyIds:
           - content: A342_1_6
-            schemeId: com.greenlinqdata.codelist.kasnummer
+            schemeId: nl.greenlinqdata.codelist.kasnummer
         name: Tuin1, perceel6
         startDate: '2024-01-12'
         endDate: '2024-12-14'
@@ -40,17 +40,17 @@ components:
           listId: nl.agroconnect.codelist.cl405
         links:
           - rel: https://ecrop.agroconnect.nl/rel/plot-features
-            href: https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items?plotSchemeId=com.greenlinqdata.codelist.guid&plotId=e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+            href: https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items?plotSchemeId=nl.greenlinqdata.codelist.guid&plotId=e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
             type: application/geo+json
             title: 'Features (boundary, entryPoint, abLine) that refer to this plot, as OGC features'
     plots_200:
       value:
         - id:
             content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
-            schemeId: com.greenlinqdata.codelist.guid
+            schemeId: nl.greenlinqdata.codelist.guid
           thirdPartyIds:
             - content: A342_1_6
-              schemeId: com.greenlinqdata.codelist.kasnummer
+              schemeId: nl.greenlinqdata.codelist.kasnummer
           name: Tuin1, perceel6
           startDate: '2024-01-12'
           endDate: '2024-12-14'
@@ -71,15 +71,15 @@ components:
             listId: nl.agroconnect.codelist.cl405
           links:
             - rel: https://ecrop.agroconnect.nl/rel/plot-features
-              href: https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items?plotSchemeId=com.greenlinqdata.codelist.guid&plotId=e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+              href: https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items?plotSchemeId=nl.greenlinqdata.codelist.guid&plotId=e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
               type: application/geo+json
               title: 'Features (boundary, entryPoint, abLine) that refer to this plot, as OGC features'
         - id:
             content: b3c4d5e6-7f8a-9b0c-1d2e-3f4a5b6c7d8e
-            schemeId: com.greenlinqdata.codelist.guid
+            schemeId: nl.greenlinqdata.codelist.guid
           thirdPartyIds:
             - content: A342_1_7
-              schemeId: com.greenlinqdata.codelist.kasnummer
+              schemeId: nl.greenlinqdata.codelist.kasnummer
           name: Tuin1, perceel7
           startDate: '2024-02-01'
           endDate: '2024-11-30'
@@ -100,7 +100,7 @@ components:
             listId: nl.agroconnect.codelist.cl405
           links:
             - rel: https://ecrop.agroconnect.nl/rel/plot-features
-              href: https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items?plotSchemeId=com.greenlinqdata.codelist.guid&plotId=b3c4d5e6-7f8a-9b0c-1d2e-3f4a5b6c7d8e
+              href: https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items?plotSchemeId=nl.greenlinqdata.codelist.guid&plotId=b3c4d5e6-7f8a-9b0c-1d2e-3f4a5b6c7d8e
               type: application/geo+json
               title: 'Features (boundary, entryPoint, abLine) that refer to this plot, as OGC features'
     taskRequest:
@@ -163,7 +163,7 @@ components:
       value:
         id:
           content: 2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e
-          schemeId: com.greenlinqdata.codelist.guid
+          schemeId: nl.greenlinqdata.codelist.guid
         thirdPartyIds:
           - content: '27575'
             schemeId: nl.my-fms.codelist.registratienummer
@@ -265,10 +265,10 @@ components:
             listId: nl.agroconnect.codelist.cl020
   parameters:
     growerSchemeId:
-      example: com.greenlinqdata.codelist.guid
+      example: nl.greenlinqdata.codelist.guid
     cropSchemeId:
-      example: com.greenlinqdata.codelist.guid
+      example: nl.greenlinqdata.codelist.guid
     plotSchemeId:
-      example: com.greenlinqdata.codelist.guid
+      example: nl.greenlinqdata.codelist.guid
     taskSchemeId:
-      example: com.greenlinqdata.codelist.guid
+      example: nl.greenlinqdata.codelist.guid

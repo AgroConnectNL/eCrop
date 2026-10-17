@@ -6,7 +6,7 @@
 # scripts/build-distribution.py. Every component listed must exist in that distribution.
 #
 # GreenlinQdata is the crop registration platform of this example. Identifier schemes used:
-#   com.greenlinqdata.*  ids assigned by the platform (the id and third party id of the footprint declaration)
+#   nl.greenlinqdata.*  ids assigned by the platform (the id and third party id of the footprint declaration)
 #   nl.kvk.*, com.gs1.*  grower and location identifications (KVK number, GLN)
 #   com.iperen.*         ids of the supplier of the fertilizer (article number)
 
@@ -16,13 +16,13 @@ components:
       value:
         - id:
             content: 4f1d2c3b-5a6e-4b7f-8c9d-0e1f2a3b4c5d
-            schemeId: com.greenlinqdata.codelist.guid
+            schemeId: nl.greenlinqdata.codelist.guid
           sequenceNumber: 1
           versionNumber: 2
           versionDateTime: '2026-02-03T09:30:00+01:00'
           thirdPartyIds:
             - content: FD-2025-0001
-              schemeId: com.greenlinqdata.codelist.footprintnummer
+              schemeId: nl.greenlinqdata.codelist.footprintnummer
           startDate: '2025-01-01'
           endDate: '2025-12-31'
           grower:
