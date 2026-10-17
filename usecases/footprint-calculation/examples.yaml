@@ -1,0 +1,207 @@
+# Example overrides for the footprint-calculation distribution.
+#
+# Replaces (as a whole, by key) the generic examples in components/examples, and the
+# `example` of the listed components/schemas and components/parameters, of
+# openapi/ecrop.yaml when this business case is built with
+# scripts/build-distribution.py. Every component listed must exist in that distribution.
+#
+# GreenlinQdata is the crop registration platform of this example. Identifier schemes used:
+#   com.greenlinqdata.*  ids assigned by the platform (the id and third party id of the footprint declaration)
+#   nl.kvk.*, com.gs1.*  grower and location identifications (KVK number, GLN)
+#   com.iperen.*         ids of the supplier of the fertilizer (article number)
+
+components:
+  examples:
+    footprintdeclarations_200:
+      value:
+        - id:
+            content: 4f1d2c3b-5a6e-4b7f-8c9d-0e1f2a3b4c5d
+            schemeId: com.greenlinqdata.codelist.guid
+          sequenceNumber: 1
+          versionNumber: 2
+          versionDateTime: '2026-02-03T09:30:00+01:00'
+          thirdPartyIds:
+            - content: FD-2025-0001
+              schemeId: com.greenlinqdata.codelist.footprintnummer
+          startDate: '2025-01-01'
+          endDate: '2025-12-31'
+          grower:
+            thirdPartyIds:
+              - content: '09123559'
+                schemeId: nl.kvk.codelist.kvknummer
+              - content: '870012388392'
+                schemeId: com.gs1.codelist.gln
+            name: Kwekerij De Lier
+            personName: J. de Lier
+            phoneNumber: +31(0)74 26653244
+            emailAddress: info@delier.nl
+            websiteUrl: www.delier.nl
+            postalAddress:
+              postalCode: 3521 AA
+              cityName: Naaldwijk
+              country:
+                content: NL
+                listId: iso.3166-1.alpha2
+              countryName: Netherlands
+              postalBoxId: '4411'
+            visitorsAddress:
+              postalCode: 3521 AN
+              cityName: Naaldwijk
+              streetName: Broekweg
+              streetNumber: '12'
+              country:
+                content: NL
+                listId: iso.3166-1.alpha2
+              countryName: Netherlands
+          cropSection:
+            plantSpecies:
+              species: Solanum lycopersicum
+              variety: Merlice
+              precentageMix: 100
+            additionalQuestions:
+              - code:
+                  content: GROWING_SYSTEM
+                  listId: nl.agroconnect.codelist.cl265
+                codeValue:
+                  content: SOILLESS
+                  listId: nl.agroconnect.codelist.cl299
+          locationSection:
+            location:
+              thirdPartyIds:
+                - content: '8712345000123'
+                  schemeId: com.gs1.codelist.gln
+              name: Kwekerij De Lier - locatie Naaldwijk
+              visitorsAddress:
+                postalCode: 3521 AN
+                cityName: Naaldwijk
+                streetName: Broekweg
+                streetNumber: '12'
+                country:
+                  content: NL
+                  listId: iso.3166-1.alpha2
+            additionalQuestions:
+              - code:
+                  content: GREENHOUSE_AREA
+                  listId: nl.agroconnect.codelist.cl265
+                measureValue:
+                  content: 6000
+                  unitCode:
+                    content: MTK
+                    listId: nl.agroconnect.codelist.cl020
+          cultivationSection:
+            additionalQuestions:
+              - code:
+                  content: GROWING_PERIOD
+                  listId: nl.agroconnect.codelist.cl265
+                measureValue:
+                  content: 40
+                  unitCode:
+                    content: WEE
+                    listId: nl.agroconnect.codelist.cl020
+          cropProtectionSection:
+            cropProtectionApplications:
+              - product:
+                  thirdPartyIds:
+                    - content: 838439 N
+                      schemeId: nl.ctgb.codelist.toelatingsnummer
+                  name: Movento 100 SC - 1L - spirotetramat
+                quantity:
+                  content: 1.2
+                  unitCode:
+                    content: KGM
+                    listId: nl.agroconnect.codelist.cl020
+                substances:
+                  - substance:
+                      thirdPartyIds:
+                        - content: '203313-25-1'
+                          schemeId: nl.cas.codelist.casnummer
+                      name: Spirotetramat
+                    quantity:
+                      content: 0.12
+                      unitCode:
+                        content: KGM
+                        listId: nl.agroconnect.codelist.cl020
+          fertilizerSection:
+            fertilizerApplications:
+              - product:
+                  thirdPartyIds:
+                    - content: '1928'
+                      schemeId: com.iperen.codelist.artikelnummer
+                  name: Kalkammonsalpeter 27
+                type:
+                  content: MINERAL
+                  listId: nl.agroconnect.codelist.cl127
+                quantity:
+                  content: 450
+                  unitCode:
+                    content: KGM
+                    listId: nl.agroconnect.codelist.cl020
+                nutrients:
+                  - nutrient:
+                      thirdPartyIds:
+                        - content: N
+                          schemeId: nl.agroconnect.codelist.nutrient
+                      name: Stikstof (N)
+                    quantity:
+                      content: 121.5
+                      unitCode:
+                        content: KGM
+                        listId: nl.agroconnect.codelist.cl020
+            additionalQuestions: []
+          energySection:
+            energyProductionAndConsumption:
+              - type:
+                  content: ELECTRICITY_CONSUMED
+                  listId: nl.agroconnect.codelist.cl127
+                quantity:
+                  content: 52000
+                  unitCode:
+                    content: KWH
+                    listId: nl.agroconnect.codelist.cl020
+              - type:
+                  content: NATURAL_GAS_CONSUMED
+                  listId: nl.agroconnect.codelist.cl127
+                quantity:
+                  content: 45000
+                  unitCode:
+                    content: MTQ
+                    listId: nl.agroconnect.codelist.cl020
+            additionalQuestions: []
+          waterConsumptionSection:
+            waterConsumptions:
+              - type:
+                  content: RAINWATER
+                  listId: nl.agroconnect.codelist.cl127
+                quantity:
+                  content: 4200
+                  unitCode:
+                    content: MTQ
+                    listId: nl.agroconnect.codelist.cl020
+            additionalQuestions: []
+          wasteSection:
+            additionalQuestions:
+              - code:
+                  content: WASTE_TREATMENT
+                  listId: nl.agroconnect.codelist.cl265
+                stringValue: composted
+          distributionSection:
+            additionalQuestions:
+              - code:
+                  content: TRANSPORT_DISTANCE
+                  listId: nl.agroconnect.codelist.cl265
+                measureValue:
+                  content: 35
+                  unitCode:
+                    content: KMT
+                    listId: nl.agroconnect.codelist.cl020
+          additionalProductSection:
+            additionalProductApplications:
+              - type:
+                  content: PACKAGING
+                  listId: nl.agroconnect.codelist.cl127
+                quantity:
+                  content: 5000
+                  unitCode:
+                    content: KGM
+                    listId: nl.agroconnect.codelist.cl020
+            additionalQuestions: []

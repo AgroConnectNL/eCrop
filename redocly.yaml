@@ -44,3 +44,10 @@ apis:
         property: x-usecases
         value: [supplier-inbound-delivery-registration, all]
         matchStrategy: any
+  footprint-calculation@v1:
+    root: openapi/ecrop.yaml
+    decorators:
+      filter-in:
+        property: x-usecases
+        value: [footprint-calculation, all]
+        matchStrategy: any
