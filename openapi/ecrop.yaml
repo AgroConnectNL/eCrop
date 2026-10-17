@@ -1422,6 +1422,7 @@ paths:
 components:
   schemas:
     ##########################################################################
+    # Primary Data Types (PDT)                                               #
     # - NsidType                                                             #
     # - YearType                                                             #
     # - TimeType                                                             #
@@ -1429,7 +1430,6 @@ components:
     # - DateType                                                             #
     # - PosInt64                                                             #
     # - PosInt32                                                             #
-    # Primary Data Types (PDT)                                               #
     ##########################################################################
     PosInt32Type:
       type: number
@@ -1474,10 +1474,10 @@ components:
       description: Year with RFC 9557 (prev. RFC 3339)/ISO-8601 standard date format "YYYY"
       example: '2025'
     NsidType:
-      title: 'Namespace Identifier (NSID) Type used in the AT Protocol for decentralized identities, structured using reverse domain name syntax'
+      title: 'Namespace Identifier (NSID)'
       type: string
       pattern: '^[a-zA-Z]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+(\.[a-zA-Z]([a-zA-Z0-9]{0,62})?)$'
-      description: Namespace Identifier (NSID)
+      description: Namespace Identifier (NSID) Type used in the AT Protocol for decentralized identities, structured using reverse domain name syntax
       example: nl.agroconnect.codelist.cl020
     ##########################################################################
     # (Un)qualified Data Types (UDT/QDT)                                     #
