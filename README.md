@@ -4,26 +4,26 @@ eCrop — the new REST API standard for crop-related data
 
 ## License summary
 
-The eCrop standards, including the OpenAPI definitions, are published by AgroConnect under the [Creative Commons Attribution 4.0 International licence (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/legalcode.en).
+The eCrop standards, including the OpenAPI definitions, are published by AgroConnect under the [Creative Commons Attribution 4.0 International license (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/legalcode.en).
 
-This summary is for convenience only and is not legally binding. If there is any difference, the full licence text applies.
+This summary is for convenience only and is not legally binding. If there is any difference, the full license text applies.
 
 ### What you may do
 - **Use** the standards free of charge, including for commercial purposes.
 - **Copy and adapt** the standards, including the OpenAPI definitions, for your own implementation.
-- **Distribute** the standards or your adapted versions. You may license your own additions under any licence you choose.
+- **Distribute** the standards or your adapted versions. You may license your own additions under any license you choose.
 
 No permission from AgroConnect is required.
 
 ### Conditions
 - **Attribution.** When you share or publish the standards or an adapted version (for example in API documentation, a public specification or a repository), you must:
   - credit AgroConnect as the source;
-  - name the licence and link to it;
+  - name the license and link to it;
   - indicate whether you have made changes.
-- **Keep notices.** Do not remove existing attribution or licence notices from the files, such as the `x-source` field in the OpenAPI definitions.
+- **Keep notices.** Do not remove existing attribution or license notices from the files, such as the `x-source` field in the OpenAPI definitions.
 - **No claim of ownership.** Do not present the standards as your own work.
 - **No implied endorsement.** Do not suggest that AgroConnect endorses, certifies or approves your product or implementation.
-- **No additional restrictions.** Do not impose terms or technical measures that prevent others from using the material under this licence.
+- **No additional restrictions.** Do not impose terms or technical measures that prevent others from using the material under this license.
 
 Purely internal use, without sharing or publishing, does not require attribution.
 
@@ -36,8 +36,8 @@ Purely internal use, without sharing or publishing, does not require attribution
 - You are responsible for verifying whether the standards are suitable for your implementation.
 
 ### Please note
-- The licence does **not** grant any patent or trademark rights, including rights to the AgroConnect name or logo.
-- Third-party material referenced in the standards, such as external code lists or standards, remains subject to its own licence.
+- The license does **not** grant any patent or trademark rights, including rights to the AgroConnect name or logo.
+- Third-party material referenced in the standards, such as external code lists or standards, remains subject to its own license.
 - The standards may change. Always state which version you have implemented.
 
 ### Let us know
