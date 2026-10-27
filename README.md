@@ -2,7 +2,7 @@
 
 eCrop — the new REST API standard for crop-related data
 
-## Licence summary
+## License summary
 
 The eCrop standards, including the OpenAPI definitions, are published by AgroConnect under the [Creative Commons Attribution 4.0 International licence (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/legalcode.en).
 
