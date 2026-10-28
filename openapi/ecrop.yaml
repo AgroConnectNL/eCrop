@@ -3016,7 +3016,6 @@ components:
       description: 'Details of equipment used to support farming activities, such as tractors, implements, sensor systems, installations, or hand tools.'
       required:
         - thirdPartyIds
-        - type
       properties:
         thirdPartyIds:
           allOf:
@@ -3026,20 +3025,17 @@ components:
           type: string
           description: Name of the equipment
         type:
-          type: string
-          description: Type of equipment
-          enum:
-            - Tractor
-            - Implement
-            - Sensorsystem
-            - Installation
-            - Handtool
+          description: "Type of equipment, for instance Tractor, ImplementAssembly, SensorSystem, Installation or HandTool.\r\nCode list: nl.agroconnect.codelist.cl<nnn> (the number of the code list is to be determined)"
+          allOf:
+            - $ref: '#/components/schemas/CodeType'
       example:
         thirdPartyIds:
           - content: '8922'
             schemeId: com.iperen.codelist.artikelnummer
         name: John Deere 6120M
-        type: Tractor
+        type:
+          content: Tractor
+          listId: nl.agroconnect.codelist.clnnn
     EquipmentAssignment:
       title: Equipment assignment
       type: object
@@ -3075,7 +3071,9 @@ components:
             - content: '1234'
               schemeId: com.my-mps.codelist.registratienummer
           name: John Deere 6120M
-          type: Tractor
+          type:
+            content: Tractor
+            listId: nl.agroconnect.codelist.clnnn
         startDateTime: '2025-03-12T15:51:00+01:00'
         endDateTime: '2025-03-12T16:45:00+01:00'
         executionTime:
