@@ -112,24 +112,40 @@ The eCrop API is structured around a number of functional categories (tags), eac
 
 | Category | Description | Example operations |
 | --- | --- | --- |
-| general | General operations, incl. API health check | `GET /health` |
-| parties | Retrieving parties (growers, suppliers, contractors) | `GET /growers`, `GET /suppliers`, `GET /contractors` |
-| plots | Retrieving and maintaining basic (non-geo) plot information | `GET`/`POST`/`PUT`/`DELETE .../plots` |
-| plot-geometry | Retrieving the geo-information of plots (boundary, entry point, AB line) via an OGC API Features / JSON-FG-compliant API | `GET /collections/plots`, `GET /collections/plots/items` |
+| general | General operations, incl. API health check and publication of the OpenAPI document | `GET /health`, `GET /openapi.json` |
+| parties | Retrieving parties (growers, suppliers, contractors) and the growers a supplier or contractor is authorized for | `GET /growers`, `GET /suppliers`, `GET /contractors`, `GET /contractors/{...}/{...}/growers` |
+| plots | Retrieving and maintaining basic (non-geo) plot information; contractors can retrieve the plots of the growers they are authorized for | `GET`/`POST`/`PUT`/`DELETE .../plots`, `GET /contractors/.../growers/.../plots` |
+| plot-geometry | Retrieving the geo-information of plots (boundary, entry point, AB line) via an OGC API Features / JSON-FG-compliant API; the features of one plot are selected with the `plotSchemeId` and `plotId` query parameters | `GET /collections/plots`, `GET /collections/plots/items`, `GET /collections/plots/items/{featureId}` |
 | crops | Retrieving and maintaining crop information | `GET`/`POST`/`PUT`/`DELETE .../crops` |
-| delivery | Registering inbound deliveries (products delivered by suppliers to growers) | `POST`/`GET .../inbound-deliveries` |
-| farm level registration | Registration of (non-crop-related) tasks and operations at farm level | Tasks/Operations at Farm level |
-| plot level registration | Registration of (non-crop-related) tasks and operations at plot level | Tasks/Operations at Plot level |
-| crop level registration | Registration of crop-related tasks and operations | Tasks/Operations at Crop level |
+| delivery | Registering inbound deliveries (products delivered by suppliers to growers), by the grower or by an authorized supplier | `POST`/`PUT`/`DELETE .../inbound-deliveries`, `GET /suppliers/{...}/{...}/growers` |
+| farm level registration | Retrieving production locations and registration of (non-crop-related) tasks and operations at farm level | `GET .../production-locations`, `POST`/`PUT`/`DELETE .../production-locations/.../tasks` |
+| plot level registration | Registration of (non-crop-related) tasks and operations at plot level, by the grower or by an authorized contractor | `POST`/`PUT`/`DELETE .../plots/.../tasks` (for contractors also `PATCH`, with a JSON Patch document) |
+| crop level registration | Registration of crop-related tasks and operations | `POST`/`PUT`/`DELETE .../crops/.../tasks` |
+| footprint | Retrieving yearly footprint declarations (PEFCR) of growers, for use by an external footprint calculation tool | `GET /footprint-declarations` |
 
 In addition to these functional operations, the API provides generic, consistent support for pagination, major versioning via HTTP headers, and standardised error handling in accordance with the AASG — so that platforms built on eCrop behave seamlessly like other AgroConnect-compliant APIs.
 
+#### Business-case distributions
+
+Not every platform needs every operation. The complete specification therefore serves several business cases, and for each business case a distribution is published that contains only the operations (and the request bodies, responses, parameters, schemas and examples) of that business case:
+
+| Business case | Distribution |
+| --- | --- |
+| [Contractor planning: retrieving a grower's plots and geometry, and registering the performed tasks](usecases/contractor-task-planning/README.md) | [`ecrop-contractor-task-planning.yaml`](https://agroconnectnl.github.io/eCrop/openapi/ecrop-contractor-task-planning.yaml) |
+| [Farm Management System sync of executed field operations](usecases/fms-crop-operations-sync/README.md) | [`ecrop-fms-crop-operations-sync.yaml`](https://agroconnectnl.github.io/eCrop/openapi/ecrop-fms-crop-operations-sync.yaml) |
+| [Supplier inbound delivery registration](usecases/supplier-inbound-delivery-registration/README.md) | [`ecrop-supplier-inbound-delivery-registration.yaml`](https://agroconnectnl.github.io/eCrop/openapi/ecrop-supplier-inbound-delivery-registration.yaml) |
+| [Footprint calculation: providing crop data to an external footprint calculation tool](usecases/footprint-calculation/README.md) | [`ecrop-footprint-calculation.yaml`](https://agroconnectnl.github.io/eCrop/openapi/ecrop-footprint-calculation.yaml) |
+
+The complete specification and the documentation (with a selector per business case) are published at [agroconnectnl.github.io/eCrop](https://agroconnectnl.github.io/eCrop/); see [`openapi/README.md`](openapi/README.md) for how the distributions are built.
+
 ### Planned extensions
 
-eCrop is deliberately not a final destination: the standard is being actively developed further. Geographic information on plots (boundary, entry point, AB line), based on the OGC JSON-FG standard, has already been added to the draft version 1.1.0 of the eCrop OpenAPI spec, exposed via the `plot-geometry` category above, with possible additional support for the OGC API standard to follow. The roadmap also includes, among other things:
+eCrop is deliberately not a final destination: the standard is being actively developed further. The draft version 1.1.0 of the eCrop OpenAPI spec has already been extended with geographic information on plots (boundary, entry point, AB line) based on the OGC JSON-FG standard (the `plot-geometry` category), with operations for contractors and for the exchange of executed tasks between growers' farm management systems, contractors' systems and the crop registration platform, and with the retrieval of footprint declarations (the `footprint` category). The roadmap includes, among other things:
 
-- **Footprint and sustainability data**: extending eCrop to exchange Footprint data (PEFCR) and Footprint scores, as a basis for a broader set of sustainability calculations to be added in later versions.
-- **Exchange of crop-related data** between growers' farm management systems and contractors' management systems.
+- **Returning calculated footprint data**: the operation with which an external footprint calculation tool returns the calculated footprint to the platform (an asynchronous process), as the follow-up of the retrieval of footprint declarations.
+- **Footprint and sustainability data**: extending eCrop to exchange Footprint scores, as a basis for a broader set of sustainability calculations to be added in later versions.
+- **Additional business cases**: further business cases with their own distribution of the specification, see [`usecases/`](usecases/).
+- **OGC API**: possible additional support for the OGC API standard for the plot geo-information.
 
 ### Acknowledgements
 
