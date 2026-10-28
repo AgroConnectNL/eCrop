@@ -2312,6 +2312,7 @@ components:
           required:
             - type
             - area
+            - regulatorySoilType
           properties:
             type:
               $ref: '#/components/schemas/PlotType'
@@ -2726,6 +2727,7 @@ components:
         - thirdPartyIds
         - name
         - startDateTime
+        - type
         - status
       properties:
         thirdPartyIds:
@@ -3016,6 +3018,7 @@ components:
       description: 'Details of equipment used to support farming activities, such as tractors, implements, sensor systems, installations, or hand tools.'
       required:
         - thirdPartyIds
+        - name
       properties:
         thirdPartyIds:
           allOf:
@@ -3042,8 +3045,6 @@ components:
       description: 'Identifies a piece of equipment that is used in a certain operation, and the period and usage figures of that use.'
       required:
         - equipment
-        - startDateTime
-        - endDateTime
       properties:
         equipment:
           description: The equipment assigned to and used in the operation.
@@ -3124,8 +3125,6 @@ components:
       description: 'Identifies a worker that is assigned to a certain operation, and the period and execution time of that assignment.'
       required:
         - worker
-        - startDateTime
-        - endDateTime
       properties:
         worker:
           description: The worker assigned to the operation.
