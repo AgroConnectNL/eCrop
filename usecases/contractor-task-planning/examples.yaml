@@ -482,7 +482,7 @@ components:
                 name: Movento
                 type:
                   content: PROTEC
-                  listId: nl.agroconnect.codelist.cl127
+                  listId: nl.agroconnect.codelist.cl271
                 quantity:
                   content: 1200
                   unitCode:
@@ -580,7 +580,7 @@ components:
                 name: Movento
                 type:
                   content: PROTEC
-                  listId: nl.agroconnect.codelist.cl127
+                  listId: nl.agroconnect.codelist.cl271
                 quantity:
                   content: 1200
                   unitCode:

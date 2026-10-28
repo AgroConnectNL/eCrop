@@ -134,7 +134,7 @@ components:
                   name: Kalkammonsalpeter 27
                 type:
                   content: MINERAL
-                  listId: nl.agroconnect.codelist.cl127
+                  listId: nl.agroconnect.codelist.cl271
                 quantity:
                   content: 450
                   unitCode:
@@ -156,7 +156,7 @@ components:
             energyProductionAndConsumption:
               - type:
                   content: ELECTRICITY_CONSUMED
-                  listId: nl.agroconnect.codelist.cl127
+                  listId: nl.agroconnect.codelist.cl271
                 quantity:
                   content: 52000
                   unitCode:
@@ -164,7 +164,7 @@ components:
                     listId: nl.agroconnect.codelist.cl020
               - type:
                   content: NATURAL_GAS_CONSUMED
-                  listId: nl.agroconnect.codelist.cl127
+                  listId: nl.agroconnect.codelist.cl271
                 quantity:
                   content: 45000
                   unitCode:
@@ -175,7 +175,7 @@ components:
             waterConsumptions:
               - type:
                   content: RAINWATER
-                  listId: nl.agroconnect.codelist.cl127
+                  listId: nl.agroconnect.codelist.cl271
                 quantity:
                   content: 4200
                   unitCode:
@@ -202,7 +202,7 @@ components:
             additionalProductApplications:
               - type:
                   content: PACKAGING
-                  listId: nl.agroconnect.codelist.cl127
+                  listId: nl.agroconnect.codelist.cl271
                 quantity:
                   content: 5000
                   unitCode:

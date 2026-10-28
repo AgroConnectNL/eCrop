@@ -215,7 +215,7 @@ POST /growers/nl.greenlinqdata.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5
             { "content": "52521785", "schemeId": "nl.my-fms.codelist.registratienummer" }
           ],
           "name": "Movento",
-          "type": { "content": "PROTEC", "listId": "nl.agroconnect.codelist.cl127" },
+          "type": { "content": "PROTEC", "listId": "nl.agroconnect.codelist.cl271" },
           "quantity": {
             "content": 1200,
             "unitCode": { "content": "KGM", "listId": "nl.agroconnect.codelist.cl020" }
