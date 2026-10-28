@@ -1,6 +1,7 @@
 # openapi
 
 - [`ecrop.yaml`](ecrop.yaml) — the AgroConnect eCrop OpenAPI 3.0 specification, source of truth for the standard.
+- [`design-decisions.md`](design-decisions.md) — the general principles by which the eCrop class model is transferred to the OpenAPI definition.
 
 The general and business case specific releases of the eCrop OpenAPI spefication can be viewed online on Github Pages: [agroconnectnl.github.io/ecrop](https://agroconnectnl.github.io/eCrop)
 

@@ -10,6 +10,7 @@ The section of a version is used as the body of the GitHub release for its tag (
 
 ## [1.1.0] - in preparation (pre-release v1.1.0-rc.1)
 
+- Moved the design decisions from *info.description* to *openapi/design-decisions.md* and extended them (resource and details schemas, multiplicity, code lists, identification in the URI, HTTP methods and status codes, error handling, geo-information, examples, business-case distributions)
 - Added business-case specific distributions of the specification: every operation has an *x-usecases* marker, and request/response examples moved to *components/examples* so that they can be overridden per business case (see *usecases/* and *openapi/README.md*)
 - Aligned the schemas with the eCrop class model v1.1.1: added *reason* and *components* (new schema *ComponentDetails*, code list cl363) to *InputAllocationDetails*, *greenhouseLocation* and *plantSpecies* to *AllocationDetails*, *alternativeName*, *region* and *country* to *PlotDetails*, *startLocation* and *endLocation* to *TreatmentZoneDetails*; *PlantSpecies*: *species* and *variety* are now *CodeType* (code lists cl263 and cl232) and *variety* is optional, *precentageMix* is renamed to *percentageInMix*; renamed *time* to *executionTime* in *EquipmentAssignment* and *email* to *eMail* in *WorkerDetails*
 - Changed *EquipmentDetails.type* from an enumeration to an optional *CodeType* (AgroConnect code list *cl<nnn>*, number to be determined)
