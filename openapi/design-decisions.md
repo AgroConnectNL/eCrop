@@ -1,8 +1,8 @@
 # Design decisions
 
-These design decisions describe the general principles by which the [eCrop class model](https://www.agroconnect.nl/Portals/10/EnterpriseArchitect/eCrop_json/eCrop_v1.1.1/index.html) is transferred to the OpenAPI definition [`ecrop.yaml`](ecrop.yaml). They apply to the complete specification and to all business-case distributions of it (see [`README.md`](README.md)).
+These design decisions describe how the [eCrop class model](https://www.agroconnect.nl/Portals/10/EnterpriseArchitect/eCrop_json/eCrop_v1.1.1/index.html) is transferred to the OpenAPI definition [`ecrop.yaml`](ecrop.yaml). They apply to the complete specification and to all business-case distributions of it (see [`README.md`](README.md)).
 
-The API definition follows the rules of the [AgroConnect AGRI API Style Guide](https://github.com/AgroConnectNL/API-Style-Guide/blob/main/API%20Style%20Guide%20Documentation/AGRI%20API%20Style%20Guide.md) (AASG). Where a rule of the AASG is the reason for a decision, it is mentioned.
+General rules for the design of the API (versioning and headers, security, URLs and resource names, naming of schemas and properties, date and time formats, HTTP methods and status codes, error handling, links, `PATCH`) are given by the [AgroConnect AGRI API Style Guide](https://github.com/AgroConnectNL/API-Style-Guide/blob/main/API%20Style%20Guide%20Documentation/AGRI%20API%20Style%20Guide.md) (AASG), to which this specification conforms. They are not repeated here.
 
 ## 1. From class model to schemas
 
@@ -10,28 +10,22 @@ The API definition follows the rules of the [AgroConnect AGRI API Style Guide](h
 2. **Compositions (UML compositions).** A composition is expressed either as a hierarchy in the URI (for instance `/growers/{...}/plots/{...}/tasks`) or as an array in the master object. In the eCrop class model these relations should be aggregations.
 3. **Resource schema and details schema.** The attributes of a resource are defined in a `...Details` schema (for instance `PlotDetails`). The schema of the resource itself (`Plot`) is the server-assigned `id` combined with the `...Details` schema (`allOf`). Request bodies use the `...Details` schema, because the server assigns the id; responses use the resource schema.
 4. **Multiplicity.** An attribute with multiplicity 1 in the class model is `required`, an attribute with multiplicity 0..1 is optional and an attribute with multiplicity 0..n is an array. Deviations from the class model are deliberate and documented in the description of the schema (for instance the optional street name and street number of an address, so that a PO box address can be expressed) and in the [changelog](../CHANGELOG.md).
-5. **Naming.** Schema names are in UpperCamelCase. Reusable data types have the suffix `Type` (`IdType`, `CodeType`, `MeasureType`). Property names are in lowerCamelCase and follow the class model, with the exception of obvious spelling errors in the class model.
-6. **Enumerations and code lists.** A closed value set that is part of the standard is an `enum` (for instance the plot type and the process status). A coded value from a code list that is maintained outside this specification is a `CodeType`: the code (`content`) and the identification of the code list (`listId`, an NSID such as `nl.agroconnect.codelist.cl271`). The description of the property names the code list.
-7. **Characteristics.** Generic, linked characteristics use the `CharacteristicType`: a code that says what the characteristic is, and exactly one value (`stringValue`, `booleanValue`, `dateValue`, `dateTimeValue`, `codeValue` or `measureValue`).
-8. **Quantities.** A quantity is a `MeasureType`: the value (`content`) and the unit (`unitCode`, a `CodeType`).
-9. **Dates and times.** A date is a `DateType` (`YYYY-MM-DD`) and a moment in time is a `DateTimeType` (`YYYY-MM-DDThh:mm:ss` with a time zone offset), both in the RFC 9557 (previously RFC 3339) / ISO 8601 notation.
+5. **Names.** Names follow the class model. Reusable data types have the suffix `Type` (`IdType`, `CodeType`, `MeasureType`). Obvious spelling errors in the class model are corrected in the specification.
+6. **Primitive types.** The primitive types of the class model are mapped as follows: `string` to `string`, `int` to `integer`, `float` to `number` (format `float`), `boolean` to `boolean`, `date` to `DateType` and `dateTime` to `DateTimeType`.
+7. **Enumerations and code lists.** A closed value set that is part of the standard is an `enum` (for instance the plot type and the process status). A coded value from a code list that is maintained outside this specification is a `CodeType`: the code (`content`) and the identification of the code list (`listId`, an NSID such as `nl.agroconnect.codelist.cl271`). The description of the property names the code list.
+8. **Characteristics.** The class `characteristicType` becomes the `CharacteristicType`: a code that says what the characteristic is, and exactly one value (`stringValue`, `booleanValue`, `dateValue`, `dateTimeValue`, `codeValue` or `measureValue`).
+9. **Quantities.** A quantity (`measureType`) is a `MeasureType`: the value (`content`) and the unit (`unitCode`, a `CodeType`).
+10. **OpenAPI 3.0.** The definition is an OpenAPI 3.0 document (3.0.4). Constructs of later versions (`const`, type arrays) are therefore not used; where a property that is a `$ref` needs its own description or `nullable`, it is combined with `allOf`.
 
 ## 2. Identification
 
-1. **Server-assigned identification.** Each resource that has operations defined on it has a server-assigned identification named `id`, of type `IdType`: the value (`content`) and the scheme it comes from (`schemeId`).
-2. **Client-assigned identifications.** Each schema has a list of client-assigned identifications named `thirdPartyIds` (an array of `IdType`: `content` and `schemeId`). A client can use these to find back its own identification and to prevent duplicates. In the class model this list is optional; in this specification it is required for most `...Details` schemas.
+1. **Server-assigned identification.** Each resource that has operations defined on it has a server-assigned identification named `id`, of type `IdType` in the class model: the value (`content`) and the scheme it comes from (`schemeId`).
+2. **Client-assigned identifications.** Each schema has a list of client-assigned identifications named `thirdPartyIds` (an array of `IdType`: `content` and `schemeId`). A client can use these to find back its own identification and to prevent duplicates: posting a resource again with the same `thirdPartyIds` updates the earlier posted resource instead of creating a duplicate. In the class model this list is optional; in this specification it is required for most `...Details` schemas.
 3. **Identification in the URI.** The `id` of a resource appears in the URI as two path segments, `{xSchemeId}/{xId}` (for instance `/growers/{growerSchemeId}/{growerId}`). Because path parameters in the same URI must have different names, each resource has its own pair of path parameters.
-4. **Identifier schemes.** The `schemeId` values and the code list ids in the examples are examples. Each business case has its own schemes in its example overrides (see `usecases/<name>/examples.yaml`). Definitive schemes and code lists are to be agreed per implementation.
 
-## 3. Operations and HTTP
+## 3. Roles and routes
 
-1. **Resource hierarchy and access.** The URI states on whose behalf a client acts. A grower uses `/growers/...`, a supplier uses `/suppliers/{...}/growers/{...}/...` and a contractor uses `/contractors/{...}/growers/{...}/...`, so that a supplier or contractor can only reach the growers that granted access. Authorisation itself is outside the specification.
-2. **Paths and operation ids.** Paths consist of lowercase nouns in kebab-case, in the plural (`inbound-deliveries`, `production-locations`). An `operationId` is built from the HTTP method (`get`, `post`, `put`, `patch`, `del`) and the resource path, for instance `get-growers-plots` and `post-growers-plot-tasks`.
-3. **Methods and status codes.** `POST` creates a resource, `PUT` replaces it as a whole and `DELETE` removes it. `POST` and `PUT` answer `202 Accepted` with the registered resource, `DELETE` answers `204 No Content`. Posting a resource again with the same client-assigned identification (`thirdPartyIds`) updates the earlier posted resource instead of creating a duplicate; a client should preferably use `PUT` once it knows the `id`.
-4. **Partial updates.** `PATCH` uses a JSON Patch document (RFC 6902, media type `application/json-patch+json`) as request body, per AASG rule P012. The generic `JsonPatch` schema and the `patchRequest` request body can be used for any resource. A `PATCH` is optional where `PUT` already covers all updates.
-5. **Request and response headers.** The major version is passed in the request header `Major-Version`, the client identifies itself with `User-Agent`. Responses carry `API-Version`, `Request-Id` and `Request-Date-Time`.
-6. **Error handling.** Errors are answered as Problem Details (RFC 9457, `application/problem+json`). The `ProblemDetails` schema makes `status`, `title` and `detail` required and has an `errors` array (`field`, `message`) to report several problems at once (AASG rule H007). The reusable responses 400, 401, 403, 404, 500 and the default error are in `components/responses`; the required codes per operation follow AASG rule H004.
-7. **Health check and publication.** `GET /health` answers in the `application/health+json` format. `GET /openapi.json` publishes the OpenAPI document of the API itself.
+The class model has several roles that act on the same data: the grower (`Farm`), the supplier and the contractor. The URI states on whose behalf a client acts. A grower uses `/growers/...`, a supplier uses `/suppliers/{...}/growers/{...}/...` and a contractor uses `/contractors/{...}/growers/{...}/...`, so that a supplier or contractor can only reach the growers that granted access. Authorisation itself is outside the specification.
 
 ## 4. Pagination
 
@@ -43,20 +37,5 @@ Pagination of collection (list) `GET` operations follows the [Logius API paginat
 
 ## 5. Geographic information
 
-1. **OGC API Features and JSON-FG.** The geo-information of a plot (boundary, entry point, AB line) is published through operations that conform to OGC API - Features - Part 1 and JSON-FG, on a separate server (`.../plot-features/v1`). A client selects the encoding with the `profile` query parameter: plain GeoJSON (`rfc7946`, default, always WGS84) or JSON-FG (`jsonfg`, with the CRS of the `crs` parameter).
-2. **One-way reference between plot and feature.** A Feature refers to its Plot (`properties.plotId` and a link with `rel` `https://ecrop.agroconnect.nl/rel/plot`). A Plot stores no Feature id. The link with `rel` `https://ecrop.agroconnect.nl/rel/plot-features` in a Plot response is a query for the features that refer to the plot (the "backlink": `GET /collections/plots/items?plotSchemeId=...&plotId=...`). In this way the two representations contain no identifier of each other, which is a precondition for content-based identifiers.
-3. **Links.** Links in responses use the `Link` and `Links` schemas, based on RFC 8288 and the OGC hyperlink schema.
-
-## 6. OpenAPI technique
-
-1. **OpenAPI version.** The definition is an OpenAPI 3.0 document (3.0.4). Constructs of later versions (`const`, type arrays) are therefore not used; where a property of a `$ref` needs a description or `nullable`, it is combined with `allOf`.
-2. **Examples.** Request and response examples are defined in `components/examples` and referenced from the media types, so that a business case can replace them. The `example` of a schema is only used for generic data types.
-3. **Security.** The definition contains no security schemes. Authentication and authorisation are handled outside the OpenAPI document, per the AASG.
-
-## 7. Business-case distributions
-
-The specification serves several business cases. Every operation therefore has an `x-usecases` extension: the business cases whose distribution contains the operation (`all` = every distribution, `unassigned` = no distribution yet). A distribution is built from the complete specification and contains only the operations of the business case and what these operations need. Per business case the examples can be replaced (for instance with their own identifier schemes). See [`README.md`](README.md).
-
-## 8. Release notes
-
-The release notes are not part of the OpenAPI document. They are kept in the [`CHANGELOG.md`](../CHANGELOG.md), one section per version.
+1. **OGC API Features and JSON-FG.** The geometry classes of the class model (the plot geometry with boundary, entry point and AB line) are published through operations that conform to OGC API - Features - Part 1 and JSON-FG, on a separate server (`.../plot-features/v1`). A client selects the encoding with the `profile` query parameter: plain GeoJSON (`rfc7946`, default, always WGS84) or JSON-FG (`jsonfg`, with the CRS of the `crs` parameter).
+2. **One-way reference between plot and feature.** In the class model a plot and its feature are associated. In the specification only the Feature refers to its Plot (`properties.plotId` and a link with `rel` `https://ecrop.agroconnect.nl/rel/plot`). A Plot stores no Feature id. The link with `rel` `https://ecrop.agroconnect.nl/rel/plot-features` in a Plot response is a query for the features that refer to the plot (the "backlink": `GET /collections/plots/items?plotSchemeId=...&plotId=...`). In this way the two representations contain no identifier of each other, which is a precondition for content-based identifiers.
