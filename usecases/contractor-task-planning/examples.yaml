@@ -512,7 +512,7 @@ components:
                   type: Tractor
                 startDateTime: '2025-03-12T15:51:00+01:00'
                 endDateTime: '2025-03-12T16:45:00+01:00'
-                time:
+                executionTime:
                   content: 0.9
                   unitCode:
                     content: HUR
@@ -608,7 +608,7 @@ components:
                   type: Tractor
                 startDateTime: '2025-03-12T15:51:00+01:00'
                 endDateTime: '2025-03-12T16:45:00+01:00'
-                time:
+                executionTime:
                   content: 0.9
                   unitCode:
                     content: HUR
@@ -643,7 +643,7 @@ components:
           type: Tractor
         startDateTime: '2025-03-12T15:51:00+01:00'
         endDateTime: '2025-03-12T16:45:00+01:00'
-        time:
+        executionTime:
           content: 0.9
           unitCode:
             content: HUR
@@ -660,7 +660,7 @@ components:
             schemeId: nl.my-cps.codelist.medewerkernummer
         name: Jan Jansen
         phoneNumber: +31(0)6 12345678
-        email: jan.jansen@example.com
+        eMail: jan.jansen@example.com
         jobTitle: Machine operator
     WorkerAssignment:
       example:

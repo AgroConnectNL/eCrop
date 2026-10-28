@@ -101,7 +101,11 @@ OpenAPI specification; the full example is in [`examples.yaml`](examples.yaml)):
       "name": "Kwekerij De Lier"
     },
     "cropSection": {
-      "plantSpecies": { "species": "Solanum lycopersicum", "variety": "Merlice", "precentageMix": 100 },
+      "plantSpecies": {
+        "species": { "content": "Solanum lycopersicum", "listId": "nl.agroconnect.codelist.cl263" },
+        "variety": { "content": "Merlice", "listId": "nl.agroconnect.codelist.cl232" },
+        "percentageInMix": 100
+      },
       "additionalQuestions": [
         {
           "code": { "content": "GROWING_SYSTEM", "listId": "nl.agroconnect.codelist.cl265" },

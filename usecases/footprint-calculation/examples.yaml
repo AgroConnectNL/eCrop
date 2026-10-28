@@ -55,9 +55,13 @@ components:
               countryName: Netherlands
           cropSection:
             plantSpecies:
-              species: Solanum lycopersicum
-              variety: Merlice
-              precentageMix: 100
+              species:
+                content: Solanum lycopersicum
+                listId: nl.agroconnect.codelist.cl263
+              variety:
+                content: Merlice
+                listId: nl.agroconnect.codelist.cl232
+              percentageInMix: 100
             additionalQuestions:
               - code:
                   content: GROWING_SYSTEM

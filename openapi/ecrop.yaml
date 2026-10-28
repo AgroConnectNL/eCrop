@@ -2278,15 +2278,16 @@ components:
         For mixed crops more then one type of crop can be grown in the same period at the same plot.
       required:
         - species
-        - variety
       properties:
         species:
           description: 'Code of the plant species, at the aggregation level of potato, sugar beet, onion, etc. For eCrop in The Netherlands, code list nl.cl263 is used for crop species.'
-          type: string
+          allOf:
+            - $ref: '#/components/schemas/CodeType'
         variety:
           description: Identification of the variety of the type of crop that is grown. For eCrop in The Netherlands code list nl.cl232 is used.
-          type: string
-        precentageMix:
+          allOf:
+            - $ref: '#/components/schemas/CodeType'
+        percentageInMix:
           description: To be used in case of a mixed crop. Indicator of the percentage of this crop species related to the other crop species that are part of this mixed crop. The percentage is based on the weight proportions of the seed of each of the species that are part of the mixed crop.
           type: number
           format: float
@@ -2330,6 +2331,16 @@ components:
               description: "Code for the soil type, as subscribed by a regulatory authority (e.g. MLNV-RVO in the Netherlands).\r\nFor eCrop in The Netherlands code list nl.cl405 is used."
               allOf:
                 - $ref: '#/components/schemas/CodeType'
+            alternativeName:
+              type: string
+              description: "Option to include a second, alternative, name for the plot.\r\nFor instance to be used to include the name the farmer registered in his FMIS and the name that is registered in the RVO-database."
+            region:
+              type: string
+              description: The region the plot is located in.
+            country:
+              description: The country the plot is located in.
+              allOf:
+                - $ref: '#/components/schemas/CountryCodeType'
             landUseCategory:
               description: "The land use category of this plot.\r\nCode list: nl.agroconnect.codelist.cl961. Possible values: ARL (Arable Land), GRL (Grassland), FLL (Fallow Land) and NTA (Natural Area)."
               allOf:
@@ -2807,6 +2818,15 @@ components:
           description: Product used as allocation in this operation
           allOf:
             - $ref: '#/components/schemas/ProductDetails'
+        greenhouseLocation:
+          description: The greenhouse location the allocation applies to (optional).
+          allOf:
+            - $ref: '#/components/schemas/GreenhouseLocationDetails'
+        plantSpecies:
+          type: array
+          description: The plant species the allocation applies to, for instance the species that is planted or sown (optional).
+          items:
+            $ref: '#/components/schemas/PlantSpecies'
     InputAllocationDetails:
       title: Input allocation details
       description: |-
@@ -2820,6 +2840,33 @@ components:
           properties:
             treatmentzone:
               $ref: '#/components/schemas/TreatmentZoneDetails'
+            reason:
+              type: string
+              description: Short description of the reason why this particular input (e.g. this crop protection product) is used.
+            components:
+              type: array
+              description: 'Specification of the mixed content (mixture of several components) of the input, for instance a fertilizer.'
+              items:
+                $ref: '#/components/schemas/ComponentDetails'
+    ComponentDetails:
+      title: Component details
+      type: object
+      description: 'Specification of one component of the mixed content of a product, for instance a fertilizer.'
+      required:
+        - code
+        - quantity
+      properties:
+        code:
+          description: "Identification of the component of the composed product.\r\nCode list: nl.agroconnect.codelist.cl363"
+          allOf:
+            - $ref: '#/components/schemas/CodeType'
+        name:
+          type: string
+          description: Name of the component of the composed product.
+        quantity:
+          description: "Specification of the quantity of this component as part of the composed product.\r\nCould be in terms of a percentage or in terms of a dimension; for instance gram/kilogram or milliliter per liter."
+          allOf:
+            - $ref: '#/components/schemas/MeasureType'
     OutputAllocationDetails:
       title: Output allocation details
       description: |-
@@ -2851,6 +2898,12 @@ components:
             $ref: '#/components/schemas/CharacteristicType'
         area:
           $ref: '#/components/schemas/MeasureType'
+        startLocation:
+          type: string
+          description: "Specification of the beginning of the treatment zone.\r\nFor instance an identifier of a bed of Tulips in an open field."
+        endLocation:
+          type: string
+          description: "Specification of the end of the treatment zone.\r\nFor instance an identifier of a bed of Tulips in an open field."
     InboundDeliveryByGrower:
       title: Inbound Delivery by Grower
       description: |
@@ -3008,7 +3061,7 @@ components:
           description: The date/timestamp the equipment stopped being used in the operation.
           allOf:
             - $ref: '#/components/schemas/DateTimeType'
-        time:
+        executionTime:
           description: The total time the equipment was in use during the operation (e.g. working hours or engine hours).
           allOf:
             - $ref: '#/components/schemas/MeasureType'
@@ -3025,7 +3078,7 @@ components:
           type: Tractor
         startDateTime: '2025-03-12T15:51:00+01:00'
         endDateTime: '2025-03-12T16:45:00+01:00'
-        time:
+        executionTime:
           content: 0.9
           unitCode:
             content: HUR
@@ -3053,7 +3106,7 @@ components:
         phoneNumber:
           type: string
           description: Phone number of the worker.
-        email:
+        eMail:
           type: string
           description: E-mail address of the worker.
         jobTitle:
@@ -3065,7 +3118,7 @@ components:
             schemeId: com.my-mps.codelist.medewerkernummer
         name: Jan Jansen
         phoneNumber: +31(0)6 12345678
-        email: jan.jansen@example.com
+        eMail: jan.jansen@example.com
         jobTitle: Machine operator
     WorkerAssignment:
       title: Worker assignment
@@ -3245,8 +3298,12 @@ components:
           name: 'JSON test BV'
         cropSection:
           plantSpecies: 
-            species: '2030302'
-            variety: '10000'
+            species:
+              content: '2030302'
+              listId: nl.agroconnect.codelist.cl263
+            variety:
+              content: '10000'
+              listId: nl.agroconnect.codelist.cl232
           additionalQuestions:
             - code:
                 content: 'CR0010' # Productgroepcodenaam overnemen uit FAF
@@ -5602,8 +5659,12 @@ components:
             listId: nl.agroconnect.codelist.cl300
           trackTillage: false
           plantSpecies:
-            - species: '1010101'
-              variety: '01201'
+            - species:
+                content: '1010101'
+                listId: nl.agroconnect.codelist.cl263
+              variety:
+                content: '01201'
+                listId: nl.agroconnect.codelist.cl232
           plots:
             - id:
                 content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
@@ -5695,8 +5756,12 @@ components:
           listId: nl.agroconnect.codelist.cl300
         trackTillage: false
         plantSpecies:
-          - species: '1010101'
-            variety: '01201'
+          - species:
+              content: '1010101'
+              listId: nl.agroconnect.codelist.cl263
+            variety:
+              content: '01201'
+              listId: nl.agroconnect.codelist.cl232
         plots:
           - id:
               content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
@@ -5846,8 +5911,12 @@ components:
           listId: nl.agroconnect.codelist.cl300
         trackTillage: false
         plantSpecies:
-          - species: '1010101'
-            variety: '01201'
+          - species:
+              content: '1010101'
+              listId: nl.agroconnect.codelist.cl263
+            variety:
+              content: '01201'
+              listId: nl.agroconnect.codelist.cl232
         plots:
           - id:
               content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
@@ -5966,9 +6035,13 @@ components:
               countryName: Netherlands
           cropSection:
             plantSpecies:
-              species: Solanum lycopersicum
-              variety: Merlice
-              precentageMix: 100
+              species:
+                content: Solanum lycopersicum
+                listId: nl.agroconnect.codelist.cl263
+              variety:
+                content: Merlice
+                listId: nl.agroconnect.codelist.cl232
+              percentageInMix: 100
             additionalQuestions:
               - code:
                   content: GROWING_SYSTEM
