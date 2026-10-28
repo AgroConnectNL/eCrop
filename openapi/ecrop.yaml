@@ -3,7 +3,7 @@ servers:
   - url: 'https://standard-api.agroconnect.nl/ecrop/v1'
     description: Agroconnect Virtual API server
 info:
-  description: "## eCrop API based on **AgroConnect eCrop standard version 1.0.2**\r\n\r\nThis API concerns registration of crop related activities like application of crop protection products and fertilizers and energy and water consumption.\r\n\r\nThis API is based on the [AgroConnect eCrop class model]()\r\n\r\n## Conformation\r\nThis API definition follows the rules of the [AgroConnect AGRI API Style Guide](https://github.com/AgroConnectNL/API-Style-Guide/blob/main/API%20Style%20Guide%20Documentation/AGRI%20API%20Style%20Guide.md)\r\n\r\n## Design decisions\r\nThe general principles by which the eCrop class model is transferred to this OpenAPI definition are described in the [design decisions](https://github.com/AgroConnectNL/eCrop/blob/main/openapi/design-decisions.md).\r\n\r\n## Release notes\r\nSee the [changelog](https://github.com/AgroConnectNL/eCrop/blob/main/CHANGELOG.md) for the release notes of each version.\r\n\r\nCopyright (c) AgroConnect 2026"
+  description: "## eCrop API based on the **AgroConnect eCrop standard**\r\n\r\nThis API concerns registration of crop related activities like application of crop protection products and fertilizers and energy and water consumption.\r\n\r\n## Conformation\r\nThis API definition follows the rules of the [AgroConnect AGRI API Style Guide](https://github.com/AgroConnectNL/API-Style-Guide/blob/main/API%20Style%20Guide%20Documentation/AGRI%20API%20Style%20Guide.md)\r\n\r\nThis API definition is based on the [AgroConnect eCrop model version 1.1.1](https://www.agroconnect.nl/Portals/10/EnterpriseArchitect/eCrop_json/eCrop_v1.1.1/index.html)\r\n\r\n## Design decisions\r\nThe general principles by which the eCrop class model is transferred to this OpenAPI definition are described in the [design decisions](https://github.com/AgroConnectNL/eCrop/blob/main/openapi/design-decisions.md).\r\n\r\n## Release notes\r\nSee the [changelog](https://github.com/AgroConnectNL/eCrop/blob/main/CHANGELOG.md) for the release notes of each version.\r\n\r\nCopyright (c) AgroConnect 2026"
   version: 1.1.0
   title: AgroConnect eCrop API
   contact:
@@ -15,8 +15,8 @@ info:
     url: 'https://creativecommons.org/licenses/by/4.0/'
   termsOfService: ''
 externalDocs:
-  description: Agroconnect eCrop class model version 1.1.1.
-  url: 'https://www.agroconnect.nl/Portals/10/EnterpriseArchitect/eCrop_json/eCrop_v1.1.1/index.html'
+  description: AgroConnect eCrop repository (specification, documentation and business cases).
+  url: 'https://github.com/AgroConnectNL/eCrop'
 tags:
   - name: general
     description: General Operations
