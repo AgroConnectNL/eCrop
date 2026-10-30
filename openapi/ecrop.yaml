@@ -3028,7 +3028,7 @@ components:
           type: string
           description: Name of the equipment
         type:
-          description: "Type of equipment, for instance Tractor, ImplementAssembly, SensorSystem, Installation or HandTool.\r\nCode list: nl.agroconnect.codelist.cl<nnn> (the number of the code list is to be determined)"
+          description: "Type of equipment, for instance Tractor, ImplementAssembly, SensorSystem, Installation or HandTool.\r\nCode list: nl.agroconnect.codelist.cl962"
           allOf:
             - $ref: '#/components/schemas/CodeType'
       example:
@@ -3038,7 +3038,7 @@ components:
         name: John Deere 6120M
         type:
           content: Tractor
-          listId: nl.agroconnect.codelist.clnnn
+          listId: nl.agroconnect.codelist.cl962
     EquipmentAssignment:
       title: Equipment assignment
       type: object
@@ -3074,7 +3074,7 @@ components:
           name: John Deere 6120M
           type:
             content: Tractor
-            listId: nl.agroconnect.codelist.clnnn
+            listId: nl.agroconnect.codelist.cl962
         startDateTime: '2025-03-12T15:51:00+01:00'
         endDateTime: '2025-03-12T16:45:00+01:00'
         executionTime:

@@ -313,7 +313,7 @@ Content-Type: application/json
               { "content": "1234", "schemeId": "nl.my-cps.codelist.materieelnummer" }
             ],
             "name": "John Deere 6120M",
-            "type": { "content": "Tractor", "listId": "nl.agroconnect.codelist.clnnn" }
+            "type": { "content": "Tractor", "listId": "nl.agroconnect.codelist.cl962" }
           },
           "startDateTime": "2025-03-12T15:51:00+01:00",
           "endDateTime": "2025-03-12T16:45:00+01:00"
