@@ -99,7 +99,7 @@ Alle idType-achtige properties (top-level id, thirdPartyIds) hebben een `schemeI
 
 | Identifier-soort                                  | Voorbeeld-schemeId                                 | Uitgegeven door                          | Te besluiten                                                                                         |
 | ------------------------------------------------- | -------------------------------------------------- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| Primaire id's (`id` van grower, plot, task, ...)  | `nl.loonwerkportaal.codelist.guid`                 | Het Loonwerkportaal                      | Bevestigen als definitief scheme (GUID-formaat); ook gebruikt als `*SchemeId` in de URI's (`growerSchemeId`, `plotSchemeId`, `taskSchemeId`, ...) |
+| Primaire id's (`id` van grower, plot, task, ...)  | `com.my-lwp.codelist.guid`                 | Het Loonwerkportaal                      | Bevestigen als definitief scheme (GUID-formaat); ook gebruikt als `*SchemeId` in de URI's (`growerSchemeId`, `plotSchemeId`, `taskSchemeId`, ...) |
 | Taak (`thirdPartyIds`)                            | `nl.my-cps.codelist.registratienummer`, `nl.my-cps.codelist.werkbonnummer` | Planningssysteem van de loonwerker (CPS) | Welke taak-identifiers de loonwerker minimaal meestuurt (bijv. verplicht werkbonnummer) |
 | Operation (`thirdPartyIds`)                       | `nl.my-cps.codelist.operatienummer`                | Planningssysteem van de loonwerker       | Idem                                                                                                 |
 | Behandelzone en invoerallocatie (`thirdPartyIds`) | `nl.my-cps.codelist.padnummers`, `nl.my-cps.codelist.registratienummer` | Planningssysteem van de loonwerker | Idem                                                                                          |
@@ -185,7 +185,7 @@ De afhankelijkheid loopt nu in één richting (Feature hangt af van Plot), zodat
 ```json
 {
   "rel": "https://ecrop.agroconnect.nl/rel/plot-features",
-  "href": "https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items?plotSchemeId=nl.loonwerkportaal.codelist.guid&plotId=e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b",
+  "href": "https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items?plotSchemeId=com.my-lwp.codelist.guid&plotId=e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b",
   "type": "application/geo+json"
 }
 ```

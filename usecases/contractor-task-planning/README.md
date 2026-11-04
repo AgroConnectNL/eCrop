@@ -133,7 +133,7 @@ sequenceDiagram
 ### 3.1 Discover authorized growers
 
 ```http
-GET /contractors/nl.loonwerkportaal.codelist.guid/5d4e3f2a-1b0c-9d8e-7f6a-5b4c3d2e1f0a/growers
+GET /contractors/com.my-lwp.codelist.guid/5d4e3f2a-1b0c-9d8e-7f6a-5b4c3d2e1f0a/growers
 Major-Version: v1
 User-Agent: contractor-planning-system/1.0
 ```
@@ -143,7 +143,7 @@ User-Agent: contractor-planning-system/1.0
   {
     "id": {
       "content": "e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b",
-      "schemeId": "nl.loonwerkportaal.codelist.guid"
+      "schemeId": "com.my-lwp.codelist.guid"
     },
     "thirdPartyIds": [
       { "content": "09123559", "schemeId": "nl.kvk.codelist.kvknummer" }
@@ -156,14 +156,14 @@ User-Agent: contractor-planning-system/1.0
 ### 3.2 Action 1 — retrieve a plot
 
 ```http
-GET /contractors/nl.loonwerkportaal.codelist.guid/5d4e3f2a-1b0c-9d8e-7f6a-5b4c3d2e1f0a/growers/nl.loonwerkportaal.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/plots/nl.loonwerkportaal.codelist.guid/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+GET /contractors/com.my-lwp.codelist.guid/5d4e3f2a-1b0c-9d8e-7f6a-5b4c3d2e1f0a/growers/com.my-lwp.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/plots/com.my-lwp.codelist.guid/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
 ```
 
 ```json
 {
   "id": {
     "content": "e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b",
-    "schemeId": "nl.loonwerkportaal.codelist.guid"
+    "schemeId": "com.my-lwp.codelist.guid"
   },
   "thirdPartyIds": [
     { "content": "APD03-AD-4094", "schemeId": "nl.rvo.codelist.perceelsnummer" }
@@ -182,7 +182,7 @@ GET /contractors/nl.loonwerkportaal.codelist.guid/5d4e3f2a-1b0c-9d8e-7f6a-5b4c3d
   "links": [
     {
       "rel": "https://ecrop.agroconnect.nl/rel/plot-features",
-      "href": "https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items?plotSchemeId=nl.loonwerkportaal.codelist.guid&plotId=e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b",
+      "href": "https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items?plotSchemeId=com.my-lwp.codelist.guid&plotId=e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b",
       "type": "application/geo+json",
       "title": "Features (boundary, entryPoint, abLine) that refer to this plot, as OGC features"
     }
@@ -196,7 +196,7 @@ Note this is on the separate plot-geometry server (`.../plot-features/v1`, not `
 the `href` above already points there, so the CPS just follows it as given:
 
 ```http
-GET https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items?plotSchemeId=nl.loonwerkportaal.codelist.guid&plotId=e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
+GET https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items?plotSchemeId=com.my-lwp.codelist.guid&plotId=e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
 ```
 
 The response is a FeatureCollection with the Feature(s) that refer to this plot (normally one):
@@ -225,7 +225,7 @@ The response is a FeatureCollection with the Feature(s) that refer to this plot 
       "properties": {
         "plotId": {
           "content": "e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b",
-          "schemeId": "nl.loonwerkportaal.codelist.guid"
+          "schemeId": "com.my-lwp.codelist.guid"
         },
         "name": "Tuin1, perceel6",
         "area": {
@@ -249,7 +249,7 @@ The response is a FeatureCollection with the Feature(s) that refer to this plot 
         },
         {
           "rel": "https://ecrop.agroconnect.nl/rel/plot",
-          "href": "https://standard-api.agroconnect.nl/ecrop/v1/contractors/nl.loonwerkportaal.codelist.guid/5d4e3f2a-1b0c-9d8e-7f6a-5b4c3d2e1f0a/growers/nl.loonwerkportaal.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/plots/nl.loonwerkportaal.codelist.guid/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b",
+          "href": "https://standard-api.agroconnect.nl/ecrop/v1/contractors/com.my-lwp.codelist.guid/5d4e3f2a-1b0c-9d8e-7f6a-5b4c3d2e1f0a/growers/com.my-lwp.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/plots/com.my-lwp.codelist.guid/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b",
           "type": "application/json"
         }
       ]
@@ -258,7 +258,7 @@ The response is a FeatureCollection with the Feature(s) that refer to this plot 
   "links": [
     {
       "rel": "self",
-      "href": "https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items?plotSchemeId=nl.loonwerkportaal.codelist.guid&plotId=e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b",
+      "href": "https://standard-api.agroconnect.nl/plot-features/v1/collections/plots/items?plotSchemeId=com.my-lwp.codelist.guid&plotId=e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b",
       "type": "application/geo+json"
     }
   ]
@@ -275,7 +275,7 @@ Once the work is done, the CPS registers it as a task with one or more operation
 §3.2. The server assigns the task's `id`; the CPS's own identification travels in `thirdPartyIds`.
 
 ```http
-POST /contractors/nl.loonwerkportaal.codelist.guid/5d4e3f2a-1b0c-9d8e-7f6a-5b4c3d2e1f0a/growers/nl.loonwerkportaal.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/plots/nl.loonwerkportaal.codelist.guid/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b/tasks
+POST /contractors/com.my-lwp.codelist.guid/5d4e3f2a-1b0c-9d8e-7f6a-5b4c3d2e1f0a/growers/com.my-lwp.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/plots/com.my-lwp.codelist.guid/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b/tasks
 Major-Version: v1
 User-Agent: contractor-planning-system/1.0
 Content-Type: application/json
@@ -337,7 +337,7 @@ Content-Type: application/json
 
 The ids the CPS supplies itself (`thirdPartyIds` of the task and its operations, equipment and
 workers) use `nl.my-cps.*` schemes, while the ids the Loonwerkportaal assigns (such as the `id`
-of the task below) use `nl.loonwerkportaal.*`.
+of the task below) use `com.my-lwp.*`.
 
 The server answers `202 Accepted` with the registered task, now including its `id`:
 
@@ -345,7 +345,7 @@ The server answers `202 Accepted` with the registered task, now including its `i
 {
   "id": {
     "content": "9b1f4c2e-6d3a-4f8b-a7e5-2c0d9e8f1a3b",
-    "schemeId": "nl.loonwerkportaal.codelist.guid"
+    "schemeId": "com.my-lwp.codelist.guid"
   },
   "thirdPartyIds": [
     { "content": "27575", "schemeId": "nl.my-cps.codelist.registratienummer" },
@@ -371,7 +371,7 @@ operation guards against concurrent changes: if the current value isn't 25000, t
 rejected.
 
 ```http
-PATCH /contractors/nl.loonwerkportaal.codelist.guid/5d4e3f2a-1b0c-9d8e-7f6a-5b4c3d2e1f0a/growers/nl.loonwerkportaal.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/plots/nl.loonwerkportaal.codelist.guid/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b/tasks/nl.loonwerkportaal.codelist.guid/9b1f4c2e-6d3a-4f8b-a7e5-2c0d9e8f1a3b
+PATCH /contractors/com.my-lwp.codelist.guid/5d4e3f2a-1b0c-9d8e-7f6a-5b4c3d2e1f0a/growers/com.my-lwp.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/plots/com.my-lwp.codelist.guid/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b/tasks/com.my-lwp.codelist.guid/9b1f4c2e-6d3a-4f8b-a7e5-2c0d9e8f1a3b
 Major-Version: v1
 User-Agent: contractor-planning-system/1.0
 Content-Type: application/json-patch+json
@@ -398,7 +398,7 @@ server answers `202 Accepted` with the updated task.
 If the task was registered by mistake or the work was cancelled:
 
 ```http
-DELETE /contractors/nl.loonwerkportaal.codelist.guid/5d4e3f2a-1b0c-9d8e-7f6a-5b4c3d2e1f0a/growers/nl.loonwerkportaal.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/plots/nl.loonwerkportaal.codelist.guid/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b/tasks/nl.loonwerkportaal.codelist.guid/9b1f4c2e-6d3a-4f8b-a7e5-2c0d9e8f1a3b
+DELETE /contractors/com.my-lwp.codelist.guid/5d4e3f2a-1b0c-9d8e-7f6a-5b4c3d2e1f0a/growers/com.my-lwp.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/plots/com.my-lwp.codelist.guid/e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b/tasks/com.my-lwp.codelist.guid/9b1f4c2e-6d3a-4f8b-a7e5-2c0d9e8f1a3b
 Major-Version: v1
 User-Agent: contractor-planning-system/1.0
 ```
@@ -443,7 +443,7 @@ delete only its own tasks (the contractor-scoped URI suggests so, but the spec d
 The example payloads above use these `schemeId`/`listId` values (also used in the
 `contractor-task-planning` distribution of the OpenAPI specification):
 
-- `nl.loonwerkportaal.codelist.guid` — primary ids assigned by the Loonwerkportaal (growers, plots, tasks, ...)
+- `com.my-lwp.codelist.guid` — primary ids assigned by the Loonwerkportaal (growers, plots, tasks, ...)
 - `nl.my-cps.codelist.*` — ids assigned by the contractor's own planning system: `registratienummer`
   and `werkbonnummer` (task), `operatienummer` (operation), `materieelnummer` (equipment),
   `medewerkernummer` (worker)
