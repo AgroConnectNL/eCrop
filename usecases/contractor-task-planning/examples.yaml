@@ -171,10 +171,10 @@ components:
             content: REGULAR
             listId: nl.agroconnect.codelist.cl015
           localSoilType:
-            content: CLAY
+            content: '7'
             listId: nl.agroconnect.codelist.cl405
           regulatorySoilType:
-            content: CLAY
+            content: '7'
             listId: nl.agroconnect.codelist.cl405
           landUseCategory:
             content: GRL
@@ -700,10 +700,10 @@ components:
               content: REGULAR
               listId: nl.agroconnect.codelist.cl015
             localSoilType:
-              content: CLAY
+              content: '7'
               listId: nl.agroconnect.codelist.cl405
             regulatorySoilType:
-              content: CLAY
+              content: '7'
               listId: nl.agroconnect.codelist.cl405
             landUseCategory:
               content: GRL
@@ -788,10 +788,10 @@ components:
               content: REGULAR
               listId: nl.agroconnect.codelist.cl015
             localSoilType:
-              content: CLAY
+              content: '7'
               listId: nl.agroconnect.codelist.cl405
             regulatorySoilType:
-              content: CLAY
+              content: '7'
               listId: nl.agroconnect.codelist.cl405
             landUseCategory:
               content: GRL

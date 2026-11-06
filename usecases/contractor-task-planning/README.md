@@ -450,7 +450,7 @@ Content-Type: application/json
       "name": "Naast de schuur",
       "type": "CROPFIELD",
       "area": { "content": 4200, "unitCode": { "content": "MTK", "listId": "nl.agroconnect.codelist.cl020" } },
-      "regulatorySoilType": { "content": "CLAY", "listId": "nl.agroconnect.codelist.cl405" },
+      "regulatorySoilType": { "content": "7", "listId": "nl.agroconnect.codelist.cl405" },
       "...": "..."
     }
   ],
