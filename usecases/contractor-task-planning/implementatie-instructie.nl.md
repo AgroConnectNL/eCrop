@@ -38,6 +38,8 @@ Alle taakoperaties zijn gescoped naar een perceel van een teler waarvoor de loon
 | `PATCH .../tasks/{taskSchemeId}/{taskId}` *(optioneel)* | Een eerder geregistreerde taak gedeeltelijk wijzigen met een JSON Patch-document (RFC 6902, mediatype `application/json-patch+json`, conform AASG-regel P012) | Optioneel, want PUT dekt alle wijzigingen van bestaande taken al af. Efficiënt voor kleine correcties, bijv. het gewijzigde oppervlak van een operation (`/operations/0/area/content`) van 25000 naar 24500 m2. Een `test`-operation in het patch-document beschermt tegen gelijktijdige wijzigingen |
 | `DELETE .../tasks/{taskSchemeId}/{taskId}` | Een eerder geregistreerde taak verwijderen                                                          | Voor taken die per ongeluk zijn geregistreerd of waarvan het werk is geannuleerd                     |
 
+Taken die niet aan een perceel gebonden zijn (bijv. transport of onderhoud op het bedrijf, "farm level") worden met dezelfde vier operaties geregistreerd, maar gescoped naar de teler (het bedrijf) in plaats van een perceel: `/contractors/{...}/{..}/growers/{...}/{..}/tasks` (`POST`) en `.../tasks/{taskSchemeId}/{taskId}` (`PUT`, `PATCH` (optioneel), `DELETE`). Request en respons zijn gelijk aan die van de perceel-operaties.
+
 De taakoperaties antwoorden met `202 Accepted` (POST, PUT, PATCH, met de geregistreerde taak in de respons) of `204 No Content` (DELETE). Zie ook het uitgewerkte voorbeeld in [README van deze use case](README.md).
 
 **OGC API Features-operaties (plot-geometrie)**
@@ -75,7 +77,8 @@ De volgende operaties uit de specificatie zijn voor de huidige use case niet nod
 | Production locations                              | `GET .../production-locations`, tasks op dit niveau                                               | Niet nodig voor het ophalen van percelen en geo-informatie                                           |
 | Crops                                             | `GET`/`POST`/`PUT`/`DELETE .../crops(/{cropId})`                                                  | Teeltgegevens zijn in de huidige use case niet vereist; kan in een latere fase relevant worden zodra taken crop-specifieke context nodig hebben |
 | Directe, niet-contractor-gescopeerde taakregistratie | `POST`/`PUT`/`PATCH`/`DELETE /growers/{...}/{..}/plots/{...}/{..}/tasks(...)`                  | Dit is de route voor de teler zelf (bms-teler); de loonwerker gebruikt uitsluitend de contractor-gescopeerde taakoperaties (zie §2.1) |
-| Taken op andere niveaus                           | `.../production-locations/.../tasks`, `.../growers/{...}/{..}/tasks`, taken op crop-niveau        | De contractor-gescopeerde taakoperaties bestaan alleen op perceelniveau; taken op andere niveaus zijn niet nodig voor deze use case |
+| Directe, niet-contractor-gescopeerde taakregistratie op farm level | `POST`/`PUT`/`DELETE /growers/{...}/{..}/tasks(...)` | Route voor de teler zelf; de loonwerker gebruikt de contractor-gescopeerde variant (zie §2.1) |
+| Taken op crop-niveau                              | `.../crops/{...}/{..}/tasks`                                                                      | De contractor-gescopeerde taakoperaties bestaan alleen op perceel- en farm-niveau (teler) |
 
 *Dit is een bewuste, expliciete scope-afbakening: deze operaties bestaan in de specificatie en kunnen in een volgende fase alsnog nodig zijn, maar horen niet bij de nu vastgestelde use case.*
 

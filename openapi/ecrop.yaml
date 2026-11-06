@@ -635,6 +635,116 @@ paths:
           $ref: '#/components/responses/default_500'
         default:
           $ref: '#/components/responses/default_error'
+  '/contractors/{contractorSchemeId}/{contractorId}/growers/{growerSchemeId}/{growerId}/tasks':
+    parameters:
+      - $ref: '#/components/parameters/Major-Version'
+      - $ref: '#/components/parameters/User-Agent'
+      - $ref: '#/components/parameters/contractorSchemeId'
+      - $ref: '#/components/parameters/contractorId'
+      - $ref: '#/components/parameters/growerSchemeId'
+      - $ref: '#/components/parameters/growerId'
+    post:
+      summary: Register a non crop-specific task with operations on farm level for a grower by a contractor
+      operationId: post-contractors-growers-tasks
+      x-usecases: [contractor-task-planning]
+      description: "Register a non crop-specific task with operations on farm level of a grower for which the contractor is granted access.\r\n\r\nRemarks: repeatingly posting tasks with the same exterenal id will lead to updating the previously posted task (so no duplicates will be generated). \r\nPreferrable, clients should use the PUT operation to update previously POSTed tasks in stead of re-posting them."
+      tags:
+        - farm level registration
+      requestBody:
+        $ref: '#/components/requestBodies/taskRequest'
+      responses:
+        '202':
+          $ref: '#/components/responses/task_202'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '403':
+          $ref: '#/components/responses/default_403'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
+  '/contractors/{contractorSchemeId}/{contractorId}/growers/{growerSchemeId}/{growerId}/tasks/{taskSchemeId}/{taskId}':
+    parameters:
+      - $ref: '#/components/parameters/Major-Version'
+      - $ref: '#/components/parameters/User-Agent'
+      - $ref: '#/components/parameters/contractorSchemeId'
+      - $ref: '#/components/parameters/contractorId'
+      - $ref: '#/components/parameters/growerSchemeId'
+      - $ref: '#/components/parameters/growerId'
+      - $ref: '#/components/parameters/taskSchemeId'
+      - $ref: '#/components/parameters/taskId'
+    put:
+      summary: Update a previously registered non crop-specific task with operations on farm level for a grower by a contractor
+      operationId: put-contractors-growers-tasks
+      x-usecases: [contractor-task-planning]
+      description: Update a previously registered non crop-specific task with operations on farm level of a grower for which the contractor is granted access.
+      tags:
+        - farm level registration
+      requestBody:
+        $ref: '#/components/requestBodies/taskRequest'
+      responses:
+        '202':
+          $ref: '#/components/responses/task_202'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '403':
+          $ref: '#/components/responses/default_403'
+        '404':
+          $ref: '#/components/responses/default_404'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
+    patch:
+      summary: Partially update a previously registered non crop-specific task with operations on farm level for a grower by a contractor
+      operationId: patch-contractors-growers-tasks
+      x-usecases: [contractor-task-planning]
+      description: "Partially update a previously registered non crop-specific task with operations on farm level of a grower for which the contractor is granted access, using a JSON Patch document (RFC 6902) as request payload (AASG rule P012).\r\n\r\nExample: the request body below changes the treated area of the first operation from 25000 to 24500 m2. The *test* operation guards against concurrent changes: if the current value is not 25000, the whole patch is rejected."
+      tags:
+        - farm level registration
+      requestBody:
+        $ref: '#/components/requestBodies/patchRequest'
+      responses:
+        '202':
+          $ref: '#/components/responses/task_202'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '403':
+          $ref: '#/components/responses/default_403'
+        '404':
+          $ref: '#/components/responses/default_404'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
+    delete:
+      summary: Delete a non crop-specific task with operations on farm level for a grower by a contractor
+      operationId: del-contractors-growers-tasks
+      x-usecases: [contractor-task-planning]
+      description: Delete a previously registered non crop-specific task with operations on farm level of a grower for which the contractor is granted access.
+      tags:
+        - farm level registration
+      responses:
+        '204':
+          $ref: '#/components/responses/default_no_content'
+        '400':
+          $ref: '#/components/responses/default_400'
+        '401':
+          $ref: '#/components/responses/default_401'
+        '403':
+          $ref: '#/components/responses/default_403'
+        '404':
+          $ref: '#/components/responses/default_404'
+        '500':
+          $ref: '#/components/responses/default_500'
+        default:
+          $ref: '#/components/responses/default_error'
   '/growers/{growerSchemeId}/{growerId}/plots':
     parameters:
       - $ref: '#/components/parameters/Major-Version'

@@ -86,23 +86,23 @@ components:
         thirdPartyIds:
           - content: APD03-AD-4094
             schemeId: nl.rvo.codelist.perceelsnummer
-        name: Tuin1, perceel6
-        startDate: '2024-01-12'
-        endDate: '2024-12-14'
+        name: Perceel Achter de Schuur
+        startDate: '2026-01-01'
+        endDate: '2026-12-31'
         type: CROPFIELD
         area:
-          content: 6000
+          content: 4.72
           unitCode:
-            content: MTK
+            content: HAR
             listId: nl.agroconnect.codelist.cl020
         regularOrOrganic:
           content: REGULAR
           listId: nl.agroconnect.codelist.cl015
         localSoilType:
-          content: CLAY
+          content: '7'
           listId: nl.agroconnect.codelist.cl405
         regulatorySoilType:
-          content: CLAY
+          content: '7'
           listId: nl.agroconnect.codelist.cl405
         landUseCategory:
           content: ARL
@@ -123,23 +123,23 @@ components:
           thirdPartyIds:
             - content: APD03-AD-4094
               schemeId: nl.rvo.codelist.perceelsnummer
-          name: Tuin1, perceel6
-          startDate: '2024-01-12'
-          endDate: '2024-12-14'
+          name: Perceel Achter de Schuur
+          startDate: '2026-01-01'
+          endDate: '2026-12-31'
           type: CROPFIELD
           area:
-            content: 6000
+            content: 4.72
             unitCode:
-              content: MTK
+              content: HAR
               listId: nl.agroconnect.codelist.cl020
           regularOrOrganic:
             content: REGULAR
             listId: nl.agroconnect.codelist.cl015
           localSoilType:
-            content: CLAY
+            content: '7'
             listId: nl.agroconnect.codelist.cl405
           regulatorySoilType:
-            content: CLAY
+            content: '7'
             listId: nl.agroconnect.codelist.cl405
           landUseCategory:
             content: ARL
@@ -204,8 +204,8 @@ components:
             id: 384912567
             time:
               interval:
-                - '2024-01-12'
-                - '2024-12-14'
+                - '2026-01-01'
+                - '2026-12-31'
             place:
               type: Polygon
               coordinates:
@@ -224,11 +224,11 @@ components:
               plotId:
                 content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
                 schemeId: com.my-lwp.codelist.guid
-              name: Tuin1, perceel6
+              name: Perceel Achter de Schuur
               area:
-                content: 6000
+                content: 4.72
                 unitCode:
-                  content: MTK
+                  content: HAR
                   listId: nl.agroconnect.codelist.cl020
             links:
               - rel: https://ecrop.agroconnect.nl/rel/plot
@@ -301,11 +301,11 @@ components:
               plotId:
                 content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
                 schemeId: com.my-lwp.codelist.guid
-              name: Tuin1, perceel6
+              name: Perceel Achter de Schuur
               area:
-                content: 6000
+                content: 4.72
                 unitCode:
-                  content: MTK
+                  content: HAR
                   listId: nl.agroconnect.codelist.cl020
             links:
               - rel: https://ecrop.agroconnect.nl/rel/plot
@@ -355,8 +355,8 @@ components:
         coordRefSys: http://www.opengis.net/def/crs/EPSG/0/28992
         time:
           interval:
-            - '2024-01-12'
-            - '2024-12-14'
+            - '2026-01-01'
+            - '2026-12-31'
         place:
           type: Polygon
           coordinates:
@@ -376,11 +376,11 @@ components:
           plotId:
             content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
             schemeId: com.my-lwp.codelist.guid
-          name: Tuin1, perceel6
+          name: Perceel Achter de Schuur
           area:
-            content: 6000
+            content: 4.72
             unitCode:
-              content: MTK
+              content: HAR
               listId: nl.agroconnect.codelist.cl020
           entryPoint:
             type: Point
@@ -427,11 +427,11 @@ components:
           plotId:
             content: e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b
             schemeId: com.my-lwp.codelist.guid
-          name: Tuin1, perceel6
+          name: Perceel Achter de Schuur
           area:
-            content: 6000
+            content: 4.72
             unitCode:
-              content: MTK
+              content: HAR
               listId: nl.agroconnect.codelist.cl020
           entryPoint:
             type: Point

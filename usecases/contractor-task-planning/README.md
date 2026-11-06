@@ -44,6 +44,12 @@ has been granted access to
 | `PATCH .../tasks/{taskSchemeId}/{taskId}` *(optional)* | Partially update a previously registered task using a JSON Patch document (RFC 6902, media type `application/json-patch+json`) | Optional, because PUT already covers all updates of existing tasks. Efficient for small corrections, e.g. changing the treated area of an operation from 25000 to 24500 m2 |
 | `DELETE .../tasks/{taskSchemeId}/{taskId}` | Delete a previously registered task | For tasks registered by mistake or cancelled afterwards |
 
+**Farm-level tasks.** Work that is not tied to a plot (for instance transport or maintenance at the
+farm) is registered with the same four operations, but scoped to the grower (the farm) instead of a plot
+(`/contractors/{...}/{..}/growers/{...}/{..}/tasks`):
+`POST .../tasks`, and `PUT`, `PATCH` (optional) and `DELETE .../tasks/{taskSchemeId}/{taskId}`. They accept and
+return the same task as the plot-level operations; see §3.8.
+
 **Design note on "2 actions" and backlinks:** `plot_200`/`plots_200` responses embed a `links` array
 with a custom `rel="https://ecrop.agroconnect.nl/rel/plot-features"` entry. That link is a *query*
 (`GET /collections/plots/items?plotSchemeId=...&plotId=...`) for the Feature(s) that refer to the
@@ -78,7 +84,8 @@ chain isn't part of this core flow.
 | Direct (non-contractor) plot access | `GET /growers/{...}/{..}/plots(/{id})` | That's the grower's own access route (e.g. via their own FMS) — this case is specifically the contractor-scoped route |
 | Supplier-scoped access | `/suppliers/*` | No supplier role in this case |
 | Direct (non-contractor) task registration | `POST`/`PUT`/`PATCH`/`DELETE /growers/{...}/{..}/plots/{...}/{..}/tasks(...)` | That's the grower's own route (e.g. via their own FMS); a contractor uses the contractor-scoped task operations above |
-| Tasks at other levels | `.../production-locations/.../tasks`, `.../growers/{...}/{..}/tasks`, crop-level tasks | The contractor-scoped task operations exist at plot level only |
+| Direct (non-contractor) farm-level task registration | `POST`/`PUT`/`DELETE /growers/{...}/{..}/tasks(...)` | The grower's own route; a contractor uses the contractor-scoped farm-level task operations |
+| Crop-level tasks | `.../crops/{...}/{..}/tasks` | The contractor-scoped task operations exist at plot and farm (grower) level only |
 
 ## 3. Example flow
 
@@ -168,17 +175,17 @@ GET /contractors/com.my-lwp.codelist.guid/5d4e3f2a-1b0c-9d8e-7f6a-5b4c3d2e1f0a/g
   "thirdPartyIds": [
     { "content": "APD03-AD-4094", "schemeId": "nl.rvo.codelist.perceelsnummer" }
   ],
-  "name": "Tuin1, perceel6",
-  "startDate": "2024-01-12",
-  "endDate": "2024-12-14",
+  "name": "Perceel Achter de Schuur",
+  "startDate": "2026-01-01",
+  "endDate": "2026-12-31",
   "type": "CROPFIELD",
   "area": {
-    "content": 6000,
-    "unitCode": { "content": "MTK", "listId": "nl.agroconnect.codelist.cl020" }
+    "content": 4.72,
+    "unitCode": { "content": "HAR", "listId": "nl.agroconnect.codelist.cl020" }
   },
   "regularOrOrganic": { "content": "REGULAR", "listId": "nl.agroconnect.codelist.cl015" },
-  "localSoilType": { "content": "CLAY", "listId": "nl.agroconnect.codelist.cl405" },
-  "regulatorySoilType": { "content": "CLAY", "listId": "nl.agroconnect.codelist.cl405" },
+  "localSoilType": { "content": "7", "listId": "nl.agroconnect.codelist.cl405" },
+  "regulatorySoilType": { "content": "7", "listId": "nl.agroconnect.codelist.cl405" },
   "links": [
     {
       "rel": "https://ecrop.agroconnect.nl/rel/plot-features",
@@ -227,10 +234,10 @@ The response is a FeatureCollection with the Feature(s) that refer to this plot 
           "content": "e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b",
           "schemeId": "com.my-lwp.codelist.guid"
         },
-        "name": "Tuin1, perceel6",
+        "name": "Perceel Achter de Schuur",
         "area": {
-          "content": 6000,
-          "unitCode": { "content": "MTK", "listId": "nl.agroconnect.codelist.cl020" }
+          "content": 4.72,
+          "unitCode": { "content": "HAR", "listId": "nl.agroconnect.codelist.cl020" }
         },
         "entryPoint": { "type": "Point", "coordinates": [5.7527, 51.9487] },
         "abLine": {
@@ -404,6 +411,22 @@ User-Agent: contractor-planning-system/1.0
 ```
 
 The server answers `204 No Content`. A `404 Not Found` means the task doesn't exist (anymore).
+
+### 3.8 Task at farm level
+
+A task that is not tied to a plot is registered on farm level, i.e. directly on the grower. The
+request body is the same `TaskDetails` as in §3.4; `PUT`, `PATCH` and `DELETE` work as in §3.5-3.7 on the
+`.../tasks/{taskSchemeId}/{taskId}` URI.
+
+```http
+POST /contractors/com.my-lwp.codelist.guid/5d4e3f2a-1b0c-9d8e-7f6a-5b4c3d2e1f0a/growers/com.my-lwp.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/tasks
+Major-Version: v1
+User-Agent: contractor-planning-system/1.0
+Content-Type: application/json
+```
+
+The body is the one of §3.4; the server answers `202 Accepted` with the registered task, now
+including its `id`.
 
 ## 4. Still to be arranged
 
