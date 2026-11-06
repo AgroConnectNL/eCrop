@@ -30,8 +30,10 @@ tags:
     description: "**Crop operations**\r\n\r\nThese operations can be used to retrieve and maintain crop information."
   - name: delivery
     description: "**Inbound Delivery Operations**\r\n\r\nThese operations can be used for registering products which have been delivered to a grower by a supplier. Suppliers can only register deliveries for growers they are granted for, which they can check with the GET operations in this section (optional). Alternatively growers can register their inboud-deliveries themselves"
-  - name: farm level registration
-    description: "**Farm level registration Operations**\r\n\r\n These operations can be used to register (non-crop related-) tasks and operations on **farm** level"
+  - name: production level registration
+    description: "**Production level registration Operations**\r\n\r\n These operations can be used to retrieve production locations and to register (non-crop related-) tasks and operations on **production location** level"
+  - name: contractor registrations
+    description: "**Contractor registration Operations**\r\n\r\n These operations can be used by a contractor to register (non-crop related-) tasks and operations on **farm** (grower) level, for a grower who granted the contractor access"
   - name: plot level registration
     description: "**Plot level registration Operations**\r\n\r\n These operations can be used to register (non-crop related-) tasks and operations on **plot** level"
   - name: crop level registration
@@ -534,7 +536,7 @@ paths:
       x-usecases: [unassigned]
       description: Returns all productionlocations of a grower
       tags:
-        - farm level registration
+        - production level registration
       parameters:
         - $ref: '#/components/parameters/page'
         - $ref: '#/components/parameters/pageSize'
@@ -563,7 +565,7 @@ paths:
       x-usecases: [unassigned]
       description: "Register a non crop-specific task with operations on a production location by a grower\r\n\r\nRemarks: repeatingly posting tasks with the same exterenal id will lead to updating the previously posted task (so no duplicates will be generated). \r\nPreferrable, clients should use the PUT operation to update previously POSTed tasks in stead of re-posting them."
       tags:
-        - farm level registration
+        - production level registration
       requestBody:
         $ref: '#/components/requestBodies/taskRequest'
       responses:
@@ -595,7 +597,7 @@ paths:
       x-usecases: [unassigned]
       description: Update a previously registered non crop-specific task with operations on a production location by a grower
       tags:
-        - farm level registration
+        - production level registration
       requestBody:
         $ref: '#/components/requestBodies/taskRequest'
       responses:
@@ -619,7 +621,7 @@ paths:
       x-usecases: [unassigned]
       description: Delete a previously registered non crop-specific task with operations on a production location by a grower
       tags:
-        - farm level registration
+        - production level registration
       responses:
         '204':
           $ref: '#/components/responses/default_no_content'
@@ -649,12 +651,12 @@ paths:
       x-usecases: [contractor-task-planning]
       description: "Register a non crop-specific task with operations on farm level of a grower for which the contractor is granted access.\r\n\r\nRemarks: repeatingly posting tasks with the same exterenal id will lead to updating the previously posted task (so no duplicates will be generated). \r\nPreferrable, clients should use the PUT operation to update previously POSTed tasks in stead of re-posting them."
       tags:
-        - farm level registration
+        - contractor registrations
       requestBody:
-        $ref: '#/components/requestBodies/taskRequest'
+        $ref: '#/components/requestBodies/taskRequestMultiplePlots'
       responses:
         '202':
-          $ref: '#/components/responses/task_202'
+          $ref: '#/components/responses/taskMultiplePlots_202'
         '400':
           $ref: '#/components/responses/default_400'
         '401':
@@ -681,12 +683,12 @@ paths:
       x-usecases: [contractor-task-planning]
       description: Update a previously registered non crop-specific task with operations on farm level of a grower for which the contractor is granted access.
       tags:
-        - farm level registration
+        - contractor registrations
       requestBody:
-        $ref: '#/components/requestBodies/taskRequest'
+        $ref: '#/components/requestBodies/taskRequestMultiplePlots'
       responses:
         '202':
-          $ref: '#/components/responses/task_202'
+          $ref: '#/components/responses/taskMultiplePlots_202'
         '400':
           $ref: '#/components/responses/default_400'
         '401':
@@ -705,12 +707,12 @@ paths:
       x-usecases: [contractor-task-planning]
       description: "Partially update a previously registered non crop-specific task with operations on farm level of a grower for which the contractor is granted access, using a JSON Patch document (RFC 6902) as request payload (AASG rule P012).\r\n\r\nExample: the request body below changes the treated area of the first operation from 25000 to 24500 m2. The *test* operation guards against concurrent changes: if the current value is not 25000, the whole patch is rejected."
       tags:
-        - farm level registration
+        - contractor registrations
       requestBody:
         $ref: '#/components/requestBodies/patchRequest'
       responses:
         '202':
-          $ref: '#/components/responses/task_202'
+          $ref: '#/components/responses/taskMultiplePlots_202'
         '400':
           $ref: '#/components/responses/default_400'
         '401':
@@ -729,7 +731,7 @@ paths:
       x-usecases: [contractor-task-planning]
       description: Delete a previously registered non crop-specific task with operations on farm level of a grower for which the contractor is granted access.
       tags:
-        - farm level registration
+        - contractor registrations
       responses:
         '204':
           $ref: '#/components/responses/default_no_content'
@@ -2827,6 +2829,11 @@ components:
         note:
           type: string
           description: Optional free-text note about the task.
+        plots:
+          type: array
+          description: "The plots the task concerns. To be used when a task is registered on farm (grower) level and concerns multiple plots, for instance by a contractor (POST/PUT /contractors/.../growers/.../tasks). The plots are identified by their thirdPartyIds. Not used when the task is registered on a plot: the plot is then part of the URI."
+          items:
+            $ref: '#/components/schemas/PlotDetails'
     OperationDetails:
       title: Operation details
       type: object
@@ -5149,6 +5156,179 @@ components:
                     unitCode:
                       content: MTK
                       listId: nl.agroconnect.codelist.cl020
+    taskRequestMultiplePlots:
+      summary: Task on two plots, registered on farm level
+      value:
+        thirdPartyIds:
+          - content: '27610'
+            schemeId: com.my-mps.codelist.registratienummer
+        name: Spraying task on two plots
+        startDateTime: '2025-03-12T08:30:00+02:00'
+        endDateTime: '2025-03-12T11:10:00+02:00'
+        status: COMPLETED
+        note: Both plots sprayed in one go (wind force 2).
+        plots:
+          - thirdPartyIds:
+              - content: A342_1_6
+                schemeId: com.my-mps.codelist.kasnummer
+            name: 'Tuin1, perceel6'
+            startDate: '2024-01-12'
+            endDate: '2024-12-14'
+            type: CROPFIELD
+            area:
+              content: 6000
+              unitCode:
+                content: MTK
+                listId: nl.agroconnect.codelist.cl020
+            regularOrOrganic:
+              content: REGULAR
+              listId: nl.agroconnect.codelist.cl015
+            localSoilType:
+              content: CLAY
+              listId: nl.agroconnect.codelist.cl405
+            regulatorySoilType:
+              content: CLAY
+              listId: nl.agroconnect.codelist.cl405
+            landUseCategory:
+              content: ARL
+              listId: nl.agroconnect.codelist.cl961
+            country:
+              content: NL
+              listId: com.iso.3166-1.alpha2
+          - thirdPartyIds:
+              - content: A342_1_7
+                schemeId: com.my-mps.codelist.kasnummer
+            name: 'Tuin1, perceel7'
+            startDate: '2024-02-01'
+            endDate: '2024-11-30'
+            type: CROPFIELD
+            area:
+              content: 4200
+              unitCode:
+                content: MTK
+                listId: nl.agroconnect.codelist.cl020
+            regularOrOrganic:
+              content: REGULAR
+              listId: nl.agroconnect.codelist.cl015
+            localSoilType:
+              content: CLAY
+              listId: nl.agroconnect.codelist.cl405
+            regulatorySoilType:
+              content: CLAY
+              listId: nl.agroconnect.codelist.cl405
+            landUseCategory:
+              content: ARL
+              listId: nl.agroconnect.codelist.cl961
+            country:
+              content: NL
+              listId: com.iso.3166-1.alpha2
+        operations:
+          - thirdPartyIds:
+              - content: 27610-1
+                schemeId: com.my-mps.codelist.operatienummer
+            name: Spraying operation
+            startDateTime: '2025-03-12T08:30:00+02:00'
+            endDateTime: '2025-03-12T11:10:00+02:00'
+            type:
+              content: SPRAYING
+              listId: nl.agroconnect.codelist.cl127
+            technique:
+              content: SPRAYING
+              listId: nl.agroconnect.codelist.cl302
+            status: COMPLETED
+            area:
+              content: 10200
+              unitCode:
+                content: MTK
+                listId: nl.agroconnect.codelist.cl020
+    taskMultiplePlots_202:
+      summary: Task on two plots, registered on farm level
+      value:
+        id:
+          content: 3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f
+          schemeId: com.my-mps.codelist.guid
+        thirdPartyIds:
+          - content: '27610'
+            schemeId: com.my-mps.codelist.registratienummer
+        name: Spraying task on two plots
+        startDateTime: '2025-03-12T08:30:00+02:00'
+        endDateTime: '2025-03-12T11:10:00+02:00'
+        status: COMPLETED
+        note: Both plots sprayed in one go (wind force 2).
+        plots:
+          - thirdPartyIds:
+              - content: A342_1_6
+                schemeId: com.my-mps.codelist.kasnummer
+            name: 'Tuin1, perceel6'
+            startDate: '2024-01-12'
+            endDate: '2024-12-14'
+            type: CROPFIELD
+            area:
+              content: 6000
+              unitCode:
+                content: MTK
+                listId: nl.agroconnect.codelist.cl020
+            regularOrOrganic:
+              content: REGULAR
+              listId: nl.agroconnect.codelist.cl015
+            localSoilType:
+              content: CLAY
+              listId: nl.agroconnect.codelist.cl405
+            regulatorySoilType:
+              content: CLAY
+              listId: nl.agroconnect.codelist.cl405
+            landUseCategory:
+              content: ARL
+              listId: nl.agroconnect.codelist.cl961
+            country:
+              content: NL
+              listId: com.iso.3166-1.alpha2
+          - thirdPartyIds:
+              - content: A342_1_7
+                schemeId: com.my-mps.codelist.kasnummer
+            name: 'Tuin1, perceel7'
+            startDate: '2024-02-01'
+            endDate: '2024-11-30'
+            type: CROPFIELD
+            area:
+              content: 4200
+              unitCode:
+                content: MTK
+                listId: nl.agroconnect.codelist.cl020
+            regularOrOrganic:
+              content: REGULAR
+              listId: nl.agroconnect.codelist.cl015
+            localSoilType:
+              content: CLAY
+              listId: nl.agroconnect.codelist.cl405
+            regulatorySoilType:
+              content: CLAY
+              listId: nl.agroconnect.codelist.cl405
+            landUseCategory:
+              content: ARL
+              listId: nl.agroconnect.codelist.cl961
+            country:
+              content: NL
+              listId: com.iso.3166-1.alpha2
+        operations:
+          - thirdPartyIds:
+              - content: 27610-1
+                schemeId: com.my-mps.codelist.operatienummer
+            name: Spraying operation
+            startDateTime: '2025-03-12T08:30:00+02:00'
+            endDateTime: '2025-03-12T11:10:00+02:00'
+            type:
+              content: SPRAYING
+              listId: nl.agroconnect.codelist.cl127
+            technique:
+              content: SPRAYING
+              listId: nl.agroconnect.codelist.cl302
+            status: COMPLETED
+            area:
+              content: 10200
+              unitCode:
+                content: MTK
+                listId: nl.agroconnect.codelist.cl020
     patchRequest:
       summary: Change the treated area of the first operation from 25000 to 24500
       value:
@@ -6741,6 +6921,22 @@ components:
           $ref: '#/components/headers/Request-Id'
         Request-Date-Time:
           $ref: '#/components/headers/Request-Date-Time'
+    taskMultiplePlots_202:
+      description: Task accepted
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Task'
+          examples:
+            default:
+              $ref: '#/components/examples/taskMultiplePlots_202'
+      headers:
+        API-Version:
+          $ref: '#/components/headers/API-Version'
+        Request-Id:
+          $ref: '#/components/headers/Request-Id'
+        Request-Date-Time:
+          $ref: '#/components/headers/Request-Date-Time'
     task_202:
       description: Task accepted
       content:
@@ -6978,6 +7174,14 @@ components:
           examples:
             Example 1:
               $ref: '#/components/examples/taskRequest'
+    taskRequestMultiplePlots:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TaskDetails'
+          examples:
+            Task on multiple plots:
+              $ref: '#/components/examples/taskRequestMultiplePlots'
     patchRequest:
       required: true
       content:

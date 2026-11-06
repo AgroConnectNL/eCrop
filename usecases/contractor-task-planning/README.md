@@ -414,9 +414,11 @@ The server answers `204 No Content`. A `404 Not Found` means the task doesn't ex
 
 ### 3.8 Task at farm level
 
-A task that is not tied to a plot is registered on farm level, i.e. directly on the grower. The
-request body is the same `TaskDetails` as in §3.4; `PUT`, `PATCH` and `DELETE` work as in §3.5-3.7 on the
-`.../tasks/{taskSchemeId}/{taskId}` URI.
+A task that is not tied to a single plot is registered on farm level, i.e. directly on the grower.
+Because the plot is then not part of the URI, the task lists the plots it concerns in the
+`plots` property (an array of plot details; the plots are identified by their `thirdPartyIds`). The
+example below is one spraying task on the two plots of §3.2. `PUT`, `PATCH` and `DELETE` work as in
+§3.5-3.7 on the `.../tasks/{taskSchemeId}/{taskId}` URI.
 
 ```http
 POST /contractors/com.my-lwp.codelist.guid/5d4e3f2a-1b0c-9d8e-7f6a-5b4c3d2e1f0a/growers/com.my-lwp.codelist.guid/e3c8a1b2-4f6e-4a2d-8e3b-9c1d2e3f4a5b/tasks
@@ -425,8 +427,48 @@ User-Agent: contractor-planning-system/1.0
 Content-Type: application/json
 ```
 
-The body is the one of §3.4; the server answers `202 Accepted` with the registered task, now
-including its `id`.
+```json
+{
+  "thirdPartyIds": [
+    { "content": "27610", "schemeId": "nl.my-cps.codelist.registratienummer" }
+  ],
+  "name": "Spraying task on two plots",
+  "startDateTime": "2026-04-14T08:30:00+02:00",
+  "endDateTime": "2026-04-14T11:10:00+02:00",
+  "status": "COMPLETED",
+  "plots": [
+    {
+      "thirdPartyIds": [{ "content": "APD03-AD-4094", "schemeId": "nl.rvo.codelist.perceelsnummer" }],
+      "name": "Perceel Achter de Schuur",
+      "type": "CROPFIELD",
+      "area": { "content": 4.72, "unitCode": { "content": "HAR", "listId": "nl.agroconnect.codelist.cl020" } },
+      "regulatorySoilType": { "content": "7", "listId": "nl.agroconnect.codelist.cl405" },
+      "...": "..."
+    },
+    {
+      "thirdPartyIds": [{ "content": "RWK01 G 3073", "schemeId": "nl.rvo.codelist.perceelsnummer" }],
+      "name": "Naast de schuur",
+      "type": "CROPFIELD",
+      "area": { "content": 4200, "unitCode": { "content": "MTK", "listId": "nl.agroconnect.codelist.cl020" } },
+      "regulatorySoilType": { "content": "CLAY", "listId": "nl.agroconnect.codelist.cl405" },
+      "...": "..."
+    }
+  ],
+  "operations": [
+    {
+      "thirdPartyIds": [{ "content": "27610-1", "schemeId": "nl.my-cps.codelist.operatienummer" }],
+      "name": "Spraying operation",
+      "type": { "content": "SPRAYING", "listId": "nl.agroconnect.codelist.cl127" },
+      "status": "COMPLETED",
+      "area": { "content": 51400, "unitCode": { "content": "MTK", "listId": "nl.agroconnect.codelist.cl020" } },
+      "...": "..."
+    }
+  ]
+}
+```
+
+(Shortened; the complete example is in [`examples.yaml`](examples.yaml).) The server answers
+`202 Accepted` with the registered task, including its `id` and the `plots`.
 
 ## 4. Still to be arranged
 
