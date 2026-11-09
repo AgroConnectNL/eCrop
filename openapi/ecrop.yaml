@@ -30,8 +30,8 @@ tags:
     description: "**Crop operations**\r\n\r\nThese operations can be used to retrieve and maintain crop information."
   - name: delivery
     description: "**Inbound Delivery Operations**\r\n\r\nThese operations can be used for registering products which have been delivered to a grower by a supplier. Suppliers can only register deliveries for growers they are granted for, which they can check with the GET operations in this section (optional). Alternatively growers can register their inboud-deliveries themselves"
-  - name: production level registration
-    description: "**Production level registration Operations**\r\n\r\n These operations can be used to retrieve production locations and to register (non-crop related-) tasks and operations on **production location** level"
+  - name: production-location level registration
+    description: "**Production-location level registration Operations**\r\n\r\n These operations can be used to retrieve production locations and to register (non-crop related-) tasks and operations on **production location** level"
   - name: contractor registrations
     description: "**Contractor registration Operations**\r\n\r\n These operations can be used by a contractor to register (non-crop related-) tasks and operations on **farm** (grower) level, for a grower who granted the contractor access"
   - name: plot level registration
@@ -536,7 +536,7 @@ paths:
       x-usecases: [unassigned]
       description: Returns all productionlocations of a grower
       tags:
-        - production level registration
+        - production-location level registration
       parameters:
         - $ref: '#/components/parameters/page'
         - $ref: '#/components/parameters/pageSize'
@@ -565,7 +565,7 @@ paths:
       x-usecases: [unassigned]
       description: "Register a non crop-specific task with operations on a production location by a grower\r\n\r\nRemarks: repeatingly posting tasks with the same exterenal id will lead to updating the previously posted task (so no duplicates will be generated). \r\nPreferrable, clients should use the PUT operation to update previously POSTed tasks in stead of re-posting them."
       tags:
-        - production level registration
+        - production-location level registration
       requestBody:
         $ref: '#/components/requestBodies/taskRequest'
       responses:
@@ -597,7 +597,7 @@ paths:
       x-usecases: [unassigned]
       description: Update a previously registered non crop-specific task with operations on a production location by a grower
       tags:
-        - production level registration
+        - production-location level registration
       requestBody:
         $ref: '#/components/requestBodies/taskRequest'
       responses:
@@ -621,7 +621,7 @@ paths:
       x-usecases: [unassigned]
       description: Delete a previously registered non crop-specific task with operations on a production location by a grower
       tags:
-        - production level registration
+        - production-location level registration
       responses:
         '204':
           $ref: '#/components/responses/default_no_content'
