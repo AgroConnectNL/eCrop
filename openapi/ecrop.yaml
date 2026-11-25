@@ -2458,6 +2458,10 @@ components:
               description: "The land use category of this plot.\r\nCode list: nl.agroconnect.codelist.cl961. Possible values: ARL (Arable Land), GRL (Grassland), FLL (Fallow Land) and NTA (Natural Area)."
               allOf:
                 - $ref: '#/components/schemas/CodeType'
+            cropCode:
+              description: Code of the crop which is (planned to be) grown on the plot.
+              allOf:
+                - $ref: '#/components/schemas/CodeType'
             greenhouseLocation:
               $ref: '#/components/schemas/GreenhouseLocationDetails'
     GreenhouseLocationDetails:

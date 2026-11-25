@@ -107,6 +107,9 @@ components:
         landUseCategory:
           content: ARL
           listId: nl.agroconnect.codelist.cl961
+        cropCode:
+          content: '6110101'
+          listId: nl.agroconnect.codelist.cl263
         country:
           content: NL
           listId: com.iso.3166-1.alpha2
@@ -144,6 +147,9 @@ components:
           landUseCategory:
             content: ARL
             listId: nl.agroconnect.codelist.cl961
+          cropCode:
+            content: '6110101'
+            listId: nl.agroconnect.codelist.cl263
           country:
             content: NL
             listId: com.iso.3166-1.alpha2
@@ -179,6 +185,9 @@ components:
           landUseCategory:
             content: GRL
             listId: nl.agroconnect.codelist.cl961
+          cropCode:
+            content: '6110101'
+            listId: nl.agroconnect.codelist.cl263
           country:
             content: NL
             listId: com.iso.3166-1.alpha2
@@ -681,6 +690,9 @@ components:
             landUseCategory:
               content: ARL
               listId: nl.agroconnect.codelist.cl961
+            cropCode:
+              content: '6110101'
+              listId: nl.agroconnect.codelist.cl263
             country:
               content: NL
               listId: com.iso.3166-1.alpha2
@@ -708,6 +720,9 @@ components:
             landUseCategory:
               content: GRL
               listId: nl.agroconnect.codelist.cl961
+            cropCode:
+              content: '6110101'
+              listId: nl.agroconnect.codelist.cl263
             country:
               content: NL
               listId: com.iso.3166-1.alpha2
@@ -769,6 +784,9 @@ components:
             landUseCategory:
               content: ARL
               listId: nl.agroconnect.codelist.cl961
+            cropCode:
+              content: '6110101'
+              listId: nl.agroconnect.codelist.cl263
             country:
               content: NL
               listId: com.iso.3166-1.alpha2
@@ -796,6 +814,9 @@ components:
             landUseCategory:
               content: GRL
               listId: nl.agroconnect.codelist.cl961
+            cropCode:
+              content: '6110101'
+              listId: nl.agroconnect.codelist.cl263
             country:
               content: NL
               listId: com.iso.3166-1.alpha2
